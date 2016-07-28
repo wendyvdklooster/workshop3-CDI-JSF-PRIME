@@ -24,7 +24,7 @@ import java.util.logging.Logger;
  *
  * @author Excen
  */
-public class BestellingArtikelDAOImpl implements BestellingArtikelDAOInterface {
+public class BestellingArtikelDAOSQL implements BestellingArtikelDAOInterface {
        
     // Info inlog SQL
     private final String url = "jdbc:mysql://localhost:3306/winkel?autoReconnect=true&useSSL=false";
@@ -50,7 +50,7 @@ public class BestellingArtikelDAOImpl implements BestellingArtikelDAOInterface {
         
         } 
         catch ( SQLException ex) {
-            Logger.getLogger(BestellingArtikelDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BestellingArtikelDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -67,7 +67,7 @@ public class BestellingArtikelDAOImpl implements BestellingArtikelDAOInterface {
 
         } 
         catch (SQLException ex) {
-            Logger.getLogger(BestellingArtikelDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BestellingArtikelDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }    
@@ -95,7 +95,7 @@ public class BestellingArtikelDAOImpl implements BestellingArtikelDAOInterface {
         
         } 
         catch ( SQLException ex) {
-            Logger.getLogger(BestellingArtikelDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BestellingArtikelDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
         }  
     }
     
@@ -116,7 +116,7 @@ public class BestellingArtikelDAOImpl implements BestellingArtikelDAOInterface {
         
         } 
         catch ( SQLException ex) {
-            Logger.getLogger(BestellingArtikelDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BestellingArtikelDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
       
     }
@@ -132,7 +132,7 @@ public class BestellingArtikelDAOImpl implements BestellingArtikelDAOInterface {
             stmt.executeUpdate();
         } 
         catch (SQLException ex) {
-            Logger.getLogger(BestellingArtikelDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BestellingArtikelDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
@@ -163,7 +163,7 @@ public class BestellingArtikelDAOImpl implements BestellingArtikelDAOInterface {
                 }
         } 
         catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(BestellingArtikelDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BestellingArtikelDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
       return bestellingArtikellijst;  
     }
@@ -183,7 +183,7 @@ public class BestellingArtikelDAOImpl implements BestellingArtikelDAOInterface {
             stmt = con.prepareStatement(sqlQuery);
             rs = stmt.executeQuery();
 
-            ArtikelDAOInterface artikelDao = new ArtikelDAOImpl();
+            ArtikelDAOInterface artikelDao = new ArtikelDAOSQL();
 
             while (rs.next()) {
 
@@ -195,7 +195,7 @@ public class BestellingArtikelDAOImpl implements BestellingArtikelDAOInterface {
                 }    
         } 
         catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(BestellingArtikelDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BestellingArtikelDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
     return artikelLijst;        
     }   
@@ -215,7 +215,7 @@ public class BestellingArtikelDAOImpl implements BestellingArtikelDAOInterface {
             stmt = con.prepareStatement(sqlQuery);
             rs = stmt.executeQuery();
 
-            BestellingDAOInterface bestellingDao = new BestellingDAOImpl();
+            BestellingDAOInterface bestellingDao = new BestellingDAOSQL();
 
             while (rs.next()) {
                 
@@ -227,7 +227,7 @@ public class BestellingArtikelDAOImpl implements BestellingArtikelDAOInterface {
             }
         } 
         catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(BestellingArtikelDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BestellingArtikelDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
         return bestellingLijst;
     }
@@ -254,7 +254,7 @@ public class BestellingArtikelDAOImpl implements BestellingArtikelDAOInterface {
             }
         } 
         catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(BestellingArtikelDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BestellingArtikelDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
         
       return artikelAantal;

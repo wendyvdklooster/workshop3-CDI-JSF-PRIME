@@ -21,6 +21,7 @@ public interface AdresDAOInterface {
     public Adres insertAdres(Adres adres);
     public boolean deleteAdres(int adresId);
     public boolean deleteAll();
+    public Adres updateGegevens(Adres adres);
     
     //public ArrayList<Adres> findByKlantId (int klantId) throws Exception;
 }

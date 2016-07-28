@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  *
  * @author Wendy
  */
-public class KlantDAOImpl implements KlantDAOInterface {
+public class KlantDAOSQL implements KlantDAOInterface {
 
     String driver = "com.mysql.jdbc.Driver";
     String url = "jdbc:mysql://localhost:3306/winkel?autoReconnect=true&useSSL=false";
@@ -73,7 +73,7 @@ public class KlantDAOImpl implements KlantDAOInterface {
             con.close();
        } 
         catch(ClassNotFoundException | SQLException ex){
-            Logger.getLogger(KlantDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(KlantDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
         return klantenLijst; 
     }
@@ -437,7 +437,7 @@ public class KlantDAOImpl implements KlantDAOInterface {
     gebruik maken van gevulde lijsten werkt nog niet. methode an sich wel.
     
     public int[] addBatchKlanten() throws Exception {    
-	KlantDAOImpl klantDAO = new KlantDAOImpl();
+	KlantDAOSQL klantDAO = new KlantDAOSQL();
         //load driver
         Class.forName(driver);
         System.out.println("Driver loaded");

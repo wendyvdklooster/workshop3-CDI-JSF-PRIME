@@ -24,7 +24,7 @@ import java.util.logging.Logger;
  *
  * @author Wendy
  */
-public class KlantAdresDAOImpl implements KlantAdresDAOInterface {
+public class KlantAdresDAOSQL implements KlantAdresDAOInterface {
     
     String driver = "com.mysql.jdbc.Driver";
     String url = "jdbc:mysql://localhost:3306/winkel?autoReconnect=true&useSSL=false";
@@ -60,7 +60,7 @@ public class KlantAdresDAOImpl implements KlantAdresDAOInterface {
                 con.close();
             } 
             catch(ClassNotFoundException ex){
-            Logger.getLogger(KlantAdresDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(KlantAdresDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
             }
             catch(SQLException ex){
             System.out.println(ex.getMessage());
@@ -75,7 +75,7 @@ public class KlantAdresDAOImpl implements KlantAdresDAOInterface {
     public ArrayList<Klant> findKlantByAdresId(int adresId) {
         
         ArrayList<Klant> klantenlijst = new ArrayList<>();
-        KlantDAOInterface klantDao = new KlantDAOImpl();
+        KlantDAOInterface klantDao = new KlantDAOSQL();
         
         try{
             //load driver
@@ -100,7 +100,7 @@ public class KlantAdresDAOImpl implements KlantAdresDAOInterface {
                 con.close();       
         }
         catch(ClassNotFoundException | SQLException ex){
-            Logger.getLogger(KlantAdresDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(KlantAdresDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
         }     
         
         return klantenlijst;
@@ -110,7 +110,7 @@ public class KlantAdresDAOImpl implements KlantAdresDAOInterface {
     @Override // werkt
     public ArrayList<Adres> findAdresByKlantId(int klantId) {
         ArrayList<Adres> adressenLijst = new ArrayList<>();
-        AdresDAOInterface adresDao = new AdresDAOImpl();
+        AdresDAOInterface adresDao = new AdresDAOSQL();
         
         try{
             //load driver
@@ -135,7 +135,7 @@ public class KlantAdresDAOImpl implements KlantAdresDAOInterface {
                 con.close(); 
         } 
         catch(ClassNotFoundException | SQLException ex){
-            Logger.getLogger(KlantAdresDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(KlantAdresDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
         }  
         
         return adressenLijst;
@@ -166,7 +166,7 @@ public class KlantAdresDAOImpl implements KlantAdresDAOInterface {
             created = true; 
         } 
         catch(ClassNotFoundException | SQLException ex ){
-            Logger.getLogger(KlantAdresDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(KlantAdresDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
         
        return created; 
@@ -236,7 +236,7 @@ public class KlantAdresDAOImpl implements KlantAdresDAOInterface {
 
     }
     
-    
+    @Override
     public int deleteKlantAdresByKlantId(int klantId) {
 
     int rowsAffected = 0; 

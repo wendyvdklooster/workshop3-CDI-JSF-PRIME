@@ -5,6 +5,12 @@
  */
 package Controller;
 
+import DAOs.Impl.AdresDAOSQL;
+import DAOs.Impl.KlantAdresDAOSQL;
+import DAOs.Interface.AdresDAOInterface;
+import DAOs.Interface.KlantAdresDAOInterface;
+import POJO.Adres;
+import View.AdresView;
 import View.HoofdMenuView;
 import java.sql.SQLException;
 import java.util.InputMismatchException;
@@ -25,7 +31,8 @@ public class HoofdMenuController implements ControllerInterface {
    BestellingController bestellingController = new BestellingController();
    AdresController adresController = new AdresController();
    
-   HoofdMenuView hoofdMenuView = new HoofdMenuView();
+   HoofdMenuView hoofdMenuView = new HoofdMenuView(); 
+   
     
    Scanner scanner = new Scanner(System.in);
    int userInput;
@@ -33,6 +40,9 @@ public class HoofdMenuController implements ControllerInterface {
     // beginpunt
     public void start()  {
        
+    
+      
+        
         userInput = hoofdMenuView.hoofdMenu();
         
             switch (userInput) {

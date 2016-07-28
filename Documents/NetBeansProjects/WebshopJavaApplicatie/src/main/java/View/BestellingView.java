@@ -5,7 +5,7 @@
  */
 package View;
 
-import DAOs.Impl.BestellingArtikelDAOImpl;
+import DAOs.Impl.BestellingArtikelDAOSQL;
 import POJO.Artikel;
 import POJO.Bestelling;
 import POJO.BestellingArtikel;
@@ -20,7 +20,7 @@ import java.util.Scanner;
  */
 public class BestellingView {
 
-BestellingArtikelDAOImpl bestellingArtikelDAO = new BestellingArtikelDAOImpl();    
+BestellingArtikelDAOSQL bestellingArtikelDAO = new BestellingArtikelDAOSQL();    
     
     // data fields
     Scanner scanner = new Scanner(System.in);

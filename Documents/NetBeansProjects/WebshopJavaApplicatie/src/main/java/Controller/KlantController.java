@@ -1,9 +1,12 @@
 
 package Controller;
 
-import DAOs.Impl.AdresDAOImpl;
-import DAOs.Impl.KlantAdresDAOImpl;
-import DAOs.Impl.KlantDAOImpl;
+import DAOs.Impl.AdresDAOSQL;
+import DAOs.Impl.KlantAdresDAOSQL;
+import DAOs.Impl.KlantDAOSQL;
+import DAOs.Interface.AdresDAOInterface;
+import DAOs.Interface.KlantAdresDAOInterface;
+import DAOs.Interface.KlantDAOInterface;
 import POJO.Adres;
 import POJO.Adres.AdresBuilder;
 import POJO.Klant;
@@ -21,18 +24,18 @@ import java.util.ArrayList;
 
 public class KlantController {
     // datafields in klantcontroller
-    KlantDAOImpl klantDAO = new KlantDAOImpl();
+    KlantDAOInterface klantDAO = new KlantDAOSQL();
     KlantView klantView = new KlantView();    
     KlantBuilder klantBuilder = new KlantBuilder();
     Klant klant;
     
-    AdresDAOImpl adresDAO = new AdresDAOImpl();
+    AdresDAOInterface adresDAO = new AdresDAOSQL();
     AdresView adresView;
     AdresController adresController;
     AdresBuilder adresBuilder = new AdresBuilder();
     Adres adres; 
            
-    KlantAdresDAOImpl klantAdresDAO = new KlantAdresDAOImpl();
+    KlantAdresDAOInterface klantAdresDAO = new KlantAdresDAOSQL();
     
     HoofdMenuController hoofdMenuController;
     HoofdMenuView hoofdMenuView;

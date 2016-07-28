@@ -11,12 +11,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import Controller.HoofdMenuController;
 
 /**
  *
  * @author Wendy
  */
-public class AdresDAOImpl implements AdresDAOInterface {
+public class AdresDAOSQL implements AdresDAOInterface {
 
     //datafields 
     String driver = "com.mysql.jdbc.Driver";

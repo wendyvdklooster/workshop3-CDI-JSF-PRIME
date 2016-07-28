@@ -5,9 +5,9 @@
  */
 package Controller;
 
-import DAOs.Impl.ArtikelDAOImpl;
-import DAOs.Impl.BestellingArtikelDAOImpl;
-import DAOs.Impl.BestellingDAOImpl;
+import DAOs.Impl.ArtikelDAOSQL;
+import DAOs.Impl.BestellingArtikelDAOSQL;
+import DAOs.Impl.BestellingDAOSQL;
 import DAOs.Interface.BestellingArtikelDAOInterface;
 import DAOs.Interface.BestellingDAOInterface;
 import POJO.Artikel;
@@ -28,9 +28,9 @@ import java.util.Scanner;
 public class BestellingController {
     
     BestellingView bestellingView = new BestellingView();
-    BestellingDAOInterface bestellingDAO = new BestellingDAOImpl();
-    BestellingArtikelDAOInterface bestellingArtikelDAO = new BestellingArtikelDAOImpl();
-    ArtikelDAOImpl artikelDAO = new ArtikelDAOImpl();
+    BestellingDAOInterface bestellingDAO = new BestellingDAOSQL();
+    BestellingArtikelDAOInterface bestellingArtikelDAO = new BestellingArtikelDAOSQL();
+    ArtikelDAOSQL artikelDAO = new ArtikelDAOSQL();
     
     Scanner scanner = new Scanner(System.in);
     int userInput;
