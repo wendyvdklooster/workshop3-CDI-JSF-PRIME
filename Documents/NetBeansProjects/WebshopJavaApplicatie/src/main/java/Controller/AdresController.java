@@ -5,11 +5,14 @@
  */
 package Controller;
 
-import DAOs.Impl.AdresDAOImpl;
-import DAOs.Impl.KlantAdresDAOImpl;
+import DAOs.Impl.AdresDAOSQL;
+import DAOs.Impl.KlantAdresDAOSQL;
+import DAOs.Interface.AdresDAOInterface;
+import DAOs.Interface.KlantAdresDAOInterface;
 import POJO.Adres;
 import POJO.Adres.AdresBuilder;
 import View.AdresView;
+import View.HoofdMenuView;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -19,13 +22,17 @@ import java.util.ArrayList;
  */
 public class AdresController {
             
-    AdresView adresView = new AdresView();
-    AdresDAOImpl adresDao = new AdresDAOImpl();
-    Adres adres;
-    AdresBuilder adresBuilder = new AdresBuilder();
+   //AdresDAOInterface adresDAO; //methode factory
     
-    KlantController klantController = new KlantController();
-    KlantAdresDAOImpl klantAdresDao = new KlantAdresDAOImpl();
+   AdresDAOInterface adresDao = new AdresDAOSQL();    
+   KlantAdresDAOInterface klantAdresDao = new KlantAdresDAOSQL();        
+   HoofdMenuView hoofdMenuView = new HoofdMenuView(); 
+   
+   AdresView adresView = new AdresView();
+   Adres adres;
+   Adres.AdresBuilder adresBuilder = new Adres.AdresBuilder();    
+   KlantController klantController = new KlantController();
+   HoofdMenuController hm = new HoofdMenuController();
     
     int userInput;
     
@@ -287,7 +294,7 @@ public class AdresController {
     
     public void verwijderAdresGegevens() {
         
-        klantAdresDao = new KlantAdresDAOImpl();
+        klantAdresDao = new KlantAdresDAOSQL();
         boolean isDeletedInAdres = false;
         boolean isDeletedInKlantAdres = false;
         

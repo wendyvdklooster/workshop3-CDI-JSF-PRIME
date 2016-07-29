@@ -21,6 +21,7 @@ public interface KlantAdresDAOInterface {
     public boolean insertKlantAdres(int klantId, int adresId);        
     public boolean deleteAll();
     public boolean deleteKlantAdresByAdresId(int adresId);
+     public int deleteKlantAdresByKlantId(int klantId);
     
 }
 

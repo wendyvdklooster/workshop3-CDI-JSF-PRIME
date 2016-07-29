@@ -3,9 +3,9 @@ package MAIN;
 import Controller.HoofdMenuController;
 import Controller.KlantController;
 import Controller.ArtikelController;
-import DAOs.Impl.AdresDAOImpl;
-import DAOs.Impl.ArtikelDAOImpl;
-import DAOs.Impl.KlantDAOImpl;
+import DAOs.Impl.AdresDAOSQL;
+import DAOs.Impl.ArtikelDAOSQL;
+import DAOs.Impl.KlantDAOSQL;
 import DAOs.Interface.AdresDAOInterface;
 import DAOs.Interface.KlantDAOInterface;
 import POJO.Adres;
@@ -13,6 +13,7 @@ import POJO.Adres.AdresBuilder;
 import POJO.Artikel;
 import POJO.Klant;
 import POJO.Klant.KlantBuilder;
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -27,7 +28,7 @@ import java.util.ArrayList;
 
 public class Main {       
     
-    public static void main (String[]args) throws SQLException, ClassNotFoundException{
+    public static void main (String[]args) throws SQLException, ClassNotFoundException, FileNotFoundException{
         
         String driver = "com.mysql.jdbc.Driver";
         String url = "jdbc:mysql://localhost:3306/winkel?autoReconnect=true&useSSL=false";
@@ -38,7 +39,11 @@ public class Main {
         ResultSet rs;
         PreparedStatement stmt;   
 
-
+//        KlantDAOXML start = new KlantDAOXML();
+//        start.insertKlant();
+//        start.findAll();
+        
+        
         HoofdMenuController start = new HoofdMenuController();
             start.start(); 
             

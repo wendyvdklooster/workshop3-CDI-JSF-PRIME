@@ -2,8 +2,10 @@
 package Controller;
 
 import View.ArtikelView;
-import DAOs.Impl.ArtikelDAOImpl;
-import DAOs.Impl.BestellingArtikelDAOImpl;
+import DAOs.Impl.ArtikelDAOSQL;
+import DAOs.Impl.BestellingArtikelDAOSQL;
+import DAOs.Interface.ArtikelDAOInterface;
+import DAOs.Interface.BestellingArtikelDAOInterface;
 import POJO.Artikel;
 import POJO.Bestelling;
 import View.BestellingView;
@@ -22,11 +24,11 @@ public class ArtikelController {
     // if (input == 4) { VerwijderArtikelGegevens}
     
     ArtikelView artikelView = new ArtikelView();
-    ArtikelDAOImpl artikelDAO = new ArtikelDAOImpl();
+    ArtikelDAOInterface artikelDAO = new ArtikelDAOSQL();
     Artikel artikel = new Artikel();
     
     BestellingView bestellingView = new BestellingView();
-    BestellingArtikelDAOImpl bestellingArtikelDAO = new BestellingArtikelDAOImpl();
+    BestellingArtikelDAOInterface bestellingArtikelDAO = new BestellingArtikelDAOSQL();
     
     
     public void artikelMenu()  {

@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
-public class ArtikelDAOImpl implements ArtikelDAOInterface {
+public class ArtikelDAOSQL implements ArtikelDAOInterface {
 
     Connection con;
     ResultSet rs;

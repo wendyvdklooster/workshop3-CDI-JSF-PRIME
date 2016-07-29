@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  *
  * @author Excen
  */
-public class BestellingDAOImpl implements BestellingDAOInterface {
+public class BestellingDAOSQL implements BestellingDAOInterface {
     
     // Info inlog SQL
     String url = "jdbc:mysql://localhost:3306/winkel?autoReconnect=true&useSSL=false";
@@ -58,7 +58,7 @@ public class BestellingDAOImpl implements BestellingDAOInterface {
 
         } 
         catch ( SQLException ex) {
-            Logger.getLogger(BestellingArtikelDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BestellingArtikelDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
       return bestellingId;
     }
@@ -92,7 +92,7 @@ public class BestellingDAOImpl implements BestellingDAOInterface {
                 bestellinglijst.add(bestelling);
                 }
         } catch (ClassNotFoundException |SQLException ex) {
-            Logger.getLogger(BestellingDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BestellingDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
     return bestellinglijst;  
     }
@@ -118,7 +118,7 @@ public class BestellingDAOImpl implements BestellingDAOInterface {
             }   
         
         } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(BestellingDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BestellingDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
      return bestelling;
     }
@@ -136,7 +136,7 @@ public class BestellingDAOImpl implements BestellingDAOInterface {
             stmt.executeUpdate();
             
         } catch ( SQLException ex) {
-            Logger.getLogger(BestellingDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BestellingDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
@@ -153,7 +153,7 @@ public class BestellingDAOImpl implements BestellingDAOInterface {
             stmt.executeUpdate();
                         
         } catch ( SQLException ex) {
-            Logger.getLogger(BestellingDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BestellingDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }

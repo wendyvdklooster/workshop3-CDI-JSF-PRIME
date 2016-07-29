@@ -20,7 +20,8 @@ public interface KlantDAOInterface {
     public Klant insertKlant(Klant klant) ;    
     public boolean deleteByKlantId(int klantId) ; 
     public boolean deleteByKlantNaam(String achternaam, String tussenvoegsel, String voornaam);
-    public int deleteAll() ;   
+    public int deleteAll() ; 
+    public Klant updateGegevens(Klant klant);
 
     /*public int[] addBatchKlanten() throws Exception; >> later bij tijd over
     public void vulVoornaamLijst ();
