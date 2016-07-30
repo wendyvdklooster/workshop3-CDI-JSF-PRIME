@@ -107,9 +107,9 @@ public class KlantDAOFB implements KlantDAOInterface {
     }
 
     @Override
-    public Klant findByVoorNaamAchterNaam(String voorNaam, String achterNaam) {
+    public ArrayList<Klant> findByVoorNaamAchterNaam(String voorNaam, String achterNaam) {
 
-        Klant klant = new Klant(klantBuilder);
+        ArrayList<Klant> klantenLijst = new ArrayList();
 
         try {
             //load driver
@@ -133,7 +133,9 @@ public class KlantDAOFB implements KlantDAOInterface {
                 klantBuilder.email(rs.getString("email"));
 
                 // build Klant
-                klant = klantBuilder.build();
+                Klant klant = klantBuilder.build();
+                //voeg klant toe aan lijst
+                klantenLijst.add(klant);
 
             }
             con.close();
@@ -141,14 +143,14 @@ public class KlantDAOFB implements KlantDAOInterface {
             System.out.println(ex.getMessage());
         }
 
-        return klant;
+        return klantenLijst;
     }
 
     @Override
-    public Klant findByEmail(String email) {
+    public ArrayList<Klant> findByEmail(String email) {
 
-        Klant klant = new Klant(klantBuilder);
-
+        ArrayList<Klant> klantenLijst = new ArrayList();
+        
         try {
             //load driver
             Class.forName(driver);
@@ -169,14 +171,16 @@ public class KlantDAOFB implements KlantDAOInterface {
                 klantBuilder.email(rs.getString("email"));
 
                 // build Klant
-                klant = klantBuilder.build();
+                Klant klant = klantBuilder.build();
+                //voeg klant toe aan lijst
+                klantenLijst.add(klant);
             }
             con.close();
         } catch (SQLException | ClassNotFoundException ex) {
             System.out.println(ex.getMessage());
         }
 
-        return klant;
+        return klantenLijst;
     }
 
     @Override
@@ -300,9 +304,4 @@ public class KlantDAOFB implements KlantDAOInterface {
     
     }
     
-    @Override // methode wordt niet gebruikt. verwijder uit alle klant klassen en interface
-    public boolean deleteByKlantNaam(String achternaam, String tussenvoegsel, String voornaam) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
 }

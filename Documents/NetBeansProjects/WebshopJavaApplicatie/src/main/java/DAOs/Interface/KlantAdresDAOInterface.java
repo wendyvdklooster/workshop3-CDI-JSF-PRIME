@@ -16,8 +16,8 @@ import java.util.ArrayList;
  */
 public interface KlantAdresDAOInterface {
     public ArrayList<KlantAdres> findAll() ;
-    public ArrayList<Klant> findKlantByAdresId(int bestelling_id) ;
-    public ArrayList<Adres> findAdresByKlantId(int artikel_id);    
+    public ArrayList<Klant> findKlantByAdresId(int adresId) ;
+    public ArrayList<Adres> findAdresByKlantId(int klantId);    
     public boolean insertKlantAdres(int klantId, int adresId);        
     public boolean deleteAll();
     public boolean deleteKlantAdresByAdresId(int adresId);

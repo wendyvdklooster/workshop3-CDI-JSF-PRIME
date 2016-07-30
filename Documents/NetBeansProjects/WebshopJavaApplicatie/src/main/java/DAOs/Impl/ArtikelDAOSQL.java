@@ -172,29 +172,32 @@ public class ArtikelDAOSQL implements ArtikelDAOInterface {
     // delete methode
     @Override
     public boolean deleteArtikel(int artikelId) {
-        boolean isDeleted = false;
         
-        try {
-           Class.forName(driver);
-           con = DriverManager.getConnection(url, gebruikersNaam, wachtwoord);
-           String artikelZoeken = "select * from artikel where artikel_id = " + artikelId;
-           pstmt = con.prepareStatement(artikelZoeken);
-           rs = pstmt.executeQuery(artikelZoeken);
-           boolean artikelFound = rs.next();
-           
-           if (artikelFound) {
-                String sqlUpdate = "delete from artikel where artikel_id = ?";
-                pstmt = con.prepareStatement(sqlUpdate);
-                pstmt.setInt(1, artikelId);
-                pstmt.executeUpdate(); 
-                isDeleted = true;
-                }
-
+        boolean deleted = false; 
+        
+        try{  
+        Class.forName(driver);
+             // create a sql date object so we can use it in our INSERT statement
+             try (Connection conn = DriverManager.getConnection(url, gebruikersNaam, wachtwoord)) {
+                 // create a sql date object so we can use it in our INSERT statement
+                 
+                 // the mysql insert statement.first parent, than child
+                 String sqlQuery = "delete from artikel where artikel_id =  ? " ;                 
+                 
+                 // create the mysql insert preparedstatement
+                 PreparedStatement preparedStmt = conn.prepareStatement(sqlQuery);                
+                   preparedStmt.setInt(1, artikelId);
+                 // execute the preparedstatement
+                 int rowsAffected = preparedStmt.executeUpdate(); 
+                 if (rowsAffected != 0)
+                     deleted = true;
+             }
+        }    
+        catch (ClassNotFoundException | SQLException e){
+            System.err.println(e.getMessage());
         }
-        catch (SQLException | ClassNotFoundException ex) {
-            System.out.println("Deleting failed.");
-        }
-        return isDeleted;
+    return deleted;        
+       
     }
     
     

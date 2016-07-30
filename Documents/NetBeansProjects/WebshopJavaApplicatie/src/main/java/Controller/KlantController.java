@@ -1,8 +1,11 @@
 
 package Controller;
 
+import DAOs.Impl.AdresDAOFB;
 import DAOs.Impl.AdresDAOSQL;
+import DAOs.Impl.KlantAdresDAOFB;
 import DAOs.Impl.KlantAdresDAOSQL;
+import DAOs.Impl.KlantDAOFB;
 import DAOs.Impl.KlantDAOSQL;
 import DAOs.Interface.AdresDAOInterface;
 import DAOs.Interface.KlantAdresDAOInterface;
@@ -14,7 +17,6 @@ import POJO.Klant.KlantBuilder;
 import View.AdresView;
 import View.HoofdMenuView;
 import View.KlantView;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -24,18 +26,19 @@ import java.util.ArrayList;
 
 public class KlantController {
     // datafields in klantcontroller
-    KlantDAOInterface klantDAO = new KlantDAOSQL();
+    KlantDAOInterface klantDAO = new KlantDAOFB();
     KlantView klantView = new KlantView();    
     KlantBuilder klantBuilder = new KlantBuilder();
     Klant klant;
+    ArrayList<Klant>klantenLijst = new ArrayList();
     
-    AdresDAOInterface adresDAO = new AdresDAOSQL();
+    AdresDAOInterface adresDAO = new AdresDAOFB();
     AdresView adresView;
     AdresController adresController;
     AdresBuilder adresBuilder = new AdresBuilder();
     Adres adres; 
            
-    KlantAdresDAOInterface klantAdresDAO = new KlantAdresDAOSQL();
+    KlantAdresDAOInterface klantAdresDAO = new KlantAdresDAOFB();
     
     HoofdMenuController hoofdMenuController;
     HoofdMenuView hoofdMenuView;
@@ -79,7 +82,7 @@ public class KlantController {
         int klantId = klant.getKlantId();                     
         
         // later vervangen door: int adresId = adresController.voegNieuwAdresToe();
-        System.out.println("Voer uw adres in:");
+        System.out.println("Voer uw adres in: ");
         adres = adresController.createAdres();
         adres = adresDAO.insertAdres(adres);
         int adresId = adres.getAdresId(); 
@@ -117,13 +120,13 @@ public class KlantController {
                         case 1: // zoeken op voor-/achternaam
                             String achterNaam = klantView.voerAchterNaamIn();
                             String voorNaam = klantView.voerVoorNaamIn();
-                            klant = klantDAO.findByVoorNaamAchterNaam(achterNaam, voorNaam);
-                            klantView.printKlantGegevens(klant);
+                            klantenLijst = klantDAO.findByVoorNaamAchterNaam(achterNaam, voorNaam);
+                            klantView.printKlantenLijst(klantenLijst);
                             break;
                         case 2: //zoeken op email
                             String email = klantView.voerEmailIn();
-                            klant = klantDAO.findByEmail(email);
-                            klantView.printKlantGegevens(klant);
+                            klantenLijst = klantDAO.findByEmail(email);
+                            klantView.printKlantenLijst(klantenLijst);
                             break;
                         case 3: // direct door naar einde switch: methode naar inlogschermklant()
                             break;
@@ -136,7 +139,7 @@ public class KlantController {
             } // eind zoeken naar 1 klant
             break;
             case 2: // zoeken naar alle klanten
-                ArrayList <Klant> klantenLijst = klantDAO.findAllKlanten();
+                klantenLijst = klantDAO.findAllKlanten();
                 System.out.println("Alle klanten in het bestand");
                 klantView.printKlantenLijst(klantenLijst);  
                 break; 
@@ -151,6 +154,9 @@ public class KlantController {
     } // eind methode zoekKlantGegevens
     
     
+    // bij adres: zijn submethoden gedefinieerd die meerdere malen geimplementeerd kunnen worden. 
+    // zou hier ook kunnen. zie oa wijzig adres gegevens. 
+    
     public void wijzigKlantGegevens(){
        
        Klant gewijzigdeKlant = new Klant();
@@ -163,7 +169,7 @@ public class KlantController {
                 klantId = klantView.voerKlantIdIn();
                 klant = klantDAO.findByKlantId(klantId);
                 gewijzigdeKlant = voerWijzigingenKlantIn(klant);
-                 gewijzigdeKlant = klantDAO.updateGegevens(gewijzigdeKlant);                                               
+                gewijzigdeKlant = klantDAO.updateGegevens(gewijzigdeKlant);                                               
                 klantView.printString("Oude klantgegevens:");
                 klantView.printKlantGegevens(klant);
                 klantView.printString("Nieuwe klantgegevens:");                
@@ -175,7 +181,11 @@ public class KlantController {
                     case 1: // wijzigen op basis voor- en achternaam                        
                         String achterNaam = klantView.voerAchterNaamIn();
                         String voorNaam = klantView.voerVoorNaamIn();
-                        klant = klantDAO.findByVoorNaamAchterNaam(achterNaam, voorNaam);
+                        klantenLijst = klantDAO.findByVoorNaamAchterNaam(achterNaam, voorNaam);
+                        klantView.printKlantenLijst(klantenLijst); 
+                        klantId = klantView.voerKlantIdIn();
+                        klant = klantDAO.findByKlantId(klantId);
+                        
                         gewijzigdeKlant = voerWijzigingenKlantIn(klant);                         
                         gewijzigdeKlant = klantDAO.updateGegevens(gewijzigdeKlant);                                               
                         klantView.printString("Oude klantgegevens:");
@@ -185,7 +195,11 @@ public class KlantController {
                         break;
                     case 2: // wijzigen op basis van email                        
                         String email = klantView.voerEmailIn();
-                        klant = klantDAO.findByEmail(email);
+                        klantenLijst = klantDAO.findByEmail(email);
+                        klantView.printKlantenLijst(klantenLijst); 
+                        klantId = klantView.voerKlantIdIn();
+                        klant = klantDAO.findByKlantId(klantId);
+                        
                         gewijzigdeKlant = voerWijzigingenKlantIn(klant);                         
                         gewijzigdeKlant = klantDAO.updateGegevens(gewijzigdeKlant);                       
                         System.out.println("Oude klantgegevens:");
@@ -227,8 +241,9 @@ public class KlantController {
                     else {
                         String achterNaam = klantView.voerAchterNaamIn();
                         String voorNaam = klantView.voerVoorNaamIn();
-                        klant = klantDAO.findByVoorNaamAchterNaam(achterNaam, voorNaam);
-                        klantId = klant.getKlantId();                    
+                        klantenLijst = klantDAO.findByVoorNaamAchterNaam(achterNaam, voorNaam);
+                        klantView.printKlantenLijst(klantenLijst); 
+                        klantId = klantView.voerKlantIdIn();                    
                     }
                     
                 deleted = klantDAO.deleteByKlantId(klantId);  

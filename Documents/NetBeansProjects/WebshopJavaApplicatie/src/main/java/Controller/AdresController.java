@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import DAOs.Impl.AdresDAOFB;
 import DAOs.Impl.AdresDAOSQL;
 import DAOs.Impl.KlantAdresDAOSQL;
 import DAOs.Interface.AdresDAOInterface;
@@ -24,7 +25,7 @@ public class AdresController {
             
    //AdresDAOInterface adresDAO; //methode factory
     
-   AdresDAOInterface adresDao = new AdresDAOSQL();    
+   AdresDAOInterface adresDao = new AdresDAOFB();    
    KlantAdresDAOInterface klantAdresDao = new KlantAdresDAOSQL();        
    HoofdMenuView hoofdMenuView = new HoofdMenuView(); 
    
@@ -32,10 +33,11 @@ public class AdresController {
    Adres adres;
    Adres.AdresBuilder adresBuilder = new Adres.AdresBuilder();    
    KlantController klantController = new KlantController();
-   HoofdMenuController hm = new HoofdMenuController();
+   ArrayList<Adres> adressenLijst = new ArrayList();
     
-    int userInput;
+   int userInput;
     
+   
     public void adresMenu()  {
         userInput = adresView.startAdresMenu();
         switch (userInput) {
@@ -82,8 +84,7 @@ public class AdresController {
         System.out.println("U heeft het volgende adres toegevoegd.");
         adresView.printAdresOverzicht(adres);
         
-        return adresId;
-            
+        return adresId;            
     }
     
     public Adres createAdres() {
@@ -109,7 +110,7 @@ public class AdresController {
         userInput = adresView.menuAdresZoeken();
         switch (userInput) {
             case 1:        
-                // één artikel zoeken
+                // één adres zoeken
                 userInput = adresView.hoeWiltUZoeken();
                 switch (userInput) {
                     case 1:
@@ -117,21 +118,21 @@ public class AdresController {
                         adres = adresDao.findByAdresID(adresId);
                         adresView.printAdresOverzicht(adres);
                         break;
-                    case 2:
+                    case 2: 
                         String straatnaam = adresView.voerStraatnaamIn();
-                        adres = adresDao.findByStraatNaam(straatnaam);
-                        adresView.printAdresOverzicht(adres);
+                        adressenLijst = adresDao.findByStraatNaam(straatnaam);
+                        adresView.printAdressenLijst(adressenLijst);
                         break;
                     case 3:
                         String postcode = adresView.voerPostcodeIn();
                         int huisnummer = adresView.voerHuisnummerIn();
-                        adres = adresDao.findByPostcodeHuisNummer(postcode, huisnummer);
-                        adresView.printAdresOverzicht(adres);
+                        adressenLijst = adresDao.findByPostcodeHuisNummer(postcode, huisnummer);
+                        adresView.printAdressenLijst(adressenLijst);
                         break;
                     case 4:
                         String woonplaats = adresView.voerWoonplaatsIn();
-                        adres = adresDao.findByWoonplaats(woonplaats);
-                        adresView.printAdresOverzicht(adres);
+                        adressenLijst = adresDao.findByWoonplaats(woonplaats);
+                        adresView.printAdressenLijst(adressenLijst);
                         break;
                     case 5:
                         break; // doorsturen einde switch; terug naar adres menu
@@ -199,14 +200,17 @@ public class AdresController {
         Adres gewijzigdAdres = new Adres();
         String straatnaam = adresView.voerStraatnaamIn();
         
-        adres = adresDao.findByStraatNaam(straatnaam);
-        gewijzigdAdres = invoerNieuweAdresGegevens(adres);
-        gewijzigdAdres = adresDao.updateGegevens(gewijzigdAdres);
-        
-        System.out.println("Oude adresgegevens: ");
-        adresView.printAdresOverzicht(adres);
-        System.out.println("Nieuwe adresgegevens: ");                  
-        adresView.printAdresOverzicht(gewijzigdAdres);
+        adressenLijst = adresDao.findByStraatNaam(straatnaam);
+        updateOpAdresId();
+//        int adresId = adresView.voerAdresIdIn();
+//        adres = adresDao.findByAdresID(adresId);
+//        gewijzigdAdres = invoerNieuweAdresGegevens(adres);
+//        gewijzigdAdres = adresDao.updateGegevens(gewijzigdAdres);
+//        
+//        System.out.println("Oude adresgegevens: ");
+//        adresView.printAdresOverzicht(adres);
+//        System.out.println("Nieuwe adresgegevens: ");                  
+//        adresView.printAdresOverzicht(gewijzigdAdres);
         
     }
     
@@ -217,14 +221,17 @@ public class AdresController {
         int huisnummer = adresView.voerHuisnummerIn();
         String postcode = adresView.voerPostcodeIn();
         
-        adres = adresDao.findByPostcodeHuisNummer(postcode, huisnummer);
-        gewijzigdAdres = invoerNieuweAdresGegevens(adres);
-        gewijzigdAdres = adresDao.updateGegevens(gewijzigdAdres);
-        
-        System.out.println("Oude adresgegevens: ");
-        adresView.printAdresOverzicht(adres);
-        System.out.println("Nieuwe adresgegevens: ");                  
-        adresView.printAdresOverzicht(gewijzigdAdres);
+        adressenLijst = adresDao.findByPostcodeHuisNummer(postcode, huisnummer);
+        updateOpAdresId();
+//        int adresId = adresView.voerAdresIdIn();
+//        adres = adresDao.findByAdresID(adresId);
+//        gewijzigdAdres = invoerNieuweAdresGegevens(adres);
+//        gewijzigdAdres = adresDao.updateGegevens(gewijzigdAdres);
+//        
+//        System.out.println("Oude adresgegevens: ");
+//        adresView.printAdresOverzicht(adres);
+//        System.out.println("Nieuwe adresgegevens: ");                  
+//        adresView.printAdresOverzicht(gewijzigdAdres);
     }
     
     
@@ -234,14 +241,17 @@ public class AdresController {
         Adres gewijzigdAdres = new Adres();
         String woonplaats = adresView.voerWoonplaatsIn();
         
-        adres = adresDao.findByWoonplaats(woonplaats);
-        gewijzigdAdres = invoerNieuweAdresGegevens(adres);
-        gewijzigdAdres = adresDao.updateGegevens(gewijzigdAdres);
-        
-        System.out.println("Oude adresgegevens: ");
-        adresView.printAdresOverzicht(adres);
-        System.out.println("Nieuwe adresgegevens: ");                  
-        adresView.printAdresOverzicht(gewijzigdAdres);
+        adressenLijst = adresDao.findByWoonplaats(woonplaats);
+        updateOpAdresId();
+//        int adresId = adresView.voerAdresIdIn();
+//        adres = adresDao.findByAdresID(adresId);
+//        gewijzigdAdres = invoerNieuweAdresGegevens(adres);
+//        gewijzigdAdres = adresDao.updateGegevens(gewijzigdAdres);
+//        
+//        System.out.println("Oude adresgegevens: ");
+//        adresView.printAdresOverzicht(adres);
+//        System.out.println("Nieuwe adresgegevens: ");                  
+//        adresView.printAdresOverzicht(gewijzigdAdres);
     }
     
     

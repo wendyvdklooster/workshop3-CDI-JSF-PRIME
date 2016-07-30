@@ -119,9 +119,9 @@ public class KlantDAOSQL implements KlantDAOInterface {
 
 
     @Override // werkt
-    public Klant findByEmail(String email) {
+    public ArrayList<Klant> findByEmail(String email) {
         
-        Klant klant = new Klant(klantBuilder);
+        ArrayList<Klant> klantenLijst = new ArrayList<>();
        
         try{
         //load driver
@@ -146,7 +146,9 @@ public class KlantDAOSQL implements KlantDAOInterface {
             klantBuilder.email(rs.getString("email"));
             
             // build Klant
-            klant = klantBuilder.build();                        
+                Klant klant = klantBuilder.build();    
+                //voeg klant toe aan lijst
+                klantenLijst.add(klant);                            
         } 
         con.close();       
         }
@@ -154,13 +156,13 @@ public class KlantDAOSQL implements KlantDAOInterface {
         System.out.println(ex.getMessage());
         }
                 
-        return klant;
+        return klantenLijst;
     }
 
     @Override // werkt
-    public Klant findByVoorNaamAchterNaam(String voorNaam, String achterNaam) {
+    public ArrayList<Klant> findByVoorNaamAchterNaam(String voorNaam, String achterNaam) {
        
-        Klant klant = new Klant(klantBuilder);
+        ArrayList<Klant> klantenLijst = new ArrayList<>();
         
         try{
         //load driver
@@ -185,8 +187,9 @@ public class KlantDAOSQL implements KlantDAOInterface {
             klantBuilder.email(rs.getString("email"));
             
             // build Klant
-            klant = klantBuilder.build();
-                        
+            Klant klant = klantBuilder.build();    
+            //voeg klant toe aan lijst
+            klantenLijst.add(klant);        
         } 
         con.close();       
         }
@@ -194,7 +197,7 @@ public class KlantDAOSQL implements KlantDAOInterface {
         System.out.println(ex.getMessage());
         }
                 
-        return klant;
+        return klantenLijst;
     }
     
     
@@ -344,41 +347,6 @@ public class KlantDAOSQL implements KlantDAOInterface {
     return deleted;
 }   
         
-    @Override // werkt
-    public boolean deleteByKlantNaam(String achternaam, String tussenvoegsel, String voornaam) {
-             
-        boolean deleted = false;  
-      
-        try{
-        Class.forName(driver);
-             // create a sql date object so we can use it in our INSERT statement
-            try (Connection conn = DriverManager.getConnection(url, gebruikersNaam, wachtwoord)) {
-                 // create a sql date object so we can use it in our INSERT statement
-                 
-                 // the mysql insert statement.first parent, than child
-                 String sqlQuery = "delete from klant where (voornaam, achternaam, " 
-                         + "tussenvoegsel) = (?,?,? )";                 
-                 
-                 // create the mysql insert preparedstatement
-                 PreparedStatement preparedStmt = conn.prepareStatement(sqlQuery);                
-                 preparedStmt.setString(1,voornaam);
-                 preparedStmt.setString(2,achternaam);
-                 preparedStmt.setString(3,tussenvoegsel);
-                 
-                 // execute the preparedstatement
-                 int rowsAffected = preparedStmt.executeUpdate();   
-                 System.out.println("Aantal klanten verwijderd: " + rowsAffected);
-                 if (rowsAffected >= 1)
-                     deleted = true; 
-                 
-            }
-        }   
-        catch (ClassNotFoundException | SQLException e) {
-            System.err.println("Got an exception!");
-            System.err.println(e.getMessage());
-        }
-      return deleted; 
-    } 
     
     @Override
     public int deleteAll() {
