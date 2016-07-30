@@ -32,10 +32,6 @@ public class BestellingDAOFB implements BestellingDAOInterface{
     Connection con;
     ResultSet rs;
     PreparedStatement stmt;
-    
-    
-    
-    
 
     @Override
     public ArrayList<Bestelling> findAll() {
@@ -96,13 +92,36 @@ public class BestellingDAOFB implements BestellingDAOInterface{
     @Override
     public int insertBestelling(int klant_id) {
         java.util.Date datum = new java.util.Date();
+        
         int bestellingId = 0;
         
-        // Schrijf waarden weg in SQL tabel.
-        String sqlQuery = "insert into bestelling (klant_id, datum_aangemaakt) values (?, ?)";
         
+                // "INSERT INTO bestelling(klant_id, datum_aangemaakt) VALUES (?, ? ) RETURNING bestelling_id".
+
+                /*
+
+                ResultSet resultSet = pStatement.executeQuery();
+                while (resultSet .next()) //eventueel een null check voor resultSet kan
+                {
+                generatedKey = resultSet.getInt("persoon_id");
+                }
+
+                */
+                
+                // rs = stmt.executeQuery();
+                // String sqlQuery = "insert into bestelling (klant_id, datum_aangemaakt) values (?, ?)";
+        
+            String sqlQuery = "INSERT INTO bestelling(klant_id, datum_aangemaakt) VALUES (?, ? ) RETURNING bestelling_id";
+
         try{
         // Maak connectie 
+        
+            try {
+                Class.forName(driver); 
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(BestellingDAOFB.class.getName()).log(Level.SEVERE, null, ex);
+            }
+       
             con = DriverManager.getConnection(url, user, pw);
             stmt = con.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);
             stmt.setInt(1, klant_id);
