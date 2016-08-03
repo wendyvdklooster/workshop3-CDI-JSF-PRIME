@@ -64,6 +64,7 @@ public class KlantDAOSQL implements KlantDAOInterface {
                 klantBuilder.achternaam(rs.getString("achternaam"));
                 klantBuilder.tussenvoegsel(rs.getString("tussenvoegsel"));
                 klantBuilder.email(rs.getString("email"));
+                
             
                 // build Klant
                 Klant klant = klantBuilder.build();    
@@ -382,23 +383,8 @@ public class KlantDAOSQL implements KlantDAOInterface {
 
     /*
     
-    //public static boolean isValidEmailAddress(String email) {
-//   boolean result = true;
-//   try {
-//      // Get an EmailValidator
-//            EmailValidator validator = EmailValidator.getInstance();
-//            
-//            // Validate an email address
-//            boolean isAddressValid = validator.isValid(email);
-//
-//            // Validate a variable containing an email address
-//                 
-//    } catch (Exception ex) {
-//        System.out.println(email + " is not a valid E-mail address. Probeer opnieuw. ");   
-//        result = false;
-//    }
-//        return result;
-//}
+
+}
     */
     /*
      @Override // gebruik methode insert van hier boven. 

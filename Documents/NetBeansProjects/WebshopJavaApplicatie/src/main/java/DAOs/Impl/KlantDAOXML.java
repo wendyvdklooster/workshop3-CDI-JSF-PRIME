@@ -13,121 +13,323 @@ package DAOs.Impl;
 import DAOs.Interface.KlantDAOInterface;
 import MAIN.KlantXMLdev;
 import MAIN.KlantXMLdev.KlantBuilderXML;
+import POJO.KlantenLijst;
 import POJO.Klant;
 import POJO.Klant.KlantBuilder;
-import java.beans.XMLEncoder;
-import java.beans.XMLDecoder;
+import com.thoughtworks.xstream.XStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 public class KlantDAOXML implements KlantDAOInterface {
     
-    KlantBuilder klantBuilder = new KlantBuilder();
-    Klant klantB = new Klant(klantBuilder);
-    Klant klant = new Klant();
-    ArrayList<Klant>klantenLijst;
-    // decode: read 
-    // encode: create, update, delete
-        
-    // setters to build object
-    // getters - get information from xml file
+   KlantBuilder klantBuilder = new KlantBuilder();
+   Klant klant = new Klant (klantBuilder);
+    
+   KlantenLijst klantenLijst = new KlantenLijst();
+    
 
-    // genereer id
   
  @Override   
 public Klant insertKlant (Klant klant) {          
-            
-        int klantId = 0;        
+    Klant klantMetId = null;
+    int klantId = 0;     
         
-        String voornaam = klantB.getVoornaam();
-        String achternaam = klantB.getAchternaam();        
-        String tussenvoegsel = klantB.getTussenvoegsel();
-        String email = klantB.getEmail();
+    try {
+            ArrayList<Klant> alleKlanten = findAllKlanten();  // fout opvangen (in methode zelf) wanneer de lijst nog leeg is: bij de eerste klant
             
-        klantB = klantBuilder.build();
-                       
-        // try with resources
-        try (
+            if (alleKlanten != null){    
+                for (int i = alleKlanten.size()-1 ; i < alleKlanten.size() ; i++ ){
+                    Klant klantLaatst = alleKlanten.get(i);
+                    klantId = klantLaatst.getKlantId();
+                    klantId++;
+                } 
+             }
+             else { 
+             klantId = 1; 
+                }       
+   
+            String voornaam = klant.getVoornaam();
+            String achternaam = klant.getAchternaam();        
+            String tussenvoegsel = klant.getTussenvoegsel();
+            String email = klant.getEmail();  
+            klantMetId = new Klant(klantId, voornaam, achternaam, tussenvoegsel, email); 
+             
+            klantenLijst.add(klantMetId);
+            
             FileOutputStream fos = new FileOutputStream("klant.xml");
             BufferedOutputStream bos = new BufferedOutputStream(fos);
-            XMLEncoder xmlEncoder = new XMLEncoder(bos)
-        ){
-            xmlEncoder.writeObject(klantB);            
-        
-            // lees de invoer terug uit + klantId
+            ObjectOutputStream oos;// = new ObjectOutputStream(bos);
             
-        }catch(FileNotFoundException ex){
-             ex.getMessage();
+            XStream xstream = new XStream();
+            xstream.alias("klant", Klant.class);
+            xstream.alias("klanten", KlantenLijst.class);
+            xstream.addImplicitCollection(KlantenLijst.class, "klantenLijst");
+            
+            String xml = xstream.toXML(klantenLijst);        
+               //System.out.println(xml);  // checken wat dit teruggeeft  
+               oos = xstream.createObjectOutputStream(bos);
+               oos.writeObject(xml);
+               oos.close();
+           
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(KlantDAOXML.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(KlantDAOXML.class.getName()).log(Level.SEVERE, null, ex);
         }
-        catch(IOException ex){
-            ex.getMessage();
-        }
-        // return klant, incl klantId
-        return klant;
+        
+        // return klant, incl klantId naar controller
+        return klantMetId;
 }
 
 @Override
     public ArrayList<Klant> findAllKlanten() {          
         // code voor decode
-        klantenLijst = new ArrayList();
-        
-        try(
+        //klantenLijst = new KlantenLijst();
+        //klant = null;
+        ArrayList<Klant> klanten = new ArrayList(); 
+       
+        try {      
             FileInputStream fis = new FileInputStream("klant.xml");
             BufferedInputStream bis = new BufferedInputStream(fis);
-            XMLDecoder xmlDecoder = new XMLDecoder(bis);
-        ){        
-            klant = (Klant) xmlDecoder.readObject();
-            System.out.println(klant.getVoornaam() + " " + klant.getTussenvoegsel() 
-                    + " " + klant.getAchternaam() + " " + klant.getEmail());
-        }catch(FileNotFoundException ex){
-            ex.getMessage();
-        }
-        catch(IOException ex){
-            ex.getMessage();
-        }
-           
-       // print arraylist< klant> klantenlijst uit
-        return klantenLijst;
-	}
-
-    @Override
-    public int deleteAll(){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            ObjectInputStream ois;
+       
+            XStream xstream = new XStream();
+            xstream.alias("klant", Klant.class);
+            xstream.alias("klanten", KlantenLijst.class);
+            xstream.addImplicitCollection(KlantenLijst.class, "klantenLijst");
+            //String xml = "<klanten><klant>...</klant></klanten>";
+            
+            ois = xstream.createObjectInputStream(bis);
+            if (ois != null){
+            String xml = (String) ois.readObject();
+            
+            //deserialise
+              
+           klantenLijst = (KlantenLijst)xstream.fromXML(xml);
+            klanten = klantenLijst.getKlantenLijst();
+            }
+            else{
+                klanten = null;
+            }
+            // fout opvangen wanneer de lijst nog leeg is >> ok n controller: if arraylist == null or !=null
+            } catch (IOException | ClassNotFoundException ex) {
+                Logger.getLogger(KlantDAOXML.class.getName()).log(Level.SEVERE, null, ex);
+            }        
+        
+        return klanten;
     }
-
     
 
     @Override
     public Klant findByKlantId(int klantId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        Klant klant = null;  
+        
+        ArrayList <Klant> klanten = findAllKlanten();
+        // if klanten is leeg: klant == null;
+        for(int i = 0; i < klanten.size(); i++){            
+            if (klanten.get(i).getKlantId() == klantId){
+                String voornaam = klanten.get(i).getVoornaam();
+                String achternaam = klanten.get(i).getAchternaam();        
+                String tussenvoegsel = klanten.get(i).getTussenvoegsel();
+                String email = klanten.get(i).getEmail();  
+                klant =  new Klant(klantId, voornaam, achternaam, tussenvoegsel, email);
+                break;
+            }
+        }            
+        return klant;
     }
 
-    @Override
+    @Override 
     public ArrayList<Klant> findByVoorNaamAchterNaam(String voorNaam, String achterNaam) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        //!! aanpassen, bij controller de volgorde van voor en achternaam
+        
+        Klant klant;
+        ArrayList <Klant> klanten2 = new ArrayList();
+        
+        ArrayList <Klant> klanten = findAllKlanten();        
+        
+        for(int i = 0; i < klanten.size(); i++){            
+            if (klanten.get(i).getVoornaam().equals(voorNaam) 
+                    || klanten.get(i).getAchternaam().equals(achterNaam) ){
+                int klantId = klanten.get(i).getKlantId();        
+                String tussenvoegsel = klanten.get(i).getTussenvoegsel();
+                String email = klanten.get(i).getEmail();  
+                klant =  new Klant(klantId, voorNaam, achterNaam, tussenvoegsel, email);
+                klanten2.add(klant);
+            }
+        }   
+        
+        
+        return klanten2; 
     }
 
     @Override
     public ArrayList<Klant> findByEmail(String email) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        Klant klant;
+        ArrayList <Klant> klanten2 = new ArrayList();
+         
+        ArrayList <Klant> klanten = findAllKlanten();       
+        
+        for(int i = 0; i< klanten.size(); i++){            
+            if (klanten.get(i).getEmail().equals(email) ){
+                int klantId = klanten.get(i).getKlantId();        
+                String tussenvoegsel = klanten.get(i).getTussenvoegsel();
+                String voornaam = klanten.get(i).getVoornaam();
+                String achternaam = klanten.get(i).getAchternaam();     
+                klant =  new Klant(klantId, voornaam, achternaam, tussenvoegsel, email);
+                klanten2.add(klant);
+            }
+        }
+        
+        return klanten2;  
     }
 
     @Override
     public boolean deleteByKlantId(int klantId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        boolean deleted = false; 
+        Klant klant = null;
+        
+        ArrayList <Klant> klanten = findAllKlanten();
+        
+        for(int i = 0; i < klanten.size(); i++){            
+            if (klanten.get(i).getKlantId() == klantId){
+                String voornaam = klanten.get(i).getVoornaam();
+                String achternaam = klanten.get(i).getAchternaam();        
+                String tussenvoegsel = klanten.get(i).getTussenvoegsel();
+                String email = klanten.get(i).getEmail();  
+                klant =  new Klant(klantId, voornaam, achternaam, tussenvoegsel, email);
+                deleted = klanten.remove(klanten.get(i));
+                
+            }
+        }
+        
+        klantenLijst.setKlantenLijst(klanten);
+               
+        try{ 
+            FileOutputStream fos = new FileOutputStream("klant.xml");
+            BufferedOutputStream bos = new BufferedOutputStream(fos);
+            ObjectOutputStream oos;// = new ObjectOutputStream(bos);
+
+            XStream xstream = new XStream();
+            xstream.alias("klant", Klant.class);
+            xstream.alias("klanten", KlantenLijst.class);
+            xstream.addImplicitCollection(KlantenLijst.class, "klantenLijst");
+
+            String xml = xstream.toXML(klantenLijst);        
+               //System.out.println(xml);  // checken wat dit teruggeeft  
+               oos = xstream.createObjectOutputStream(bos);
+               oos.writeObject(xml);
+               oos.close();
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(KlantDAOXML.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(KlantDAOXML.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                
+       return deleted;  
+           
+    } 
+    
+    @Override
+    public int deleteAll(){        
+        
+        ArrayList<Klant> klanten = findAllKlanten();
+        int aantalKlanten = klanten.size();
+        klanten.clear();
+        klantenLijst.setKlantenLijst(klanten);
+        
+        try{
+            FileOutputStream fos = new FileOutputStream("klant.xml");
+            BufferedOutputStream bos = new BufferedOutputStream(fos);
+            ObjectOutputStream oos;// = new ObjectOutputStream(bos);
+            
+            XStream xstream = new XStream();
+            xstream.alias("klant", Klant.class);
+            xstream.alias("klanten", KlantenLijst.class);
+            xstream.addImplicitCollection(KlantenLijst.class, "klantenLijst");
+            
+            String xml = xstream.toXML(klantenLijst);        
+               //System.out.println(xml);  // checken wat dit teruggeeft  
+               oos = xstream.createObjectOutputStream(bos);
+               oos.writeObject(xml);
+               oos.close();
+           
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(KlantDAOXML.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(KlantDAOXML.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return aantalKlanten;
     }
 
     @Override
     public Klant updateGegevens(Klant klant) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        int klantId = klant.getKlantId();
+        String voornaam = klant.getVoornaam();
+        String achternaam = klant.getAchternaam();        
+        String tussenvoegsel = klant.getTussenvoegsel();
+        String email = klant.getEmail();  
+        
+        ArrayList<Klant>klanten = findAllKlanten();
+        
+         for(int i = 0; i< klanten.size(); i++){  
+            if(klanten.get(i).getKlantId() == klantId){
+                klanten.get(i).setVoornaam(voornaam);
+                klanten.get(i).setAchternaam(achternaam);
+                klanten.get(i).setTussenvoegsel(tussenvoegsel);
+                klanten.get(i).setEmail(email);    
+                //klant =  new Klant(klantId, voornaam, achternaam, tussenvoegsel, email);
+            }
+         }
+        klantenLijst.setKlantenLijst(klanten); 
+        
+        
+        try{
+            FileOutputStream fos = new FileOutputStream("klant.xml");
+            BufferedOutputStream bos = new BufferedOutputStream(fos);
+            ObjectOutputStream oos;// = new ObjectOutputStream(bos);
+            
+            XStream xstream = new XStream();
+            xstream.alias("klant", Klant.class);
+            xstream.alias("klanten", KlantenLijst.class);
+            xstream.addImplicitCollection(KlantenLijst.class, "klantenLijst");
+            
+            String xml = xstream.toXML(klantenLijst);        
+               //System.out.println(xml);  // checken wat dit teruggeeft  
+               oos = xstream.createObjectOutputStream(bos);
+               oos.writeObject(xml);
+               oos.close();
+           
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(KlantDAOXML.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(KlantDAOXML.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        
+        Klant klant2 = findByKlantId(klantId);  
+        
+        return klant2;
     }
 
+
+    
+    
  //    KlantBuilderXML klantBuilderXML = new KlantBuilderXML();
 //    KlantXMLdev klantXML = new KlantXMLdev(klantBuilderXML);   
 //    KlantXMLdev klant = new KlantXMLdev(); 
@@ -152,6 +354,26 @@ public Klant insertKlant (Klant klant) {
 //            klantBuilderXML.achternaam(achternaam);
 //            klantBuilderXML.email(email);
     
+    
+    //            System.out.println(klant.getKlantId() + " " + klant.getVoornaam() + 
+//                    " " + klant.getTussenvoegsel() + " " + klant.getAchternaam() + 
+//                    " " + klant.getEmail());
+    
+        
+//        klantBuilder.klantId(klantId);            
+//        klantBuilder.voornaam(klant.getVoornaam() );
+//        klantBuilder.tussenvoegsel(klant.getTussenvoegsel() );
+//        klantBuilder.achternaam(klant.getAchternaam());
+//        klantBuilder.email(klant.getEmail());               
+        
+    
+    // decode: read 
+    // encode: create, update, delete
+        
+    // setters to build object
+    // getters - get information from xml file
+
+    // genereer id
     
 }
 

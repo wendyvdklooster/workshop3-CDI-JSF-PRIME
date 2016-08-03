@@ -7,6 +7,7 @@ import DAOs.Impl.KlantAdresDAOFB;
 import DAOs.Impl.KlantAdresDAOSQL;
 import DAOs.Impl.KlantDAOFB;
 import DAOs.Impl.KlantDAOSQL;
+import DAOs.Impl.KlantDAOXML;
 import DAOs.Interface.AdresDAOInterface;
 import DAOs.Interface.KlantAdresDAOInterface;
 import DAOs.Interface.KlantDAOInterface;
@@ -26,7 +27,7 @@ import java.util.ArrayList;
 
 public class KlantController {
     // datafields in klantcontroller
-    KlantDAOInterface klantDAO = new KlantDAOFB();
+    KlantDAOInterface klantDAO = new KlantDAOXML();
     KlantView klantView = new KlantView();    
     KlantBuilder klantBuilder = new KlantBuilder();
     Klant klant;
@@ -343,4 +344,5 @@ public class KlantController {
 	return klant;  
     } // eind methode voerWijzigingenKlantIn
 
+   
 }  // end class KlantController

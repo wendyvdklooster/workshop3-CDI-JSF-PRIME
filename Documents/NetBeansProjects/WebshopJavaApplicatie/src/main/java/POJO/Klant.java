@@ -28,6 +28,35 @@ public class Klant {
     public Klant(){
         
     }
+
+    public void setKlantId(int klantId) {
+        this.klantId = klantId;
+    }
+
+    public void setVoornaam(String voornaam) {
+        this.voornaam = voornaam;
+    }
+
+    public void setAchternaam(String achternaam) {
+        this.achternaam = achternaam;
+    }
+
+    public void setTussenvoegsel(String tussenvoegsel) {
+        this.tussenvoegsel = tussenvoegsel;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
+    public Klant(int klantId, String voornaam, String achternaam, String tussenvoegsel, String email){   
+        this.klantId = klantId;
+        this.voornaam = voornaam;
+        this.achternaam = achternaam;
+        this.tussenvoegsel = tussenvoegsel;
+        this.email = email;
+    }
+
    
     public int getKlantId() {
         return klantId;
