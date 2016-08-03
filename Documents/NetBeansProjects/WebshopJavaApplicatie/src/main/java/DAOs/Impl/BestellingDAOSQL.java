@@ -19,6 +19,8 @@ import java.util.logging.Logger;
 public class BestellingDAOSQL implements BestellingDAOInterface {
     
     // Info inlog SQL
+    
+    //EH: Replication van config (zie comment bij BestellingDAOFB.java)
     String url = "jdbc:mysql://localhost:3306/winkel?autoReconnect=true&useSSL=false";
     String user = "Anjewe";
     String pw = "Koetjes";
@@ -125,20 +127,28 @@ public class BestellingDAOSQL implements BestellingDAOInterface {
   
     
     @Override
-    public void deleteBestelling(int bestellingId) {
+    public boolean deleteBestelling(int bestellingId) {
         
         String sqlQuery = "delete * from bestelling where bestelling_id = " + bestellingId;
+        boolean isDeleted = false;
+        
         
         try{
             
             con = DriverManager.getConnection(url, user, pw);
             stmt = con.prepareStatement(sqlQuery);
             stmt.executeUpdate();
+            boolean bestellingFound = rs.next();
+            
+            if (bestellingFound){
+                isDeleted = true;
+            }
             
         } catch ( SQLException ex) {
             Logger.getLogger(BestellingDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        return isDeleted;
     }
     
     @Override
