@@ -15,11 +15,10 @@ public interface KlantDAOInterface {
     
     public ArrayList <Klant> findAllKlanten();
     public Klant findByKlantId(int klantId) ;
-    public Klant findByVoorNaamAchterNaam(String voorNaam, String achterNaam);            
-    public Klant findByEmail(String email);    
+    public ArrayList<Klant> findByVoorNaamAchterNaam(String voorNaam, String achterNaam);            
+    public ArrayList<Klant> findByEmail(String email);    
     public Klant insertKlant(Klant klant) ;    
-    public boolean deleteByKlantId(int klantId) ; 
-    public boolean deleteByKlantNaam(String achternaam, String tussenvoegsel, String voornaam);
+    public boolean deleteByKlantId(int klantId) ;     
     public int deleteAll() ; 
     public Klant updateGegevens(Klant klant);
 

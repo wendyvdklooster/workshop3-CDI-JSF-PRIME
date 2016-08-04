@@ -112,9 +112,10 @@ public class AdresDAOFB implements AdresDAOInterface {
     }
 
     @Override
-    public Adres findByStraatNaam(String straatnaam) {
-        Adres adres = new Adres(adresBuilder);
+    public ArrayList<Adres> findByStraatNaam(String straatnaam) {
+        ArrayList<Adres> adressenLijst = new ArrayList<>();
         adresBuilder = new AdresBuilder();
+        Adres adres = new Adres (adresBuilder);  
        
         try {
         //load driver
@@ -136,6 +137,8 @@ public class AdresDAOFB implements AdresDAOInterface {
                 adresBuilder.woonplaats(rs.getString("woonplaats"));
                 // build adres
                 adres = adresBuilder.build();    
+                //add to list
+                adressenLijst.add(adres);
                
             }        
             con.close();             
@@ -144,14 +147,15 @@ public class AdresDAOFB implements AdresDAOInterface {
             ex.printStackTrace();
          }
         
-        return adres;
+        return adressenLijst;
     }
 
     @Override
-    public Adres findByPostcodeHuisNummer(String postcode, int huisnummer) {
+    public ArrayList<Adres> findByPostcodeHuisNummer(String postcode, int huisnummer) {
        
-        Adres adres = new Adres(adresBuilder);
+        ArrayList<Adres> adressenLijst = new ArrayList<>();
         adresBuilder = new AdresBuilder();
+        Adres adres = new Adres (adresBuilder);  
        
         try {
         //load driver
@@ -173,7 +177,9 @@ public class AdresDAOFB implements AdresDAOInterface {
                 adresBuilder.postcode(rs.getString("postcode"));
                 adresBuilder.woonplaats(rs.getString("woonplaats"));
                 // build adres
-                adres = adresBuilder.build();    
+                adres = adresBuilder.build(); 
+                // add to list
+                adressenLijst.add(adres);
                
             }        
             con.close();             
@@ -182,13 +188,15 @@ public class AdresDAOFB implements AdresDAOInterface {
             ex.printStackTrace();
          }      
        
-        return adres;
+        return adressenLijst;
     }
 
     @Override
-    public Adres findByWoonplaats(String woonplaats) {
-        Adres adres = new Adres(adresBuilder);
+    public ArrayList<Adres> findByWoonplaats(String woonplaats) {
+        
+        ArrayList<Adres> adressenLijst = new ArrayList<>();
         adresBuilder = new AdresBuilder();
+        Adres adres = new Adres (adresBuilder);  
        
         try {
         //load driver
@@ -209,7 +217,9 @@ public class AdresDAOFB implements AdresDAOInterface {
                 adresBuilder.postcode(rs.getString("postcode"));
                 adresBuilder.woonplaats(rs.getString("woonplaats"));
                 // build adres
-                adres = adresBuilder.build();    
+                adres = adresBuilder.build();  
+                // add to list
+                adressenLijst.add(adres);
                
             }        
             con.close();             
@@ -218,7 +228,7 @@ public class AdresDAOFB implements AdresDAOInterface {
             ex.printStackTrace();
          }      
        
-        return adres;        
+        return adressenLijst;        
     }
 
     

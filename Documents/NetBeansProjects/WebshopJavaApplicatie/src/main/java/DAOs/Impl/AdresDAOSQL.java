@@ -109,7 +109,8 @@ public class AdresDAOSQL implements AdresDAOInterface {
       
     
     @Override //werkt
-    public Adres findByStraatNaam(String straatNaam) {
+    public ArrayList<Adres> findByStraatNaam(String straatNaam) {
+        ArrayList<Adres> adressenLijst = new ArrayList<>();
         adresBuilder = new AdresBuilder();
         Adres adres = new Adres(adresBuilder);
         try { 
@@ -133,9 +134,10 @@ public class AdresDAOSQL implements AdresDAOInterface {
                 adresBuilder.toevoeging(rs.getString("toevoeging"));
                 adresBuilder.postcode(rs.getString("postcode"));
                 adresBuilder.woonplaats(rs.getString("woonplaats"));
-
-                // build Klant
-                adres = adresBuilder.build();
+                // build adres
+                adres = adresBuilder.build();    
+                //voeg adres toe aan lijst
+                adressenLijst.add(adres);
                 con.close();            
             }        
         }
@@ -143,13 +145,14 @@ public class AdresDAOSQL implements AdresDAOInterface {
                 System.err.println("Got an exception!");
                 System.err.println(e.getMessage());
         }                
-        return adres;
+        return adressenLijst;
     }
     
     
     @Override //werkt
-    public Adres findByWoonplaats(String woonPlaats) {
+    public ArrayList<Adres>  findByWoonplaats(String woonPlaats) {
                 
+        ArrayList<Adres> adressenLijst = new ArrayList<>();
         adresBuilder = new AdresBuilder();
         Adres adres = new Adres(adresBuilder); 
         try { 
@@ -174,9 +177,10 @@ public class AdresDAOSQL implements AdresDAOInterface {
                     adresBuilder.toevoeging(rs.getString("toevoeging"));
                     adresBuilder.postcode(rs.getString("postcode"));
                     adresBuilder.woonplaats(rs.getString("woonplaats"));
-
-                    // build Klant
-                    adres = adresBuilder.build();
+                    // build adres
+                    adres = adresBuilder.build();    
+                    //voeg adres toe aan lijst
+                    adressenLijst.add(adres);
 
             }    
                 con.close();     
@@ -186,14 +190,15 @@ public class AdresDAOSQL implements AdresDAOInterface {
                System.err.println(e.getMessage());
         }
                 
-        return adres;
+        return adressenLijst;
     }
 
     
     @Override //werkt
-    public Adres findByPostcodeHuisNummer(String postcode, int huisnummer)  {
+    public ArrayList<Adres>  findByPostcodeHuisNummer(String postcode, int huisnummer)  {
                 
-        AdresBuilder adresBuilder = new AdresBuilder();
+        ArrayList<Adres> adressenLijst = new ArrayList<>();
+        adresBuilder = new AdresBuilder();
         Adres adres = new Adres(adresBuilder); 
         try { 
                 //load driver
@@ -218,9 +223,10 @@ public class AdresDAOSQL implements AdresDAOInterface {
                     adresBuilder.toevoeging(rs.getString("toevoeging"));
                     adresBuilder.postcode(rs.getString("postcode"));
                     adresBuilder.woonplaats(rs.getString("woonplaats"));
-
-                    // build Klant
-                    adres = adresBuilder.build();
+                    // build adres
+                    adres = adresBuilder.build();    
+                    //voeg adres toe aan lijst
+                    adressenLijst.add(adres);
 
                 }  
                 con.close();       
@@ -229,7 +235,7 @@ public class AdresDAOSQL implements AdresDAOInterface {
                 System.err.println("Got an exception!");
                 System.err.println(e.getMessage());
         }
-        return adres;
+        return adressenLijst;
     }
     
    

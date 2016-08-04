@@ -1,6 +1,7 @@
 
 package Controller;
 
+import DAOs.Impl.ArtikelDAOFB;
 import View.ArtikelView;
 import DAOs.Impl.ArtikelDAOSQL;
 import DAOs.Impl.BestellingArtikelDAOSQL;
@@ -24,7 +25,7 @@ public class ArtikelController {
     // if (input == 4) { VerwijderArtikelGegevens}
     
     ArtikelView artikelView = new ArtikelView();
-    ArtikelDAOInterface artikelDAO = new ArtikelDAOSQL();
+    ArtikelDAOInterface artikelDAO = new ArtikelDAOFB();
     Artikel artikel = new Artikel();
     
     BestellingView bestellingView = new BestellingView();

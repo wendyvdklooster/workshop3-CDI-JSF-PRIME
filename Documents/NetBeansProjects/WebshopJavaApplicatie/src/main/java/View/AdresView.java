@@ -71,7 +71,7 @@ public class AdresView {
     }
     
     public int voerHuisnummerIn() {
-        System.out.println("huisnummer: ");
+        System.out.println("Huisnummer: ");
         int huisnummer = Integer.parseInt(scanner.nextLine());
         return huisnummer;
     }
@@ -80,7 +80,6 @@ public class AdresView {
         
         System.out.println("Huisnummer toevoeging: ");
         toevoeging = scanner.nextLine().trim(); 
-
         return toevoeging;
     }
     
@@ -125,7 +124,7 @@ public class AdresView {
     
     public int hoeWiltUZoeken() {
         System.out.println("Kies met wat u wilt zoeken.");
-        System.out.println("1. Bestelling id.");
+        System.out.println("1. Adres id.");
         System.out.println("2. Straatnaam.");
         System.out.println("3. Postcode en huisnummer");
         System.out.println("4. Woonplaats.");
