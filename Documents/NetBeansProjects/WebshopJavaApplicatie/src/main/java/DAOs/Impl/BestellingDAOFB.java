@@ -24,6 +24,9 @@ import java.util.logging.Logger;
 public class BestellingDAOFB implements BestellingDAOInterface{
     
     // Info inlog FireBird
+    
+    // Comment EH: Dit zijn configs, deze zou ik uit de code trekken in een "CONFIG" static class proppen
+    // Dan kan je een template config inchecken, en jouw eigen config in de .gitignore zetten.
     private final String url = "jdbc:firebirdsql:localhost:C:\\FBDB\\FBDB.FDB";
     private final String user = "Anjewe";
     private final String pw = "Koetjes";
@@ -33,6 +36,9 @@ public class BestellingDAOFB implements BestellingDAOInterface{
     ResultSet rs;
     PreparedStatement stmt;
 
+    
+    // Methods
+    
     @Override
     public ArrayList<Bestelling> findAll() {
         ArrayList<Bestelling>bestellinglijst = new ArrayList<>();
@@ -91,27 +97,10 @@ public class BestellingDAOFB implements BestellingDAOInterface{
 
     @Override
     public int insertBestelling(int klant_id) {
+        
         java.util.Date datum = new java.util.Date();
-        
         int bestellingId = 0;
-        
-        
-                // "INSERT INTO bestelling(klant_id, datum_aangemaakt) VALUES (?, ? ) RETURNING bestelling_id".
-
-                /*
-
-                ResultSet resultSet = pStatement.executeQuery();
-                while (resultSet .next()) //eventueel een null check voor resultSet kan
-                {
-                generatedKey = resultSet.getInt("persoon_id");
-                }
-
-                */
-                
-                // rs = stmt.executeQuery();
-                // String sqlQuery = "insert into bestelling (klant_id, datum_aangemaakt) values (?, ?)";
-        
-            String sqlQuery = "INSERT INTO bestelling(klant_id, datum_aangemaakt) VALUES (?, ? ) RETURNING bestelling_id";
+        String sqlQuery = "INSERT INTO bestelling(klant_id, datum_aangemaakt) VALUES (?, ?) RETURNING bestelling_id";
 
         try{
         // Maak connectie 
@@ -130,7 +119,7 @@ public class BestellingDAOFB implements BestellingDAOInterface{
             int affectedRows = stmt.executeUpdate();
 
                     if (affectedRows == 0) {
-                        throw new SQLException("Creating user failed, no rows affected.");
+                        throw new SQLException("Bestelling aanmaken mislukt.");
                     } 
 
                     rs = stmt.getGeneratedKeys();
@@ -147,18 +136,30 @@ public class BestellingDAOFB implements BestellingDAOInterface{
     }
 
     @Override
-    public void deleteBestelling(int bestelling_id) {
-        String sqlQuery = "delete * from bestelling where bestelling_id = " + bestelling_id;
+    public boolean deleteBestelling(int bestelling_id) {
         
-        try{
+    boolean isDeleted = false;
+
+        try {
+            Class.forName(driver);
+            try (Connection conn = DriverManager.getConnection(url, user, pw)) {
             
-            con = DriverManager.getConnection(url, user, pw);
-            stmt = con.prepareStatement(sqlQuery);
-            stmt.executeUpdate();
-            
-        } catch ( SQLException ex) {
-            Logger.getLogger(BestellingDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
+                String sqlQuery = "delete from bestelling where bestelling_id =  ? ";
+
+                // create the mysql insert preparedstatement
+                PreparedStatement preparedStmt = conn.prepareStatement(sqlQuery);
+                preparedStmt.setInt(1, bestelling_id);
+                // execute the preparedstatement
+                int rowsAffected = preparedStmt.executeUpdate();
+                if (rowsAffected != 0) {
+                    isDeleted = true;
+                }
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            System.err.println("Got an exception!");
+            System.err.println(e.getMessage());
         }
+        return isDeleted;
     }
 
     @Override

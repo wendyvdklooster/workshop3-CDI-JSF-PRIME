@@ -11,13 +11,16 @@ import java.util.ArrayList;
 /**
  *
  * @author Excen
+ * 
+ * EH: Maak hier een abstract class van. Dan kan je een aantal connection opzet
+ * dingen in die abstract class afhandelen
  */
 public interface BestellingDAOInterface {
     
     public ArrayList<Bestelling> findAll();
     public Bestelling findById(int bestelling_id);
     public int insertBestelling(int klant_id);
-    public void deleteBestelling(int bestelling_id);
+    public boolean deleteBestelling(int bestelling_id);
     public void deleteAll();  
 }
 

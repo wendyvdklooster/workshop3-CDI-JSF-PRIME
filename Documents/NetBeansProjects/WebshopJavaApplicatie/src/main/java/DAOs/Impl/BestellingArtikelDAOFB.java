@@ -216,16 +216,16 @@ public class BestellingArtikelDAOFB implements BestellingArtikelDAOInterface {
 
     @Override
     public void deleteArtikel(int bestelling_id, int artikel_id) {
-        String sqlQuery = "delete artikel_id from koppelbestellingartikel where bestelling_id = " + bestelling_id + " and artikel_id = " + artikel_id ;
+        String sqlQuery = "delete from koppelbestellingartikel where bestelling_id = " + bestelling_id + " and artikel_id = " + artikel_id;
         
         try{             
-        
+        Class.forName(driver);        
         con = DriverManager.getConnection(url, user, pw);
         stmt = con.prepareStatement(sqlQuery);
         stmt.executeUpdate();
         
         } 
-        catch ( SQLException ex) {
+        catch ( SQLException | ClassNotFoundException ex) {
             Logger.getLogger(BestellingArtikelDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
