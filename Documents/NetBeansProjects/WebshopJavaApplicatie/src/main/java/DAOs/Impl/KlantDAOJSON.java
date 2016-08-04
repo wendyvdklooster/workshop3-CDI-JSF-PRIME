@@ -25,6 +25,7 @@ import org.json.JSONException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import Factory.DaoFactory;
+import org.apache.commons.validator.routines.EmailValidator;
 /**
  *
  * @author Wendy
@@ -185,17 +186,10 @@ public class KlantDAOJSON implements KlantDAOInterface {
                 JSONObject klantIn = (JSONObject)(klantenIn.get(i));
                 String voornaam = (String)(klantIn.get("voornaam"));
                 String achternaam = (String)(klantIn.get("achternaam"));
-                if (achternaam.equals(achterNaam) && voornaam.equals(voorNaam)) {
-               /** try {
-                * ObjectMapper mapper = new ObjectMapper();
-                    JsonNode tree1 = mapper.readTree(voornaam);
-                    JsonNode tree2 = mapper.readTree(voorNaam);
-                    JsonNode tree3 = mapper.readTree(achternaam);
-                    JsonNode tree4 = mapper.readTree(achterNaam);
-                    if (tree1.equals(tree2) && tree3.equals(tree4)) {
-                */
-                // als overeenkomt met gezochte namen dan klant ophalen
                 
+                // als overeenkomt met gezochte namen dan klant ophalen
+                    voornaam = (String)(klantIn.get("voornaam"));
+                    achternaam = (String)(klantIn.get("achternaam"));
                     int klantId = (int)((long)(klantIn.get("klant_id")));
                     String tussenvoegsel = (String)(klantIn.get("tussenvoegsel"));
                     String email = (String)(klantIn.get("email"));
@@ -210,7 +204,8 @@ public class KlantDAOJSON implements KlantDAOInterface {
                     klant = klantBuilder.build();
                     
                     //if (klant.getAchternaam().equals(voorNaam) && klant.getVoornaam().equals(achterNaam)) {
-                    
+                    if (klant.getVoornaam().equals(voorNaam) && klant.getAchternaam().equals(achterNaam)) {
+                        return klant;
                     }
                 else {
                     System.out.println("Klant kan niet gevonden worden in de database.");
