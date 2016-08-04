@@ -9,6 +9,11 @@ import DAOs.Impl.AdresDAOSQL;
 import DAOs.Impl.KlantAdresDAOSQL;
 import DAOs.Interface.AdresDAOInterface;
 import DAOs.Interface.KlantAdresDAOInterface;
+import DAOs.Interface.ArtikelDAOInterface;
+import DAOs.Interface.BestellingArtikelDAOInterface;
+import DAOs.Interface.BestellingDAOInterface;
+import DAOs.Interface.KlantDAOInterface;
+import Factory.DaoFactory;
 import POJO.Adres;
 import View.AdresView;
 import View.HoofdMenuView;
@@ -24,24 +29,50 @@ import java.util.Scanner;
  *
  * @author Excen
  */
-public class HoofdMenuController implements ControllerInterface {
+public class HoofdMenuController {
    // data fields 
-   KlantController klantController = new KlantController(); 
-   ArtikelController artikelController = new ArtikelController();
-   BestellingController bestellingController = new BestellingController();
-   AdresController adresController = new AdresController();
+   KlantController klantController; 
+   ArtikelController artikelController;
+   BestellingController bestellingController;
+   AdresController adresController;
    
    HoofdMenuView hoofdMenuView = new HoofdMenuView(); 
-   
+   DaoFactory daoFactory = new DaoFactory();
     
    Scanner scanner = new Scanner(System.in);
    int userInput;
-    
-    // beginpunt
-    public void start()  {
+   
+   public void setDatabase() {
        
+       userInput = hoofdMenuView.databaseKeuze();
+       if (userInput == 1) {
+           daoFactory.setDatabaseSetting("MySQL");
+           start();
+       }
+       else if (userInput == 2) {
+           daoFactory.setDatabaseSetting("FireBird");
+           start();
+       }
+       else if (userInput == 3) {
+           daoFactory.setDatabaseSetting("JSON");
+           start();
+       }
+       else if (userInput == 4) {
+           daoFactory.setDatabaseSetting("XML");
+           start();
+       }
+       else
+           daoFactory.setDatabaseSetting("MySQL");
+           start();
+   }
     
-      
+
+    // beginpunt
+    public void start()  {  
+        klantController = new KlantController();
+        adresController = new AdresController();
+        bestellingController = new BestellingController();
+        artikelController = new ArtikelController();
         
         userInput = hoofdMenuView.hoofdMenu();
         
