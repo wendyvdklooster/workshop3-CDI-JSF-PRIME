@@ -7,6 +7,7 @@ package View;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import Factory.DaoFactory;
 /**
  *
  * @author Anne
@@ -15,6 +16,24 @@ public class HoofdMenuView {
     int userInput;
     Scanner scanner = new Scanner(System.in);
     boolean checker;
+    
+    
+    public int databaseKeuze() {
+        System.out.println("In welke database wilt u werken?");
+        System.out.println("1. MySQL.");
+        System.out.println("2. FireBird");
+        System.out.println("3. JSON (alleen voor het klant bestand).");
+        System.out.println("4. XML (alleen voor het klant bestand).");
+        
+        try{
+            userInput = Integer.parseInt(scanner.nextLine()); 
+            
+        }catch(InputMismatchException ex){
+            System.out.print("Foute input, kies van de opties hierboven.");
+        }
+        
+        return userInput;
+    }
     
     // Eerste instantie van wat de console te zien krijgt. Keuzes in dit menu bepalen welke andere controllers
     // (en dus views) aangesproken gaan worden.
