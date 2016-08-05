@@ -45,6 +45,7 @@ public class HikariCP {
     private static String password;
     
     // For now HardCoded info
+    
     private static String urlHC = "jdbc:mysql://localhost:3306/winkel?autoReconnect=true&useSSL=false";
     private static String userHC = "Anjewe";
     private static String passwordHC = "Koetjes";
