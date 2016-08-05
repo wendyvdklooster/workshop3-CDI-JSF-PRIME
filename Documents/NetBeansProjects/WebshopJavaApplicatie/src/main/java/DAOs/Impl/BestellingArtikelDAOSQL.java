@@ -5,6 +5,7 @@
  */
 package DAOs.Impl;
 
+import ConnectionPool.HikariCP;
 import DAOs.Interface.BestellingDAOInterface;
 import DAOs.Interface.BestellingArtikelDAOInterface;
 import DAOs.Interface.ArtikelDAOInterface;
@@ -27,11 +28,14 @@ import java.util.logging.Logger;
 public class BestellingArtikelDAOSQL implements BestellingArtikelDAOInterface {
        
     // Info inlog SQL
+    
+    
     private final String url = "jdbc:mysql://localhost:3306/winkel?autoReconnect=true&useSSL=false";
     private final String user = "Anjewe";
     private final String pw = "Koetjes";
     private final String driver = "com.mysql.jdbc.Driver";
     
+
     Connection con;
     ResultSet rs;
     PreparedStatement stmt;
@@ -40,11 +44,11 @@ public class BestellingArtikelDAOSQL implements BestellingArtikelDAOInterface {
     @Override
     public void deleteArtikel(int bestellingId, int artikelId) {
         
-        String sqlQuery = "delete artikel_id from koppelbestellingartikel where bestelling_id = " + bestellingId + " and artikel_id = " + artikelId ;
+        String sqlQuery = "delete from koppelbestellingartikel where bestelling_id = " + bestellingId + " and artikel_id = " + artikelId ;
         
         try{             
-        
-        con = DriverManager.getConnection(url, user, pw);
+ 
+        con = new HikariCP().connectWithHikari();
         stmt = con.prepareStatement(sqlQuery);
         stmt.executeUpdate();
         

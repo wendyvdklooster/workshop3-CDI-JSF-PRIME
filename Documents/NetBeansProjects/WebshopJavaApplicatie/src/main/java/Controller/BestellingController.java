@@ -41,6 +41,8 @@ public class BestellingController {
         
         switch (userInput) {
                 // bestelling plaatsen
+            
+            // EH: Maak hier een Enum van (case 1, case 2, case 3 etc.)
             case 1:
                 plaatsBestelling();                   
                 break;  
