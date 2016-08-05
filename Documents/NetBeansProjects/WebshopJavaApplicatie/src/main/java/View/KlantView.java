@@ -38,7 +38,7 @@ public class KlantView {
     public String voerAchterNaamIn(){
                
         System.out.print("Achternaam: ");
-        String achternaam = scanner.nextLine().trim();
+        String achternaam = scanner.nextLine();
         
         return achternaam; 
     }
@@ -47,7 +47,7 @@ public class KlantView {
     public String voerVoorNaamIn(){
                
         System.out.print("Voornaam: ");
-        String voornaam = scanner.nextLine().trim();
+        String voornaam = scanner.nextLine();
         
         return voornaam; 
     }
@@ -56,7 +56,7 @@ public class KlantView {
     public String voerTussenVoegselIn(){
         
         System.out.print("Tussenvoegsel: ");
-        String tussenvoegsel = scanner.nextLine().trim();
+        String tussenvoegsel = scanner.nextLine();
         
         return tussenvoegsel; 
     }
@@ -257,16 +257,9 @@ public class KlantView {
     }   
     
     
-    public void printString(String string ){
+    public void printGeenKlanten(String string){
         
-        System.out.println(string);
+        System.out.println("Het klantenbestand bevat niet de gezochte gegevens: " + string);
     }
-    
-    public void printInt(int getal){
-    
-       System.out.println(getal);
-    }
-    
-    
-    
+        
 }
