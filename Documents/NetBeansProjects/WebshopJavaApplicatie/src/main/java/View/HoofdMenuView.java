@@ -17,6 +17,22 @@ public class HoofdMenuView {
     Scanner scanner = new Scanner(System.in);
     boolean checker;
     
+    /**
+     * public int connectionPoolKeuze() {
+     *  System.out.println("Met welke connection pool wilt u werken?");
+     *  System.out.println("1. Hikari.");
+     *  System.out.println("2. C3p0.");
+     *  
+     *  ry{
+            userInput = Integer.parseInt(scanner.nextLine()); 
+            
+        }catch(InputMismatchException ex){
+            System.out.print("Foute input, kies van de opties hierboven.");
+        }
+        
+        return userInput;
+    }  
+     */
     
     public int databaseKeuze() {
         System.out.println("In welke database wilt u werken?");
