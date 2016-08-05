@@ -1,18 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package DAOs.Impl;
 
+package DAOs.Impl;
 /**
  *
  * @author Wendy
  */
    
 import DAOs.Interface.KlantDAOInterface;
-import MAIN.KlantXMLdev;
-import MAIN.KlantXMLdev.KlantBuilderXML;
 import POJO.KlantenLijst;
 import POJO.Klant;
 import POJO.Klant.KlantBuilder;
@@ -26,11 +19,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+//import java.util.logging.Level;
+//import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class KlantDAOXML implements KlantDAOInterface {
+   private final static Logger LOGGER = LoggerFactory.getLogger(KlantDAOXML.class.getName());  
     
    KlantBuilder klantBuilder = new KlantBuilder();
    Klant klant = new Klant (klantBuilder);
@@ -47,7 +43,8 @@ public Klant insertKlant (Klant klant) {
     try {
             ArrayList<Klant> alleKlanten = findAllKlanten();  // fout opvangen (in methode zelf) wanneer de lijst nog leeg is: bij de eerste klant
             
-            if (alleKlanten != null){    
+            if (alleKlanten != null){   
+                LOGGER.debug("klanten lijst is niet leeg");
                 for (int i = alleKlanten.size()-1 ; i < alleKlanten.size() ; i++ ){
                     Klant klantLaatst = alleKlanten.get(i);
                     klantId = klantLaatst.getKlantId();
@@ -55,6 +52,10 @@ public Klant insertKlant (Klant klant) {
                 } 
              }
              else { 
+                LOGGER.info("klantenlijst is leeg");
+                // maak nieuwe klantenlijst aan en een eerste klantId
+             KlantenLijst KL = new KlantenLijst();
+             klantenLijst = KL; 
              klantId = 1; 
                 }       
    
@@ -82,9 +83,9 @@ public Klant insertKlant (Klant klant) {
                oos.close();
            
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(KlantDAOXML.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.debug("A FileNotFoundException occured at this method", ex);
         } catch (IOException ex) {
-            Logger.getLogger(KlantDAOXML.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.debug("A IOException occured at this method", ex);
         }
         
         // return klant, incl klantId naar controller
@@ -110,21 +111,27 @@ public Klant insertKlant (Klant klant) {
             //String xml = "<klanten><klant>...</klant></klanten>";
             
             ois = xstream.createObjectInputStream(bis);
+            
             if (ois != null){
+                LOGGER.debug("er zijn al klanten");
             String xml = (String) ois.readObject();
             
             //deserialise
               
-           klantenLijst = (KlantenLijst)xstream.fromXML(xml);
+            klantenLijst = (KlantenLijst)xstream.fromXML(xml);
             klanten = klantenLijst.getKlantenLijst();
+            
             }
             else{
+                LOGGER.info("er zijn nog geen klanten");
                 klanten = null;
             }
             // fout opvangen wanneer de lijst nog leeg is >> ok n controller: if arraylist == null or !=null
-            } catch (IOException | ClassNotFoundException ex) {
-                Logger.getLogger(KlantDAOXML.class.getName()).log(Level.SEVERE, null, ex);
-            }        
+            } catch (ClassNotFoundException ex) {
+            LOGGER.debug("A ClassNotFoundException occured at this method", ex);
+            } catch (IOException ex) {
+                LOGGER.debug("A IOException occured at this method", ex);
+            }   
         
         return klanten;
     }
@@ -136,17 +143,25 @@ public Klant insertKlant (Klant klant) {
         Klant klant = null;  
         
         ArrayList <Klant> klanten = findAllKlanten();
-        // if klanten is leeg: klant == null;
-        for(int i = 0; i < klanten.size(); i++){            
-            if (klanten.get(i).getKlantId() == klantId){
-                String voornaam = klanten.get(i).getVoornaam();
-                String achternaam = klanten.get(i).getAchternaam();        
-                String tussenvoegsel = klanten.get(i).getTussenvoegsel();
-                String email = klanten.get(i).getEmail();  
-                klant =  new Klant(klantId, voornaam, achternaam, tussenvoegsel, email);
-                break;
-            }
-        }            
+        if (klanten != null){
+        
+
+// if klanten is leeg: klant == null;
+            for(int i = 0; i < klanten.size(); i++){            
+                if (klanten.get(i).getKlantId() == klantId){
+                    String voornaam = klanten.get(i).getVoornaam();
+                    String achternaam = klanten.get(i).getAchternaam();        
+                    String tussenvoegsel = klanten.get(i).getTussenvoegsel();
+                    String email = klanten.get(i).getEmail();  
+                    klant =  new Klant(klantId, voornaam, achternaam, tussenvoegsel, email);
+                    break;
+                }
+            }                
+        }
+        else{
+            LOGGER.info("Geen klanten aanwezig in het bestand.");
+        }
+        
         return klant;
     }
 
@@ -159,21 +174,24 @@ public Klant insertKlant (Klant klant) {
         ArrayList <Klant> klanten2 = new ArrayList();
         
         ArrayList <Klant> klanten = findAllKlanten();        
-        
-        for(int i = 0; i < klanten.size(); i++){            
-            if (klanten.get(i).getVoornaam().equals(voorNaam) 
-                    || klanten.get(i).getAchternaam().equals(achterNaam) ){
-                int klantId = klanten.get(i).getKlantId();        
-                String tussenvoegsel = klanten.get(i).getTussenvoegsel();
-                String email = klanten.get(i).getEmail();  
-                klant =  new Klant(klantId, voorNaam, achterNaam, tussenvoegsel, email);
-                klanten2.add(klant);
+        if(klanten != null){
+            for(int i = 0; i < klanten.size(); i++){            
+                if (klanten.get(i).getVoornaam().equals(voorNaam) 
+                        || klanten.get(i).getAchternaam().equals(achterNaam) ){
+                    int klantId = klanten.get(i).getKlantId();        
+                    String tussenvoegsel = klanten.get(i).getTussenvoegsel();
+                    String email = klanten.get(i).getEmail();  
+                    klant =  new Klant(klantId, voorNaam, achterNaam, tussenvoegsel, email);
+                    klanten2.add(klant);
+                }
             }
-        }   
-        
-        
+        }
+        else{
+            LOGGER.info("Geen klanten aanwezig in het bestand.");
+        } 
         return klanten2; 
     }
+    
 
     @Override
     public ArrayList<Klant> findByEmail(String email) {
@@ -183,20 +201,25 @@ public Klant insertKlant (Klant klant) {
          
         ArrayList <Klant> klanten = findAllKlanten();       
         
-        for(int i = 0; i< klanten.size(); i++){            
-            if (klanten.get(i).getEmail().equals(email) ){
-                int klantId = klanten.get(i).getKlantId();        
-                String tussenvoegsel = klanten.get(i).getTussenvoegsel();
-                String voornaam = klanten.get(i).getVoornaam();
-                String achternaam = klanten.get(i).getAchternaam();     
-                klant =  new Klant(klantId, voornaam, achternaam, tussenvoegsel, email);
-                klanten2.add(klant);
-            }
+        if (klanten != null){
+                for(int i = 0; i< klanten.size(); i++){            
+                if (klanten.get(i).getEmail().equals(email) ){
+                    int klantId = klanten.get(i).getKlantId();        
+                    String tussenvoegsel = klanten.get(i).getTussenvoegsel();
+                    String voornaam = klanten.get(i).getVoornaam();
+                    String achternaam = klanten.get(i).getAchternaam();     
+                    klant =  new Klant(klantId, voornaam, achternaam, tussenvoegsel, email);
+                    klanten2.add(klant);
+                }
+            } 
         }
-        
+        else{
+            LOGGER.info("Geen klanten aanwezig in het bestand.");
+        }
         return klanten2;  
     }
 
+    
     @Override
     public boolean deleteByKlantId(int klantId) {
         
@@ -204,17 +227,21 @@ public Klant insertKlant (Klant klant) {
         Klant klant = null;
         
         ArrayList <Klant> klanten = findAllKlanten();
-        
-        for(int i = 0; i < klanten.size(); i++){            
-            if (klanten.get(i).getKlantId() == klantId){
-                String voornaam = klanten.get(i).getVoornaam();
-                String achternaam = klanten.get(i).getAchternaam();        
-                String tussenvoegsel = klanten.get(i).getTussenvoegsel();
-                String email = klanten.get(i).getEmail();  
-                klant =  new Klant(klantId, voornaam, achternaam, tussenvoegsel, email);
-                deleted = klanten.remove(klanten.get(i));
-                
+        if (klanten != null){
+            for(int i = 0; i < klanten.size(); i++){            
+                if (klanten.get(i).getKlantId() == klantId){
+                    String voornaam = klanten.get(i).getVoornaam();
+                    String achternaam = klanten.get(i).getAchternaam();        
+                    String tussenvoegsel = klanten.get(i).getTussenvoegsel();
+                    String email = klanten.get(i).getEmail();  
+                    klant =  new Klant(klantId, voornaam, achternaam, tussenvoegsel, email);
+                    deleted = klanten.remove(klanten.get(i));
+
+                }
             }
+        }
+        else{
+            LOGGER.info("Geen klanten aanwezig in het bestand.");
         }
         
         klantenLijst.setKlantenLijst(klanten);
@@ -236,14 +263,14 @@ public Klant insertKlant (Klant klant) {
                oos.close();
 
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(KlantDAOXML.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.debug("A FileNotFoundException occured at this method", ex);
         } catch (IOException ex) {
-            Logger.getLogger(KlantDAOXML.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.debug("A IOException occured at this method", ex);
         }
                 
-       return deleted;  
-           
+       return deleted;          
     } 
+    
     
     @Override
     public int deleteAll(){        
@@ -269,10 +296,10 @@ public Klant insertKlant (Klant klant) {
                oos.writeObject(xml);
                oos.close();
            
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(KlantDAOXML.class.getName()).log(Level.SEVERE, null, ex);
+       } catch (FileNotFoundException ex) {
+            LOGGER.debug("A FileNotFoundException occured at this method", ex);
         } catch (IOException ex) {
-            Logger.getLogger(KlantDAOXML.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.debug("A IOException occured at this method", ex);
         }
         return aantalKlanten;
     }
@@ -316,11 +343,11 @@ public Klant insertKlant (Klant klant) {
                oos.writeObject(xml);
                oos.close();
            
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(KlantDAOXML.class.getName()).log(Level.SEVERE, null, ex);
+       } catch (FileNotFoundException ex) {
+            LOGGER.debug("A FileNotFoundException occured at this method", ex);
         } catch (IOException ex) {
-            Logger.getLogger(KlantDAOXML.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+            LOGGER.debug("A IOException occured at this method", ex);
+        }
         
         Klant klant2 = findByKlantId(klantId);  
         
