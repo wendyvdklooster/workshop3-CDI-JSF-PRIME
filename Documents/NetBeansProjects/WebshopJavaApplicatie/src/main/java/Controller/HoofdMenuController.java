@@ -42,6 +42,23 @@ public class HoofdMenuController {
    Scanner scanner = new Scanner(System.in);
    int userInput;
    
+   /**
+   public void setConnectionPool() {
+       userInput = hoofdMenuView.connectionPoolKeuze();
+       * if (userInput == 1) {
+       *    connectionFactory.setConnectionPool("Hikari");
+       *    setDatabase();
+       * }
+       * else is (userInput == 2) {
+       *    connectionFactory.setConnectionPool("C3p0");
+       *    setDatabase();
+       * }
+       * else {
+       *    connectionFactory.setConnectionPool("Hikari");
+       *    setDatabase();
+       * }
+   }
+   */
    public void setDatabase() {
        
        userInput = hoofdMenuView.databaseKeuze();
