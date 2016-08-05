@@ -1,6 +1,7 @@
 
-package DAOs.Impl;
+package DAOs.Impl.FireBird;
 
+import DAOs.Impl.MySQL.KlantDAOSQL;
 import DAOs.Interface.KlantDAOInterface;
 import POJO.Klant;
 import POJO.Klant.KlantBuilder;

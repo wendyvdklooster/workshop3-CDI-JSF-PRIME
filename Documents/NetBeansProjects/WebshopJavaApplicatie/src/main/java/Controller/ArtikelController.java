@@ -1,10 +1,8 @@
 
 package Controller;
 
-import DAOs.Impl.ArtikelDAOFB;
+
 import View.ArtikelView;
-import DAOs.Impl.ArtikelDAOSQL;
-import DAOs.Impl.BestellingArtikelDAOSQL;
 import DAOs.Interface.ArtikelDAOInterface;
 import DAOs.Interface.BestellingArtikelDAOInterface;
 import POJO.Artikel;
@@ -12,6 +10,7 @@ import POJO.Bestelling;
 import View.BestellingView;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import Factory.DaoFactory;
 
 
 public class ArtikelController {
@@ -25,14 +24,15 @@ public class ArtikelController {
     // if (input == 4) { VerwijderArtikelGegevens}
     
     ArtikelView artikelView = new ArtikelView();
-    ArtikelDAOInterface artikelDAO = new ArtikelDAOFB();
+    ArtikelDAOInterface artikelDAO = DaoFactory.getArtikelDao();
     Artikel artikel = new Artikel();
     
     BestellingView bestellingView = new BestellingView();
-    BestellingArtikelDAOInterface bestellingArtikelDAO = new BestellingArtikelDAOSQL();
+    BestellingArtikelDAOInterface bestellingArtikelDAO = DaoFactory.getBestellingArtikelDao();
     
     
     public void artikelMenu()  {
+        
         int userInput = artikelView.startArtikelMenu();
         
         switch (userInput) {
@@ -53,7 +53,7 @@ public class ArtikelController {
                 terugNaarHoofdMenu();
                 break;
             default:
-                System.out.println("Die optie is niet beschikbaar, we keren terug naar het bestelling menu.");
+                System.out.println("Deze optie is niet beschikbaar.");
                 break;
         }     
         

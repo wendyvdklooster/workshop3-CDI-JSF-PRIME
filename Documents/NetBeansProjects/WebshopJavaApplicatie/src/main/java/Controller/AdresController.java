@@ -5,17 +5,16 @@
  */
 package Controller;
 
-import DAOs.Impl.AdresDAOFB;
-import DAOs.Impl.AdresDAOSQL;
-import DAOs.Impl.KlantAdresDAOSQL;
+import DAOs.Impl.MySQL.KlantAdresDAOSQL;
 import DAOs.Interface.AdresDAOInterface;
 import DAOs.Interface.KlantAdresDAOInterface;
 import POJO.Adres;
-import POJO.Adres.AdresBuilder;
 import View.AdresView;
 import View.HoofdMenuView;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import Factory.DaoFactory;
+import POJO.Adres.AdresBuilder;
 
 /**
  *
@@ -23,15 +22,14 @@ import java.util.ArrayList;
  */
 public class AdresController {
             
-   //AdresDAOInterface adresDAO; //methode factory
-    
-   AdresDAOInterface adresDao = new AdresDAOFB();    
-   KlantAdresDAOInterface klantAdresDao = new KlantAdresDAOSQL();        
+   DaoFactory daoFactory = new DaoFactory();    
+   AdresDAOInterface adresDao = DaoFactory.getAdresDao();    
+   KlantAdresDAOInterface klantAdresDao = DaoFactory.getKlantAdresDao();        
    HoofdMenuView hoofdMenuView = new HoofdMenuView(); 
    
    AdresView adresView = new AdresView();
-   Adres adres;
-   Adres.AdresBuilder adresBuilder = new Adres.AdresBuilder();    
+   Adres adres;    
+   AdresBuilder adresBuilder = new AdresBuilder();
    KlantController klantController = new KlantController();
    ArrayList<Adres> adressenLijst = new ArrayList();
     
@@ -39,7 +37,9 @@ public class AdresController {
     
    
     public void adresMenu()  {
+        
         userInput = adresView.startAdresMenu();
+        
         switch (userInput) {
             case 1:
                 userInput = adresView.bentUNieuweKlant();
@@ -61,12 +61,14 @@ public class AdresController {
             case 4:
                 verwijderAdresGegevens();
                 break;
-            case 5:                   
+            case 5: 
+                terugNaarHoofdMenu();                   
                 break;
             default:
+                System.out.println("Deze optie is niet beschikbaar.");
                 break;
         } 
-        terugNaarHoofdMenu(); 
+        
     }
     
     public int voegNieuwAdresToe() {
@@ -173,7 +175,7 @@ public class AdresController {
             case 5:
                 break; // doorsturen einde switch; terug naar adres menu
             default:
-                System.out.println("Die optie is niet beschikbaar, we keren terug naar het bestelling menu.");
+                System.out.println("Die optie is niet beschikbaar, je keert terug naar het bestelling menu.");
                 break;
         }
         adresMenu();

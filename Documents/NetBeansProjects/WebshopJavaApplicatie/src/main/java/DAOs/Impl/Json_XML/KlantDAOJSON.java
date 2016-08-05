@@ -1,5 +1,5 @@
 
-package DAOs.Impl;
+package DAOs.Impl.Json_XML;
 
 import DAOs.Interface.KlantDAOInterface;
 import POJO.Klant;
@@ -25,53 +25,68 @@ import org.json.simple.parser.JSONParser;
  */
 public class KlantDAOJSON implements KlantDAOInterface {
 
-    String fileName = "C:\\Users\\Wendy\\Documents\\NetBeansProjects\\WebshopJavaApplicatie\\JsonKlant.txt";
+    String fileName = "C:\\Users\\Wendy\\Documents\\NetBeansProjects\\WebshopJavaApplicatie\\JsonKlant.js";
     
     @Override
     public ArrayList<Klant> findAllKlanten() {
         
     ArrayList<Klant> klantenLijst = new ArrayList<>();
         Object obj = new Object();
+        
         try {    
             JSONParser parser = new JSONParser();
             BufferedReader reader = new BufferedReader(new FileReader(fileName));
             // aparte try-catch voor logger anders vangt hij hem niet
+           
             try {
                 obj = parser.parse(reader);
-            } 
-            catch (org.json.simple.parser.ParseException ex) {
-                Logger.getLogger(KlantDAOJSON.class.getName()).log(Level.SEVERE, null, ex);
-            }  
-        }
-        catch (IOException ex) {
+                } catch (org.json.simple.parser.ParseException ex) {
+                    Logger.getLogger(KlantDAOJSON.class.getName()).log(Level.SEVERE, null, ex);
+               } //catch (NullPointerException ex){
+//                    ex.printStackTrace();
+//                    obj = null;                    
+//                } catch (JSONException ex){
+//                    ex.printStackTrace();
+//                }
+            
+        } catch (IOException ex) {
             System.out.println(ex.toString());
-        }
-     
-        JSONObject KlantDatabase = (JSONObject)obj;
-        
-        // de gegevens van de klanten ophalen en in jsonArray zetten
-        
-            JSONArray klantenIn = (JSONArray)(KlantDatabase.get("klanten"));
-            for (int i = 0; i < klantenIn.size(); i++) {
-                JSONObject klantIn = (JSONObject)(klantenIn.get(i));
-                long klantId = (long)(klantIn.get("klant_id"));
-                String voornaam = (String)(klantIn.get("voornaam"));
-                String achternaam = (String)(klantIn.get("achternaam"));
-                String tussenvoegsel = (String)(klantIn.get("tussenvoegsel"));
-                String email = (String)(klantIn.get("email"));
-                
-                // maak klantbuilder aan en maak klant van gegevens.
-                KlantBuilder klantBuilder = new KlantBuilder();
-                klantBuilder.klantId((int)(klantId));
-                klantBuilder.voornaam(voornaam);
-                klantBuilder.achternaam(achternaam);
-                klantBuilder.tussenvoegsel(tussenvoegsel);
-                klantBuilder.email(email);
-                
-                Klant klant = new Klant();
-                klant = klantBuilder.build();
-                klantenLijst.add(klant);
+          }
+         
+        if (obj != null){
+            try{
+
+
+            JSONObject KlantDatabase = (JSONObject)obj;
+            // de gegevens van de klanten ophalen en in jsonArray zetten
+
+                JSONArray klantenIn = (JSONArray)(KlantDatabase.get("klanten"));
+                for (int i = 0; i < klantenIn.size(); i++) {
+                    JSONObject klantIn = (JSONObject)(klantenIn.get(i));
+                    long klantId = (long)(klantIn.get("klant_id"));
+                    String voornaam = (String)(klantIn.get("voornaam"));
+                    String achternaam = (String)(klantIn.get("achternaam"));
+                    String tussenvoegsel = (String)(klantIn.get("tussenvoegsel"));
+                    String email = (String)(klantIn.get("email"));
+
+                    // maak klantbuilder aan en maak klant van gegevens.
+                    KlantBuilder klantBuilder = new KlantBuilder();
+                    klantBuilder.klantId((int)(klantId));
+                    klantBuilder.voornaam(voornaam);
+                    klantBuilder.achternaam(achternaam);
+                    klantBuilder.tussenvoegsel(tussenvoegsel);
+                    klantBuilder.email(email);
+
+                    Klant klant = new Klant();
+                    klant = klantBuilder.build();
+                    klantenLijst.add(klant);
+                }
+
+            } catch(Exception ex){
+                Logger.getLogger(KlantDAOJSON.class.getName()).log(Level.SEVERE, null, ex);
             }
+        } else
+            klantenLijst = null;
         
         return klantenLijst;
     /**
@@ -278,7 +293,7 @@ public class KlantDAOJSON implements KlantDAOInterface {
     public Klant insertKlant(Klant klant) {
         
         // eerst alle klanten ophalen in een lijst
-        ArrayList<Klant> klantenLijst = new ArrayList<>();
+        ArrayList<Klant> klantenLijst = new  ArrayList();
         Object obj = new Object();
         try {    
             JSONParser parser = new JSONParser();
@@ -330,6 +345,9 @@ public class KlantDAOJSON implements KlantDAOInterface {
         }
         else {
             nieuweKlantId = 1;
+            // nieuwe array
+             klantenLijst = new ArrayList();
+             
         }
         Klant nieuweKlant = new Klant();
         String voornaam = klant.getVoornaam();

@@ -5,8 +5,8 @@
  */
 package Controller;
 
-import DAOs.Impl.AdresDAOSQL;
-import DAOs.Impl.KlantAdresDAOSQL;
+import DAOs.Impl.MySQL.AdresDAOSQL;
+import DAOs.Impl.MySQL.KlantAdresDAOSQL;
 import DAOs.Interface.AdresDAOInterface;
 import DAOs.Interface.KlantAdresDAOInterface;
 import DAOs.Interface.ArtikelDAOInterface;
@@ -42,23 +42,23 @@ public class HoofdMenuController {
    Scanner scanner = new Scanner(System.in);
    int userInput;
    
-   /**
+   
    public void setConnectionPool() {
        userInput = hoofdMenuView.connectionPoolKeuze();
-       * if (userInput == 1) {
-       *    connectionFactory.setConnectionPool("Hikari");
-       *    setDatabase();
-       * }
-       * else is (userInput == 2) {
-       *    connectionFactory.setConnectionPool("C3p0");
-       *    setDatabase();
-       * }
-       * else {
-       *    connectionFactory.setConnectionPool("Hikari");
-       *    setDatabase();
-       * }
+        if (userInput == 1) {
+           connectionFactory.setConnectionPool("Hikari");
+           setDatabase();
+        }
+        else is (userInput == 2) {
+           connectionFactory.setConnectionPool("C3p0");
+           setDatabase();
+        }
+        else {
+           connectionFactory.setConnectionPool("Hikari");
+           setDatabase();
+       }
    }
-   */
+   
    public void setDatabase() {
        
        userInput = hoofdMenuView.databaseKeuze();

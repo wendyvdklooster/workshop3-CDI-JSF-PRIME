@@ -65,8 +65,8 @@ public class KlantController {
             case 5: 
                 terugNaarHoofdMenu();
                 break;
-            case 6: // programma afsluiten
-                hoofdMenuController.afsluiten();
+            default: 
+                System.out.println("Deze optie is niet beschikbaar.");
                 break;            
         }        
         
@@ -224,7 +224,7 @@ public class KlantController {
                                 System.out.println
                                     ("Ongeldig emailadres. Vul opnieuw uw emailadress in (bijv. hallo@hallo.com)");
                                 email = klantView.voerEmailIn();
-                                EmailValidator validator = EmailValidator.getInstance();
+                                validator = EmailValidator.getInstance();
                                 isAddressValid = validator.isValid(email);
                             }
                         klantenLijst = klantDAO.findByEmail(email);
@@ -310,7 +310,7 @@ public class KlantController {
     
     
     public void terugNaarHoofdMenu() {
-        HoofdMenuController hoofdMenuController = new HoofdMenuController();
+        hoofdMenuController = new HoofdMenuController();
         hoofdMenuController.start();
     }    
     

@@ -1,47 +1,32 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package DAOs.Impl;
+package DAOs.Impl.MySQL;
 
 import DAOs.Interface.ArtikelDAOInterface;
 import POJO.Artikel;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
-/**
- *
- * @author Wendy
- */
-public class ArtikelDAOFB implements ArtikelDAOInterface {
+
+public class ArtikelDAOSQL implements ArtikelDAOInterface {
 
     Connection con;
     ResultSet rs;
     PreparedStatement pstmt;
     Statement st;
-    String driver = "org.firebirdsql.jdbc.FBDriver";
-    String url = "jdbc:firebirdsql:localhost/3050:C:\\FBDB\\fbdb.FDB";
+    String driver = "com.mysql.jdbc.Driver";
+    String url = "jdbc:mysql://localhost:3306/winkel?autoReconnect=true&useSSL=false";
     String gebruikersNaam = "Anjewe";
     String wachtwoord = "Koetjes";
-    
+
     
     @Override
     public ArrayList<Artikel> findAll() {
-        
         ArrayList<Artikel> artikelList = new ArrayList<>();
         
         try {
             Class.forName(driver);
             con = DriverManager.getConnection(url, gebruikersNaam, wachtwoord);
-            
             String sqlQuery = "select * from artikel";
-            
             pstmt = con.prepareStatement(sqlQuery);
             rs = pstmt.executeQuery();
 
@@ -49,7 +34,7 @@ public class ArtikelDAOFB implements ArtikelDAOInterface {
                 // get the fields from one artikel and store it in an Artikel object
                 Artikel artikel = new Artikel();
                 artikel.setArtikelId(rs.getInt("artikel_id"));
-                artikel.setArtikelNaam(rs.getString("artikelnaam"));
+                artikel.setArtikelNaam(rs.getString("artikel_naam"));
                 artikel.setArtikelPrijs(rs.getDouble("artikel_prijs"));
 
                 // add the artikel in the list
@@ -59,28 +44,23 @@ public class ArtikelDAOFB implements ArtikelDAOInterface {
             System.out.println("Data search failed");
         }
 
-       return artikelList;  
+       return artikelList;
     }
 
-    
     @Override
     public Artikel findByArtikelID(int artikelID) {
-        
         Artikel artikel = new Artikel();
-        
         try {
             Class.forName(driver);
             con = DriverManager.getConnection(url, gebruikersNaam, wachtwoord);
-            
             String sqlQuery = "select * from artikel where artikel_id = ? ";
-            
             pstmt = con.prepareStatement(sqlQuery);
             pstmt.setInt(1, artikelID);
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
                 artikel.setArtikelId(rs.getInt("artikel_id"));
-                artikel.setArtikelNaam(rs.getString("artikelnaam"));
+                artikel.setArtikelNaam(rs.getString("artikel_naam"));
                 artikel.setArtikelPrijs(rs.getDouble("artikel_prijs"));
             }
             else {
@@ -93,29 +73,21 @@ public class ArtikelDAOFB implements ArtikelDAOInterface {
         catch (SQLException | ClassNotFoundException ex) {
             System.out.println("Data search failed");
         }
-        
         return artikel;
     }
 
-    
     @Override
     public Artikel findByArtikelNaam(String artikelNaam) {
-        
         Artikel artikel = new Artikel();
-        
         try {
             Class.forName(driver);
             con = DriverManager.getConnection(url, gebruikersNaam, wachtwoord);
-            
-            String SQLZoeken = "select * from artikel where artikelnaam = ? ";
-            
+            String SQLZoeken = "select * from artikel where artikel_naam = '" + artikelNaam + "'";
             pstmt = con.prepareStatement(SQLZoeken);
-            pstmt.setString(1, artikelNaam);
             rs = pstmt.executeQuery(SQLZoeken);
-            
             if (rs.next()) {
                 artikel.setArtikelId(rs.getInt("artikel_id"));
-                artikel.setArtikelNaam(rs.getString("artikelnaam"));
+                artikel.setArtikelNaam(rs.getString("artikel_naam"));
                 artikel.setArtikelPrijs(rs.getDouble("artikel_prijs"));
             } 
             else {
@@ -128,29 +100,23 @@ public class ArtikelDAOFB implements ArtikelDAOInterface {
         catch (SQLException | ClassNotFoundException ex) {
             System.out.println("Data search failed");
         }
-        
-      return artikel;
+        return artikel;
     }
 
-    
+   
     @Override
     public Artikel findByArtikelPrijs(double artikelPrijs) {
-        
         Artikel artikel = new Artikel();
-        
         try {
             Class.forName(driver);
             con = DriverManager.getConnection(url, gebruikersNaam, wachtwoord);
-            
-            String sqlQuery = "select * from artikel where artikel_prijs = ? " ;
-            
+            String sqlQuery = "select * from artikel where artikel_prijs = " + artikelPrijs;
             pstmt = con.prepareStatement(sqlQuery);
-            pstmt.setDouble(1, artikelPrijs);
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
                 artikel.setArtikelId(rs.getInt("artikel_id"));
-                artikel.setArtikelNaam(rs.getString("artikelnaam"));
+                artikel.setArtikelNaam(rs.getString("artikel_naam"));
                 artikel.setArtikelPrijs(rs.getDouble("artikel_prijs"));
             }
             else {
@@ -163,25 +129,22 @@ public class ArtikelDAOFB implements ArtikelDAOInterface {
         catch (SQLException | ClassNotFoundException ex) {
             System.out.println("Data search failed");
         }
-        
-     return artikel;
- }
+        return artikel;
 
-    
-    @Override //nog doen: AANPASSEN!
+    }
+
+    @Override
     public Artikel insertArtikel(String artikelNaam, double artikelPrijs) {
-
+        //boolean return als gelukt is? 
         Artikel artikel = new Artikel();
         int artikelId = 0;
-        
         try {
-            Class.forName(driver);
+            Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(url, gebruikersNaam, wachtwoord);
-            
-            String sqlUpdate = "insert into artikel (artikelnaam, artikel_prijs)"
+            String sqlUpdate = "insert into artikel (artikel_naam, artikel_prijs)"
                     + "values (?, ?)";
-            
             pstmt = con.prepareStatement(sqlUpdate, Statement.RETURN_GENERATED_KEYS);
+
            
             pstmt.setString(1, artikelNaam);
             pstmt.setDouble(2, artikelPrijs);
@@ -194,22 +157,21 @@ public class ArtikelDAOFB implements ArtikelDAOInterface {
                     artikelId = rs.getInt(1);
                 }
             }
-            
             artikel.setArtikelId(artikelId);
             artikel.setArtikelNaam(artikelNaam);
             artikel.setArtikelPrijs(artikelPrijs);
+        } 
+        catch (SQLException | ClassNotFoundException ex) {
+            System.out.println("Data entry failed.");
             
-        }catch (SQLException | ClassNotFoundException ex) {
-            System.out.println("Data entry failed.");            
         }                
-        
-      return artikel; 
+        return artikel;
     }
-
     
+
+    // delete methode
     @Override
     public boolean deleteArtikel(int artikelId) {
-        
         
         boolean deleted = false; 
         
@@ -231,17 +193,16 @@ public class ArtikelDAOFB implements ArtikelDAOInterface {
                      deleted = true;
              }
         }    
-        catch (ClassNotFoundException | SQLException e){            
+        catch (ClassNotFoundException | SQLException e){
             System.err.println(e.getMessage());
         }
-        
-    return deleted;  
+    return deleted;        
+       
     }
-
     
-    @Override
+    
+     @Override
     public int deleteAll() {
-        
         int rowsAffected = 0; 
         
         try{  
@@ -261,18 +222,43 @@ public class ArtikelDAOFB implements ArtikelDAOInterface {
                  rowsAffected = preparedStmt.executeUpdate();   
                  
             }
-        }catch (ClassNotFoundException | SQLException e){    
+        }    
+        catch (ClassNotFoundException | SQLException e){        
+            System.err.println("Got an exception!");
             System.err.println(e.getMessage());
         }  
         
      return rowsAffected;
-     
-   }
-
-    
-    @Override // nog doen
-    public boolean update(Artikel artikel) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    // update method
+    @Override
+    public boolean update(Artikel artikel) {
+        
+    int artikelId = artikel.getArtikelId();
+    String artikelNaam = artikel.getArtikelNaam();
+    double artikelPrijs = artikel.getArtikelPrijs();         
+        
+        
+        boolean gelukt = false;
+        try {
+            Class.forName(driver);
+            con = DriverManager.getConnection(url, gebruikersNaam, wachtwoord);
+            String sqlUpdate = "update artikel set artikel_naam = ?, artikel_prijs = ? WHERE artikel_id = ?";
+            pstmt = con.prepareStatement(sqlUpdate);
+            
+            pstmt.setString(1, artikelNaam);
+            pstmt.setDouble(2, artikelPrijs);
+            pstmt.setInt(3, artikelId);
+            
+            pstmt.executeUpdate();
+            gelukt = true;
+        } 
+        catch (SQLException | ClassNotFoundException ex) {
+            System.out.println("Update failed.");
+        }
+        
+        return gelukt;
+    }
+
 }

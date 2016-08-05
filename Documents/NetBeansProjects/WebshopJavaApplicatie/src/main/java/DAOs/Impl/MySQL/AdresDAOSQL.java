@@ -1,5 +1,5 @@
 
-package DAOs.Impl;
+package DAOs.Impl.MySQL;
 
 import DAOs.Interface.AdresDAOInterface;
 import POJO.Adres;

@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package DAOs.Impl;
+package DAOs.Impl.FireBird;
 
+import DAOs.Impl.MySQL.ArtikelDAOSQL;
+import DAOs.Impl.MySQL.BestellingArtikelDAOSQL;
+import DAOs.Impl.MySQL.BestellingDAOSQL;
 import DAOs.Interface.ArtikelDAOInterface;
 import DAOs.Interface.BestellingArtikelDAOInterface;
 import DAOs.Interface.BestellingDAOInterface;

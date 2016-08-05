@@ -5,9 +5,8 @@
  */
 package Controller;
 
-import DAOs.Impl.ArtikelDAOSQL;
-import DAOs.Impl.BestellingArtikelDAOSQL;
-import DAOs.Impl.BestellingDAOSQL;
+
+import DAOs.Interface.ArtikelDAOInterface;
 import DAOs.Interface.BestellingArtikelDAOInterface;
 import DAOs.Interface.BestellingDAOInterface;
 import POJO.Artikel;
@@ -18,7 +17,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
+import Factory.DaoFactory;
 /**
  *
  * @author Excen
@@ -28,9 +27,9 @@ import java.util.Scanner;
 public class BestellingController {
     
     BestellingView bestellingView = new BestellingView();
-    BestellingDAOInterface bestellingDAO = new BestellingDAOSQL();
-    BestellingArtikelDAOInterface bestellingArtikelDAO = new BestellingArtikelDAOSQL();
-    ArtikelDAOSQL artikelDAO = new ArtikelDAOSQL();
+    BestellingDAOInterface bestellingDAO = DaoFactory.getBestellingDao();
+    BestellingArtikelDAOInterface bestellingArtikelDAO = DaoFactory.getBestellingArtikelDao();
+    ArtikelDAOInterface artikelDAO = DaoFactory.getArtikelDao();
     
     Scanner scanner = new Scanner(System.in);
     int userInput;

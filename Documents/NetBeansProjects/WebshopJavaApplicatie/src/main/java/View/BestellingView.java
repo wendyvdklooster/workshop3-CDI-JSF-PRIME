@@ -5,7 +5,7 @@
  */
 package View;
 
-import DAOs.Impl.BestellingArtikelDAOSQL;
+import DAOs.Impl.MySQL.BestellingArtikelDAOSQL;
 import POJO.Artikel;
 import POJO.Bestelling;
 import POJO.BestellingArtikel;
