@@ -1,9 +1,4 @@
-/*
- 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package DAOs.Impl;
 
 import DAOs.Interface.KlantDAOInterface;
@@ -17,21 +12,21 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.simple.JSONArray;
 import org.json.JSONException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import Factory.DaoFactory;
-import org.apache.commons.validator.routines.EmailValidator;
+
 /**
  *
  * @author Wendy
  */
 public class KlantDAOJSON implements KlantDAOInterface {
 
+    String fileName = "C:\\Users\\Wendy\\Documents\\NetBeansProjects\\WebshopJavaApplicatie\\JsonKlant.txt";
+    
     @Override
     public ArrayList<Klant> findAllKlanten() {
         
@@ -39,7 +34,7 @@ public class KlantDAOJSON implements KlantDAOInterface {
         Object obj = new Object();
         try {    
             JSONParser parser = new JSONParser();
-            BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\Anne\\Documents\\Programmeren\\Workshops\\workshop1\\JsonProef"));
+            BufferedReader reader = new BufferedReader(new FileReader(fileName));
             // aparte try-catch voor logger anders vangt hij hem niet
             try {
                 obj = parser.parse(reader);
@@ -111,7 +106,7 @@ public class KlantDAOJSON implements KlantDAOInterface {
         Object obj = new Object();
         try {    
             JSONParser parser = new JSONParser();
-            BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\Anne\\Documents\\Programmeren\\Workshops\\workshop1\\JsonProef"));
+            BufferedReader reader = new BufferedReader(new FileReader(fileName));
             // aparte try-catch voor logger anders vangt hij hem niet
             try {
                 obj = parser.parse(reader);
@@ -160,11 +155,13 @@ public class KlantDAOJSON implements KlantDAOInterface {
     
 
     @Override
-    public Klant findByVoorNaamAchterNaam(String voorNaam, String achterNaam) {
+    public ArrayList<Klant> findByVoorNaamAchterNaam(String voorNaam, String achterNaam) {
+        
+        ArrayList<Klant> klantenLijst = new ArrayList(); 
         Object obj = new Object();
         try {    
             JSONParser parser = new JSONParser();
-            BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\Anne\\Documents\\Programmeren\\Workshops\\workshop1\\JsonProef"));
+            BufferedReader reader = new BufferedReader(new FileReader(fileName));
             // aparte try-catch voor logger anders vangt hij hem niet
             try {
                 obj = parser.parse(reader);
@@ -205,7 +202,9 @@ public class KlantDAOJSON implements KlantDAOInterface {
                     
                     //if (klant.getAchternaam().equals(voorNaam) && klant.getVoornaam().equals(achterNaam)) {
                     if (klant.getVoornaam().equals(voorNaam) && klant.getAchternaam().equals(achterNaam)) {
-                        return klant;
+                      
+                        klantenLijst.add(klant);
+                        return klantenLijst;
                     }
                 else {
                     System.out.println("Klant kan niet gevonden worden in de database.");
@@ -217,16 +216,18 @@ public class KlantDAOJSON implements KlantDAOInterface {
             }
         */
     
-            return klant;
+            return klantenLijst;
     }   
     
 
     @Override
-    public Klant findByEmail(String email) {
-       Object obj = new Object();
+    public ArrayList<Klant> findByEmail(String email) {
+       
+        ArrayList<Klant> klantenLijst = new ArrayList();
+        Object obj = new Object();
         try {    
             JSONParser parser = new JSONParser();
-            BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\Anne\\Documents\\Programmeren\\Workshops\\workshop1\\JsonProef"));
+            BufferedReader reader = new BufferedReader(new FileReader(fileName));
             // aparte try-catch voor logger anders vangt hij hem niet
             try {
                 obj = parser.parse(reader);
@@ -262,13 +263,14 @@ public class KlantDAOJSON implements KlantDAOInterface {
                 klant = klantBuilder.build();
                     
                 if (klant.getEmail().equals(emailInput)) {
-                    return klant;
+                    klantenLijst.add(klant);
+                    return klantenLijst;
                 }
                 else {
                     System.out.println("Klant kan niet gevonden worden in de database.");
                 }
         }
-        return klant;
+        return klantenLijst;
                 
     }
 
@@ -280,7 +282,7 @@ public class KlantDAOJSON implements KlantDAOInterface {
         Object obj = new Object();
         try {    
             JSONParser parser = new JSONParser();
-            BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\Anne\\Documents\\Programmeren\\Workshops\\workshop1\\JsonProef"));
+            BufferedReader reader = new BufferedReader(new FileReader(fileName));
             // aparte try-catch voor logger anders vangt hij hem niet
             try {
                 obj = parser.parse(reader);
@@ -364,7 +366,7 @@ public class KlantDAOJSON implements KlantDAOInterface {
         nieuweKlantDatabase.put("klanten", klantenOutput);
         
         // gebruik parser om de nieuwe database naar json bestand te sturen
-        File jsonFile = new File("C:\\Users\\Anne\\Documents\\Programmeren\\Workshops\\workshop1\\JsonProef");
+        File jsonFile = new File(fileName);
         try (PrintWriter output = new PrintWriter(jsonFile)) {
           output.write(nieuweKlantDatabase.toString());
         }
@@ -384,7 +386,7 @@ public class KlantDAOJSON implements KlantDAOInterface {
         Object obj = new Object();
         try {    
             JSONParser parser = new JSONParser();
-            BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\Anne\\Documents\\Programmeren\\Workshops\\workshop1\\JsonProef"));
+            BufferedReader reader = new BufferedReader(new FileReader(fileName));
             // aparte try-catch voor logger anders vangt hij hem niet
             try {
                 obj = parser.parse(reader);
@@ -421,7 +423,7 @@ public class KlantDAOJSON implements KlantDAOInterface {
             }
         klantDatabase.put("klanten", klantenIn);
         // gebruik parser om de nieuwe database naar json bestand te sturen
-        File jsonFile = new File("C:\\Users\\Anne\\Documents\\Programmeren\\Workshops\\workshop1\\JsonProef");
+        File jsonFile = new File(fileName);
         try (PrintWriter output = new PrintWriter(jsonFile)) {
           output.write(klantDatabase.toString());
         }
@@ -432,14 +434,14 @@ public class KlantDAOJSON implements KlantDAOInterface {
     }
     
 
-    @Override
+    
     public boolean deleteByKlantNaam(String achternaam, String tussenvoegsel, String voornaam) {
         
         boolean isDeleted = false;
         Object obj = new Object();
         try {    
             JSONParser parser = new JSONParser();
-            BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\Anne\\Documents\\Programmeren\\Workshops\\workshop1\\JsonProef"));
+            BufferedReader reader = new BufferedReader(new FileReader(fileName));
             // aparte try-catch voor logger anders vangt hij hem niet
             try {
                 obj = parser.parse(reader);
@@ -480,7 +482,7 @@ public class KlantDAOJSON implements KlantDAOInterface {
             }
         klantDatabase.put("klanten", klantenIn);
         // gebruik parser om de nieuwe database naar json bestand te sturen
-        File jsonFile = new File("C:\\Users\\Anne\\Documents\\Programmeren\\Workshops\\workshop1\\JsonProef");
+        File jsonFile = new File(fileName);
         try (PrintWriter output = new PrintWriter(jsonFile)) {
           output.write(klantDatabase.toString());
         }
@@ -497,7 +499,7 @@ public class KlantDAOJSON implements KlantDAOInterface {
         Object obj = new Object();
         try {    
             JSONParser parser = new JSONParser();
-            BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\Anne\\Documents\\Programmeren\\Workshops\\workshop1\\JsonProef"));
+            BufferedReader reader = new BufferedReader(new FileReader(fileName));
             // aparte try-catch voor logger anders vangt hij hem niet
             try {
                 obj = parser.parse(reader);
@@ -529,7 +531,7 @@ public class KlantDAOJSON implements KlantDAOInterface {
     
         klantDatabase.put("klanten", klantenIn);
         // gebruik parser om de nieuwe database naar json bestand te sturen
-        File jsonFile = new File("C:\\Users\\Anne\\Documents\\Programmeren\\Workshops\\workshop1\\JsonProef");
+        File jsonFile = new File(fileName);
         try (PrintWriter output = new PrintWriter(jsonFile)) {
           output.write(klantDatabase.toString());
         }
@@ -547,7 +549,7 @@ public class KlantDAOJSON implements KlantDAOInterface {
         Object obj = new Object();
         try {    
             JSONParser parser = new JSONParser();
-            BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\Anne\\Documents\\Programmeren\\Workshops\\workshop1\\JsonProef"));
+            BufferedReader reader = new BufferedReader(new FileReader(fileName));
             // aparte try-catch voor logger anders vangt hij hem niet
             try {
                 obj = parser.parse(reader);
@@ -587,7 +589,7 @@ public class KlantDAOJSON implements KlantDAOInterface {
         // schrijf gewijzigde lijst weer in json bestand
         KlantDatabase.put("klanten", klantenIn);
         // gebruik parser om de nieuwe database naar json bestand te sturen
-        File jsonFile = new File("C:\\Users\\Anne\\Documents\\Programmeren\\Workshops\\workshop1\\JsonProef");
+        File jsonFile = new File(fileName);
         try (PrintWriter output = new PrintWriter(jsonFile)) {
           output.write(KlantDatabase.toString());
         }

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package DAOs.Impl;
 
 import DAOs.Interface.KlantDAOInterface;
@@ -234,8 +230,7 @@ public class KlantDAOFB implements KlantDAOInterface {
                  rowsAffected = preparedStmt.executeUpdate();                    
             }
         }
-        catch (ClassNotFoundException | SQLException e) {
-            System.err.println("Got an exception!");
+        catch (ClassNotFoundException | SQLException e) {            
             System.err.println(e.getMessage());
         }    
         
@@ -244,8 +239,65 @@ public class KlantDAOFB implements KlantDAOInterface {
 
     @Override /// nog doen
     public Klant updateGegevens(Klant klant) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+        
+        int klantId = klant.getKlantId();
+        System.out.println(klantId);
+        String voornaam = klant.getVoornaam();
+	String tussenvoegsel = klant.getTussenvoegsel();
+	String achternaam = klant.getAchternaam();
+	String email = klant.getEmail(); 
+        
+    try {
+    // create a mysql database connection
+      
+    Class.forName(driver);
+    // create a sql date object so we can use it in our INSERT statement
+        try (Connection conn = DriverManager.getConnection(url, user, pw)) {
+
+             String sqlQuery = "update Klant set voornaam = ?, tussenvoegsel = ?, " + 
+                     "achternaam = ?, email = ? where klant_id = ? ";
+//                     + "returning adres_id,old .straatnaam, new.straatnaam";             
+
+		// create the mysql insert preparedstatement
+                PreparedStatement preparedStmt = conn.prepareStatement(sqlQuery);
+				
+                 preparedStmt.setString (1, voornaam);
+                 preparedStmt.setString (2, tussenvoegsel);
+                 preparedStmt.setString (3, achternaam);
+                 preparedStmt.setString (4, email);
+                 preparedStmt.setInt(5, klantId);
+				 
+                 int affectedRows = preparedStmt.executeUpdate();
+                 if (affectedRows == 0) {
+                    throw new SQLException("Creating user failed, no rows affected.");
+                 } 
+				
+               // Now you can extract all the records
+               // to see the updated records
+               sqlQuery = "select * from Adres where klant_id = ?";
+                       
+               preparedStmt = conn.prepareStatement(sqlQuery);
+               preparedStmt.setInt(1, klantId);
+               rs = preparedStmt.executeQuery();   
+
+               while(rs.next()){
+                    klantBuilder.klantId(rs.getInt("klant_id"));
+                    klantBuilder.voornaam(rs.getString("voornaam"));
+                    klantBuilder.tussenvoegsel(rs.getString("tussenvoegsel"));
+                    klantBuilder.achternaam(rs.getString("achternaam"));
+                    klantBuilder.email(rs.getString("email"));
+
+                    klant = klantBuilder.build();
+			    
+               }
+            }
+        }
+        catch (ClassNotFoundException | SQLException e) {      
+            System.err.println(e.getMessage());
+        }
+        
+    return klant; 
+}
 
     @Override // nog doen: AANPASSEN!
     public Klant insertKlant(Klant klant) {
@@ -276,7 +328,7 @@ public class KlantDAOFB implements KlantDAOInterface {
                 preparedStmt.setString (4, email);
                  // execute the preparedstatement
                  
-                 int affectedRows = preparedStmt.executeUpdate();
+                int affectedRows = preparedStmt.executeUpdate();
                  if (affectedRows == 0) {
                     throw new SQLException("Creating user failed, no rows affected.");
                  } 

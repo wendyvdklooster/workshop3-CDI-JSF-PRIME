@@ -186,7 +186,7 @@ public class AdresController {
         
         adres = adresDao.findByAdresID(adresId);
         gewijzigdAdres = invoerNieuweAdresGegevens(adres);
-        gewijzigdAdres = adresDao.updateGegevens(gewijzigdAdres);
+        adresDao.updateGegevens(gewijzigdAdres);
         
         System.out.println("Oude adresgegevens: ");
         adresView.printAdresOverzicht(adres);
@@ -290,15 +290,17 @@ public class AdresController {
             woonplaats = adresView.voerWoonplaatsIn();
         } 
         
+        Adres adres2 = new Adres(adresBuilder);
+        adresBuilder.adresId(adres.getAdresId());
         adresBuilder.straatnaam(straatnaam);
         adresBuilder.huisnummer(huisnummer);
         adresBuilder.toevoeging(toevoeging);
         adresBuilder.postcode(postcode);
         adresBuilder.woonplaats(woonplaats);
         
-        adres = adresBuilder.build();
+        adres2 = adresBuilder.build();
         
-        return adres;
+        return adres2;
     }
     
     
