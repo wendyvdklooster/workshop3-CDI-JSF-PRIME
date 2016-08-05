@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package DAOs.Impl;
+package DAOs.Impl.FireBird;
 
+import DAOs.Impl.MySQL.KlantAdresDAOSQL;
+import DAOs.Impl.FireBird.KlantDAOFB;
+import DAOs.Impl.FireBird.AdresDAOFB;
 import DAOs.Interface.AdresDAOInterface;
 import DAOs.Interface.KlantAdresDAOInterface;
 import DAOs.Interface.KlantDAOInterface;

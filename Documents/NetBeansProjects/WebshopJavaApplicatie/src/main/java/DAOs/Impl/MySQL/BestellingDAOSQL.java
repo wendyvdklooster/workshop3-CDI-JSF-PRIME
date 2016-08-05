@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package DAOs.Impl;
+package DAOs.Impl.MySQL;
 
 import DAOs.Interface.BestellingDAOInterface;
 import POJO.Bestelling;

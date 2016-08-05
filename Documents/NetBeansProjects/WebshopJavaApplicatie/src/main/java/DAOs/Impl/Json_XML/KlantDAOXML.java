@@ -1,5 +1,5 @@
 
-package DAOs.Impl;
+package DAOs.Impl.Json_XML;
 /**
  *
  * @author Wendy

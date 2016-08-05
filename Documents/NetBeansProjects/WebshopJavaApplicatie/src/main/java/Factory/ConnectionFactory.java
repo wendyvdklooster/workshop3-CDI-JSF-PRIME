@@ -11,27 +11,27 @@ package Factory;
  */
 public class ConnectionFactory {
     
-    /**
-     * private static String connectionPoolSetting = "Hikari";
-     * 
-     * public void setConnectionPool(String connectionPoolSetting) {
-     *  this.connectionPoolSetting = connectionPoolSetting;
-     * }
-     * 
-     * public String getConnectionPool() {
-     *  return connectionPoolSetting;
-     * }
-     * 
-     * public static Connection getConnection() {
-     *  if (connectionPoolSetting.equals("Hikari")) {
-     *      return new Hikari();
-     * }
-     * else if (connectionPoolSetting.equals("c3p0")) {
-     *      return new c3p0();
-     * }
-     * else {
-     *      return new Hikari();
-     * }
-     */
+    
+      private static String connectionPoolSetting = "Hikari";
+      
+      public void setConnectionPool(String connectionPoolSetting) {
+       this.connectionPoolSetting = connectionPoolSetting;
+      }
+      
+      public String getConnectionPool() {
+       return connectionPoolSetting;
+      }
+      
+      public static Connection getConnection() {
+       if (connectionPoolSetting.equals("Hikari")) {
+           return new Hikari();
+      }
+      else if (connectionPoolSetting.equals("c3p0")) {
+           return new c3p0();
+      }
+      else {
+           return new Hikari();
+      }
+     
     
 }
