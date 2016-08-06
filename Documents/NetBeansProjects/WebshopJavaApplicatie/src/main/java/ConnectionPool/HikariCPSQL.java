@@ -20,7 +20,7 @@ import java.sql.SQLException;
  *
  * @author Excen
  */
-public class HikariCP {
+public class HikariCPSQL {
     
     /*
     
@@ -51,7 +51,7 @@ public class HikariCP {
     private static String passwordHC = "Koetjes";
     private static String driver = "com.mysql.jdbc.Driver";
     
-    public static HikariDataSource HikariCP() {
+    public static HikariDataSource HikariCPSQL() {
 
         config.setJdbcUrl(urlHC);
         config.setUsername(userHC);
@@ -81,7 +81,7 @@ public class HikariCP {
             System.err.println("Error: " + iae.getMessage());
         }
 
-        HikariDataSource ds = HikariCP();
+        HikariDataSource ds = HikariCPSQL();
         if (con != null && !con.isClosed()) {
             con.close();
             con = null;
