@@ -44,7 +44,7 @@ public class HikariCPFB {
     private static String passwordHC = "Koetjes";
     private static String driver = "org.firebirdsql.jdbc.FBDriver";
     
-    public static HikariDataSource HikariCPFB() {
+    public static HikariDataSource GetDataSource() {
 
         config.setJdbcUrl(urlHC);
         config.setUsername(userHC);
@@ -63,7 +63,7 @@ public class HikariCPFB {
         return ds;
     }
 
-    public static Connection connectWithHikari() throws SQLException {
+    public static Connection getConnection() throws SQLException {
         try {
             Class.forName(driver).newInstance();
         } catch (ClassNotFoundException cnfe) {
@@ -74,7 +74,7 @@ public class HikariCPFB {
             System.err.println("Error: " + iae.getMessage());
         }
 
-        HikariDataSource ds = HikariCPFB();
+        HikariDataSource ds = GetDataSource();
         if (con != null && !con.isClosed()) {
             con.close();
             con = null;

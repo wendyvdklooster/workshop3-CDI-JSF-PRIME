@@ -18,7 +18,7 @@ public class C3p0CPFB {
     private static ComboPooledDataSource cpds;
     static Connection con;
 
-    public static ComboPooledDataSource C3p0CPFB() {
+    public static ComboPooledDataSource getDataSource() {
         cpds = new ComboPooledDataSource();
         // cpds.setDriverClass("com.mysql.jdbc.Driver"); //loads the jdbc driver
         cpds.setJdbcUrl("jdbc:firebirdsql:localhost/3050:C:\\FBDB\\fbdb.FDB");
@@ -37,7 +37,7 @@ public class C3p0CPFB {
     }
     
     
-    public static Connection connectWithC3p0() {
+    public static Connection getConnection() {
         try {
             Class.forName("org.firebirdsql.jdbc.FBDriver").newInstance();
         } 
@@ -45,7 +45,7 @@ public class C3p0CPFB {
             System.err.println("Error: " + ex.getMessage());
         }
 
-        ComboPooledDataSource cpds = C3p0CPFB();
+        cpds = getDataSource();
 
         try {
             if (con != null && !con.isClosed()) {

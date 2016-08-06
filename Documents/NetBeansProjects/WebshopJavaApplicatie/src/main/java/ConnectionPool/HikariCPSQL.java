@@ -51,7 +51,7 @@ public class HikariCPSQL {
     private static String passwordHC = "Koetjes";
     private static String driver = "com.mysql.jdbc.Driver";
     
-    public static HikariDataSource HikariCPSQL() {
+    public static HikariDataSource getDataSource() {
 
         config.setJdbcUrl(urlHC);
         config.setUsername(userHC);
@@ -70,7 +70,7 @@ public class HikariCPSQL {
         return ds;
     }
 
-    public static Connection connectWithHikari() throws SQLException {
+    public static Connection getConnection() throws SQLException {
         try {
             Class.forName(driver).newInstance();
         } catch (ClassNotFoundException cnfe) {
@@ -81,7 +81,7 @@ public class HikariCPSQL {
             System.err.println("Error: " + iae.getMessage());
         }
 
-        HikariDataSource ds = HikariCPSQL();
+        HikariDataSource ds = getDataSource();
         if (con != null && !con.isClosed()) {
             con.close();
             con = null;

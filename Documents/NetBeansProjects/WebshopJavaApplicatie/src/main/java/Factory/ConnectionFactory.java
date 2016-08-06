@@ -5,14 +5,29 @@
  */
 package Factory;
 
+import ConnectionPool.C3p0CPFB;
+import ConnectionPool.C3p0CPSQL;
+import ConnectionPool.HikariCPFB;
+import ConnectionPool.HikariCPSQL;
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+import com.zaxxer.hikari.HikariDataSource;
+import java.sql.Connection;
+import javax.activation.DataSource;
+import static ConnectionPool.C3p0CPFB.getDataSource;
+
+
 /**
  *
  * @author Anne
  */
 public class ConnectionFactory {
-    
-    
+      
+
+      static DaoFactory daoFactory = new DaoFactory();
+      static String databaseSetting = daoFactory.getDatabaseSetting();
+            
       private static String connectionPoolSetting = "Hikari";
+           
       
       public void setConnectionPool(String connectionPoolSetting) {
        this.connectionPoolSetting = connectionPoolSetting;
@@ -21,17 +36,27 @@ public class ConnectionFactory {
       public String getConnectionPool() {
        return connectionPoolSetting;
       }
+    
       
-      public static Connection getConnection() {
+            
+    public static HikariDataSource getHikari() {
        if (connectionPoolSetting.equals("Hikari")) {
-           return new Hikari();
+           if (databaseSetting.equals("MySQL")) {
+               return new HikariCPSQL().getDataSource();
+           }
+           else if (databaseSetting.equals("FireBird"))
+                return new HikariCPFB().GetDataSource();   
       }
-      else if (connectionPoolSetting.equals("c3p0")) {
-           return new c3p0();
+       return new HikariCPSQL().getDataSource();
+    }
+    public static ComboPooledDataSource getC3p0() {
+      if (connectionPoolSetting.equals("C3p0")) {
+          if (databaseSetting.equals("MySQL")) 
+                return new C3p0CPSQL().getDataSource();
+          else if (databaseSetting.equals("FireBird"))
+              return new C3p0CPFB().getDataSource();
       }
-      else {
-           return new Hikari();
-      }
-     
+      return new C3p0CPSQL().getDataSource();
+    }
     
 }

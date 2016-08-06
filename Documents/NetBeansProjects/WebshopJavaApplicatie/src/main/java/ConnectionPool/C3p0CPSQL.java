@@ -17,7 +17,7 @@ public class C3p0CPSQL {
     private static ComboPooledDataSource cpds;
     static Connection con;
 
-    public static ComboPooledDataSource C3p0CPSQL() {
+    public static ComboPooledDataSource getDataSource() {
         cpds = new ComboPooledDataSource();
         // cpds.setDriverClass("com.mysql.jdbc.Driver"); //loads the jdbc driver
         cpds.setJdbcUrl("jdbc:mysql://localhost:3306/winkel?autoReconnect=true&useSSL=false");
@@ -36,7 +36,7 @@ public class C3p0CPSQL {
     }
     
     
-    public static Connection connectWithC3p0() {
+    public static Connection getConnection() {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
         } 
@@ -44,7 +44,7 @@ public class C3p0CPSQL {
             System.err.println("Error: " + ex.getMessage());
         }
 
-        ComboPooledDataSource cpds = C3p0CPSQL();
+        ComboPooledDataSource cpds = getDataSource();
 
         try {
             if (con != null && !con.isClosed()) {
