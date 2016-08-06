@@ -11,13 +11,13 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
-public class C3p0 {
+public class C3p0CPSQL {
 
-    private C3p0 datasource;
+    private C3p0CPSQL datasource;
     private static ComboPooledDataSource cpds;
     static Connection con;
 
-    public static ComboPooledDataSource C3p0() {
+    public static ComboPooledDataSource C3p0CPSQL() {
         cpds = new ComboPooledDataSource();
         // cpds.setDriverClass("com.mysql.jdbc.Driver"); //loads the jdbc driver
         cpds.setJdbcUrl("jdbc:mysql://localhost:3306/winkel?autoReconnect=true&useSSL=false");
@@ -44,7 +44,7 @@ public class C3p0 {
             System.err.println("Error: " + ex.getMessage());
         }
 
-        ComboPooledDataSource cpds = C3p0();
+        ComboPooledDataSource cpds = C3p0CPSQL();
 
         try {
             if (con != null && !con.isClosed()) {
