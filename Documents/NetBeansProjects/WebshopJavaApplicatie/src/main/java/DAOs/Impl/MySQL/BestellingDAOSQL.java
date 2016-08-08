@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 /**
  *
  * @author Excen
@@ -25,6 +26,7 @@ public class BestellingDAOSQL implements BestellingDAOInterface {
     ResultSet rs;
     PreparedStatement pstmt;
     Statement st;
+    
     
     @Override
     public int insertBestelling(int klantId)  {

@@ -38,6 +38,7 @@ public class KlantDAOSQL implements KlantDAOInterface {
     KlantBuilder klantBuilder = new KlantBuilder();  
 
        
+    
     @Override  
     public ArrayList<Klant> findAllKlanten() {
        

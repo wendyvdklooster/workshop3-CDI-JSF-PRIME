@@ -34,6 +34,7 @@ public class KlantAdresDAOSQL implements KlantAdresDAOInterface {
     Statement st; 
     
     
+    
    @Override // werkt
    public ArrayList<KlantAdres> findAll(){        
         

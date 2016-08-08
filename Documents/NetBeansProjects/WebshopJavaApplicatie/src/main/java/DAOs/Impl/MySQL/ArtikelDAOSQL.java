@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
+
 public class ArtikelDAOSQL implements ArtikelDAOInterface {
 
     ConnectionFactory connectionFactory = new ConnectionFactory();
