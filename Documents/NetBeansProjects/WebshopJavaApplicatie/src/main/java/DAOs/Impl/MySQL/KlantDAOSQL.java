@@ -10,14 +10,14 @@ import Factory.ConnectionFactory;
 import POJO.Klant;
 import POJO.Klant.KlantBuilder;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList; 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+//import java.util.logging.Level;
+//import java.util.logging.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -25,7 +25,8 @@ import java.util.logging.Logger;
  */
 public class KlantDAOSQL implements KlantDAOInterface {
 
-   ConnectionFactory connectionFactory = new ConnectionFactory();
+    private final static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(KlantDAOSQL.class.getName());
+    ConnectionFactory connectionFactory = new ConnectionFactory();
     Connection con;
     ResultSet rs;
     PreparedStatement pstmt;
@@ -70,7 +71,7 @@ public class KlantDAOSQL implements KlantDAOInterface {
             con.close();
        } 
         catch(SQLException ex){
-            Logger.getLogger(KlantDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error(" ", ex);
         }
         return klantenLijst; 
     }
@@ -105,7 +106,9 @@ public class KlantDAOSQL implements KlantDAOInterface {
         }  
         con.close();      
         }
-        catch(SQLException ex){}
+        catch(SQLException ex){
+            LOGGER.error(" ", ex);
+        }
                 
         return klant; 
     }
@@ -143,7 +146,7 @@ public class KlantDAOSQL implements KlantDAOInterface {
         con.close();       
         }
         catch(SQLException ex){
-        System.out.println(ex.getMessage());
+            LOGGER.error(" ", ex);
         }
                 
         return klantenLijst;
@@ -183,7 +186,7 @@ public class KlantDAOSQL implements KlantDAOInterface {
         con.close();       
         }
         catch(SQLException ex){
-        System.out.println(ex.getMessage());
+            LOGGER.error(" ", ex);
         }
                 
         return klantenLijst;
@@ -238,8 +241,7 @@ public class KlantDAOSQL implements KlantDAOInterface {
               
         }
         catch (SQLException ex){
-            System.err.println("Got an exception!");
-            System.err.println(ex.getMessage());
+            LOGGER.error(" ", ex);
         }
     return klant;
   }  
@@ -292,9 +294,8 @@ public class KlantDAOSQL implements KlantDAOInterface {
                    }
 
         }
-        catch (SQLException e) {
-                    System.err.println("Got an exception!");
-                    System.err.println(e.getMessage());
+        catch (SQLException ex) {
+            LOGGER.error(" ", ex);
         }
 
       return klant; 
@@ -321,8 +322,8 @@ public class KlantDAOSQL implements KlantDAOInterface {
                      deleted = true;
              }
         }    
-        catch (SQLException e){
-            System.err.println(e.getMessage());
+        catch (SQLException ex){
+            LOGGER.error(" ", ex);
         }
     return deleted;
 }   
@@ -343,8 +344,8 @@ public class KlantDAOSQL implements KlantDAOInterface {
                  // execute the preparedstatement
                  rowsAffected = preparedStmt.executeUpdate();   
         
-        }catch (SQLException e) {
-            System.err.println(e.getMessage());
+        }catch (SQLException ex) {
+           LOGGER.error(" ", ex);
          }  
         
       return rowsAffected; 

@@ -1,16 +1,20 @@
 
 package View;
 
+
 import POJO.Klant;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Anne
  */
 public class KlantView {
+    private final static Logger LOGGER = LoggerFactory.getLogger(KlantView.class.getName());
     Scanner scanner = new Scanner(System.in);    
     int userInput;
          
@@ -29,7 +33,7 @@ public class KlantView {
             
         }
         catch(InputMismatchException ex){
-            System.out.print("Foute input, kies van de opties hierboven.");
+            LOGGER.warn("Foute input, kies van de opties hierboven.");
         }
         
         return userInput;        
@@ -104,7 +108,7 @@ public class KlantView {
                 } 
                 // foutafhandeling werkt niet
             }catch(InputMismatchException ex){
-                System.out.println("Error. Voer het  cijfer 1, 2, 3 in. ");
+                LOGGER.warn("Error. Voer het  cijfer 1, 2, 3 in. ");
                 scanner.nextLine();
             }
             
@@ -141,7 +145,7 @@ public class KlantView {
         //checker = false;
         
         } catch (InputMismatchException ex){
-            System.out.print("Foutieve input, kies uit de opties 1,2,3.");
+            LOGGER.warn("Foutieve input, kies uit de opties 1,2,3.");
             //scanner.nextLine();
         }
          
@@ -170,7 +174,7 @@ public class KlantView {
             } 
         }
         catch(InputMismatchException ex){
-                //code
+            LOGGER.warn("", ex);
         }
         
         return userInput; 
@@ -188,7 +192,7 @@ public class KlantView {
 
         }
         catch(InputMismatchException ex){
-            System.out.print("Foute input, kies van de opties hierboven.");
+            LOGGER.warn("Foute input, kies van de opties hierboven.");
         }
         
         return userInput;
@@ -206,7 +210,7 @@ public class KlantView {
 
         }
         catch(InputMismatchException ex){
-            System.out.print("Foute input, kies van de opties hierboven.");
+            LOGGER.warn("Foute input, kies van de opties hierboven.");
         }
         
         return userInput;
@@ -224,7 +228,7 @@ public class KlantView {
             userInput = Integer.parseInt(scanner.nextLine());        
         }
         catch(InputMismatchException ex){
-            System.out.print("Foute input, kies van de opties hierboven.");
+            LOGGER.warn("Foute input, kies van de opties hierboven.");
         }
         
         return userInput;

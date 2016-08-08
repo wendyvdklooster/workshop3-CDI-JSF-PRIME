@@ -9,6 +9,8 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -30,6 +32,7 @@ public class HikariCPFB {
     private final String driver = "org.firebirdsql.jdbc.FBDriver";
    
     */
+    private final static Logger LOGGER = LoggerFactory.getLogger(HikariCPFB.class.getName());
     
     private static Connection con;
     private static HikariConfig config = new HikariConfig();
@@ -67,11 +70,11 @@ public class HikariCPFB {
         try {
             Class.forName(driver).newInstance();
         } catch (ClassNotFoundException cnfe) {
-            System.err.println("Error: " + cnfe.getMessage());
+            LOGGER.error("Error: " + cnfe.getMessage());
         } catch (InstantiationException ie) {
-            System.err.println("Error: " + ie.getMessage());
+            LOGGER.error("Error: " + ie.getMessage());
         } catch (IllegalAccessException iae) {
-            System.err.println("Error: " + iae.getMessage());
+            LOGGER.error("Error: " + iae.getMessage());
         }
 
         HikariDataSource ds = GetDataSource();

@@ -23,6 +23,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -32,6 +33,7 @@ import java.util.logging.Logger;
 
 public class BestellingArtikelDAOFB implements BestellingArtikelDAOInterface {
     
+    private final static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(BestellingArtikelDAOFB.class.getName());
     // Info inlog FireBird
     ConnectionFactory connectionFactory = new ConnectionFactory();
     Connection con;

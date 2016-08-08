@@ -5,14 +5,17 @@
  */
 package View;
 
+import DAOs.Impl.Json_XML.KlantDAOXML;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import Factory.DaoFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  *
  * @author Anne
  */
 public class HoofdMenuView {
+    private final static Logger LOGGER = LoggerFactory.getLogger(HoofdMenuView.class.getName());
     int userInput;
     Scanner scanner = new Scanner(System.in);
     boolean checker;
@@ -27,7 +30,7 @@ public class HoofdMenuView {
             userInput = Integer.parseInt(scanner.nextLine()); 
             
         }catch(InputMismatchException ex){
-            System.out.print("Foute input, kies van de opties hierboven.");
+            LOGGER.warn("Foute input, kies van de opties hierboven.");
         }
         
         return userInput;
@@ -45,7 +48,7 @@ public class HoofdMenuView {
             userInput = Integer.parseInt(scanner.nextLine()); 
             
         }catch(InputMismatchException ex){
-            System.out.print("Foute input, kies van de opties hierboven.");
+            LOGGER.warn("Foute input, kies van de opties hierboven.");
         }
         
         return userInput;
@@ -69,7 +72,7 @@ public class HoofdMenuView {
             userInput = Integer.parseInt(scanner.nextLine()); 
             
         }catch(InputMismatchException ex){
-            System.out.print("Foute input, kies van de opties hierboven.");
+            LOGGER.warn("Foute input, kies van de opties hierboven.");
         }
         
         return userInput;
@@ -104,7 +107,7 @@ public class HoofdMenuView {
                 }                
             }
             catch(InputMismatchException ex){
-                System.out.println("Foute input, kies van de opties hierboven.");
+                LOGGER.warn("Foute input, kies van de opties hierboven.");
                 System.out.println();
                 scanner.nextLine();
             }

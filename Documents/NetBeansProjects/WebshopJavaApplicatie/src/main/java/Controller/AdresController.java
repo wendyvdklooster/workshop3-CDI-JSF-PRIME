@@ -19,13 +19,17 @@ import POJO.Adres.AdresBuilder;
 import POJO.Klant;
 import POJO.KlantAdres;
 import View.KlantView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Anne
  */
 public class AdresController {
-            
+     
+   private final static Logger LOGGER = LoggerFactory.getLogger(AdresController.class.getName());
+   
    DaoFactory daoFactory = new DaoFactory();    
    AdresDAOInterface adresDao = DaoFactory.getAdresDao();   
    KlantDAOInterface klantDao = DaoFactory.getKlantDao();

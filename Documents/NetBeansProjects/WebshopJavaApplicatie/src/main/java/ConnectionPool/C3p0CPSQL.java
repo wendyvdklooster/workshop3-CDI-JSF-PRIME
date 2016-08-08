@@ -5,14 +5,16 @@
  */
 package ConnectionPool;
 
-import java.beans.PropertyVetoException;
-import java.io.IOException;
+
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
-import com.mchange.v2.c3p0.ComboPooledDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class C3p0CPSQL {
 
+    private final static Logger LOGGER = LoggerFactory.getLogger(C3p0CPSQL.class.getName());
     private C3p0CPSQL datasource;
     private static ComboPooledDataSource cpds;
     static Connection con;
@@ -41,7 +43,7 @@ public class C3p0CPSQL {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
         } 
         catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            System.err.println("Error: " + ex.getMessage());
+            LOGGER.error("Error: ", ex);
         }
 
         ComboPooledDataSource cpds = getDataSource();
@@ -53,7 +55,7 @@ public class C3p0CPSQL {
             }
             con = cpds.getConnection();
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            LOGGER.error("Error: ", ex);
         }
         
         System.out.println("Returning c3p0 Connection " + con);

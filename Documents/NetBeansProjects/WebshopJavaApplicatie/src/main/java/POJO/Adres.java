@@ -103,13 +103,10 @@ public class Adres {
         
         public Adres build (){
             return new Adres (this);
-        }
+        }       
         
         
-        
-    }
-    
-    
+    }  
   
     
 }

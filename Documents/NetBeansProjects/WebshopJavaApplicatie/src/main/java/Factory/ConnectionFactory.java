@@ -13,8 +13,9 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.zaxxer.hikari.HikariDataSource;
 import java.sql.Connection;
 import javax.activation.DataSource;
-import static ConnectionPool.C3p0CPFB.getDataSource;
 import java.sql.SQLException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -22,7 +23,7 @@ import java.sql.SQLException;
  * @author Anne
  */
 public class ConnectionFactory {
-      
+      private final static Logger LOGGER = LoggerFactory.getLogger(ConnectionFactory.class.getName());
 
       static DaoFactory daoFactory = new DaoFactory();
       static String databaseSetting = daoFactory.getDatabaseSetting();
@@ -82,7 +83,7 @@ public class ConnectionFactory {
             con = hikari.getConnection();
         }
         catch (SQLException ex) {
-            System.out.println(ex.toString());
+            LOGGER.error(" ", ex);
         }
         return con;
     }
@@ -93,7 +94,7 @@ public class ConnectionFactory {
             con = c3p0.getConnection();
         }
         catch (SQLException ex) {
-            System.out.println(ex.toString());
+            LOGGER.error(ex.toString());
         }
         return con;
     }

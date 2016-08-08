@@ -5,7 +5,6 @@
  */
 package Factory;
 
-import Controller.HoofdMenuController;
 import DAOs.Impl.FireBird.AdresDAOFB;
 import DAOs.Impl.MySQL.AdresDAOSQL;
 import DAOs.Impl.FireBird.ArtikelDAOFB;
@@ -26,6 +25,8 @@ import DAOs.Interface.BestellingArtikelDAOInterface;
 import DAOs.Interface.BestellingDAOInterface;
 import DAOs.Interface.KlantAdresDAOInterface;
 import DAOs.Interface.KlantDAOInterface;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -33,7 +34,7 @@ import DAOs.Interface.KlantDAOInterface;
  */
 public class DaoFactory {
     
-  
+    private final static Logger LOGGER = LoggerFactory.getLogger(DaoFactory.class.getName());  
   
     private static String databaseSetting = "MySQL";
     

@@ -9,12 +9,15 @@ import POJO.Artikel;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Wendy
  */
 public class ArtikelView {
+    private final static Logger LOGGER = LoggerFactory.getLogger(ArtikelView.class.getName());
     int userInput;
     Scanner scanner = new Scanner(System.in);
     
@@ -31,7 +34,7 @@ public class ArtikelView {
              userInput = Integer.parseInt(scanner.nextLine());
         }
         catch(InputMismatchException ex){
-            System.out.print("Foute input, kies van de opties hierboven.");
+            LOGGER.warn("Foute input, kies van de opties hierboven.");
         }
         
         return userInput;
@@ -84,7 +87,7 @@ public class ArtikelView {
 
         }
         catch(InputMismatchException ex){
-            System.out.print("Foute input, kies van de opties hierboven.");
+            LOGGER.warn("Foute input, kies van de opties hierboven.");
         }
         
         return userInput;
@@ -103,7 +106,7 @@ public class ArtikelView {
             scanner.nextLine();
         }
         catch(InputMismatchException ex){
-            System.out.print("Foute input, kies van de opties hierboven.");
+            LOGGER.warn("Foute input, kies van de opties hierboven.");
         }
         
         return userInput;          
@@ -131,7 +134,7 @@ public class ArtikelView {
             scanner.nextLine();
         }
         catch(InputMismatchException ex){
-            System.out.print("Foute input, kies van de opties hierboven.");
+            LOGGER.warn("Foute input, kies van de opties hierboven.");
         }
         
         return userInput;  
@@ -154,7 +157,7 @@ public class ArtikelView {
             scanner.nextLine();
         }
         catch(InputMismatchException ex){
-            System.out.print("Foute input, kies van de opties hierboven.");
+            LOGGER.warn("Foute input, kies van de opties hierboven.");
         }
         
         return userInput;
@@ -173,7 +176,7 @@ public class ArtikelView {
             scanner.nextLine();
         }
         catch(InputMismatchException ex){
-            System.out.print("Foute input, kies van de opties hierboven.");
+            LOGGER.warn("Foute input, kies van de opties hierboven.");
         }
         
         return userInput;
@@ -187,7 +190,7 @@ public class ArtikelView {
             scanner.nextLine();
         }
         catch(InputMismatchException ex){
-            System.out.print("Foute input, voer het artikel id in.");
+            LOGGER.warn("Foute input, voer het artikel id in.");
         }
         
         return userInput;
@@ -212,7 +215,7 @@ public class ArtikelView {
             userInput = Integer.parseInt(scanner.nextLine());        
         }
         catch(InputMismatchException ex){
-            System.out.print("Foute input, kies van de opties hierboven.");
+            LOGGER.warn("Foute input, kies van de opties hierboven.");
         }
         
         return userInput;

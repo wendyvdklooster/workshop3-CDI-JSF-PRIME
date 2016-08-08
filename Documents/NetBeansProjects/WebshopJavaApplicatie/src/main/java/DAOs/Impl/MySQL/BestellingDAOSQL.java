@@ -10,8 +10,9 @@ import Factory.ConnectionFactory;
 import POJO.Bestelling;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+//import java.util.logging.Level;
+//import java.util.logging.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -20,6 +21,7 @@ import java.util.logging.Logger;
  */
 public class BestellingDAOSQL implements BestellingDAOInterface {
     
+    private final static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(BestellingDAOSQL.class.getName());
     // Info inlog SQL
     ConnectionFactory connectionFactory = new ConnectionFactory();
     Connection con;
@@ -58,7 +60,7 @@ public class BestellingDAOSQL implements BestellingDAOInterface {
 
         } 
         catch ( SQLException ex) {
-            Logger.getLogger(BestellingArtikelDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error("", ex);
         }
       return bestellingId;
     }
@@ -92,7 +94,7 @@ public class BestellingDAOSQL implements BestellingDAOInterface {
                 bestellinglijst.add(bestelling);
                 }
         } catch (SQLException ex) {
-            Logger.getLogger(BestellingDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error("", ex);
         }
     return bestellinglijst;  
     }
@@ -118,7 +120,7 @@ public class BestellingDAOSQL implements BestellingDAOInterface {
             }   
         
         } catch (SQLException ex) {
-            Logger.getLogger(BestellingDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error("", ex);
         }
      return bestelling;
     }
@@ -142,7 +144,7 @@ public class BestellingDAOSQL implements BestellingDAOInterface {
             }
             
         } catch ( SQLException ex) {
-            Logger.getLogger(BestellingDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error(" ", ex);
         }
         
         return isDeleted;
@@ -160,7 +162,7 @@ public class BestellingDAOSQL implements BestellingDAOInterface {
             pstmt.executeUpdate();
                         
         } catch ( SQLException ex) {
-            Logger.getLogger(BestellingDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
+           LOGGER.error(" ", ex);
         }
         
     }

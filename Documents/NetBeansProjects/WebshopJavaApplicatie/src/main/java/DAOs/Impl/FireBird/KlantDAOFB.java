@@ -14,6 +14,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -22,6 +23,7 @@ import java.util.logging.Logger;
  */
 public class KlantDAOFB implements KlantDAOInterface {
 
+    private final static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(KlantDAOFB.class.getName());
     ConnectionFactory connectionFactory = new ConnectionFactory();
     Connection con;
     ResultSet rs;

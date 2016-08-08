@@ -5,10 +5,12 @@ package DAOs.Impl.Json_XML;
  * @author Wendy
  */
    
+
 import DAOs.Interface.KlantDAOInterface;
 import POJO.KlantenLijst;
 import POJO.Klant;
 import POJO.Klant.KlantBuilder;
+import ch.qos.logback.classic.Level;
 import com.thoughtworks.xstream.XStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedInputStream;
@@ -21,13 +23,37 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 //import java.util.logging.Level;
 //import java.util.logging.Logger;
-import org.slf4j.Logger;
+//import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ch.qos.logback.classic.Logger;
 
 
 public class KlantDAOXML implements KlantDAOInterface {
-   private final static Logger LOGGER = LoggerFactory.getLogger(KlantDAOXML.class.getName());  
-    
+   
+   private static Logger LOGGER = (Logger) LoggerFactory.getLogger("com.KlantDAOXML");  
+   static{
+        // Logger.ROOT_LOGGER_NAME == "ROOT"           
+        LOGGER.setLevel(Level.INFO);
+
+
+        Logger barlogger = (Logger) LoggerFactory.getLogger("com.KlantDAOXML.Bar");
+
+         // This request is enabled, because WARN >= INFO
+         LOGGER.warn("Low fuel level.");
+
+         // This request is disabled, because DEBUG < INFO. 
+         LOGGER.debug("Starting search for nearest gas station.");
+
+         // The logger instance barlogger, named "com.foo.Bar", 
+         // will inherit its level from the logger named 
+         // "com.foo" Thus, the following request is enabled 
+         // because INFO >= INFO. 
+         barlogger.info("Located nearest gas station.");
+
+         // This request is disabled, because DEBUG < INFO. 
+         barlogger.debug("Exiting gas station search");
+       }
+   
    KlantBuilder klantBuilder = new KlantBuilder();
    Klant klant = new Klant (klantBuilder);
     
