@@ -25,7 +25,7 @@ import org.json.simple.parser.JSONParser;
  */
 public class KlantDAOJSON implements KlantDAOInterface {
 
-    String fileName = "C:\\Users\\Wendy\\Documents\\NetBeansProjects\\WebshopJavaApplicatie\\JsonKlant.js";
+    String fileName = "C:\\Users\\Anne\\Documents\\test4";
     
     @Override
     public ArrayList<Klant> findAllKlanten() {
@@ -53,13 +53,11 @@ public class KlantDAOJSON implements KlantDAOInterface {
             System.out.println(ex.toString());
           }
          
-        if (obj != null){
-            try{
-
-
+ 
             JSONObject KlantDatabase = (JSONObject)obj;
+            if (KlantDatabase != null) {
             // de gegevens van de klanten ophalen en in jsonArray zetten
-
+                try {
                 JSONArray klantenIn = (JSONArray)(KlantDatabase.get("klanten"));
                 for (int i = 0; i < klantenIn.size(); i++) {
                     JSONObject klantIn = (JSONObject)(klantenIn.get(i));
@@ -81,12 +79,14 @@ public class KlantDAOJSON implements KlantDAOInterface {
                     klant = klantBuilder.build();
                     klantenLijst.add(klant);
                 }
-
+            
             } catch(Exception ex){
                 Logger.getLogger(KlantDAOJSON.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else
+        }
+        else
             klantenLijst = null;
+            System.out.println("Er zijn nog geen klanten.");
         
         return klantenLijst;
     /**
@@ -161,7 +161,7 @@ public class KlantDAOJSON implements KlantDAOInterface {
                     klant = klantBuilder.build();
                 }
                 else {
-                    System.out.println("Klant kan niet gevonden worden in de database.");
+                    //System.out.println("Klant kan niet gevonden worden in de database.");
                 }
             }
         return klant;
@@ -215,16 +215,15 @@ public class KlantDAOJSON implements KlantDAOInterface {
                     klantBuilder.email(email);
                     klant = klantBuilder.build();
                     
-                    //if (klant.getAchternaam().equals(voorNaam) && klant.getVoornaam().equals(achterNaam)) {
                     if (klant.getVoornaam().equals(voorNaam) && klant.getAchternaam().equals(achterNaam)) {
                       
                         klantenLijst.add(klant);
-                        return klantenLijst;
                     }
                 else {
-                    System.out.println("Klant kan niet gevonden worden in de database.");
+                    // manier bedenken om af te vangen als leeg is?  
+                    //System.out.println("Klant kan niet gevonden worden in de database.");
                 }
-                
+              
             }
             /**catch (IOException ex) {
                  System.out.println(ex.toString());       
@@ -254,7 +253,7 @@ public class KlantDAOJSON implements KlantDAOInterface {
         catch (IOException ex) {
             System.out.println(ex.toString());
         }
-     
+        
         JSONObject KlantDatabase = (JSONObject)obj;
         
         // de naam en achternaam van de klant ophalen en in jsonArray zetten
@@ -279,10 +278,10 @@ public class KlantDAOJSON implements KlantDAOInterface {
                     
                 if (klant.getEmail().equals(emailInput)) {
                     klantenLijst.add(klant);
-                    return klantenLijst;
                 }
                 else {
-                    System.out.println("Klant kan niet gevonden worden in de database.");
+                    // hier ook; manier zoeken om af te vangen als hij niets kan vinden
+                   // System.out.println("Klant kan niet gevonden worden in de database.");
                 }
         }
         return klantenLijst;
@@ -295,6 +294,9 @@ public class KlantDAOJSON implements KlantDAOInterface {
         // eerst alle klanten ophalen in een lijst
         ArrayList<Klant> klantenLijst = new  ArrayList();
         Object obj = new Object();
+        int nieuweKlantId = 0;
+        File file = new File(fileName);
+        if (file.exists()) {
         try {    
             JSONParser parser = new JSONParser();
             BufferedReader reader = new BufferedReader(new FileReader(fileName));
@@ -309,10 +311,9 @@ public class KlantDAOJSON implements KlantDAOInterface {
         catch (IOException ex) {
             System.out.println(ex.toString());
         }
-        int nieuweKlantId;
-        JSONObject KlantDatabase = (JSONObject)obj;
-        if (KlantDatabase != null) {
-          
+        
+            
+            JSONObject KlantDatabase = (JSONObject)(obj);
         
         // de gegevens van de klanten ophalen en in jsonArray zetten
         JSONArray klantenIn = (JSONArray)(KlantDatabase.get("klanten"));
@@ -344,10 +345,8 @@ public class KlantDAOJSON implements KlantDAOInterface {
         
         }
         else {
-            nieuweKlantId = 1;
-            // nieuwe array
-             klantenLijst = new ArrayList();
-             
+            System.out.println("Bestand kan niet gevonden worden. Een nieuw bestand wordt aangemaakt.");
+            nieuweKlantId = 1; 
         }
         Klant nieuweKlant = new Klant();
         String voornaam = klant.getVoornaam();
