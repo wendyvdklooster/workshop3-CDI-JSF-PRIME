@@ -6,6 +6,8 @@
 package View;
 
 import DAOs.Impl.MySQL.BestellingArtikelDAOSQL;
+import DAOs.Interface.BestellingArtikelDAOInterface;
+import Factory.DaoFactory;
 import POJO.Artikel;
 import POJO.Bestelling;
 import POJO.BestellingArtikel;
@@ -19,9 +21,10 @@ import java.util.Scanner;
  * @author Excen
  */
 public class BestellingView {
-
-BestellingArtikelDAOSQL bestellingArtikelDAO = new BestellingArtikelDAOSQL();    
     
+BestellingArtikelDAOInterface bestellingArtikelDAO = DaoFactory.getBestellingArtikelDao();    
+
+
     // data fields
     Scanner scanner = new Scanner(System.in);
     int userInput;
@@ -152,9 +155,32 @@ BestellingArtikelDAOSQL bestellingArtikelDAO = new BestellingArtikelDAOSQL();
         for (Bestelling best: lijst){
             System.out.println("Bestelling ID: " + best.getBestellingId() + " - Klant ID: " + best.getKlantId());
         }
+
+    }
+    
+    public void printBestellingInfo(Bestelling bestelling){
+            
+            System.out.println("Bestelling ID: " + bestelling.getBestellingId());
+            System.out.println("Klant ID: " + bestelling.getKlantId());
+            System.out.println("Bestelling Datum: " + bestelling.getDatum());
+            
+        }
+    
+    public int verwijderConfirmatie(){
+        int userChoice = 0;
+        boolean checker = true;
         
+        System.out.println("Weet je zeker dat je alles wilt verwijderen?\n1 ja\n2 nee");
+        do{
+            
         
-        
-        
+        try{
+           userChoice = scanner.nextInt();
+           checker = false;
+        } catch (InputMismatchException ex){
+           System.out.println("Voer een integer in.");
+        }
+        } while (checker);
+        return userChoice;
     }
 }
