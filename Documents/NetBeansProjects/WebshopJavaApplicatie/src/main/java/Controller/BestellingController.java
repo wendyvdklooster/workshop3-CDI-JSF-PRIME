@@ -96,7 +96,7 @@ public class BestellingController {
         boolean checker = true;
 
         // voeg artikelen toe aan bestelling
-        ArrayList<BestellingArtikel>AL = new ArrayList<>();
+        ArrayList <BestellingArtikel> AL = new ArrayList<>();
         BestellingArtikel bestellingArtikel = new BestellingArtikel();
 
         // Overzicht beschikbare artikelen
@@ -145,9 +145,8 @@ public class BestellingController {
         
         int bestellingID = bestellingView.zoekBestellingInfo();
             Bestelling bestelling = bestellingDAO.findById(bestellingID);
-            System.out.println("Bestelling ID: " + bestelling.getBestellingId());
-            System.out.println("Klant ID: " + bestelling.getKlantId());
-            System.out.println("Bestelling Datum: " + bestelling.getDatum());
+            
+            bestellingView.printBestellingInfo(bestelling);
 
             ArrayList<Artikel>artikellijst = new ArrayList<>();
             artikellijst = bestellingArtikelDAO.findByBestellingId(bestellingID);
@@ -216,15 +215,7 @@ public class BestellingController {
     
     public void verwijderAlleBestellingen() {
         
-        int verwijderConfirmatie = 0;
-        
-        System.out.println("Weet je het zeker?\n1 ja\n2 nee");
-        
-        try{
-            verwijderConfirmatie = scanner.nextInt();
-        } catch (InputMismatchException ex){
-            System.out.println("Vul een van de opties in");
-        }
+        int verwijderConfirmatie = bestellingView.verwijderConfirmatie();
         
         if (verwijderConfirmatie == 1){
             bestellingDAO.deleteAll();
@@ -236,9 +227,7 @@ public class BestellingController {
             System.out.println("Verwijderen afgebroken.\n");
         }
         
-
     }
-    
     
     // Optionele methoden
     
@@ -254,13 +243,7 @@ public class BestellingController {
         return BS;
         
     }
-    
-    
-    
-    
-    
-    
-    
+  
 }
 
 /*
