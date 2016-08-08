@@ -11,11 +11,12 @@ import POJO.Adres;
 import POJO.Klant;
 import POJO.KlantAdres;
 import DAOs.Interface.KlantDAOInterface;
+import Factory.ConnectionFactory;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,13 +27,11 @@ import java.util.logging.Logger;
  */
 public class KlantAdresDAOSQL implements KlantAdresDAOInterface {
     
-    String driver = "com.mysql.jdbc.Driver";
-    String url = "jdbc:mysql://localhost:3306/winkel?autoReconnect=true&useSSL=false";
-    String user = "Anjewe"; 
-    String pw = "Koetjes"; 
+    ConnectionFactory connectionFactory = new ConnectionFactory();
     Connection con;
     ResultSet rs;
-    PreparedStatement stmt;    
+    PreparedStatement pstmt;
+    Statement st; 
     
     
    @Override // werkt
@@ -40,15 +39,14 @@ public class KlantAdresDAOSQL implements KlantAdresDAOInterface {
         
         ArrayList<KlantAdres> klantAdresLijst = new ArrayList<>();
         
-        try{
-            //load driver
-            Class.forName(driver);
-            //establish a connection
-            con = DriverManager.getConnection(url,user, pw);                 
+        try {
+        
+        Connection con = ConnectionFactory.getConnection();                  
         
             String sqlQuery = "SELECT * FROM koppelklantadres";
             
-            rs = stmt.executeQuery(sqlQuery);
+            pstmt = con.prepareStatement(sqlQuery);
+            rs = pstmt.executeQuery();
                 while (rs.next()) {
                     KlantAdres klantAdres = new KlantAdres();
                     klantAdres.setKlantId(rs.getInt("klant_id"));
@@ -59,9 +57,6 @@ public class KlantAdresDAOSQL implements KlantAdresDAOInterface {
                 }   
                 con.close();
             } 
-            catch(ClassNotFoundException ex){
-            Logger.getLogger(KlantAdresDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
-            }
             catch(SQLException ex){
             System.out.println(ex.getMessage());
          }
@@ -77,18 +72,16 @@ public class KlantAdresDAOSQL implements KlantAdresDAOInterface {
         ArrayList<Klant> klantenlijst = new ArrayList<>();
         KlantDAOInterface klantDao = new KlantDAOSQL();
         
-        try{
-            //load driver
-            Class.forName(driver);
-            //establish a connection
-            con = DriverManager.getConnection(url,user, pw);         
+        try {
+        
+        Connection con = ConnectionFactory.getConnection();          
         
             String sqlQuery = "SELECT klant_id FROM Koppelklantadres WHERE adres_id = ?";
 
-            stmt = con.prepareStatement(sqlQuery);
+            pstmt = con.prepareStatement(sqlQuery);
         
-            stmt.setInt(1, adresId);      
-            rs = stmt.executeQuery();          
+            pstmt.setInt(1, adresId);      
+            rs = pstmt.executeQuery();          
             
                 while (rs.next()) {  
                     
@@ -99,7 +92,7 @@ public class KlantAdresDAOSQL implements KlantAdresDAOInterface {
                 }  
                 con.close();       
         }
-        catch(ClassNotFoundException | SQLException ex){
+        catch(SQLException ex){
             Logger.getLogger(KlantAdresDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
         }     
         
@@ -112,18 +105,16 @@ public class KlantAdresDAOSQL implements KlantAdresDAOInterface {
         ArrayList<Adres> adressenLijst = new ArrayList<>();
         AdresDAOInterface adresDao = new AdresDAOSQL();
         
-        try{
-            //load driver
-            Class.forName(driver);
-            //establish a connection
-            con = DriverManager.getConnection(url,user, pw);
+        try {
+        
+        Connection con = ConnectionFactory.getConnection();  
             
             String sqlQuery = "SELECT adres_id FROM Koppelklantadres WHERE klant_id = ?";
         
-            stmt = con.prepareStatement(sqlQuery);  
+            pstmt = con.prepareStatement(sqlQuery);  
         
-            stmt.setInt(1, klantId);      
-            rs = stmt.executeQuery();          
+            pstmt.setInt(1, klantId);      
+            rs = pstmt.executeQuery();          
             
                 while (rs.next()) {  
                     
@@ -134,7 +125,7 @@ public class KlantAdresDAOSQL implements KlantAdresDAOInterface {
                 }  
                 con.close(); 
         } 
-        catch(ClassNotFoundException | SQLException ex){
+        catch(SQLException ex){
             Logger.getLogger(KlantAdresDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
         }  
         
@@ -146,26 +137,22 @@ public class KlantAdresDAOSQL implements KlantAdresDAOInterface {
     public boolean insertKlantAdres(int klantId, int adresId) {
         
         boolean created = false; 
-        try{
-            //load driver
-            Class.forName(driver);
-            //establish a connection
-            con = DriverManager.getConnection(url,
-                user, pw);
-                          
-            // schrijf ze weg in SQL tabel. 
+        try {
+        
+        Connection con = ConnectionFactory.getConnection();  
+             
             String sqlQuery = "INSERT INTO koppelklantadres (klant_id, adres_id) values (?, ?)";
                    
-            stmt = con.prepareStatement(sqlQuery);
+            pstmt = con.prepareStatement(sqlQuery);
            
-            stmt.setInt(1, klantId);
-            stmt.setInt(2, adresId);
+            pstmt.setInt(1, klantId);
+            pstmt.setInt(2, adresId);
        
-            stmt.executeUpdate();
+            pstmt.executeUpdate();
         
             created = true; 
         } 
-        catch(ClassNotFoundException | SQLException ex ){
+        catch(SQLException ex ){
             Logger.getLogger(KlantAdresDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -176,30 +163,26 @@ public class KlantAdresDAOSQL implements KlantAdresDAOInterface {
     @Override // werkt
     public boolean deleteAll() {
         
-        boolean deleted = false;
-        
-        try{  
+        boolean deleted = false;        
             
-        Class.forName(driver);
-             // create a sql date object so we can use it in our statement
-             try (Connection conn = DriverManager.getConnection(url, user, pw)) {
+        try {
+        
+        Connection con = ConnectionFactory.getConnection();   
                  
                  String sqlQuery = "delete from koppelklantadres";                         
                  
                  // create the mysql preparedstatement
-                 PreparedStatement preparedStmt = conn.prepareStatement(sqlQuery);
+                 PreparedStatement preparedStmt = con.prepareStatement(sqlQuery);
                                                  
                  // execute the preparedstatement
                  preparedStmt.executeUpdate();
                  
                  deleted = true; 
-             }
-        } catch (ClassNotFoundException | SQLException e)
-        {
-        System.err.println("Got an exception!");
-        System.err.println(e.getMessage());
-    }
-    return deleted; 
+             
+        } catch (SQLException e) {        
+            System.err.println(e.getMessage());
+        }
+      return deleted; 
     }
     
 
@@ -208,15 +191,14 @@ public class KlantAdresDAOSQL implements KlantAdresDAOInterface {
 
     boolean deleted = false; 
     
-      try{  
-        Class.forName(driver);
-             // create a sql date object so we can use it in our INSERT statement
-             try (Connection conn = DriverManager.getConnection(url, user, pw)) {
+      try {
+        
+        Connection con = ConnectionFactory.getConnection();   {
                  
                  String sqlQuery = "delete from koppelklantadres where adres_id = ?" ;
                  
                  // create the mysql preparedstatement
-                 PreparedStatement preparedStmt = conn.prepareStatement(sqlQuery);
+                 PreparedStatement preparedStmt = con.prepareStatement(sqlQuery);
                     
                  preparedStmt.setInt(1, adresId);
                  
@@ -227,8 +209,7 @@ public class KlantAdresDAOSQL implements KlantAdresDAOInterface {
              }
       }
     
-      catch (ClassNotFoundException | SQLException e){
-        System.err.println("Got an exception!");
+      catch (SQLException e){
         System.err.println(e.getMessage());
       }
       
@@ -236,32 +217,27 @@ public class KlantAdresDAOSQL implements KlantAdresDAOInterface {
 
     }
     
+    
     @Override
     public int deleteKlantAdresByKlantId(int klantId) {
 
     int rowsAffected = 0; 
     
-      try{  
-        Class.forName(driver);
-             // create a sql date object so we can use it in our INSERT statement
-             try (Connection conn = DriverManager.getConnection(url, user, pw)) {
+      try {
+        
+        Connection con = ConnectionFactory.getConnection();   
                  
-                 String sqlQuery = "delete from koppelklantadres where klant_id = ? " ;
-                 
-                 // create the mysql preparedstatement
-                 PreparedStatement preparedStmt = conn.prepareStatement(sqlQuery);
-                    
-                 preparedStmt.setInt(1, klantId);
-                 
-                 // execute the preparedstatement
-                 rowsAffected = preparedStmt.executeUpdate();   
-                                
-             }
-      }
-    
-      catch (ClassNotFoundException | SQLException e){
-        System.err.println("Got an exception!");
-        System.err.println(e.getMessage());
+            String sqlQuery = "delete from koppelklantadres where klant_id = ? " ;
+            // create the mysql preparedstatement
+            PreparedStatement preparedStmt = con.prepareStatement(sqlQuery);
+            preparedStmt.setInt(1, klantId);
+
+            // execute the preparedstatement
+            rowsAffected = preparedStmt.executeUpdate();  
+            
+      }    
+      catch (SQLException e){
+            System.err.println(e.getMessage());
       }
       
       return rowsAffected; 

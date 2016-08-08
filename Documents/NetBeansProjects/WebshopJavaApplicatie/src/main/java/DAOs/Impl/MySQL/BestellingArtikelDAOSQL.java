@@ -5,18 +5,18 @@
  */
 package DAOs.Impl.MySQL;
 
-import ConnectionPool.HikariCP;
 import DAOs.Interface.BestellingDAOInterface;
 import DAOs.Interface.BestellingArtikelDAOInterface;
 import DAOs.Interface.ArtikelDAOInterface;
+import Factory.ConnectionFactory;
 import POJO.Artikel;
 import POJO.Bestelling;
 import POJO.BestellingArtikel;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,17 +28,11 @@ import java.util.logging.Logger;
 public class BestellingArtikelDAOSQL implements BestellingArtikelDAOInterface {
        
     // Info inlog SQL
-    
-    
-    private final String url = "jdbc:mysql://localhost:3306/winkel?autoReconnect=true&useSSL=false";
-    private final String user = "Anjewe";
-    private final String pw = "Koetjes";
-    private final String driver = "com.mysql.jdbc.Driver";
-    
-
+    ConnectionFactory connectionFactory = new ConnectionFactory();
     Connection con;
     ResultSet rs;
-    PreparedStatement stmt;
+    PreparedStatement pstmt;
+    Statement st;
     
        
     @Override
@@ -46,11 +40,12 @@ public class BestellingArtikelDAOSQL implements BestellingArtikelDAOInterface {
         
         String sqlQuery = "delete from koppelbestellingartikel where bestelling_id = " + bestellingId + " and artikel_id = " + artikelId ;
         
-        try{             
- 
-        con = new HikariCP().connectWithHikari();
-        stmt = con.prepareStatement(sqlQuery);
-        stmt.executeUpdate();
+        try {
+        
+        Connection con = ConnectionFactory.getConnection();
+        
+        pstmt = con.prepareStatement(sqlQuery);
+        pstmt.executeUpdate();
         
         } 
         catch ( SQLException ex) {
@@ -63,11 +58,12 @@ public class BestellingArtikelDAOSQL implements BestellingArtikelDAOInterface {
 
         String sqlQuery = "delete from koppelbestellingartikel where bestelling_id = " + bestellingId;
         
-        try{
-            
-            con = DriverManager.getConnection(url, user, pw);
-            stmt = con.prepareStatement(sqlQuery);
-            stmt.executeUpdate();
+        try {
+        
+        Connection con = ConnectionFactory.getConnection();
+        
+            pstmt = con.prepareStatement(sqlQuery);
+            pstmt.executeUpdate();
 
         } 
         catch (SQLException ex) {
@@ -88,14 +84,15 @@ public class BestellingArtikelDAOSQL implements BestellingArtikelDAOInterface {
         String sqlQuery = "insert into koppelbestellingartikel (bestelling_id, artikel_id, aantal)"
         + " values (?, ?, ?)";
         
-        try{
-            
-            con = DriverManager.getConnection(url, user, pw);
-            stmt = con.prepareStatement(sqlQuery);
-            stmt.setInt(1, bestellingId);
-            stmt.setInt(2, artikelId);
-            stmt.setInt(3, artikelAantal);
-            stmt.execute();
+        try {
+        
+        Connection con = ConnectionFactory.getConnection();
+        
+            pstmt = con.prepareStatement(sqlQuery);
+            pstmt.setInt(1, bestellingId);
+            pstmt.setInt(2, artikelId);
+            pstmt.setInt(3, artikelAantal);
+            pstmt.execute();
         
         } 
         catch ( SQLException ex) {
@@ -109,14 +106,15 @@ public class BestellingArtikelDAOSQL implements BestellingArtikelDAOInterface {
         
         String sqlQuery = "update koppelbestellingartikel set aantal = ? where bestelling_id = ? and artikel_id = ?";
 
-        try{ 
-            
-            con = DriverManager.getConnection(url, user, pw);
-            stmt = con.prepareStatement(sqlQuery);
-            stmt.setInt(1, nieuwArtikelAantal);
-            stmt.setInt(2, bestellingId);
-            stmt.setInt(3, artikelId);        
-            stmt.executeUpdate();
+        try {
+        
+        Connection con = ConnectionFactory.getConnection();
+        
+            pstmt = con.prepareStatement(sqlQuery);
+            pstmt.setInt(1, nieuwArtikelAantal);
+            pstmt.setInt(2, bestellingId);
+            pstmt.setInt(3, artikelId);        
+            pstmt.executeUpdate();
         
         } 
         catch ( SQLException ex) {
@@ -131,9 +129,12 @@ public class BestellingArtikelDAOSQL implements BestellingArtikelDAOInterface {
         String sqlQuery = "delete from koppelbestellingartikel";
         
         try {
-            con = DriverManager.getConnection(url, user, pw);
-            stmt = con.prepareStatement(sqlQuery);
-            stmt.executeUpdate();
+        
+        Connection con = ConnectionFactory.getConnection();
+        
+            pstmt = con.prepareStatement(sqlQuery);
+            pstmt.executeUpdate();
+            
         } 
         catch (SQLException ex) {
             Logger.getLogger(BestellingArtikelDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -149,11 +150,11 @@ public class BestellingArtikelDAOSQL implements BestellingArtikelDAOInterface {
         String sqlQuery = "select * from koppelbestellingartikel";        
         
         try {
-            Class.forName(driver);
-            
-            con = DriverManager.getConnection(url, user, pw);
-            stmt = con.prepareStatement(sqlQuery);
-            rs = stmt.executeQuery();
+        
+        Connection con = ConnectionFactory.getConnection();
+        
+            pstmt = con.prepareStatement(sqlQuery);
+            rs = pstmt.executeQuery();
 
             while (rs.next()) {
 
@@ -166,7 +167,7 @@ public class BestellingArtikelDAOSQL implements BestellingArtikelDAOInterface {
                 bestellingArtikellijst.add(bestelling);
                 }
         } 
-        catch (ClassNotFoundException | SQLException ex) {
+        catch (SQLException ex) {
             Logger.getLogger(BestellingArtikelDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
       return bestellingArtikellijst;  
@@ -181,11 +182,11 @@ public class BestellingArtikelDAOSQL implements BestellingArtikelDAOInterface {
         String sqlQuery = "select artikel_id from koppelbestellingartikel where bestelling_id = " + bestellingId;
         
         try {
-            Class.forName(driver);        
         
-            con = DriverManager.getConnection(url, user, pw);
-            stmt = con.prepareStatement(sqlQuery);
-            rs = stmt.executeQuery();
+        Connection con = ConnectionFactory.getConnection();
+        
+            pstmt = con.prepareStatement(sqlQuery);
+            rs = pstmt.executeQuery();
 
             ArtikelDAOInterface artikelDao = new ArtikelDAOSQL();
 
@@ -198,7 +199,7 @@ public class BestellingArtikelDAOSQL implements BestellingArtikelDAOInterface {
 
                 }    
         } 
-        catch (ClassNotFoundException | SQLException ex) {
+        catch (SQLException ex) {
             Logger.getLogger(BestellingArtikelDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
     return artikelLijst;        
@@ -213,11 +214,11 @@ public class BestellingArtikelDAOSQL implements BestellingArtikelDAOInterface {
         String sqlQuery = "select bestelling_id from koppelbestellingartikel where artikel_id = " + artikelId;
         
         try {
-            Class.forName(driver);        
-
-            con = DriverManager.getConnection(url, user, pw);
-            stmt = con.prepareStatement(sqlQuery);
-            rs = stmt.executeQuery();
+        
+        Connection con = ConnectionFactory.getConnection();
+        
+            pstmt = con.prepareStatement(sqlQuery);
+            rs = pstmt.executeQuery();
 
             BestellingDAOInterface bestellingDao = new BestellingDAOSQL();
 
@@ -230,7 +231,7 @@ public class BestellingArtikelDAOSQL implements BestellingArtikelDAOInterface {
 
             }
         } 
-        catch (ClassNotFoundException | SQLException ex) {
+        catch (SQLException ex) {
             Logger.getLogger(BestellingArtikelDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
         return bestellingLijst;
@@ -247,17 +248,17 @@ public class BestellingArtikelDAOSQL implements BestellingArtikelDAOInterface {
         
         
         try {
-            Class.forName(driver);        
         
-            con = DriverManager.getConnection(url, user, pw);
-            stmt = con.prepareStatement(sqlQuery);
-            rs = stmt.executeQuery();
+        Connection con = ConnectionFactory.getConnection();
+        
+            pstmt = con.prepareStatement(sqlQuery);
+            rs = pstmt.executeQuery();
 
             while (rs.next()){
                 artikelAantal = rs.getInt("aantal"); 
             }
         } 
-        catch (ClassNotFoundException | SQLException ex) {
+        catch (SQLException ex) {
             Logger.getLogger(BestellingArtikelDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
         

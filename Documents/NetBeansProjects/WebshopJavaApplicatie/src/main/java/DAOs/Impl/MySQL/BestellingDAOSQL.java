@@ -6,6 +6,7 @@
 package DAOs.Impl.MySQL;
 
 import DAOs.Interface.BestellingDAOInterface;
+import Factory.ConnectionFactory;
 import POJO.Bestelling;
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,16 +20,11 @@ import java.util.logging.Logger;
 public class BestellingDAOSQL implements BestellingDAOInterface {
     
     // Info inlog SQL
-    
-    //EH: Replication van config (zie comment bij BestellingDAOFB.java)
-    String url = "jdbc:mysql://localhost:3306/winkel?autoReconnect=true&useSSL=false";
-    String user = "Anjewe";
-    String pw = "Koetjes";
-    String driver = "com.mysql.jdbc.Driver";
-    
+    ConnectionFactory connectionFactory = new ConnectionFactory();
     Connection con;
     ResultSet rs;
-    PreparedStatement stmt;
+    PreparedStatement pstmt;
+    Statement st;
     
     @Override
     public int insertBestelling(int klantId)  {
@@ -39,20 +35,20 @@ public class BestellingDAOSQL implements BestellingDAOInterface {
         // Schrijf waarden weg in SQL tabel.
         String sqlQuery = "insert into bestelling (klant_id, datum_aangemaakt) values (?, ?)";
         
-        try{
-        // Maak connectie 
-            con = DriverManager.getConnection(url, user, pw);
-            stmt = con.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);
-            stmt.setInt(1, klantId);
-            stmt.setDate(2, new java.sql.Date(datum.getTime()));
+       try {
+        
+        Connection con = ConnectionFactory.getConnection();
+            pstmt = con.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);
+            pstmt.setInt(1, klantId);
+            pstmt.setDate(2, new java.sql.Date(datum.getTime()));
             
-            int affectedRows = stmt.executeUpdate();
+            int affectedRows = pstmt.executeUpdate();
 
                     if (affectedRows == 0) {
                         throw new SQLException("Creating user failed, no rows affected.");
                     } 
 
-                    rs = stmt.getGeneratedKeys();
+                    rs = pstmt.getGeneratedKeys();
                     if (rs.isBeforeFirst()){
                         if (rs.next()) 
                             bestellingId = rs.getInt(1);                         
@@ -74,11 +70,11 @@ public class BestellingDAOSQL implements BestellingDAOInterface {
         String sqlQuery = "select * from Bestelling";
         
         try {
-            Class.forName(driver);
         
-            con = DriverManager.getConnection(url, user, pw);
-            stmt = con.prepareStatement(sqlQuery);
-            rs = stmt.executeQuery();
+        Connection con = ConnectionFactory.getConnection();
+        
+            pstmt = con.prepareStatement(sqlQuery);
+            rs = pstmt.executeQuery();
 
             while (rs.next()) {
 
@@ -93,7 +89,7 @@ public class BestellingDAOSQL implements BestellingDAOInterface {
                 // add bestelling in de list
                 bestellinglijst.add(bestelling);
                 }
-        } catch (ClassNotFoundException |SQLException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(BestellingDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
     return bestellinglijst;  
@@ -107,11 +103,11 @@ public class BestellingDAOSQL implements BestellingDAOInterface {
         Bestelling bestelling = new Bestelling();
         
         try {
-            Class.forName(driver);        
         
-        con = DriverManager.getConnection(url, user, pw);
-        stmt = con.prepareStatement(sqlQuery);
-        rs = stmt.executeQuery();
+        Connection con = ConnectionFactory.getConnection();
+        
+        pstmt = con.prepareStatement(sqlQuery);
+        rs = pstmt.executeQuery();
         
         while (rs.next()) {            
             
@@ -119,7 +115,7 @@ public class BestellingDAOSQL implements BestellingDAOInterface {
             bestelling.setKlantId(rs.getInt("klant_id"));
             }   
         
-        } catch (ClassNotFoundException | SQLException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(BestellingDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
      return bestelling;
@@ -130,14 +126,13 @@ public class BestellingDAOSQL implements BestellingDAOInterface {
     public boolean deleteBestelling(int bestellingId) {
         
         String sqlQuery = "delete * from bestelling where bestelling_id = " + bestellingId;
-        boolean isDeleted = false;
+        boolean isDeleted = false;        
         
+        try {
         
-        try{
-            
-            con = DriverManager.getConnection(url, user, pw);
-            stmt = con.prepareStatement(sqlQuery);
-            stmt.executeUpdate();
+        Connection con = ConnectionFactory.getConnection();
+            pstmt = con.prepareStatement(sqlQuery);
+            pstmt.executeUpdate();
             boolean bestellingFound = rs.next();
             
             if (bestellingFound){
@@ -156,11 +151,11 @@ public class BestellingDAOSQL implements BestellingDAOInterface {
         
         String sqlQuery = "delete from bestelling";
         
-        try{
-            
-            con = DriverManager.getConnection(url, user, pw);
-            stmt = con.prepareStatement(sqlQuery);
-            stmt.executeUpdate();
+       try {
+        
+        Connection con = ConnectionFactory.getConnection();
+            pstmt = con.prepareStatement(sqlQuery);
+            pstmt.executeUpdate();
                         
         } catch ( SQLException ex) {
             Logger.getLogger(BestellingDAOSQL.class.getName()).log(Level.SEVERE, null, ex);

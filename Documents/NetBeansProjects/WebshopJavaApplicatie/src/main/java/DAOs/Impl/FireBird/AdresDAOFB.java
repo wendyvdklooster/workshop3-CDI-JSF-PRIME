@@ -6,10 +6,10 @@
 package DAOs.Impl.FireBird;
 
 import DAOs.Interface.AdresDAOInterface;
+import Factory.ConnectionFactory;
 import POJO.Adres;
 import POJO.Adres.AdresBuilder;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,14 +21,12 @@ import java.util.ArrayList;
  * @author Wendy
  */
 public class AdresDAOFB implements AdresDAOInterface {
-    String driver = "org.firebirdsql.jdbc.FBDriver";
-    String url = "jdbc:firebirdsql:localhost/3050:C:\\FBDB\\fbdb.FDB";    
-  
-    String user = "Anjewe"; 
-    String pw = "Koetjes"; 
+    
+    ConnectionFactory connectionFactory = new ConnectionFactory();
     Connection con;
     ResultSet rs;
-    PreparedStatement stmt;
+    PreparedStatement pstmt;
+    Statement st;
     
     AdresBuilder adresBuilder = new AdresBuilder();
     
@@ -40,16 +38,14 @@ public class AdresDAOFB implements AdresDAOInterface {
         adresBuilder = new AdresBuilder();
         Adres adres = new Adres (adresBuilder);       
         
-        try {
-        //load driver
-        Class.forName(driver);        
-        //establish a connection
-        con = DriverManager.getConnection(url,user, pw);       
+       try {
+        
+        Connection con = ConnectionFactory.getConnection();  
         
         String sqlQuery = "SELECT ADRES_ID, STRAATNAAM, HUISNUMMER, TOEVOEGING, POSTCODE, WOONPLAATS FROM ADRES";        // select: wildcard can be used*
        
-        stmt = con.prepareStatement(sqlQuery);
-        rs = stmt.executeQuery();
+        pstmt = con.prepareStatement(sqlQuery);
+        rs = pstmt.executeQuery();
             if (rs != null) {  
                 
                 while (rs.next()){
@@ -68,7 +64,7 @@ public class AdresDAOFB implements AdresDAOInterface {
             } 
             con.close();             
         }
-        catch(SQLException | ClassNotFoundException ex){
+        catch(SQLException ex){
             ex.printStackTrace();
          }
         // arrayList van adressen 
@@ -81,15 +77,13 @@ public class AdresDAOFB implements AdresDAOInterface {
         adresBuilder = new AdresBuilder();
        
         try {
-        //load driver
-        Class.forName(driver);        
-        //establish a connection
-        con = DriverManager.getConnection(url,user, pw);       
+        
+        Connection con = ConnectionFactory.getConnection();   
             
          String sqlQuery = "select * from Adres where adres_id = ?";     
-         stmt = con.prepareStatement(sqlQuery);
-         stmt.setInt(1, adresId);
-         rs = stmt.executeQuery();
+         pstmt = con.prepareStatement(sqlQuery);
+         pstmt.setInt(1, adresId);
+         rs = pstmt.executeQuery();
          while (rs.next()) {            
             
                 adresBuilder.adresId(rs.getInt("adres_id"));
@@ -104,7 +98,7 @@ public class AdresDAOFB implements AdresDAOInterface {
             }        
             con.close();             
         }
-        catch(SQLException | ClassNotFoundException ex){
+        catch(SQLException ex){
             ex.printStackTrace();
          }
       
@@ -118,15 +112,13 @@ public class AdresDAOFB implements AdresDAOInterface {
         Adres adres = new Adres (adresBuilder);  
        
         try {
-        //load driver
-        Class.forName(driver);        
-        //establish a connection
-        con = DriverManager.getConnection(url,user, pw);       
+        
+        Connection con = ConnectionFactory.getConnection();     
     
         String sqlQuery = "select * from adres a where a.straatnaam = ? ";
-        stmt = con.prepareStatement(sqlQuery);
-         stmt.setString(1, straatnaam);
-         rs = stmt.executeQuery();
+        pstmt = con.prepareStatement(sqlQuery);
+         pstmt.setString(1, straatnaam);
+         rs = pstmt.executeQuery();
          while (rs.next()) {            
             
                 adresBuilder.adresId(rs.getInt("adres_id"));
@@ -143,7 +135,7 @@ public class AdresDAOFB implements AdresDAOInterface {
             }        
             con.close();             
         }
-        catch(SQLException | ClassNotFoundException ex){
+        catch(SQLException ex){
             ex.printStackTrace();
          }
         
@@ -158,16 +150,14 @@ public class AdresDAOFB implements AdresDAOInterface {
         Adres adres = new Adres (adresBuilder);  
        
         try {
-        //load driver
-        Class.forName(driver);        
-        //establish a connection
-        con = DriverManager.getConnection(url,user, pw);       
+        
+        Connection con = ConnectionFactory.getConnection();    
     
         String sqlQuery = "select * from adres a where a.postcode = ? and a.huisnummer = ? "; 
-        stmt = con.prepareStatement(sqlQuery);
-         stmt.setString(1, postcode);
-         stmt.setInt(2, huisnummer);
-         rs = stmt.executeQuery();
+        pstmt = con.prepareStatement(sqlQuery);
+         pstmt.setString(1, postcode);
+         pstmt.setInt(2, huisnummer);
+         rs = pstmt.executeQuery();
          while (rs.next()) {            
             
                 adresBuilder.adresId(rs.getInt("adres_id"));
@@ -184,7 +174,7 @@ public class AdresDAOFB implements AdresDAOInterface {
             }        
             con.close();             
         }
-        catch(SQLException | ClassNotFoundException ex){
+        catch(SQLException ex){
             ex.printStackTrace();
          }      
        
@@ -199,15 +189,13 @@ public class AdresDAOFB implements AdresDAOInterface {
         Adres adres = new Adres (adresBuilder);  
        
         try {
-        //load driver
-        Class.forName(driver);        
-        //establish a connection
-        con = DriverManager.getConnection(url,user, pw);       
+        
+        Connection con = ConnectionFactory.getConnection();  
     
         String sqlQuery = "select * from adres where woonplaats = ? ";
-        stmt = con.prepareStatement(sqlQuery);
-         stmt.setString(1, woonplaats);         
-         rs = stmt.executeQuery();
+        pstmt = con.prepareStatement(sqlQuery);
+         pstmt.setString(1, woonplaats);         
+         rs = pstmt.executeQuery();
          while (rs.next()) {            
             
                 adresBuilder.adresId(rs.getInt("adres_id"));
@@ -224,7 +212,7 @@ public class AdresDAOFB implements AdresDAOInterface {
             }        
             con.close();             
         }
-        catch(SQLException | ClassNotFoundException ex){
+        catch(SQLException ex){
             ex.printStackTrace();
          }      
        
@@ -247,12 +235,10 @@ public class AdresDAOFB implements AdresDAOInterface {
         String sqlQuery = "insert into adres (straatnaam, huisnummer," +
                          " toevoeging, postcode, woonplaats) values (?, ?, ?, ?,?)";
        try {
-        // create a mysql database connection
-            Class.forName(driver);
-             // create a sql date object so we can use it in our INSERT statement
-            Connection conn = DriverManager.getConnection(url, user, pw);                
+        
+        Connection con = ConnectionFactory.getConnection();              
                 // create the mysql insert preparedstatement               
-                 PreparedStatement preparedStmt = conn.prepareStatement(sqlQuery,
+                 PreparedStatement preparedStmt = con.prepareStatement(sqlQuery,
                          Statement.RETURN_GENERATED_KEYS) ;
                 
                  preparedStmt.setString (1, straatnaam);
@@ -285,7 +271,7 @@ public class AdresDAOFB implements AdresDAOInterface {
                 adres = adresBuilder.build();
                 
             }
-            catch (SQLException | ClassNotFoundException e){
+            catch (SQLException e){
                 System.err.println("Got an exception!");
                 System.err.println(e.getMessage());
             }
@@ -298,24 +284,22 @@ public class AdresDAOFB implements AdresDAOInterface {
     public boolean deleteAdres(int adresId) {
         boolean deleted = false; 
         
-        try{  
-          Class.forName(driver);
-            // create a sql date object so we can use it in our INSERT statement
-            try (Connection conn = DriverManager.getConnection(url, user, pw)) {
+        try {
+        
+        Connection con = ConnectionFactory.getConnection();  
 
                 String sqlQuery = "delete from adres where adres_id = ? " ;
 
                 // create the mysql insert preparedstatement
-                PreparedStatement preparedStmt = conn.prepareStatement(sqlQuery);
+                PreparedStatement preparedStmt = con.prepareStatement(sqlQuery);
                 preparedStmt.setInt(1, adresId);                      
                 // execute the preparedstatement
                 preparedStmt.executeUpdate();
 
                 deleted = true; 
-
-            }
+            
         }    
-        catch (ClassNotFoundException | SQLException ex) {            
+        catch (SQLException ex) {            
             ex.printStackTrace();
         }
         return deleted;
@@ -326,26 +310,22 @@ public class AdresDAOFB implements AdresDAOInterface {
     public boolean deleteAll() {
          boolean deleted = false;
         
-        try{  
-            
-            Class.forName(driver);
-             // create a sql date object so we can use it in our INSERT statement
-             try (Connection conn = DriverManager.getConnection(url, user, pw)) {
-                 // create a sql date object so we can use it in our INSERT statement
-                 
-                 // the mysql insert statement
+       try {
+        
+        Connection con = ConnectionFactory.getConnection();  
+        
                  String sqlQuery = "delete from adres";                         
                  
-                 // create the mysql insert preparedstatement
-                 PreparedStatement preparedStmt = conn.prepareStatement(sqlQuery);
+                 // create the mysql preparedstatement
+                 PreparedStatement preparedStmt = con.prepareStatement(sqlQuery);
                                                  
                  // execute the preparedstatement
                  preparedStmt.executeUpdate();
                  
                  deleted = true; 
-             }
+             
         }    
-        catch (ClassNotFoundException | SQLException ex){
+        catch (SQLException ex){
             ex.printStackTrace();
         }
       return deleted; 
@@ -362,18 +342,14 @@ public class AdresDAOFB implements AdresDAOInterface {
 	String woonplaats = adres.getWoonplaats(); 
         
     try {
-    // create a mysql database connection
-      
-    Class.forName(driver);
-    // create a sql date object so we can use it in our INSERT statement
-        try (Connection conn = DriverManager.getConnection(url, user, pw)) {
-
+        
+        Connection con = ConnectionFactory.getConnection();  
              String sqlQuery = "update Adres set straatnaam = ?, huisnummer = ?, toevoeging = ?,"
                 + "postcode = ?, woonplaats = ? where adres_id = ? ";
 //                     + "returning adres_id,old .straatnaam, new.straatnaam";             
 
-		// create the mysql insert preparedstatement
-                PreparedStatement preparedStmt = conn.prepareStatement(sqlQuery);
+		// create the mysql  preparedstatement
+                PreparedStatement preparedStmt = con.prepareStatement(sqlQuery);
 				
                  preparedStmt.setString (1, straatnaam);
                  preparedStmt.setInt (2, huisnummer);
@@ -393,7 +369,7 @@ public class AdresDAOFB implements AdresDAOInterface {
     
                sqlQuery = "select * from Adres where adres_id = ?";
                        
-               preparedStmt = conn.prepareStatement(sqlQuery);
+               preparedStmt = con.prepareStatement(sqlQuery);
                preparedStmt.setInt(1, adresId);
                rs = preparedStmt.executeQuery();   
 
@@ -408,9 +384,9 @@ public class AdresDAOFB implements AdresDAOInterface {
                     adres = adresBuilder.build();
 			    
                }
-            }
+            
         }
-        catch (ClassNotFoundException | SQLException e) {
+        catch (SQLException e) {
                     
                     System.err.println(e.getMessage());
         }
