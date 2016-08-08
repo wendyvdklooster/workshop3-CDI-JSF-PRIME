@@ -17,13 +17,13 @@ public class HoofdMenuView {
     Scanner scanner = new Scanner(System.in);
     boolean checker;
     
-    /**
-     * public int connectionPoolKeuze() {
-     *  System.out.println("Met welke connection pool wilt u werken?");
-     *  System.out.println("1. Hikari.");
-     *  System.out.println("2. C3p0.");
-     *  
-     *  ry{
+    
+      public int connectionPoolKeuze() {
+       System.out.println("Met welke connection pool wilt u werken?");
+       System.out.println("1. Hikari.");
+       System.out.println("2. C3p0.");
+       
+       try{
             userInput = Integer.parseInt(scanner.nextLine()); 
             
         }catch(InputMismatchException ex){
@@ -32,7 +32,7 @@ public class HoofdMenuView {
         
         return userInput;
     }  
-     */
+     
     
     public int databaseKeuze() {
         System.out.println("In welke database wilt u werken?");
@@ -62,7 +62,8 @@ public class HoofdMenuView {
         System.out.println("2. Werken in artikelbestand");
         System.out.println("3. Werken in bestellingbestand");
         System.out.println("4. Werken in adresbestand");
-        System.out.println("5. Programma afsluiten");
+        System.out.println("5. Wisselen van Database/connectionpool");
+        System.out.println("6. Programma afsluiten");
         
         try{
             userInput = Integer.parseInt(scanner.nextLine()); 

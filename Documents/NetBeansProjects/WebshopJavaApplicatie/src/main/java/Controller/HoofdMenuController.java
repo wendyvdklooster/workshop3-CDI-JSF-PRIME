@@ -20,6 +20,10 @@ import View.HoofdMenuView;
 import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
+import Factory.ConnectionFactory;
 
 
 
@@ -38,6 +42,7 @@ public class HoofdMenuController {
    
    HoofdMenuView hoofdMenuView = new HoofdMenuView(); 
    DaoFactory daoFactory = new DaoFactory();
+   ConnectionFactory connectionFactory = new ConnectionFactory();
     
    Scanner scanner = new Scanner(System.in);
    int userInput;
@@ -49,7 +54,7 @@ public class HoofdMenuController {
            connectionFactory.setConnectionPool("Hikari");
            setDatabase();
         }
-        else is (userInput == 2) {
+        else if (userInput == 2) {
            connectionFactory.setConnectionPool("C3p0");
            setDatabase();
         }
@@ -106,7 +111,10 @@ public class HoofdMenuController {
                 case 4:// ga naar adresmenu
                     adresController.adresMenu();                
                     break;
-                case 5: 
+                case 5: // switch van db/connectionpool
+                    setDatabase();
+                    break;
+                case 6: 
                     afsluiten();
                     break;
                 default:

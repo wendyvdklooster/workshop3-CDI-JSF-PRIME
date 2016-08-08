@@ -8,6 +8,7 @@ package Controller;
 import DAOs.Impl.MySQL.KlantAdresDAOSQL;
 import DAOs.Interface.AdresDAOInterface;
 import DAOs.Interface.KlantAdresDAOInterface;
+import DAOs.Interface.KlantDAOInterface;
 import POJO.Adres;
 import View.AdresView;
 import View.HoofdMenuView;
@@ -15,6 +16,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import Factory.DaoFactory;
 import POJO.Adres.AdresBuilder;
+import POJO.Klant;
+import POJO.KlantAdres;
+import View.KlantView;
 
 /**
  *
@@ -23,12 +27,15 @@ import POJO.Adres.AdresBuilder;
 public class AdresController {
             
    DaoFactory daoFactory = new DaoFactory();    
-   AdresDAOInterface adresDao = DaoFactory.getAdresDao();    
+   AdresDAOInterface adresDao = DaoFactory.getAdresDao();   
+   KlantDAOInterface klantDao = DaoFactory.getKlantDao();
    KlantAdresDAOInterface klantAdresDao = DaoFactory.getKlantAdresDao();        
    HoofdMenuView hoofdMenuView = new HoofdMenuView(); 
    
    AdresView adresView = new AdresView();
+   KlantView klantView = new KlantView();
    Adres adres;    
+   Klant klant;
    AdresBuilder adresBuilder = new AdresBuilder();
    KlantController klantController = new KlantController();
    ArrayList<Adres> adressenLijst = new ArrayList();
@@ -61,7 +68,9 @@ public class AdresController {
             case 4:
                 verwijderAdresGegevens();
                 break;
-            case 5: 
+            case 5: zoekAdresKlantGegevens();
+                break;
+            case 6: 
                 terugNaarHoofdMenu();                   
                 break;
             default:
@@ -115,28 +124,33 @@ public class AdresController {
                 // één adres zoeken
                 userInput = adresView.hoeWiltUZoeken();
                 switch (userInput) {
-                    case 1:
+                    case 1: // zoek op adresId
                         int adresId = adresView.voerAdresIdIn();
                         adres = adresDao.findByAdresID(adresId);
                         adresView.printAdresOverzicht(adres);
                         break;
-                    case 2: 
+                    case 2: // zoek adressen op klantId
+                        int klantId = klantView.voerKlantIdIn();
+                        ArrayList<Adres>adressenLijst = klantAdresDao.findAdresByKlantId(klantId);
+                        adresView.printAdressenLijst(adressenLijst);
+                        break;
+                    case 3: // zoek op straatnaam
                         String straatnaam = adresView.voerStraatnaamIn();
                         adressenLijst = adresDao.findByStraatNaam(straatnaam);
                         adresView.printAdressenLijst(adressenLijst);
                         break;
-                    case 3:
+                    case 4: // zoek op postcode huisnummer
                         String postcode = adresView.voerPostcodeIn();
                         int huisnummer = adresView.voerHuisnummerIn();
                         adressenLijst = adresDao.findByPostcodeHuisNummer(postcode, huisnummer);
                         adresView.printAdressenLijst(adressenLijst);
                         break;
-                    case 4:
+                    case 5: // zoek op woonplaats
                         String woonplaats = adresView.voerWoonplaatsIn();
                         adressenLijst = adresDao.findByWoonplaats(woonplaats);
                         adresView.printAdressenLijst(adressenLijst);
                         break;
-                    case 5:
+                    case 6:
                         break; // doorsturen einde switch; terug naar adres menu
                     default: 
                         break;
@@ -348,6 +362,48 @@ public class AdresController {
         adresMenu();      
            
     }
+    
+    public void zoekAdresKlantGegevens(){
+       int klantId; 
+       userInput = adresView.menuAdresKlantZoeken();
+       switch(userInput){
+           case 1: // adres(sen) bij klantId
+               klantId = klantView.voerKlantIdIn();
+               ArrayList<Adres>adressenLijst = klantAdresDao.findAdresByKlantId(klantId);
+               adresView.printAdressenLijst(adressenLijst);
+               break;
+           case 2: // alle adressen bij klanten opzoeken
+               ArrayList<KlantAdres> klantAdresLijst = klantAdresDao.findAll();
+               adresView.printKlantAdresLijst(klantAdresLijst);
+               int keuze = adresView.alleKoppellingenUitgeprint();
+               switch(keuze){
+                   case 1: // ja
+                        for (int i = 0 ; i < klantAdresLijst.size(); i++){
+                            int adresId = klantAdresLijst.get(i).getAdresId();
+                            klantId = klantAdresLijst.get(i).getKlantId();
+                            adres = adresDao.findByAdresID(adresId);
+                            Klant klant = klantDao.findByKlantId(klantId);
+                            System.out.println("Onderstaand adres:");
+                            adresView.printAdresOverzicht(adres);                           
+                            System.out.println("hoort bij: ");
+                            klantView.printKlantGegevens(klant);
+                            
+                        }
+                            break;
+                    case 2: // nee   
+                        break;
+               
+               }
+               break;
+           case 3:
+                break;
+            default:
+                break;
+           
+       }
+       adresMenu();
+    }
+    
     
     public void terugNaarHoofdMenu() {
         HoofdMenuController hoofdMenuController = new HoofdMenuController();
