@@ -6,9 +6,9 @@
 package DAOs.Impl.FireBird;
 
 import DAOs.Interface.ArtikelDAOInterface;
+import Factory.ConnectionFactory;
 import POJO.Artikel;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,14 +21,11 @@ import java.util.ArrayList;
  */
 public class ArtikelDAOFB implements ArtikelDAOInterface {
 
+    ConnectionFactory connectionFactory = new ConnectionFactory();
     Connection con;
     ResultSet rs;
     PreparedStatement pstmt;
     Statement st;
-    String driver = "org.firebirdsql.jdbc.FBDriver";
-    String url = "jdbc:firebirdsql:localhost/3050:C:\\FBDB\\fbdb.FDB";
-    String gebruikersNaam = "Anjewe";
-    String wachtwoord = "Koetjes";
     
     
     @Override
@@ -36,9 +33,9 @@ public class ArtikelDAOFB implements ArtikelDAOInterface {
         
         ArrayList<Artikel> artikelList = new ArrayList<>();
         
-        try {
-            Class.forName(driver);
-            con = DriverManager.getConnection(url, gebruikersNaam, wachtwoord);
+       try {
+        
+        Connection con = ConnectionFactory.getConnection();  
             
             String sqlQuery = "select * from artikel";
             
@@ -55,7 +52,7 @@ public class ArtikelDAOFB implements ArtikelDAOInterface {
                 // add the artikel in the list
                 artikelList.add(artikel);
             }
-        } catch (SQLException | ClassNotFoundException ex) {
+        } catch (SQLException ex) {
             System.out.println("Data search failed");
         }
 
@@ -69,8 +66,8 @@ public class ArtikelDAOFB implements ArtikelDAOInterface {
         Artikel artikel = new Artikel();
         
         try {
-            Class.forName(driver);
-            con = DriverManager.getConnection(url, gebruikersNaam, wachtwoord);
+        
+        Connection con = ConnectionFactory.getConnection();  
             
             String sqlQuery = "select * from artikel where artikel_id = ? ";
             
@@ -90,7 +87,7 @@ public class ArtikelDAOFB implements ArtikelDAOInterface {
         catch (NullPointerException ex) {
             System.out.println("Dit artikel naam bestaat niet, probeer opnieuw. ");
         } 
-        catch (SQLException | ClassNotFoundException ex) {
+        catch (SQLException ex) {
             System.out.println("Data search failed");
         }
         
@@ -104,8 +101,8 @@ public class ArtikelDAOFB implements ArtikelDAOInterface {
         Artikel artikel = new Artikel();
         
         try {
-            Class.forName(driver);
-            con = DriverManager.getConnection(url, gebruikersNaam, wachtwoord);
+        
+        Connection con = ConnectionFactory.getConnection();  
             
             String SQLZoeken = "select * from artikel where artikelnaam = ? ";
             
@@ -125,7 +122,7 @@ public class ArtikelDAOFB implements ArtikelDAOInterface {
         catch (NullPointerException ex) {
             System.out.println("Dit artikel naam bestaat niet, probeer opnieuw. ");
         } 
-        catch (SQLException | ClassNotFoundException ex) {
+        catch (SQLException ex) {
             System.out.println("Data search failed");
         }
         
@@ -139,8 +136,8 @@ public class ArtikelDAOFB implements ArtikelDAOInterface {
         Artikel artikel = new Artikel();
         
         try {
-            Class.forName(driver);
-            con = DriverManager.getConnection(url, gebruikersNaam, wachtwoord);
+        
+        Connection con = ConnectionFactory.getConnection();  
             
             String sqlQuery = "select * from artikel where artikel_prijs = ? " ;
             
@@ -160,7 +157,7 @@ public class ArtikelDAOFB implements ArtikelDAOInterface {
         catch (NullPointerException ex) {
             System.out.println("Dit artikel naam bestaat niet, probeer opnieuw.");    
         } 
-        catch (SQLException | ClassNotFoundException ex) {
+        catch (SQLException ex) {
             System.out.println("Data search failed");
         }
         
@@ -174,9 +171,9 @@ public class ArtikelDAOFB implements ArtikelDAOInterface {
         Artikel artikel = new Artikel();
         int artikelId = 0;
         
-        try {
-            Class.forName(driver);
-            con = DriverManager.getConnection(url, gebruikersNaam, wachtwoord);
+      try {
+        
+        Connection con = ConnectionFactory.getConnection();  
             
             String sqlUpdate = "insert into artikel (artikelnaam, artikel_prijs)"
                     + "values (?, ?)";
@@ -199,7 +196,7 @@ public class ArtikelDAOFB implements ArtikelDAOInterface {
             artikel.setArtikelNaam(artikelNaam);
             artikel.setArtikelPrijs(artikelPrijs);
             
-        }catch (SQLException | ClassNotFoundException ex) {
+        }catch (SQLException ex) {
             System.out.println("Data entry failed.");            
         }                
         
@@ -213,25 +210,22 @@ public class ArtikelDAOFB implements ArtikelDAOInterface {
         
         boolean deleted = false; 
         
-        try{  
-        Class.forName(driver);
-             // create a sql date object so we can use it in our INSERT statement
-             try (Connection conn = DriverManager.getConnection(url, gebruikersNaam, wachtwoord)) {
-                 // create a sql date object so we can use it in our INSERT statement
+       try {
+        
+        Connection con = ConnectionFactory.getConnection();  
                  
-                 // the mysql insert statement.first parent, than child
                  String sqlQuery = "delete from artikel where artikel_id =  ? " ;                 
                  
-                 // create the mysql insert preparedstatement
-                 PreparedStatement preparedStmt = conn.prepareStatement(sqlQuery);                
+                 // create the mysql  preparedstatement
+                 PreparedStatement preparedStmt = con.prepareStatement(sqlQuery);                
                    preparedStmt.setInt(1, artikelId);
                  // execute the preparedstatement
                  int rowsAffected = preparedStmt.executeUpdate(); 
                  if (rowsAffected != 0)
                      deleted = true;
-             }
+             
         }    
-        catch (ClassNotFoundException | SQLException e){            
+        catch (SQLException e){            
             System.err.println(e.getMessage());
         }
         
@@ -244,24 +238,19 @@ public class ArtikelDAOFB implements ArtikelDAOInterface {
         
         int rowsAffected = 0; 
         
-        try{  
-            
-        Class.forName(driver);
-             // create a sql date object so we can use it in our INSERT statement
-             try (Connection conn = DriverManager.getConnection(url, gebruikersNaam, wachtwoord)) {
-                 // create a sql date object so we can use it in our INSERT statement
-                 
-                 // the mysql insert statement
+        try {
+        
+        Connection con = ConnectionFactory.getConnection();  
                  String sqlQuery = "delete from artikel";                         
                  
-                 // create the mysql insert preparedstatement
-                 PreparedStatement preparedStmt = conn.prepareStatement(sqlQuery);
+                 // create the mysql preparedstatement
+                 PreparedStatement preparedStmt = con.prepareStatement(sqlQuery);
                                                  
                  // execute the preparedstatement
                  rowsAffected = preparedStmt.executeUpdate();   
                  
-            }
-        }catch (ClassNotFoundException | SQLException e){    
+            
+        }catch (SQLException e){    
             System.err.println(e.getMessage());
         }  
         

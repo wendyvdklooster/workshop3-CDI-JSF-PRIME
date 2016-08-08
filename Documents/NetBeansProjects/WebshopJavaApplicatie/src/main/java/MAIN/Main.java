@@ -13,6 +13,8 @@ import POJO.Adres.AdresBuilder;
 import POJO.Artikel;
 import POJO.Klant;
 import POJO.Klant.KlantBuilder;
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.core.util.StatusPrinter;
 import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -32,24 +34,33 @@ public class Main {
     
     public static void main (String[]args) throws SQLException, ClassNotFoundException, FileNotFoundException{
     
+         
+//        // assume SLF4J is bound to logback in the current environment
+//        LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
+//        // print logback's internal status
+//        StatusPrinter.print(lc);
+LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
+  lc.setPackagingDataEnabled(true);
+
+      
+        HoofdMenuController start = new HoofdMenuController();
+            start.setConnectionPool();
+
         
-        
-        String driver = "com.mysql.jdbc.Driver";
-        String url = "jdbc:mysql://localhost:3306/winkel?autoReconnect=true&useSSL=false";
-        //String url = "jdbc:mysql://localhost:3306/winkel";
-        String user = "Anjewe"; 
-        String pw = "Koetjes"; 
-        Connection con;
-        ResultSet rs;
-        PreparedStatement stmt;   
+//        String driver = "com.mysql.jdbc.Driver";
+//        String url = "jdbc:mysql://localhost:3306/winkel?autoReconnect=true&useSSL=false";
+//        //String url = "jdbc:mysql://localhost:3306/winkel";
+//        String user = "Anjewe"; 
+//        String pw = "Koetjes"; 
+//        Connection con;
+//        ResultSet rs;
+//        PreparedStatement stmt;   
 
 //        KlantDAOXML start = new KlantDAOXML();
 //        start.insertKlant();
 //        start.findAll();
         
-        
-        HoofdMenuController start = new HoofdMenuController();
-            start.setDatabase();
+      
             
       
         /* 

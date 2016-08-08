@@ -6,6 +6,7 @@
 package View;
 
 import POJO.Adres;
+import POJO.KlantAdres;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -26,7 +27,8 @@ public class AdresView {
         System.out.println("2. Adresgegevens opzoeken.");
         System.out.println("3. Adresgegevens wijzigen.");
         System.out.println("4. Adresgegevens verwijderen.");
-        System.out.println("5. Terug naar het hoofdmenu.");
+        System.out.println("5. Adres, klantkoppelingen zoeken");
+        System.out.println("6. Terug naar het hoofdmenu.");
         
         try {
              userInput = Integer.parseInt(scanner.nextLine());
@@ -102,6 +104,7 @@ public class AdresView {
         System.out.println("Toevoeging: " + adres.getToevoeging());
         System.out.println("Postcode: " + adres.getPostcode());
         System.out.println("Woonplaats: " + adres.getWoonplaats());
+        System.out.println();
     }
     
     public int menuAdresZoeken(){
@@ -122,13 +125,33 @@ public class AdresView {
         return userInput;
     }
     
+     public int menuAdresKlantZoeken(){
+        
+        System.out.println("Wat wilt u zoeken in het adres-klantbestand?");
+        System.out.println("1. Adres(sen) bij klant Id opzoeken.");
+        System.out.println("2. Alle adressen bij klanten opzoeken.");
+        System.out.println("3. Terug naar adres menu.");
+        
+        try{
+            userInput = Integer.parseInt(scanner.nextLine());            
+
+        }
+        catch(InputMismatchException ex){
+            System.out.print("Foute input, kies van de opties hierboven.");
+        }
+        
+        return userInput;
+    }
+    
+    
     public int hoeWiltUZoeken() {
         System.out.println("Kies met wat u wilt zoeken.");
         System.out.println("1. Adres id.");
-        System.out.println("2. Straatnaam.");
-        System.out.println("3. Postcode en huisnummer");
-        System.out.println("4. Woonplaats.");
-        System.out.println("5. Terug naar adres menu.");
+        System.out.println("2. Klant id");
+        System.out.println("3. Straatnaam.");
+        System.out.println("4. Postcode en huisnummer");
+        System.out.println("5. Woonplaats.");
+        System.out.println("6. Terug naar adres menu.");
         
         try {
             userInput = Integer.parseInt(scanner.nextLine());
@@ -149,6 +172,17 @@ public class AdresView {
             "\t" + (adressenLijst.get(i)).getToevoeging() + "\t" + (adressenLijst.get(i)).getPostcode() +
             "\t" + (adressenLijst.get(i)).getWoonplaats());
             }        
+    }
+    
+    public void printKlantAdresLijst(ArrayList<KlantAdres> klantAdresLijst){
+        System.out.println();
+        System.out.println("AdresId\t\tKlantId");
+        for (int i = 0; i < klantAdresLijst.size(); i++){
+            
+            System.out.println(klantAdresLijst.get(i).getAdresId() + "\t\t" + 
+                    klantAdresLijst.get(i).getKlantId());
+        }
+        
     }
     
     public int checkInputString(String input) {
@@ -181,6 +215,20 @@ public class AdresView {
         return userInput;
     }
     
+    public int alleKoppellingenUitgeprint(){
+        System.out.println("Wilt u alle adres-klant koppelingen uitgeprint hebben?");
+        System.out.println("1. ja");
+        System.out.println("2. nee");
+        
+        try{
+            userInput = Integer.parseInt(scanner.nextLine());        
+        }
+        catch(InputMismatchException ex){
+            System.out.print("Foute input, kies van de opties hierboven.");
+        }
+        
+        return userInput;
+    }
     
     
     public int bevestigingsVraag(){

@@ -31,7 +31,7 @@ public class KlantController {
     ArrayList<Klant> klantenLijst;
     
     AdresDAOInterface adresDAO = DaoFactory.getAdresDao();
-    AdresView adresView;
+    AdresView adresView = new AdresView();
     AdresController adresController;
     AdresBuilder adresBuilder = new AdresBuilder();
     Adres adres; 
@@ -146,7 +146,11 @@ public class KlantController {
                             else 
                                 klantView.printGeenKlanten(email);                                                  
                             break;
-                        case 3: // direct door naar einde switch: methode naar inlogschermklant()
+                        case 3: // zoek met adresId
+                            int adresId = adresView.voerAdresIdIn();
+                            ArrayList<Klant>klantenLijst = klantAdresDAO.findKlantByAdresId(adresId);
+                            break;
+                        case 4: // direct door naar einde switch: methode naar inlogschermklant()
                             break;
                         default:
                             break;

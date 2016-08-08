@@ -8,9 +8,9 @@ package DAOs.Impl.FireBird;
 import DAOs.Impl.MySQL.BestellingArtikelDAOSQL;
 import DAOs.Impl.MySQL.BestellingDAOSQL;
 import DAOs.Interface.BestellingDAOInterface;
+import Factory.ConnectionFactory;
 import POJO.Bestelling;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,16 +27,11 @@ public class BestellingDAOFB implements BestellingDAOInterface{
     
     // Info inlog FireBird
     
-    // Comment EH: Dit zijn configs, deze zou ik uit de code trekken in een "CONFIG" static class proppen
-    // Dan kan je een template config inchecken, en jouw eigen config in de .gitignore zetten.
-    private final String url = "jdbc:firebirdsql:localhost:C:\\FBDB\\FBDB.FDB";
-    private final String user = "Anjewe";
-    private final String pw = "Koetjes";
-    private final String driver = "org.firebirdsql.jdbc.FBDriver";
-    
+    ConnectionFactory connectionFactory = new ConnectionFactory();
     Connection con;
     ResultSet rs;
-    PreparedStatement stmt;
+    PreparedStatement pstmt;
+    Statement st;
 
     
     // Methods
@@ -48,11 +43,10 @@ public class BestellingDAOFB implements BestellingDAOInterface{
         String sqlQuery = "select * from Bestelling";
         
         try {
-            Class.forName(driver);
         
-            con = DriverManager.getConnection(url, user, pw);
-            stmt = con.prepareStatement(sqlQuery);
-            rs = stmt.executeQuery();
+        Connection con = ConnectionFactory.getConnection();  
+            pstmt = con.prepareStatement(sqlQuery);
+            rs = pstmt.executeQuery();
 
             while (rs.next()) {
 
@@ -67,23 +61,23 @@ public class BestellingDAOFB implements BestellingDAOInterface{
                 // add bestelling in de list
                 bestellinglijst.add(bestelling);
                 }
-        } catch (ClassNotFoundException |SQLException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(BestellingDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
     return bestellinglijst; 
     }
 
+    
     @Override
     public Bestelling findById(int bestelling_id) {
        String sqlQuery = "select bestelling_id, klant_id from bestelling where bestelling_id = " + bestelling_id;
         Bestelling bestelling = new Bestelling();
         
         try {
-            Class.forName(driver);        
         
-            con = DriverManager.getConnection(url, user, pw);
-            stmt = con.prepareStatement(sqlQuery);
-            rs = stmt.executeQuery();
+        Connection con = ConnectionFactory.getConnection();  
+            pstmt = con.prepareStatement(sqlQuery);
+            rs = pstmt.executeQuery();
         
             while (rs.next()) {            
             
@@ -91,12 +85,13 @@ public class BestellingDAOFB implements BestellingDAOInterface{
             bestelling.setKlantId(rs.getInt("klant_id"));
             }   
         
-         } catch (ClassNotFoundException | SQLException ex) {
+         } catch (SQLException ex) {
             Logger.getLogger(BestellingDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
          }
          return bestelling; 
     }
 
+    
     @Override
     public int insertBestelling(int klant_id) {
         
@@ -104,27 +99,20 @@ public class BestellingDAOFB implements BestellingDAOInterface{
         int bestellingId = 0;
         String sqlQuery = "INSERT INTO bestelling(klant_id, datum_aangemaakt) VALUES (?, ?) RETURNING bestelling_id";
 
-        try{
-        // Maak connectie 
+        try {
         
-            try {
-                Class.forName(driver); 
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(BestellingDAOFB.class.getName()).log(Level.SEVERE, null, ex);
-            }
-       
-            con = DriverManager.getConnection(url, user, pw);
-            stmt = con.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);
-            stmt.setInt(1, klant_id);
-            stmt.setDate(2, new java.sql.Date(datum.getTime()));
+        Connection con = ConnectionFactory.getConnection();  
+            pstmt = con.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);
+            pstmt.setInt(1, klant_id);
+            pstmt.setDate(2, new java.sql.Date(datum.getTime()));
             
-            int affectedRows = stmt.executeUpdate();
+            int affectedRows = pstmt.executeUpdate();
 
                     if (affectedRows == 0) {
                         throw new SQLException("Bestelling aanmaken mislukt.");
                     } 
 
-                    rs = stmt.getGeneratedKeys();
+                    rs = pstmt.getGeneratedKeys();
                     if (rs.isBeforeFirst()){
                         if (rs.next()) 
                             bestellingId = rs.getInt(1);                         
@@ -137,42 +125,42 @@ public class BestellingDAOFB implements BestellingDAOInterface{
       return bestellingId;
     }
 
+    
     @Override
     public boolean deleteBestelling(int bestelling_id) {
         
     boolean isDeleted = false;
 
         try {
-            Class.forName(driver);
-            try (Connection conn = DriverManager.getConnection(url, user, pw)) {
+        
+        Connection con = ConnectionFactory.getConnection();  
             
                 String sqlQuery = "delete from bestelling where bestelling_id =  ? ";
 
-                // create the mysql insert preparedstatement
-                PreparedStatement preparedStmt = conn.prepareStatement(sqlQuery);
+                PreparedStatement preparedStmt = con.prepareStatement(sqlQuery);
                 preparedStmt.setInt(1, bestelling_id);
                 // execute the preparedstatement
                 int rowsAffected = preparedStmt.executeUpdate();
                 if (rowsAffected != 0) {
                     isDeleted = true;
                 }
-            }
-        } catch (ClassNotFoundException | SQLException e) {
-            System.err.println("Got an exception!");
+            
+        } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
         return isDeleted;
     }
 
+    
     @Override
     public void deleteAll() {
         String sqlQuery = "delete from bestelling";
         
-        try{
-            
-            con = DriverManager.getConnection(url, user, pw);
-            stmt = con.prepareStatement(sqlQuery);
-            stmt.executeUpdate();
+        try {
+        
+        Connection con = ConnectionFactory.getConnection();  
+            pstmt = con.prepareStatement(sqlQuery);
+            pstmt.executeUpdate();
                         
         } catch ( SQLException ex) {
             Logger.getLogger(BestellingDAOSQL.class.getName()).log(Level.SEVERE, null, ex);

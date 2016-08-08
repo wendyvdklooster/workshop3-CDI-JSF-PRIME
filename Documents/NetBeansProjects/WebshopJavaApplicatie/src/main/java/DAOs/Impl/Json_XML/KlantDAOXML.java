@@ -32,7 +32,8 @@ public class KlantDAOXML implements KlantDAOInterface {
    Klant klant = new Klant (klantBuilder);
     
    KlantenLijst klantenLijst = new KlantenLijst();
-    
+   
+  
 
   
  @Override   

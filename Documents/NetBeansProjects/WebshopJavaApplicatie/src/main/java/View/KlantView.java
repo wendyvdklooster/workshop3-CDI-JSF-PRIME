@@ -120,6 +120,7 @@ public class KlantView {
         System.out.println(klant.getVoornaam() + " " + klant.getTussenvoegsel() + " "
                 + klant.getAchternaam());
         System.out.println(klant.getEmail());
+        System.out.println();
         
     }
     
@@ -129,7 +130,8 @@ public class KlantView {
         System.out.println("Hoe wilt u zoeken?");
         System.out.println("1. Zoek met voor- en achternaam");
         System.out.println("2. Zoek met email");  
-        System.out.println("3. Terug naar klantmenu");
+        System.out.println("3. Zoek met adresId");
+        System.out.println("4. Terug naar klantmenu");
         System.out.println("Maak een keuze:");
         
         try{

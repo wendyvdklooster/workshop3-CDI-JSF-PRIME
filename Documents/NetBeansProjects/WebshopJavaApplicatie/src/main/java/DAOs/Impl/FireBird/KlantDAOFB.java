@@ -3,10 +3,10 @@ package DAOs.Impl.FireBird;
 
 import DAOs.Impl.MySQL.KlantDAOSQL;
 import DAOs.Interface.KlantDAOInterface;
+import Factory.ConnectionFactory;
 import POJO.Klant;
 import POJO.Klant.KlantBuilder;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,14 +21,11 @@ import java.util.logging.Logger;
  */
 public class KlantDAOFB implements KlantDAOInterface {
 
-    String driver = "org.firebirdsql.jdbc.FBDriver";
-    String url = "jdbc:firebirdsql:localhost/3050:C:\\FBDB\\fbdb.FDB";
-
-    String user = "Anjewe";
-    String pw = "Koetjes";
+    ConnectionFactory connectionFactory = new ConnectionFactory();
     Connection con;
     ResultSet rs;
-    PreparedStatement stmt;
+    PreparedStatement pstmt;
+    Statement st;
 
     KlantBuilder klantBuilder = new KlantBuilder();
 
@@ -37,15 +34,13 @@ public class KlantDAOFB implements KlantDAOInterface {
         ArrayList<Klant> klantenLijst = new ArrayList<>();
 
         try {
-            //load driver
-            Class.forName(driver);
-            //establish a connection
-            con = DriverManager.getConnection(url, user, pw);
+        
+        Connection con = ConnectionFactory.getConnection();  
 
             String sqlQuery = "SELECT Klant_id, voornaam, achternaam, tussenvoegsel, email FROM Klant";  // select: wildcard can be used*
 
-            stmt = con.prepareStatement(sqlQuery);
-            rs = stmt.executeQuery();
+            pstmt = con.prepareStatement(sqlQuery);
+            rs = pstmt.executeQuery();
 
             while (rs.next()) {
 
@@ -61,28 +56,27 @@ public class KlantDAOFB implements KlantDAOInterface {
                 klantenLijst.add(klant);
             }
             con.close();
-        } catch (ClassNotFoundException | SQLException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(KlantDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
         return klantenLijst;
     }
 
+    
     @Override
     public Klant findByKlantId(int klantId) {
 
         Klant klant = new Klant(klantBuilder);
 
         try {
-            //load driver
-            Class.forName(driver);
-            //establish a connection
-            con = DriverManager.getConnection(url, user, pw);
+        
+        Connection con = ConnectionFactory.getConnection();  
 
             String sqlQuery = "select * from Klant where klant_id = ? ";
-            stmt = con.prepareStatement(sqlQuery);
+            pstmt = con.prepareStatement(sqlQuery);
 
-            stmt.setInt(1, klantId);
-            rs = stmt.executeQuery();
+            pstmt.setInt(1, klantId);
+            rs = pstmt.executeQuery();
 
             while (rs.next()) {
 
@@ -97,29 +91,27 @@ public class KlantDAOFB implements KlantDAOInterface {
 
             }
             con.close();
-        } catch (SQLException | ClassNotFoundException ex) {
+        } catch (SQLException ex) {
         }
 
         return klant;
     }
 
+    
     @Override
     public ArrayList<Klant> findByVoorNaamAchterNaam(String voorNaam, String achterNaam) {
 
         ArrayList<Klant> klantenLijst = new ArrayList();
 
-        try {
-            //load driver
-            Class.forName(driver);
-            //establish a connection
-            con = DriverManager.getConnection(url, user, pw);
-
+       try {
+        
+        Connection con = ConnectionFactory.getConnection();  
             String sqlQuery = "select * from Klant where voorNaam = ? and achterNaam = ? ";
-            stmt = con.prepareStatement(sqlQuery);
+            pstmt = con.prepareStatement(sqlQuery);
 
-            stmt.setString(1, voorNaam);
-            stmt.setString(2, achterNaam);
-            rs = stmt.executeQuery();
+            pstmt.setString(1, voorNaam);
+            pstmt.setString(2, achterNaam);
+            rs = pstmt.executeQuery();
 
             while (rs.next()) {
 
@@ -136,29 +128,28 @@ public class KlantDAOFB implements KlantDAOInterface {
 
             }
             con.close();
-        } catch (SQLException | ClassNotFoundException ex) {
+        } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
 
         return klantenLijst;
     }
 
+    
     @Override
     public ArrayList<Klant> findByEmail(String email) {
 
         ArrayList<Klant> klantenLijst = new ArrayList();
         
         try {
-            //load driver
-            Class.forName(driver);
-            //establish a connection
-            con = DriverManager.getConnection(url, user, pw);
+        
+        Connection con = ConnectionFactory.getConnection();  
 
             String sqlQuery = "select * Klant where email = ? ";
-            stmt = con.prepareStatement(sqlQuery);
+            pstmt = con.prepareStatement(sqlQuery);
 
-            stmt.setString(1, email);
-            rs = stmt.executeQuery();
+            pstmt.setString(1, email);
+            rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 klantBuilder.klantId(rs.getInt("klant_id"));
@@ -173,37 +164,34 @@ public class KlantDAOFB implements KlantDAOInterface {
                 klantenLijst.add(klant);
             }
             con.close();
-        } catch (SQLException | ClassNotFoundException ex) {
+        } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
 
         return klantenLijst;
     }
 
+    
     @Override
     public boolean deleteByKlantId(int klantId) {
         boolean deleted = false;
 
-        try {
-            Class.forName(driver);
-            // create a sql date object so we can use it in our INSERT statement
-            try (Connection conn = DriverManager.getConnection(url, user, pw)) {
-                // create a sql date object so we can use it in our INSERT statement
-
-                // the mysql insert statement.first parent, than child
+       try {
+        
+        Connection con = ConnectionFactory.getConnection();  
+        
                 String sqlQuery = "delete from klant where klant_id =  ? ";
 
                 // create the mysql insert preparedstatement
-                PreparedStatement preparedStmt = conn.prepareStatement(sqlQuery);
+                PreparedStatement preparedStmt = con.prepareStatement(sqlQuery);
                 preparedStmt.setInt(1, klantId);
                 // execute the preparedstatement
                 int rowsAffected = preparedStmt.executeUpdate();
                 if (rowsAffected != 0) {
                     deleted = true;
                 }
-            }
-        } catch (ClassNotFoundException | SQLException e) {
-            System.err.println("Got an exception!");
+            
+        } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
         return deleted;
@@ -214,30 +202,26 @@ public class KlantDAOFB implements KlantDAOInterface {
     public int deleteAll() {
        int rowsAffected = 0; 
         
-        try{  
-            
-        Class.forName(driver);
-             // create a sql date object so we can use it in our INSERT statement
-             try (Connection conn = DriverManager.getConnection(url, user, pw)) {
-                 // create a sql date object so we can use it in our INSERT statement
-                 
-                 // the mysql insert statement
+        try {
+        
+        Connection con = ConnectionFactory.getConnection();  
                  String sqlQuery = "delete from klant";                         
                  
                  // create the mysql insert preparedstatement
-                 PreparedStatement preparedStmt = conn.prepareStatement(sqlQuery);
+                 PreparedStatement preparedStmt = con.prepareStatement(sqlQuery);
                                                  
                  // execute the preparedstatement
                  rowsAffected = preparedStmt.executeUpdate();                    
-            }
+            
         }
-        catch (ClassNotFoundException | SQLException e) {            
+        catch (SQLException e) {            
             System.err.println(e.getMessage());
         }    
         
       return rowsAffected; 
     }
 
+    
     @Override /// nog doen
     public Klant updateGegevens(Klant klant) {
         
@@ -248,19 +232,16 @@ public class KlantDAOFB implements KlantDAOInterface {
 	String achternaam = klant.getAchternaam();
 	String email = klant.getEmail(); 
         
-    try {
-    // create a mysql database connection
-      
-    Class.forName(driver);
-    // create a sql date object so we can use it in our INSERT statement
-        try (Connection conn = DriverManager.getConnection(url, user, pw)) {
+   try {
+        
+        Connection con = ConnectionFactory.getConnection();  
 
              String sqlQuery = "update Klant set voornaam = ?, tussenvoegsel = ?, " + 
                      "achternaam = ?, email = ? where klant_id = ? ";
 //                     + "returning adres_id,old .straatnaam, new.straatnaam";             
 
-		// create the mysql insert preparedstatement
-                PreparedStatement preparedStmt = conn.prepareStatement(sqlQuery);
+		// create the mysql preparedstatement
+                PreparedStatement preparedStmt = con.prepareStatement(sqlQuery);
 				
                  preparedStmt.setString (1, voornaam);
                  preparedStmt.setString (2, tussenvoegsel);
@@ -277,7 +258,7 @@ public class KlantDAOFB implements KlantDAOInterface {
                // to see the updated records
                sqlQuery = "select * from Adres where klant_id = ?";
                        
-               preparedStmt = conn.prepareStatement(sqlQuery);
+               preparedStmt = con.prepareStatement(sqlQuery);
                preparedStmt.setInt(1, klantId);
                rs = preparedStmt.executeQuery();   
 
@@ -288,17 +269,15 @@ public class KlantDAOFB implements KlantDAOInterface {
                     klantBuilder.achternaam(rs.getString("achternaam"));
                     klantBuilder.email(rs.getString("email"));
 
-                    klant = klantBuilder.build();
-			    
-               }
-            }
+                    klant = klantBuilder.build();			    
+               }            
         }
-        catch (ClassNotFoundException | SQLException e) {      
+        catch (SQLException e) {      
             System.err.println(e.getMessage());
-        }
-        
+        }        
     return klant; 
 }
+    
 
     @Override // nog doen: AANPASSEN!
     public Klant insertKlant(Klant klant) {
@@ -314,14 +293,12 @@ public class KlantDAOFB implements KlantDAOInterface {
         String sqlQuery = "insert into Klant (voornaam, achternaam, tussenvoegsel, email)"
                          + " values (?, ?, ?, ?)";
     
-        try{ 
-        // create a mysql database connection      
-        Class.forName(driver);
-        // create a sql date object so we can use it in our INSERT statement
-        try (Connection conn = DriverManager.getConnection(url, user, pw);
+       try {
+        
+        Connection con = ConnectionFactory.getConnection();  
             // create the mysql insert preparedstatement
-            PreparedStatement preparedStmt  = conn.prepareStatement(sqlQuery,
-                Statement.RETURN_GENERATED_KEYS) ) {
+            PreparedStatement preparedStmt  = con.prepareStatement(sqlQuery,
+                Statement.RETURN_GENERATED_KEYS); 
                  
                 preparedStmt.setString (1, voornaam);
                 preparedStmt.setString (2, achternaam);
@@ -346,11 +323,9 @@ public class KlantDAOFB implements KlantDAOInterface {
                 klantBuilder.tussenvoegsel(tussenvoegsel);
                 klantBuilder.email(email);
                  
-                klant = klantBuilder.build();
-         }     
+                klant = klantBuilder.build();              
         }
-        catch (SQLException | ClassNotFoundException ex){
-            System.err.println("Got an exception!");
+        catch (SQLException ex){
             System.err.println(ex.getMessage());
         }
     return klant;
