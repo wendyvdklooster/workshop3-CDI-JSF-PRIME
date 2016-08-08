@@ -5,13 +5,18 @@
  */
 package ConnectionPool;
 
+
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import static org.hibernate.annotations.common.util.impl.LoggerFactory.logger;
 
+import org.slf4j.LoggerFactory;
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
 
 
 
@@ -37,6 +42,8 @@ public class HikariCPSQL {
     private final String driver = "org.firebirdsql.jdbc.FBDriver";
    
     */
+    private static Logger LOGGER = (Logger) LoggerFactory.getLogger(HikariCPSQL.class.getName());    
+    
     
     private static Connection con;
     private static HikariConfig config = new HikariConfig();
@@ -74,11 +81,11 @@ public class HikariCPSQL {
         try {
             Class.forName(driver).newInstance();
         } catch (ClassNotFoundException cnfe) {
-            System.err.println("Error: " + cnfe.getMessage());
+            LOGGER.error("Error: " + cnfe.getMessage());
         } catch (InstantiationException ie) {
-            System.err.println("Error: " + ie.getMessage());
+            LOGGER.error("Error: " + ie.getMessage());
         } catch (IllegalAccessException iae) {
-            System.err.println("Error: " + iae.getMessage());
+            LOGGER.error("Error: " + iae.getMessage());
         }
 
         HikariDataSource ds = getDataSource();

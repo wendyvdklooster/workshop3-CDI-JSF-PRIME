@@ -10,6 +10,8 @@ import POJO.KlantAdres;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -17,6 +19,7 @@ import java.util.Scanner;
  */
 public class AdresView {
     
+    private final static Logger LOGGER = LoggerFactory.getLogger(AdresView.class.getName());
     int userInput;
     Scanner scanner = new Scanner(System.in);
     
@@ -31,10 +34,10 @@ public class AdresView {
         System.out.println("6. Terug naar het hoofdmenu.");
         
         try {
-             userInput = Integer.parseInt(scanner.nextLine());
+            userInput = Integer.parseInt(scanner.nextLine());
         }
         catch(InputMismatchException ex){
-            System.out.print("Foute input, kies van de opties hierboven.");
+            LOGGER.warn("Foute input, kies van de opties hierboven.");
         }
         return userInput;
         
@@ -49,7 +52,7 @@ public class AdresView {
              userInput = Integer.parseInt(scanner.nextLine());
         }
         catch(InputMismatchException ex){
-            System.out.print("Foute input, kies van de opties hierboven.");
+            LOGGER.warn("Foute input, kies van de opties hierboven.");
         }
         return userInput;
     }
@@ -119,7 +122,7 @@ public class AdresView {
 
         }
         catch(InputMismatchException ex){
-            System.out.print("Foute input, kies van de opties hierboven.");
+            LOGGER.warn("Foute input, kies van de opties hierboven.");
         }
         
         return userInput;
@@ -137,7 +140,7 @@ public class AdresView {
 
         }
         catch(InputMismatchException ex){
-            System.out.print("Foute input, kies van de opties hierboven.");
+            LOGGER.warn("Foute input, kies van de opties hierboven.");
         }
         
         return userInput;
@@ -157,7 +160,7 @@ public class AdresView {
             userInput = Integer.parseInt(scanner.nextLine());
         }
         catch(InputMismatchException ex){
-            System.out.print("Foute input, kies van de opties hierboven.");
+            LOGGER.warn("Foute input, kies van de opties hierboven.");
         }
         return userInput;
     }
@@ -194,7 +197,7 @@ public class AdresView {
             userInput = Integer.parseInt(scanner.nextLine());
         }
         catch(InputMismatchException ex){
-            System.out.print("Foute input, kies van de opties hierboven.");
+            LOGGER.warn("Foute input, kies van de opties hierboven.");
         }
         return userInput;
     }
@@ -209,7 +212,7 @@ public class AdresView {
             userInput = Integer.parseInt(scanner.nextLine());            
         }
         catch(InputMismatchException ex){
-            System.out.print("Foute input, kies van de opties hierboven.");
+            LOGGER.warn("Foute input, kies van de opties hierboven.");
         }
         
         return userInput;
@@ -224,7 +227,7 @@ public class AdresView {
             userInput = Integer.parseInt(scanner.nextLine());        
         }
         catch(InputMismatchException ex){
-            System.out.print("Foute input, kies van de opties hierboven.");
+            LOGGER.warn("Foute input, kies van de opties hierboven.");
         }
         
         return userInput;
@@ -241,7 +244,7 @@ public class AdresView {
             userInput = Integer.parseInt(scanner.nextLine());        
         }
         catch(InputMismatchException ex){
-            System.out.print("Foute input, kies van de opties hierboven.");
+            LOGGER.warn("Foute input, kies van de opties hierboven.");
         }
         
         return userInput;

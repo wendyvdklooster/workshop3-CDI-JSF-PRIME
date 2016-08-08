@@ -18,8 +18,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+//import java.util.logging.Level;
+//import java.util.logging.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -27,12 +28,12 @@ import java.util.logging.Logger;
  */
 public class KlantAdresDAOSQL implements KlantAdresDAOInterface {
     
+    private final static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(KlantAdresDAOSQL.class.getName());
     ConnectionFactory connectionFactory = new ConnectionFactory();
     Connection con;
     ResultSet rs;
     PreparedStatement pstmt;
     Statement st; 
-    
     
     
    @Override // werkt
@@ -59,7 +60,7 @@ public class KlantAdresDAOSQL implements KlantAdresDAOInterface {
                 con.close();
             } 
             catch(SQLException ex){
-            System.out.println(ex.getMessage());
+            LOGGER.error("", ex);
          }
         // arrayList van adressen 
           
@@ -94,7 +95,7 @@ public class KlantAdresDAOSQL implements KlantAdresDAOInterface {
                 con.close();       
         }
         catch(SQLException ex){
-            Logger.getLogger(KlantAdresDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
+           LOGGER.error("", ex);
         }     
         
         return klantenlijst;
@@ -127,7 +128,7 @@ public class KlantAdresDAOSQL implements KlantAdresDAOInterface {
                 con.close(); 
         } 
         catch(SQLException ex){
-            Logger.getLogger(KlantAdresDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
+           LOGGER.error("", ex);
         }  
         
         return adressenLijst;
@@ -154,7 +155,7 @@ public class KlantAdresDAOSQL implements KlantAdresDAOInterface {
             created = true; 
         } 
         catch(SQLException ex ){
-            Logger.getLogger(KlantAdresDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error("", ex);
         }
         
        return created; 
@@ -180,8 +181,8 @@ public class KlantAdresDAOSQL implements KlantAdresDAOInterface {
                  
                  deleted = true; 
              
-        } catch (SQLException e) {        
-            System.err.println(e.getMessage());
+        } catch (SQLException ex) {        
+            LOGGER.error("", ex);
         }
       return deleted; 
     }
@@ -210,8 +211,8 @@ public class KlantAdresDAOSQL implements KlantAdresDAOInterface {
              }
       }
     
-      catch (SQLException e){
-        System.err.println(e.getMessage());
+      catch (SQLException ex){
+            LOGGER.error("", ex);
       }
       
       return deleted; 
@@ -237,8 +238,8 @@ public class KlantAdresDAOSQL implements KlantAdresDAOInterface {
             rowsAffected = preparedStmt.executeUpdate();  
             
       }    
-      catch (SQLException e){
-            System.err.println(e.getMessage());
+      catch (SQLException ex){
+            LOGGER.error("", ex);
       }
       
       return rowsAffected; 

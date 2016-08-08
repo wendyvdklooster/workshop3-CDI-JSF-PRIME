@@ -15,6 +15,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -22,6 +24,8 @@ import java.util.ArrayList;
  * @author Wendy
  */
 public class AdresDAOFB implements AdresDAOInterface {
+    
+    private final static Logger LOGGER = LoggerFactory.getLogger(AdresDAOFB.class.getName());
     
     ConnectionFactory connectionFactory = new ConnectionFactory();
     Connection con;

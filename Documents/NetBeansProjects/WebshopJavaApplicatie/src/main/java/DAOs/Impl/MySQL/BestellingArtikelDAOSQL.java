@@ -18,8 +18,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+//import java.util.logging.Level;
+//import java.util.logging.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -27,7 +28,8 @@ import java.util.logging.Logger;
  * @author Excen
  */
 public class BestellingArtikelDAOSQL implements BestellingArtikelDAOInterface {
-       
+    
+    private final static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(BestellingArtikelDAOSQL.class.getName());
     // Info inlog SQL
     ConnectionFactory connectionFactory = new ConnectionFactory();
     Connection con;
@@ -50,7 +52,7 @@ public class BestellingArtikelDAOSQL implements BestellingArtikelDAOInterface {
         
         } 
         catch ( SQLException ex) {
-            Logger.getLogger(BestellingArtikelDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error("", ex);
         }
     }
     
@@ -68,7 +70,7 @@ public class BestellingArtikelDAOSQL implements BestellingArtikelDAOInterface {
 
         } 
         catch (SQLException ex) {
-            Logger.getLogger(BestellingArtikelDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error("", ex);
         }
 
     }    
@@ -97,7 +99,7 @@ public class BestellingArtikelDAOSQL implements BestellingArtikelDAOInterface {
         
         } 
         catch ( SQLException ex) {
-            Logger.getLogger(BestellingArtikelDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error("", ex);
         }  
     }
     
@@ -119,7 +121,7 @@ public class BestellingArtikelDAOSQL implements BestellingArtikelDAOInterface {
         
         } 
         catch ( SQLException ex) {
-            Logger.getLogger(BestellingArtikelDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error("", ex);
         }
       
     }
@@ -138,7 +140,7 @@ public class BestellingArtikelDAOSQL implements BestellingArtikelDAOInterface {
             
         } 
         catch (SQLException ex) {
-            Logger.getLogger(BestellingArtikelDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
+           LOGGER.error("", ex);
         }
         
     }
@@ -169,7 +171,7 @@ public class BestellingArtikelDAOSQL implements BestellingArtikelDAOInterface {
                 }
         } 
         catch (SQLException ex) {
-            Logger.getLogger(BestellingArtikelDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error("", ex);
         }
       return bestellingArtikellijst;  
     }
@@ -201,7 +203,7 @@ public class BestellingArtikelDAOSQL implements BestellingArtikelDAOInterface {
                 }    
         } 
         catch (SQLException ex) {
-            Logger.getLogger(BestellingArtikelDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error("", ex);
         }
     return artikelLijst;        
     }   
@@ -233,7 +235,7 @@ public class BestellingArtikelDAOSQL implements BestellingArtikelDAOInterface {
             }
         } 
         catch (SQLException ex) {
-            Logger.getLogger(BestellingArtikelDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error("", ex);
         }
         return bestellingLijst;
     }
@@ -260,7 +262,7 @@ public class BestellingArtikelDAOSQL implements BestellingArtikelDAOInterface {
             }
         } 
         catch (SQLException ex) {
-            Logger.getLogger(BestellingArtikelDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
+           LOGGER.error("", ex);
         }
         
       return artikelAantal;

@@ -5,25 +5,14 @@
  */
 package Controller;
 
-import DAOs.Impl.MySQL.AdresDAOSQL;
-import DAOs.Impl.MySQL.KlantAdresDAOSQL;
-import DAOs.Interface.AdresDAOInterface;
-import DAOs.Interface.KlantAdresDAOInterface;
-import DAOs.Interface.ArtikelDAOInterface;
-import DAOs.Interface.BestellingArtikelDAOInterface;
-import DAOs.Interface.BestellingDAOInterface;
-import DAOs.Interface.KlantDAOInterface;
+
+
 import Factory.DaoFactory;
-import POJO.Adres;
-import View.AdresView;
 import View.HoofdMenuView;
-import java.sql.SQLException;
-import java.util.InputMismatchException;
 import java.util.Scanner;
-import com.mchange.v2.c3p0.ComboPooledDataSource;
-import java.sql.Connection;
-import java.sql.SQLException;
 import Factory.ConnectionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 
@@ -35,6 +24,8 @@ import Factory.ConnectionFactory;
  */
 public class HoofdMenuController {
    // data fields 
+    
+   private final static Logger LOGGER = LoggerFactory.getLogger(HoofdMenuController.class.getName()); 
    KlantController klantController; 
    ArtikelController artikelController;
    BestellingController bestellingController;

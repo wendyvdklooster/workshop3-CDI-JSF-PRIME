@@ -18,6 +18,7 @@ import org.json.simple.JSONArray;
 import org.json.JSONException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -25,6 +26,7 @@ import org.json.simple.parser.JSONParser;
  */
 public class KlantDAOJSON implements KlantDAOInterface {
 
+    private final static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(KlantDAOJSON.class.getName());
     String fileName = "C:\\Users\\Anne\\Documents\\test4";
     
     @Override

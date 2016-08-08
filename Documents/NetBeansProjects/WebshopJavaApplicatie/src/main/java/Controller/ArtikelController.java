@@ -2,15 +2,17 @@
 package Controller;
 
 
+
 import View.ArtikelView;
 import DAOs.Interface.ArtikelDAOInterface;
 import DAOs.Interface.BestellingArtikelDAOInterface;
 import POJO.Artikel;
 import POJO.Bestelling;
 import View.BestellingView;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import Factory.DaoFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class ArtikelController {
@@ -22,6 +24,8 @@ public class ArtikelController {
     // if(input ==2) { ZoekArtikelGegevens}
     // if (input == 3) { WijzigArtikelGegevens}
     // if (input == 4) { VerwijderArtikelGegevens}
+    
+    private final static Logger LOGGER = LoggerFactory.getLogger(ArtikelController.class.getName());
     
     ArtikelView artikelView = new ArtikelView();
     ArtikelDAOInterface artikelDAO = DaoFactory.getArtikelDao();

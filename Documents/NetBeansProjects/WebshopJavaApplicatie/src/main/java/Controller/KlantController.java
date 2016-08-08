@@ -1,6 +1,7 @@
 
 package Controller;
 
+
 import DAOs.Interface.AdresDAOInterface;
 import DAOs.Interface.KlantAdresDAOInterface;
 import DAOs.Interface.KlantDAOInterface;
@@ -14,6 +15,8 @@ import View.HoofdMenuView;
 import View.KlantView;
 import java.util.ArrayList;
 import org.apache.commons.validator.routines.EmailValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -23,6 +26,8 @@ import org.apache.commons.validator.routines.EmailValidator;
 public class KlantController {
     
     //data fields
+    private final static Logger LOGGER = LoggerFactory.getLogger(KlantController.class.getName());
+    
     DaoFactory daoFactory = new DaoFactory();
     KlantDAOInterface klantDAO = DaoFactory.getKlantDao();
     KlantView klantView = new KlantView();    
