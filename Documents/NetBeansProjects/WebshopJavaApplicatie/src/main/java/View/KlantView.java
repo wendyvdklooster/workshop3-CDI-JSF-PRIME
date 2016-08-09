@@ -44,7 +44,7 @@ public class KlantView {
         System.out.print("Achternaam: ");
         String achternaam = scanner.nextLine();
         
-        return achternaam; 
+        return achternaam.trim(); 
     }
     
     
@@ -53,7 +53,7 @@ public class KlantView {
         System.out.print("Voornaam: ");
         String voornaam = scanner.nextLine();
         
-        return voornaam; 
+        return voornaam.trim(); 
     }
     
     
@@ -62,7 +62,7 @@ public class KlantView {
         System.out.print("Tussenvoegsel: ");
         String tussenvoegsel = scanner.nextLine();
         
-        return tussenvoegsel; 
+        return tussenvoegsel.trim(); 
     }
     
     

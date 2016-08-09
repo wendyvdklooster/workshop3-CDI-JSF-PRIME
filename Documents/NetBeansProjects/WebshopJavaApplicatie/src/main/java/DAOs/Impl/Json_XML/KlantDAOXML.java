@@ -29,41 +29,25 @@ import ch.qos.logback.classic.Logger;
 
 
 public class KlantDAOXML implements KlantDAOInterface {
-   
-   private static Logger LOGGER = (Logger) LoggerFactory.getLogger("com.KlantDAOXML");  
+   // trace, debug, info, warn, error
+   private static Logger LOGGER = (Logger) LoggerFactory.getLogger("com.webshop.dao");  
+   private static Logger errorLogger = (Logger) LoggerFactory.getLogger("com.webshop.err");
+   private static Logger testLogger = (Logger) LoggerFactory.getLogger("com.webshop.test");
    static{
-        // Logger.ROOT_LOGGER_NAME == "ROOT"           
-        LOGGER.setLevel(Level.INFO);
-
-
-        Logger barlogger = (Logger) LoggerFactory.getLogger("com.KlantDAOXML.Bar");
-
-         // This request is enabled, because WARN >= INFO
-         LOGGER.warn("Low fuel level.");
-
-         // This request is disabled, because DEBUG < INFO. 
-         LOGGER.debug("Starting search for nearest gas station.");
-
-         // The logger instance barlogger, named "com.foo.Bar", 
-         // will inherit its level from the logger named 
-         // "com.foo" Thus, the following request is enabled 
-         // because INFO >= INFO. 
-         barlogger.info("Located nearest gas station.");
-
-         // This request is disabled, because DEBUG < INFO. 
-         barlogger.debug("Exiting gas station search");
-       }
+        // Logger.ROOT_LOGGER_NAME == "rootLogger" :Level OFF      
+        LOGGER.setLevel(Level.DEBUG);   
+        errorLogger.setLevel(Level.ERROR);   
+        // testLogger inherits Level debug
+       }   
    
    KlantBuilder klantBuilder = new KlantBuilder();
    Klant klant = new Klant (klantBuilder);
     
-   KlantenLijst klantenLijst = new KlantenLijst();
-   
-  
+   KlantenLijst klantenLijst = new KlantenLijst(); 
 
   
  @Override   
-public Klant insertKlant (Klant klant) {          
+ public Klant insertKlant (Klant klant) {          
     Klant klantMetId = null;
     int klantId = 0;     
         
@@ -71,7 +55,7 @@ public Klant insertKlant (Klant klant) {
             ArrayList<Klant> alleKlanten = findAllKlanten();  // fout opvangen (in methode zelf) wanneer de lijst nog leeg is: bij de eerste klant
             
             if (alleKlanten != null){   
-                LOGGER.debug("klanten lijst is niet leeg");
+                testLogger.debug("klanten lijst is niet leeg");
                 for (int i = alleKlanten.size()-1 ; i < alleKlanten.size() ; i++ ){
                     Klant klantLaatst = alleKlanten.get(i);
                     klantId = klantLaatst.getKlantId();
@@ -79,11 +63,11 @@ public Klant insertKlant (Klant klant) {
                 } 
              }
              else { 
-                LOGGER.info("klantenlijst is leeg");
+                testLogger.debug("klantenlijst is leeg");
                 // maak nieuwe klantenlijst aan en een eerste klantId
-             KlantenLijst KL = new KlantenLijst();
-             klantenLijst = KL; 
-             klantId = 1; 
+                KlantenLijst KL = new KlantenLijst();
+                klantenLijst = KL; 
+                klantId = 1; 
                 }       
    
             String voornaam = klant.getVoornaam();
@@ -104,14 +88,16 @@ public Klant insertKlant (Klant klant) {
             xstream.addImplicitCollection(KlantenLijst.class, "klantenLijst");
             
             String xml = xstream.toXML(klantenLijst);        
-               //System.out.println(xml);  // checken wat dit teruggeeft  
+               testLogger.info("String xml aangemaakt met waarde: "+ xml);  // checken wat dit teruggeeft  
                oos = xstream.createObjectOutputStream(bos);
                oos.writeObject(xml);
                oos.close();
            
         } catch (FileNotFoundException ex) {
+            errorLogger.error("A FileNotFoundException occured at this method", ex);
             LOGGER.debug("A FileNotFoundException occured at this method", ex);
         } catch (IOException ex) {
+            errorLogger.debug("A IOException occured at this method", ex);
             LOGGER.debug("A IOException occured at this method", ex);
         }
         
@@ -119,6 +105,7 @@ public Klant insertKlant (Klant klant) {
         return klantMetId;
 }
 
+ 
 @Override
     public ArrayList<Klant> findAllKlanten() {          
         // code voor decode
@@ -140,7 +127,7 @@ public Klant insertKlant (Klant klant) {
             ois = xstream.createObjectInputStream(bis);
             
             if (ois != null){
-                LOGGER.debug("er zijn al klanten");
+                testLogger.debug("er zijn al klanten");
             String xml = (String) ois.readObject();
             
             //deserialise
@@ -150,15 +137,20 @@ public Klant insertKlant (Klant klant) {
             
             }
             else{
-                LOGGER.info("er zijn nog geen klanten");
+                testLogger.info("er zijn nog geen klanten");
                 klanten = null;
             }
             // fout opvangen wanneer de lijst nog leeg is >> ok n controller: if arraylist == null or !=null
-            } catch (ClassNotFoundException ex) {
-            LOGGER.debug("A ClassNotFoundException occured at this method", ex);
+            } catch (FileNotFoundException ex) {
+                errorLogger.error("A FileNotFoundException occured at this method", ex);
+                LOGGER.debug("A FileNotFoundException occured at this method", ex);
             } catch (IOException ex) {
+                errorLogger.error("A IOException occured at this method", ex);
                 LOGGER.debug("A IOException occured at this method", ex);
-            }   
+            } catch (ClassNotFoundException ex) {
+                errorLogger.error("A ClassNotFoundException occured at this point", ex);
+                LOGGER.debug("A ClassNotFoundException occured at this point", ex);
+       }
         
         return klanten;
     }
@@ -173,7 +165,7 @@ public Klant insertKlant (Klant klant) {
         if (klanten != null){
         
 
-// if klanten is leeg: klant == null;
+        // if klanten is leeg: klant == null;
             for(int i = 0; i < klanten.size(); i++){            
                 if (klanten.get(i).getKlantId() == klantId){
                     String voornaam = klanten.get(i).getVoornaam();
@@ -284,14 +276,17 @@ public Klant insertKlant (Klant klant) {
             xstream.addImplicitCollection(KlantenLijst.class, "klantenLijst");
 
             String xml = xstream.toXML(klantenLijst);        
-               //System.out.println(xml);  // checken wat dit teruggeeft  
+            testLogger.info("String xml aangemaakt met waarde: "+ xml);  // checken wat dit teruggeeft  
+ 
                oos = xstream.createObjectOutputStream(bos);
                oos.writeObject(xml);
                oos.close();
 
         } catch (FileNotFoundException ex) {
+            errorLogger.error("A FileNotFoundException occured at this method", ex);
             LOGGER.debug("A FileNotFoundException occured at this method", ex);
         } catch (IOException ex) {
+            errorLogger.debug("A IOException occured at this method", ex);
             LOGGER.debug("A IOException occured at this method", ex);
         }
                 
@@ -318,19 +313,24 @@ public Klant insertKlant (Klant klant) {
             xstream.addImplicitCollection(KlantenLijst.class, "klantenLijst");
             
             String xml = xstream.toXML(klantenLijst);        
-               //System.out.println(xml);  // checken wat dit teruggeeft  
+               testLogger.info("String xml aangemaakt met waarde: "+ xml);  // checken wat dit teruggeeft  
+
                oos = xstream.createObjectOutputStream(bos);
                oos.writeObject(xml);
                oos.close();
            
        } catch (FileNotFoundException ex) {
+            errorLogger.error("A FileNotFoundException occured at this method", ex);
             LOGGER.debug("A FileNotFoundException occured at this method", ex);
         } catch (IOException ex) {
+            errorLogger.debug("A IOException occured at this method", ex);
             LOGGER.debug("A IOException occured at this method", ex);
         }
+        
         return aantalKlanten;
     }
 
+    
     @Override
     public Klant updateGegevens(Klant klant) {
         
@@ -365,14 +365,17 @@ public Klant insertKlant (Klant klant) {
             xstream.addImplicitCollection(KlantenLijst.class, "klantenLijst");
             
             String xml = xstream.toXML(klantenLijst);        
-               //System.out.println(xml);  // checken wat dit teruggeeft  
+               testLogger.info("String xml aangemaakt met waarde: "+ xml);  // checken wat dit teruggeeft  
+
                oos = xstream.createObjectOutputStream(bos);
                oos.writeObject(xml);
                oos.close();
            
-       } catch (FileNotFoundException ex) {
+        } catch (FileNotFoundException ex) {
+            errorLogger.error("A FileNotFoundException occured at this method", ex);
             LOGGER.debug("A FileNotFoundException occured at this method", ex);
         } catch (IOException ex) {
+            errorLogger.debug("A IOException occured at this method", ex);
             LOGGER.debug("A IOException occured at this method", ex);
         }
         
