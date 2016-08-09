@@ -5,6 +5,7 @@
  */
 package DAOs.Impl.MySQL;
 
+import POJO.InsertReflection;
 import DAOs.Interface.KlantDAOInterface;
 import Factory.ConnectionFactory;
 import POJO.Klant;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 //import java.util.logging.Level;
 //import java.util.logging.Logger;
 import org.slf4j.LoggerFactory;
+
 
 /**
  *
@@ -194,32 +196,24 @@ public class KlantDAOSQL implements KlantDAOInterface {
     
     
    @Override // werkt
-    public Klant insertKlant(Klant klant) {
+    public Klant insertKlant(Klant object) {
         
-        int klantId = 0;        
+   Klant klant = new Klant (klantBuilder); 
+        int klantId = 0; 
         
-        String voornaam = klant.getVoornaam();
-        String achternaam = klant.getAchternaam();        
-        String tussenvoegsel = klant.getTussenvoegsel();
-        String email = klant.getEmail();
+        // get sqlString
+        InsertReflection insert = new InsertReflection();        
+        String sqlQuery = insert.buildInsertStatementKlant(object);
+        LOGGER.debug("Klant to be inserted: " + sqlQuery);
         
-        // the mysql insert statement
-        String sqlQuery = "insert into Klant (voornaam, achternaam, tussenvoegsel, email)"
-                         + " values (?, ?, ?, ?)";
-    
         try{  
         
         Connection con = ConnectionFactory.getConnection();
-            // create the mysql insert preparedstatement
+        
+             //create the mysql insert preparedstatement
             PreparedStatement preparedStmt  = con.prepareStatement(sqlQuery,
                 Statement.RETURN_GENERATED_KEYS); 
-                 
-                preparedStmt.setString (1, voornaam);
-                preparedStmt.setString (2, achternaam);
-                preparedStmt.setString (3, tussenvoegsel);
-                preparedStmt.setString (4, email);
-                 // execute the preparedstatement
-                 
+               
                  int affectedRows = preparedStmt.executeUpdate();
                  if (affectedRows == 0) {
                     throw new SQLException("Creating user failed, no rows affected.");
@@ -232,12 +226,13 @@ public class KlantDAOSQL implements KlantDAOInterface {
                  } 
                  
                 klantBuilder.klantId(klantId);
-                klantBuilder.voornaam(voornaam);
-                klantBuilder.achternaam(achternaam);
-                klantBuilder.tussenvoegsel(tussenvoegsel);
-                klantBuilder.email(email);
+                klantBuilder.voornaam(object.getVoornaam());
+                klantBuilder.achternaam(object.getAchternaam());
+                klantBuilder.tussenvoegsel(object.getTussenvoegsel());
+                klantBuilder.email(object.getEmail());
                  
-                klant = klantBuilder.build();
+                object = klantBuilder.build();
+                klant = (Klant) object;
               
         }
         catch (SQLException ex){
@@ -247,15 +242,61 @@ public class KlantDAOSQL implements KlantDAOInterface {
   }  
     
     
+//    @Override
+//    public Klant insertWithReflection (Klant object){
+//        Klant klant = new Klant (klantBuilder); 
+//        int klantId = 0; 
+//        
+//        // get sqlString
+//        InsertReflection insert = new InsertReflection();        
+//        String sqlQuery = insert.buildInsertStatementKlant(object);
+//        LOGGER.debug("Klant to be inserted: " + sqlQuery);
+//        
+//        try{  
+//        
+//        Connection con = ConnectionFactory.getConnection();
+//        
+//             //create the mysql insert preparedstatement
+//            PreparedStatement preparedStmt  = con.prepareStatement(sqlQuery,
+//                Statement.RETURN_GENERATED_KEYS); 
+//               
+//                 int affectedRows = preparedStmt.executeUpdate();
+//                 if (affectedRows == 0) {
+//                    throw new SQLException("Creating user failed, no rows affected.");
+//                 } 
+//                 
+//                 rs = preparedStmt.getGeneratedKeys();
+//                 if (rs.isBeforeFirst()){
+//                    if (rs.next()) 
+//                        klantId = rs.getInt(1);                         
+//                 } 
+//                 
+//                klantBuilder.klantId(klantId);
+//                klantBuilder.voornaam(object.getVoornaam());
+//                klantBuilder.achternaam(object.getAchternaam());
+//                klantBuilder.tussenvoegsel(object.getTussenvoegsel());
+//                klantBuilder.email(object.getEmail());
+//                 
+//                object = klantBuilder.build();
+//                klant = (Klant) object;
+//              
+//        }
+//        catch (SQLException ex){
+//            LOGGER.error(" ", ex);
+//        }
+//    return klant;
+//        
+//    }
+//    
+    
+    @Override
     public Klant updateGegevens(Klant klant){
     
         int klantId = klant.getKlantId();
         String voornaam = klant.getVoornaam();
         String achternaam = klant.getAchternaam();        
         String tussenvoegsel = klant.getTussenvoegsel();
-        String email = klant.getEmail();            
-
-
+        String email = klant.getEmail();       
 
         try {
 

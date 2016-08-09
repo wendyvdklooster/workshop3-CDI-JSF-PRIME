@@ -428,7 +428,7 @@ public Klant insertKlant (Klant klant) {
     // getters - get information from xml file
 
     // genereer id
-    
-}
+
+    }
 
 

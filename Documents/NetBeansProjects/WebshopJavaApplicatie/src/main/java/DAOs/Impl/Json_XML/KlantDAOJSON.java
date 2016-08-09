@@ -27,7 +27,8 @@ import org.slf4j.LoggerFactory;
 public class KlantDAOJSON implements KlantDAOInterface {
 
     private final static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(KlantDAOJSON.class.getName());
-    String fileName = "C:\\Users\\Anne\\Documents\\test4";
+    //String fileName = "C:\\Users\\Anne\\Documents\\test4";
+    String fileName = "C:\\Users\\Wendy\\Documents\\NetBeansProjects\\WebshopJavaApplicatie";
     
     @Override
     public ArrayList<Klant> findAllKlanten() {
