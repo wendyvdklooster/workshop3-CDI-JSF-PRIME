@@ -49,7 +49,14 @@ public class KlantController {
     EmailValidator validator = EmailValidator.getInstance(); 
     boolean isAddressValid = false;
     
-    
+    public boolean isAdresGoed(String email) {
+        
+        EmailValidator validator = EmailValidator.getInstance(); 
+        validator = EmailValidator.getInstance();
+        boolean isAddressValid = validator.isValid(email);
+        return isAddressValid;
+    }
+        
     public void klantMenu() {
         
         int keuze = klantView.startMenuKlant();
@@ -85,18 +92,24 @@ public class KlantController {
         System.out.println("U gaat een klant toevoegen. Voer de gegevens in.");
         klant = createKlant();           
         klant = klantDAO.insertKlant(klant); //klant inclusief klantId
-        int klantId = klant.getKlantId();                     
+        int klantId = klant.getKlantId();   
         
-        // later vervangen door: int adresId = adresController.voegNieuwAdresToe();
-        System.out.println("Voer uw adres in: ");
-        adres = adresController.createAdres();
-        adres = adresDAO.insertAdres(adres);
-        int adresId = adres.getAdresId(); 
-        boolean toegevoegd = klantAdresDAO.insertKlantAdres(klantId, adresId); 
+        String databaseSetting = daoFactory.getDatabaseSetting();
+        if (databaseSetting.equals("MySQL") || databaseSetting.equals("FireBird")) {
+            // later vervangen door: int adresId = adresController.voegNieuwAdresToe();
+            System.out.println("Voer uw adres in: ");
+            adres = adresController.createAdres();
+            adres = adresDAO.insertAdres(adres);
+            int adresId = adres.getAdresId(); 
+            boolean toegevoegd = klantAdresDAO.insertKlantAdres(klantId, adresId); 
         
-        System.out.println("U heeft de klant- en adresgegevens toegevoegd van klantId: " 
+            System.out.println("U heeft de klant- en adresgegevens toegevoegd van klantId: " 
                 + klantId + " en adresId " + adresId); 
-        System.out.println();
+            System.out.println();
+        }
+        else {
+            System.out.println("U heeft de klantgegevens toegevoegd van klantId: " + klantId);
+        }
         
         klantMenu();
         
