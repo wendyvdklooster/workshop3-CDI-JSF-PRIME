@@ -23,7 +23,8 @@ import org.slf4j.LoggerFactory;
  * @author Anne
  */
 public class ConnectionFactory {
-      private final static Logger LOGGER = LoggerFactory.getLogger(ConnectionFactory.class.getName());
+      private static final Logger LOGGER = LoggerFactory.getLogger("com.webshop.connFactory");
+      private static final Logger errorLogger = LoggerFactory.getLogger("com.webshop.err");
 
       static DaoFactory daoFactory = new DaoFactory();
       static String databaseSetting = daoFactory.getDatabaseSetting();
@@ -32,13 +33,12 @@ public class ConnectionFactory {
            
       
       public void setConnectionPool(String connectionPoolSetting) {
-       this.connectionPoolSetting = connectionPoolSetting;
+       ConnectionFactory.connectionPoolSetting = connectionPoolSetting;
       }
       
       public String getConnectionPool() {
        return connectionPoolSetting;
-      }
-    
+      }   
       
             
     public static Connection getConnection() {
@@ -47,30 +47,30 @@ public class ConnectionFactory {
        Connection con = null;
         if (connectionPoolSetting.equals("Hikari")) {
             if (databaseSetting.equals("MySQL")) {
-               hikari = new HikariCPSQL().getDataSource();
+               hikari = HikariCPSQL.getDataSource();
                con = getHikariConnection(hikari);
                return con;
             }
             else if (databaseSetting.equals("FireBird")) {
-               hikari = new HikariCPFB().GetDataSource();
+               hikari = HikariCPFB.GetDataSource();
                con = getHikariConnection(hikari);
                return con;
             }   
         }
         if (connectionPoolSetting.equals("C3p0")) {
             if (databaseSetting.equals("MySQL")) {
-                c3p0 = new C3p0CPSQL().getDataSource();
+                c3p0 = C3p0CPSQL.getDataSource();
                 con = getC3p0Connection(c3p0);
                 return con;
             }
             else if (databaseSetting.equals("FireBird")) {
-                c3p0 = new C3p0CPFB().getDataSource();
+                c3p0 = C3p0CPFB.getDataSource();
                 con = getC3p0Connection(c3p0);
                 return con;
             }
         }
         else {
-             hikari = new HikariCPSQL().getDataSource();
+             hikari = HikariCPSQL.getDataSource();
              con = getHikariConnection(hikari);
              return con;
         }
@@ -83,7 +83,7 @@ public class ConnectionFactory {
             con = hikari.getConnection();
         }
         catch (SQLException ex) {
-            LOGGER.error(" ", ex);
+            errorLogger.error(" ", ex);
         }
         return con;
     }
@@ -94,7 +94,7 @@ public class ConnectionFactory {
             con = c3p0.getConnection();
         }
         catch (SQLException ex) {
-            LOGGER.error(ex.toString());
+            errorLogger.error(ex.toString());
         }
         return con;
     }

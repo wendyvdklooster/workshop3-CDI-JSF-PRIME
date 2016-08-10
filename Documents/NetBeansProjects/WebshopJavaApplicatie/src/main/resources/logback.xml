@@ -1,16 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration>
+<configuration debug="true" packagingData="true">
+<timestamp key="byDay" datePattern="yyyyMMdd'T'HHmmss"/>
 
-  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+        <level>DEBUG</level>
+        <onMatch>ACCEPT</onMatch>
+        <onMismatch>DENY</onMismatch>
+    </filter>
     <layout class="ch.qos.logback.classic.PatternLayout">
       <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
     </layout>
   </appender>
-  
-  <logger name="com.webshop" level="TRACE"/>
-  
 
-  <root level="debug">
+ <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+    <append>true</append>
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">    
+        <level>INFO</level>
+        <onMatch>ACCEPT</onMatch>
+        <onMismatch>DENY</onMismatch>
+    </filter>
+    
+    <!-- encoders are assigned the type
+         ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+    <encoder>
+      
+      <pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+    </encoder>
+    <file> log/log-${byDay}.txt </file>
+</appender>
+  
+<appender name="DB" class="ch.qos.logback.classic.db.DBAppender">
+    <connectionSource class="ch.qos.logback.core.db.DataSourceConnectionSource">
+      <dataSource class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <driverClass>com.mysql.jdbc.Driver</driverClass>
+        <jdbcUrl>jdbc:mysql://localhost:3306/logwinkel</jdbcUrl>
+        <user>Anjewe</user>
+        <password>Koetjes</password>
+      </dataSource>
+    </connectionSource>
+</appender>
+
+<logger name="com.webshop" level="DEBUG" additivity="false">
     <appender-ref ref="STDOUT" />
-  </root>
+    <appender-ref ref="FILE" />
+</logger>
+
+<logger name="com.webshop.dao" level="INFO" additivity="false">
+    <appender-ref ref="STDOUT" />
+</logger>
+
+<logger name="com.webshop.dao" level="DEBUG" additivity="false">
+    <appender-ref ref="FILE" />
+</logger>
+
+<logger name="com.webshop.err" level="DEBUG" additivity="false">
+    <appender-ref ref="STDOUT" />
+</logger>
+
+<logger name="com.webshop.test" level="DEBUG" additivity="false">
+    <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+</logger>
+
+<logger name="com.webshop.connFactory" level="DEBUG" additivity="false">
+    <appender-ref ref="STDOUT" />
+</logger>
+
+<root level="off">
+    <appender-ref ref="FILE" />
+    <appender-ref ref="DB" />
+</root>
 </configuration>
