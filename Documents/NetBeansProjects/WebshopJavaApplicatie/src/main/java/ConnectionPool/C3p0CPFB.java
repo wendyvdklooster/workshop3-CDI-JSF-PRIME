@@ -52,7 +52,7 @@ public class C3p0CPFB {
         testLogger.debug("C3p0CPF url: " + cpds.getJdbcUrl() );
         
         
-        System.out.println("Returning ComboPooledDataSource \n");
+        
         return cpds;
     }
     
@@ -77,7 +77,6 @@ public class C3p0CPFB {
             errorLogger.error(" ", ex);
         }
         
-        System.out.println("Returning c3p0 Connection " + con);
         return con;
     }
 

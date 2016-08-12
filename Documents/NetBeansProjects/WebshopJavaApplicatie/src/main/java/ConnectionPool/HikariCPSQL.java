@@ -73,7 +73,6 @@ public class HikariCPSQL {
 
         HikariDataSource ds = new HikariDataSource(config);
 
-        System.out.println("Returning HikairDataSource \n");
         return ds;
     }
 
@@ -95,7 +94,6 @@ public class HikariCPSQL {
         }
         con = ds.getConnection();
 
-        System.out.println("Returning Hikari Connection " + con);
         return con;
     }
 
