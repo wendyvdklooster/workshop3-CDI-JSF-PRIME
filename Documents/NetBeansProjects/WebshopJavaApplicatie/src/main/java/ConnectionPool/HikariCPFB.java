@@ -62,7 +62,6 @@ public class HikariCPFB {
 
         HikariDataSource ds = new HikariDataSource(config);
 
-        System.out.println("Returning HikairDataSource \n");
         return ds;
     }
 
@@ -84,7 +83,6 @@ public class HikariCPFB {
         }
         con = ds.getConnection();
 
-        System.out.println("Returning Hikari Connection " + con);
         return con;
     }
 

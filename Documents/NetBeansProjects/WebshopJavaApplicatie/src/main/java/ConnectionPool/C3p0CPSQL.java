@@ -38,7 +38,6 @@ public class C3p0CPSQL {
         
         testLogger.debug("C3p0CPSQL url: " + cpds.getJdbcUrl() );
         
-        System.out.println("Returning ComboPooledDataSource \n");
         return cpds;
     }
     
@@ -63,7 +62,6 @@ public class C3p0CPSQL {
             errorLogger.error("Error: ", ex);
         }
         
-        System.out.println("Returning c3p0 Connection " + con);
         return con;
     }
     

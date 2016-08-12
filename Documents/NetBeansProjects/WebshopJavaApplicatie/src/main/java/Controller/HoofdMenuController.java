@@ -92,7 +92,7 @@ public class HoofdMenuController {
            daoFactory.setDatabaseSetting("MySQL");
            start();
    }
-    
+   
 
     // beginpunt
     public void start()  {  
@@ -131,14 +131,15 @@ public class HoofdMenuController {
        userInput = hoofdMenuView.bevestigingsVraag();
        
        if (userInput == 1){ // wel afsluiten
-           // 
-           
+           System.exit(0);    
        }
        else if (userInput == 2){ // niet afsluiten
            userInput = hoofdMenuView.hoofdMenu();
        }           
         
     }
-    
+    public void directAfsluiten() {
+        return;
+    }
  
 }
