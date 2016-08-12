@@ -76,12 +76,13 @@ public class BestellingArtikelDAOFB implements BestellingArtikelDAOInterface {
     public ArrayList<Artikel> findByBestellingId(int bestelling_id) {
         ArrayList<Artikel>artikelLijst = new ArrayList<>();
         
-        String sqlQuery = "select artikel_id from koppelbestellingartikel where bestelling_id = " + bestelling_id;
+        String sqlQuery = "select artikel_id from koppelbestellingartikel where bestelling_id = ? ";
         
         try {
         
         Connection con = ConnectionFactory.getConnection(); 
             pstmt = con.prepareStatement(sqlQuery);
+            pstmt.setInt(1, bestelling_id);
             rs = pstmt.executeQuery();
 
             ArtikelDAOInterface artikelDao = new ArtikelDAOSQL();
@@ -107,12 +108,13 @@ public class BestellingArtikelDAOFB implements BestellingArtikelDAOInterface {
     public ArrayList<Bestelling> findBestellingByArtikelId(int artikel_id) {
         ArrayList<Bestelling>bestellingLijst = new ArrayList<>();
         
-        String sqlQuery = "select bestelling_id from koppelbestellingartikel where artikel_id = " + artikel_id;
+        String sqlQuery = "select bestelling_id from koppelbestellingartikel where artikel_id = ? ";
         
         try {
         
         Connection con = ConnectionFactory.getConnection(); 
             pstmt = con.prepareStatement(sqlQuery);
+            pstmt.setInt(1,artikel_id);
             rs = pstmt.executeQuery();
 
             BestellingDAOInterface bestellingDao = new BestellingDAOSQL();
@@ -184,13 +186,15 @@ public class BestellingArtikelDAOFB implements BestellingArtikelDAOInterface {
     public int findAantalByArtikelID(int bestelling_id, int artikel_id) {
         int artikelAantal = 0;
         
-        String sqlQuery = "select aantal from koppelbestellingartikel where bestelling_id = " + bestelling_id + " and artikel_id = " + artikel_id;
+        String sqlQuery = "select aantal from koppelbestellingartikel where bestelling_id = ? and artikel_id = ? ";
         
         
         try {
         
         Connection con = ConnectionFactory.getConnection(); 
             pstmt = con.prepareStatement(sqlQuery);
+            pstmt.setInt(1, bestelling_id);
+            pstmt.setInt(2, artikel_id);
             rs = pstmt.executeQuery();
 
             while (rs.next()){
@@ -221,12 +225,14 @@ public class BestellingArtikelDAOFB implements BestellingArtikelDAOInterface {
 
     @Override
     public void deleteArtikel(int bestelling_id, int artikel_id) {
-        String sqlQuery = "delete from koppelbestellingartikel where bestelling_id = " + bestelling_id + " and artikel_id = " + artikel_id;
+        String sqlQuery = "delete from koppelbestellingartikel where bestelling_id = ? and artikel_id = ? ";
         
        try {
         
         Connection con = ConnectionFactory.getConnection(); 
         pstmt = con.prepareStatement(sqlQuery);
+        pstmt.setInt(1, bestelling_id);
+        pstmt.setInt(2, artikel_id);
         pstmt.executeUpdate();
         
         } 
@@ -238,12 +244,13 @@ public class BestellingArtikelDAOFB implements BestellingArtikelDAOInterface {
     
     @Override
     public void deleteBestellingArtikel(int bestelling_id) {
-        String sqlQuery = "delete from koppelbestellingartikel where bestelling_id = " + bestelling_id;
+        String sqlQuery = "delete from koppelbestellingartikel where bestelling_id = ?" ;
         
         try {
         
         Connection con = ConnectionFactory.getConnection(); 
             pstmt = con.prepareStatement(sqlQuery);
+            pstmt.setInt(1, bestelling_id);
             pstmt.executeUpdate();
 
         } 

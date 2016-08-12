@@ -42,7 +42,7 @@ public class HikariCPFB {
     
     // For now HardCoded info
     
-    private static String urlHC = "jdbc:firebirdsql:localhost:C:\\\\FBDB\\\\FBDB.FDB";
+    private static String urlHC = "jdbc:firebirdsql:localhost/3050:C:\\\\FBDB\\\\FBDB.FDB";
     private static String userHC = "Anjewe";
     private static String passwordHC = "Koetjes";
     private static String driver = "org.firebirdsql.jdbc.FBDriver";

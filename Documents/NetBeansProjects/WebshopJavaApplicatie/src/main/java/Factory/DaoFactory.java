@@ -25,6 +25,7 @@ import DAOs.Interface.BestellingArtikelDAOInterface;
 import DAOs.Interface.BestellingDAOInterface;
 import DAOs.Interface.KlantAdresDAOInterface;
 import DAOs.Interface.KlantDAOInterface;
+import ch.qos.logback.classic.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,13 +35,22 @@ import org.slf4j.LoggerFactory;
  */
 public class DaoFactory {
     
-    private final static Logger LOGGER = LoggerFactory.getLogger(DaoFactory.class.getName());  
-  
-    private static String databaseSetting = "MySQL";
+    private static final ch.qos.logback.classic.Logger LOGGER = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger("com.webshop");  
+    private static final ch.qos.logback.classic.Logger errorLogger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger("com.webshop.err");
+    private static final ch.qos.logback.classic.Logger testLogger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger("com.webshop.test");
+    static{
+        // Logger.ROOT_LOGGER_NAME == "rootLogger" :Level OFF      
+        LOGGER.setLevel(Level.DEBUG);   
+        errorLogger.setLevel(Level.ERROR);   
+        testLogger.setLevel(Level.DEBUG);
+       }   
     
+    
+    private static String databaseSetting = "FireBird";
    
     public void setDatabaseSetting(String databaseSetting) {
         this.databaseSetting = databaseSetting;
+        LOGGER.debug(" databasesetting: " + getDatabaseSetting());        
     }
     
     public String getDatabaseSetting() {

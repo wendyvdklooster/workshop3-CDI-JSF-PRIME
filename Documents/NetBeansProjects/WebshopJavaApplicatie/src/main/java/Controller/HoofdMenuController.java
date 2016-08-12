@@ -25,8 +25,8 @@ import org.slf4j.LoggerFactory;
 public class HoofdMenuController {
    // data fields 
     private static final Logger logger = (Logger) LoggerFactory.getLogger("com.webshop");
-    private static ch.qos.logback.classic.Logger errorLogger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger("com.webshop.err");
-    private static ch.qos.logback.classic.Logger testLogger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger("com.webshop.test");
+    private static final Logger errorLogger = (Logger) LoggerFactory.getLogger("com.webshop.err");
+    private static final Logger testLogger = (Logger) LoggerFactory.getLogger("com.webshop.test");
    
    KlantController klantController; 
    ArtikelController artikelController;
@@ -46,7 +46,7 @@ public class HoofdMenuController {
         if (userInput == 1) {
            connectionFactory.setConnectionPool("Hikari");
            
-           testLogger.info("connectionpool is set to Hikari");
+           testLogger.debug("connectionpool is set to Hikari");
            logger.debug("connectionpool: Hikari");
            
            setDatabase();
@@ -54,7 +54,7 @@ public class HoofdMenuController {
         else if (userInput == 2) {
            connectionFactory.setConnectionPool("C3p0");
            
-           testLogger.info("connectionpool is set to C3p0");
+           testLogger.debug("connectionpool is set to C3p0");
            logger.debug("connectionpool: C3p0");
            
            setDatabase();

@@ -13,8 +13,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class C3p0CPSQL {
-
-    private final static Logger LOGGER = LoggerFactory.getLogger(C3p0CPSQL.class.getName());
+    
+    private static final Logger LOGGER = (Logger) LoggerFactory.getLogger("com.webshop"); 
+    private static Logger errorLogger = (Logger) LoggerFactory.getLogger("com.webshop.err");
+    private static Logger testLogger = (Logger) LoggerFactory.getLogger("com.webshop.test");
+    
     private C3p0CPSQL datasource;
     private static ComboPooledDataSource cpds;
     static Connection con;
@@ -33,6 +36,8 @@ public class C3p0CPSQL {
         cpds.setMaxStatements(500);
         cpds.setMaxStatementsPerConnection(50);
         
+        testLogger.debug("C3p0CPSQL url: " + cpds.getJdbcUrl() );
+        
         System.out.println("Returning ComboPooledDataSource \n");
         return cpds;
     }
@@ -43,7 +48,7 @@ public class C3p0CPSQL {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
         } 
         catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            LOGGER.error("Error: ", ex);
+            errorLogger.error("Error: ", ex);
         }
 
         ComboPooledDataSource cpds = getDataSource();
@@ -54,8 +59,8 @@ public class C3p0CPSQL {
                 con = null;
             }
             con = cpds.getConnection();
-        } catch (SQLException ex) {
-            LOGGER.error("Error: ", ex);
+        } catch (SQLException ex) { 
+            errorLogger.error("Error: ", ex);
         }
         
         System.out.println("Returning c3p0 Connection " + con);

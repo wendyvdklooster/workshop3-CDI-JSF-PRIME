@@ -167,15 +167,19 @@ public class AdresView {
     
     public void printAdressenLijst(ArrayList<Adres> adressenLijst) {
         System.out.println();
-        System.out.println("AdresId\tStraatnaam\t\tHuisnummer\tToevoeging\tPostcode\tWoonplaats");
-            for (int i = 0; i< adressenLijst.size(); i++){
+        System.out.println("Lijst met adressen");
+        System.out.printf("%-10s%-28s%-12s%-12s%-12s%-18s%n","AdresId", "Straatnaam", "Huisnummer", "Toevoeging", "Postcode", "Woonplaats");
+        
+        for (int i = 0; i< adressenLijst.size(); i++){
 
-            System.out.println ((adressenLijst.get(i)).getAdresId() + "\t\t" +
-            (adressenLijst.get(i)).getStraatnaam() + "\t\t" +(adressenLijst.get(i)).getHuisnummer() +
-            "\t" + (adressenLijst.get(i)).getToevoeging() + "\t" + (adressenLijst.get(i)).getPostcode() +
-            "\t" + (adressenLijst.get(i)).getWoonplaats());
-            }        
+            System.out.printf ("%-10s%-28s%-12s%-12s%-12s%-18s%n",(adressenLijst.get(i)).getAdresId(),
+            (adressenLijst.get(i)).getStraatnaam(),(adressenLijst.get(i)).getHuisnummer(),
+            (adressenLijst.get(i)).getToevoeging(),(adressenLijst.get(i)).getPostcode(),
+            (adressenLijst.get(i)).getWoonplaats());            
+           
+        }
     }
+    
     
     public void printKlantAdresLijst(ArrayList<KlantAdres> klantAdresLijst){
         System.out.println();

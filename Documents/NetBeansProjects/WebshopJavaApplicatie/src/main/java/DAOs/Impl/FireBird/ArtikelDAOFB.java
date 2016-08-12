@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ArtikelDAOFB implements ArtikelDAOInterface {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(ArtikelDAOFB.class.getName());
+    private final static Logger LOGGER = LoggerFactory.getLogger("com.webshop.test");
     ConnectionFactory connectionFactory = new ConnectionFactory();
     Connection con;
     ResultSet rs;
@@ -41,6 +41,8 @@ public class ArtikelDAOFB implements ArtikelDAOInterface {
        try {
         
         Connection con = ConnectionFactory.getConnection();  
+        
+        LOGGER.debug("gebruikt fb");
             
             String sqlQuery = "select * from artikel";
             
@@ -48,9 +50,9 @@ public class ArtikelDAOFB implements ArtikelDAOInterface {
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                // get the fields from one artikel and store it in an Artikel object
+                // get the fields from one artikel and store it in an Artikl object
                 Artikel artikel = new Artikel();
-                artikel.setArtikelId(rs.getInt("artikel_id"));
+                artikel.setArtikelId(rs.getInt("artikel_id"));                
                 artikel.setArtikelNaam(rs.getString("artikelnaam"));
                 artikel.setArtikelPrijs(rs.getDouble("artikel_prijs"));
 
@@ -58,7 +60,7 @@ public class ArtikelDAOFB implements ArtikelDAOInterface {
                 artikelList.add(artikel);
             }
         } catch (SQLException ex) {
-            System.out.println("Data search failed");
+            LOGGER.error("Data search failed", ex);
         }
 
        return artikelList;  

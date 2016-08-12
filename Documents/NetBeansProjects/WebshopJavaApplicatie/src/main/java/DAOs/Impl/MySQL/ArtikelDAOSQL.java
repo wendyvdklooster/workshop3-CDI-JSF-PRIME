@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 public class ArtikelDAOSQL implements ArtikelDAOInterface {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(ArtikelDAOSQL.class.getName());
+    private final static Logger LOGGER = LoggerFactory.getLogger("com.webshop.test");
     ConnectionFactory connectionFactory = new ConnectionFactory();
     Connection con;
     ResultSet rs;
@@ -29,6 +29,7 @@ public class ArtikelDAOSQL implements ArtikelDAOInterface {
         try {
         
         Connection con = ConnectionFactory.getConnection();  
+        LOGGER.debug("gebruikt sql" );
         
             String sqlQuery = "select * from artikel";
             pstmt = con.prepareStatement(sqlQuery);
