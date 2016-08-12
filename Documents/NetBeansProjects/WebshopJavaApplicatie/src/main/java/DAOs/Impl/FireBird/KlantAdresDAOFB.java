@@ -47,7 +47,7 @@ public class KlantAdresDAOFB implements KlantAdresDAOInterface{
         
         Connection con = ConnectionFactory.getConnection();                
         
-            String sqlQuery = "SELECT * FROM koppelklantadres";
+            String sqlQuery = "SELECT klant_id, adres_id FROM koppelklantadres";
             
             rs = pstmt.executeQuery(sqlQuery);
                 while (rs.next()) {
