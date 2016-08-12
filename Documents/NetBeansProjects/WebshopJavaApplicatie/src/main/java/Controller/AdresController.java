@@ -5,14 +5,12 @@
  */
 package Controller;
 
-import DAOs.Impl.MySQL.KlantAdresDAOSQL;
 import DAOs.Interface.AdresDAOInterface;
 import DAOs.Interface.KlantAdresDAOInterface;
 import DAOs.Interface.KlantDAOInterface;
 import POJO.Adres;
 import View.AdresView;
 import View.HoofdMenuView;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import Factory.DaoFactory;
 import POJO.Adres.AdresBuilder;
@@ -28,12 +26,14 @@ import org.slf4j.LoggerFactory;
  */
 public class AdresController {
      
-   private final static Logger LOGGER = LoggerFactory.getLogger(AdresController.class.getName());
+    private static final Logger logger = (Logger) LoggerFactory.getLogger("com.webshop");
+    private static final Logger errorLogger = (Logger) LoggerFactory.getLogger("com.webshop.err");
+    private static final Logger testLogger = (Logger) LoggerFactory.getLogger("com.webshop.test");
    
    DaoFactory daoFactory = new DaoFactory();    
-   AdresDAOInterface adresDao = DaoFactory.getAdresDao();   
-   KlantDAOInterface klantDao = DaoFactory.getKlantDao();
-   KlantAdresDAOInterface klantAdresDao = DaoFactory.getKlantAdresDao();        
+   AdresDAOInterface adresDao;    
+   KlantDAOInterface klantDao; 
+   KlantAdresDAOInterface klantAdresDao;         
    HoofdMenuView hoofdMenuView = new HoofdMenuView(); 
    
    AdresView adresView = new AdresView();
@@ -45,7 +45,6 @@ public class AdresController {
    ArrayList<Adres> adressenLijst = new ArrayList();
     
    int userInput;
-    
    
     public void adresMenu()  {
         
@@ -85,6 +84,11 @@ public class AdresController {
     }
     
     public int voegNieuwAdresToe() {
+        
+        klantAdresDao = DaoFactory.getKlantAdresDao(); 
+        adresDao = DaoFactory.getAdresDao();
+        klantDao = DaoFactory.getKlantDao();
+        
         System.out.println("U wilt een nieuw adres toevoegen. Voer hieronder de gegevens in.");
         int klantId = adresView.voerKlantIdIn();
         adres = createAdres();
@@ -104,6 +108,8 @@ public class AdresController {
     
     public Adres createAdres() {
         
+        
+        
         String straatnaam = adresView.voerStraatnaamIn();
         int huisnummer = adresView.voerHuisnummerIn();
         String toevoeging = adresView.voerToevoegingIn();
@@ -122,6 +128,11 @@ public class AdresController {
     }
     
     public void zoekAdresGegevens()  {
+        
+        klantAdresDao = DaoFactory.getKlantAdresDao(); 
+        adresDao = DaoFactory.getAdresDao();
+        klantDao = DaoFactory.getKlantDao();
+        
         userInput = adresView.menuAdresZoeken();
         switch (userInput) {
             case 1:        
@@ -174,7 +185,7 @@ public class AdresController {
         adresMenu();
     }
     
-    public void wijzigAdresGegevens() {
+    public void wijzigAdresGegevens() {      
                 
         userInput = adresView.hoeWiltUZoeken();
         switch (userInput) {
@@ -198,7 +209,13 @@ public class AdresController {
         }
         adresMenu();
     }
+    
+    
     public void updateOpAdresId() {
+         
+        klantAdresDao = DaoFactory.getKlantAdresDao(); 
+        adresDao = DaoFactory.getAdresDao();
+        klantDao = DaoFactory.getKlantDao();
         
         adres = new Adres();
         Adres gewijzigdAdres = new Adres();
@@ -215,6 +232,10 @@ public class AdresController {
     }
     
     public void updateOpStraatnaam() {
+        
+        klantAdresDao = DaoFactory.getKlantAdresDao(); 
+        adresDao = DaoFactory.getAdresDao();
+        klantDao = DaoFactory.getKlantDao();
         
         adres = new Adres();
         Adres gewijzigdAdres = new Adres();
@@ -236,6 +257,10 @@ public class AdresController {
     
     public void updateOpPostcodeHuisnummer() {
         
+        klantAdresDao = DaoFactory.getKlantAdresDao(); 
+        adresDao = DaoFactory.getAdresDao();
+        klantDao = DaoFactory.getKlantDao();
+        
         adres = new Adres();
         Adres gewijzigdAdres = new Adres();
         int huisnummer = adresView.voerHuisnummerIn();
@@ -256,6 +281,10 @@ public class AdresController {
     
     
     public void updateOpWoonplaats() {
+        
+        klantAdresDao = DaoFactory.getKlantAdresDao(); 
+        adresDao = DaoFactory.getAdresDao();
+        klantDao = DaoFactory.getKlantDao();
         
         adres = new Adres();
         Adres gewijzigdAdres = new Adres();
@@ -326,7 +355,10 @@ public class AdresController {
     
     public void verwijderAdresGegevens() {
         
-        klantAdresDao = new KlantAdresDAOSQL();
+        klantAdresDao = DaoFactory.getKlantAdresDao(); 
+        adresDao = DaoFactory.getAdresDao();
+        klantDao = DaoFactory.getKlantDao();
+        
         boolean isDeletedInAdres = false;
         boolean isDeletedInKlantAdres = false;
         
@@ -368,9 +400,15 @@ public class AdresController {
     }
     
     public void zoekAdresKlantGegevens(){
-       int klantId; 
-       userInput = adresView.menuAdresKlantZoeken();
-       switch(userInput){
+        
+        klantAdresDao = DaoFactory.getKlantAdresDao(); 
+        adresDao = DaoFactory.getAdresDao();
+        klantDao = DaoFactory.getKlantDao(); 
+        
+        int klantId; 
+        userInput = adresView.menuAdresKlantZoeken();
+       
+        switch(userInput){
            case 1: // adres(sen) bij klantId
                klantId = klantView.voerKlantIdIn();
                ArrayList<Adres>adressenLijst = klantAdresDao.findAdresByKlantId(klantId);

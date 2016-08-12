@@ -25,14 +25,16 @@ public class ArtikelController {
     // if (input == 3) { WijzigArtikelGegevens}
     // if (input == 4) { VerwijderArtikelGegevens}
     
-    private final static Logger LOGGER = LoggerFactory.getLogger(ArtikelController.class.getName());
-    
+    private static final Logger logger = (Logger) LoggerFactory.getLogger("com.webshop");
+    private static final Logger errorLogger = (Logger) LoggerFactory.getLogger("com.webshop.err");
+    private static final Logger testLogger = (Logger) LoggerFactory.getLogger("com.webshop.test");
+   
     ArtikelView artikelView = new ArtikelView();
-    ArtikelDAOInterface artikelDAO = DaoFactory.getArtikelDao();
+    ArtikelDAOInterface artikelDAO; 
     Artikel artikel = new Artikel();
     
     BestellingView bestellingView = new BestellingView();
-    BestellingArtikelDAOInterface bestellingArtikelDAO = DaoFactory.getBestellingArtikelDao();
+    BestellingArtikelDAOInterface bestellingArtikelDAO; 
     
     
     public void artikelMenu()  {
@@ -64,6 +66,10 @@ public class ArtikelController {
     }
     
      public void voegNieuwArtikelToe(Artikel artikel) {
+         
+        artikelDAO = DaoFactory.getArtikelDao();
+        bestellingArtikelDAO= DaoFactory.getBestellingArtikelDao(); 
+         
         String artikelNaam = artikel.getArtikelNaam();
         double artikelPrijs = artikel.getArtikelPrijs();
         
@@ -86,7 +92,10 @@ public class ArtikelController {
         return artikel;
     } 
      
-    public void zoekArtikelGegevens()  {       
+    public void zoekArtikelGegevens()  {    
+         
+        artikelDAO = DaoFactory.getArtikelDao();
+        bestellingArtikelDAO= DaoFactory.getBestellingArtikelDao();
         artikel = new Artikel();         
 		
         int input = artikelView.menuArtikelZoeken();
@@ -129,9 +138,10 @@ public class ArtikelController {
     }
     
     
-    public void wijzigArtikelGegevens() {
+    public void wijzigArtikelGegevens() {             
         
         int userInput = artikelView.hoeWiltUZoeken();
+        
         switch (userInput) {
             case 1: 
                 updateOpArtikelId();
@@ -150,6 +160,10 @@ public class ArtikelController {
     }
     
     public void updateOpArtikelId() {
+        
+        artikelDAO = DaoFactory.getArtikelDao();
+        bestellingArtikelDAO= DaoFactory.getBestellingArtikelDao();  
+        
         Artikel gewijzigdArtikel = new Artikel();
         boolean gewijzigd;
         
@@ -167,6 +181,10 @@ public class ArtikelController {
         }
     }
     public void updateOpArtikelNaam() {
+        
+        artikelDAO = DaoFactory.getArtikelDao();
+        bestellingArtikelDAO= DaoFactory.getBestellingArtikelDao();  
+        
         Artikel gewijzigdArtikel = new Artikel();
         boolean gewijzigd;
     
@@ -185,6 +203,9 @@ public class ArtikelController {
     }
     
     public void updateOpArtikelPrijs() {
+        
+        artikelDAO = DaoFactory.getArtikelDao();
+        bestellingArtikelDAO= DaoFactory.getBestellingArtikelDao();  
         
         Artikel gewijzigdArtikel = new Artikel();
         boolean gewijzigd;
@@ -205,6 +226,8 @@ public class ArtikelController {
         
     public Artikel invoerNieuweArtikelGegevens(Artikel artikel) {
         
+        artikelDAO = DaoFactory.getArtikelDao();
+        bestellingArtikelDAO= DaoFactory.getBestellingArtikelDao();  
         int juist = 0;
         
         String artikelNaam = artikel.getArtikelNaam();
@@ -227,6 +250,9 @@ public class ArtikelController {
     
     
     public void verwijderArtikelGegevens()  {
+        
+        artikelDAO = DaoFactory.getArtikelDao();
+        bestellingArtikelDAO= DaoFactory.getBestellingArtikelDao();  
                 
         int userInput = artikelView.printVerwijderMenu();
         switch (userInput) {

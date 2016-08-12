@@ -121,9 +121,9 @@ public class KlantView {
     public void printKlantGegevens(Klant klant){
         
         System.out.println("De huidige gegevens van de klant met klantId: " + klant.getKlantId());
-        System.out.println(klant.getVoornaam() + " " + klant.getTussenvoegsel() + " "
+        System.out.println("Naam: " + klant.getVoornaam() + " " + klant.getTussenvoegsel() + " "
                 + klant.getAchternaam());
-        System.out.println(klant.getEmail());
+        System.out.println("Email: "+ klant.getEmail());
         System.out.println();
         
     }
@@ -237,12 +237,14 @@ public class KlantView {
     
     public void printKlantenLijst(ArrayList<Klant> lijst){
         System.out.println();
-        System.out.println("KlantId\t\tVoornaam\t\tTussenvoegsel\t\tAchternaam\t\tEmail");
+        System.out.println("Lijst met opgevraagde klanten");
+        System.out.printf("%-10s%-18s%-15s%-25s%-15s%n","KlantId", "Voornaam", "Tussenvoegsel", "Achternaam", "Email");
+        //System.out.println("KlantId\t\tVoornaam\t\tTussenvoegsel\t\tAchternaam\t\tEmail");
             for (int i = 0; i< lijst.size(); i++){
-
-            System.out.println ((lijst.get(i)).getKlantId() + "\t\t" +
-            (lijst.get(i)).getVoornaam() + "\t\t" +(lijst.get(i)).getTussenvoegsel() +
-            "\t\t" + (lijst.get(i)).getAchternaam() + "\t\t" + (lijst.get(i)).getEmail());
+                System.out.printf("%-10s%-18s%-15s%-25s%-15s%n",
+                        (lijst.get(i)).getKlantId(),(lijst.get(i)).getVoornaam(),
+                        (lijst.get(i)).getTussenvoegsel(),(lijst.get(i)).getAchternaam(),
+                        (lijst.get(i)).getEmail());            
         }        
     }
     
@@ -255,11 +257,14 @@ public class KlantView {
             System.out.println(verwijderd + " koppeling(en) van klant met een adres zijn verwijderd"); 
             System.out.println();
         }
-        else{
+    }
+    
+    public void printNotDeleted(Klant klant){    
+        
             System.out.println("De volgende klant is NIET verwijderd uit het bestand: ");
             printKlantGegevens(klant);
             System.out.println();
-        }   
+          
     }   
     
     

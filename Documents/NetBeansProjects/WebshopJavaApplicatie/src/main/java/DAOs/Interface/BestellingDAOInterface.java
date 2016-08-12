@@ -22,5 +22,6 @@ public interface BestellingDAOInterface {
     public int insertBestelling(int klant_id);
     public boolean deleteBestelling(int bestelling_id);
     public void deleteAll();  
+    public ArrayList<Bestelling> findByKlantId(int klantId);
 }
 

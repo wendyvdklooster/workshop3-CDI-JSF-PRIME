@@ -26,22 +26,25 @@ import org.slf4j.LoggerFactory;
 public class KlantController {
     
     //data fields
-    private final static Logger LOGGER = LoggerFactory.getLogger(KlantController.class.getName());
+    private static final Logger logger = (Logger) LoggerFactory.getLogger("com.webshop");
+    private static final Logger errorLogger = (Logger) LoggerFactory.getLogger("com.webshop.err");
+    private static final Logger testLogger = (Logger) LoggerFactory.getLogger("com.webshop.test");
+   
     
     DaoFactory daoFactory = new DaoFactory();
-    KlantDAOInterface klantDAO = DaoFactory.getKlantDao();
+    KlantDAOInterface klantDAO; 
     KlantView klantView = new KlantView();    
     KlantBuilder klantBuilder = new KlantBuilder();
     Klant klant;
     ArrayList<Klant> klantenLijst;
     
-    AdresDAOInterface adresDAO = DaoFactory.getAdresDao();
+    AdresDAOInterface adresDAO; 
     AdresView adresView = new AdresView();
     AdresController adresController;
     AdresBuilder adresBuilder = new AdresBuilder();
     Adres adres; 
            
-    KlantAdresDAOInterface klantAdresDAO = DaoFactory.getKlantAdresDao();
+    KlantAdresDAOInterface klantAdresDAO; 
     
     HoofdMenuController hoofdMenuController;
     HoofdMenuView hoofdMenuView;
@@ -88,9 +91,13 @@ public class KlantController {
     public int voegNieuweKlantToe() {
         
         adresController = new AdresController();
+        klantDAO = DaoFactory.getKlantDao();
+        klantAdresDAO = DaoFactory.getKlantAdresDao();
+        adresDAO = DaoFactory.getAdresDao();
         
         System.out.println("U gaat een klant toevoegen. Voer de gegevens in.");
-        klant = createKlant();           
+        klant = createKlant();   
+        
         klant = klantDAO.insertKlant(klant); //klant inclusief klantId
         int klantId = klant.getKlantId();   
         
@@ -122,6 +129,10 @@ public class KlantController {
         int klantId = 0;   
         int x = 0;
         
+        klantDAO = DaoFactory.getKlantDao();
+        klantAdresDAO = DaoFactory.getKlantAdresDao();
+        adresDAO = DaoFactory.getAdresDao();
+        
         int input = klantView.menuKlantZoeken();
         switch (input) {
             case 1: // één klnat zoeken        
@@ -129,7 +140,10 @@ public class KlantController {
             // klantId is bekend:
             switch (x) {
                 case 1:
-                    klantId = klantView.voerKlantIdIn();
+                    klantId = klantView.voerKlantIdIn();                    
+                    testLogger.debug(this.getClass() + "daofactory.getKlantDAO: " + DaoFactory.getKlantDao());                    
+                    testLogger.debug("daofactory.getDatabaseSetting: " + daoFactory.getDatabaseSetting());
+                    testLogger.debug("klantDAO: " + klantDAO);
                     klant = klantDAO.findByKlantId(klantId);
                     klantView.printKlantGegevens(klant);
                     break;
@@ -179,6 +193,8 @@ public class KlantController {
             } // eind zoeken naar 1 klant
             break;
             case 2: // zoeken naar alle klanten
+                klantAdresDAO = DaoFactory.getKlantAdresDao();
+                klantDAO = DaoFactory.getKlantDao();
                 klantenLijst = klantDAO.findAllKlanten();
                 if (klantenLijst != null){
                     System.out.println("Alle klanten in het bestand");
@@ -205,6 +221,10 @@ public class KlantController {
     
     public void wijzigKlantGegevens(){
        
+       klantDAO = DaoFactory.getKlantDao();
+       klantAdresDAO = DaoFactory.getKlantAdresDao();
+       adresDAO = DaoFactory.getAdresDao(); 
+        
        Klant gewijzigdeKlant = new Klant();
        int klantId = 0;
         
@@ -277,6 +297,10 @@ public class KlantController {
     
     public void verwijderKlantGegevens() {
        
+        klantDAO = DaoFactory.getKlantDao();
+        klantAdresDAO = DaoFactory.getKlantAdresDao();
+        adresDAO = DaoFactory.getAdresDao();
+        
         boolean deleted = false;
         int klantId = 0;
         int x = 0;
@@ -302,8 +326,13 @@ public class KlantController {
                     
                 deleted = klantDAO.deleteByKlantId(klantId);  
                 int verwijderd = klantAdresDAO.deleteKlantAdresByKlantId(klantId);
-                klantView.printDeleteResultaat(deleted, klantId, verwijderd, klant);
-                    
+                if (deleted){
+                    klantView.printDeleteResultaat(deleted, klantId, verwijderd, klant);
+                }
+                else {
+                    klant = klantDAO.findByKlantId(klantId);
+                    klantView.printNotDeleted(klant);
+                        }
                 break;                    
                                     
             case 2: // alle klanten verwijderen

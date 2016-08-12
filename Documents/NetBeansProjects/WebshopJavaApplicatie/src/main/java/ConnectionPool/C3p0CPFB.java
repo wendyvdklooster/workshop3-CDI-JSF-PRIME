@@ -8,8 +8,11 @@ package ConnectionPool;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
-import org.slf4j.Logger;
+import javassist.bytecode.Bytecode;
+//import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
 
 /**
  *
@@ -17,8 +20,17 @@ import org.slf4j.LoggerFactory;
  */
 public class C3p0CPFB {
     
-    private final static Logger LOGGER = LoggerFactory.getLogger(C3p0CPFB.class.getName());
-    private C3p0CPSQL datasource;
+   private static Logger LOGGER = (Logger) LoggerFactory.getLogger("com.webshop.dao");  
+   private static Logger errorLogger = (Logger) LoggerFactory.getLogger("com.webshop.err");
+   private static Logger testLogger = (Logger) LoggerFactory.getLogger("com.webshop.test");
+   static{
+        // Logger.ROOT_LOGGER_NAME == "rootLogger" :Level OFF      
+        LOGGER.setLevel(Level.DEBUG);   
+        errorLogger.setLevel(Level.ERROR);   
+        // testLogger inherits Level debug
+       }   
+   
+   private C3p0CPSQL datasource;
     private static ComboPooledDataSource cpds;
     static Connection con;
 
@@ -36,6 +48,10 @@ public class C3p0CPFB {
         cpds.setMaxStatements(500);
         cpds.setMaxStatementsPerConnection(50);
         
+        
+        testLogger.debug("C3p0CPF url: " + cpds.getJdbcUrl() );
+        
+        
         System.out.println("Returning ComboPooledDataSource \n");
         return cpds;
     }
@@ -46,7 +62,7 @@ public class C3p0CPFB {
             Class.forName("org.firebirdsql.jdbc.FBDriver").newInstance();
         } 
         catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            LOGGER.error("Error: ", ex);
+            errorLogger.error("Error: ", ex);
         }
 
         cpds = getDataSource();
@@ -58,7 +74,7 @@ public class C3p0CPFB {
             }
             con = cpds.getConnection();
         } catch (SQLException ex) {
-            LOGGER.error(" ", ex);
+            errorLogger.error(" ", ex);
         }
         
         System.out.println("Returning c3p0 Connection " + con);

@@ -72,13 +72,14 @@ public class BestellingDAOFB implements BestellingDAOInterface{
     
     @Override
     public Bestelling findById(int bestelling_id) {
-       String sqlQuery = "select bestelling_id, klant_id from bestelling where bestelling_id = " + bestelling_id;
+       String sqlQuery = "select bestelling_id, klant_id from bestelling where bestelling_id = ?";
         Bestelling bestelling = new Bestelling();
         
         try {
         
         Connection con = ConnectionFactory.getConnection();  
             pstmt = con.prepareStatement(sqlQuery);
+            pstmt.setInt(1, bestelling_id);
             rs = pstmt.executeQuery();
         
             while (rs.next()) {            
@@ -168,5 +169,35 @@ public class BestellingDAOFB implements BestellingDAOInterface{
             Logger.getLogger(BestellingDAOSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    
+    
+    @Override
+    public ArrayList<Bestelling> findByKlantId(int klantId) {
+        String sqlQuery = "select bestelling_id, klant_id from bestelling where klant_id = ? ";
+        Bestelling bestelling = new Bestelling();
+        ArrayList<Bestelling> bestellingLijst = new ArrayList();
+        
+        try {
+        
+        Connection con = ConnectionFactory.getConnection();
+        
+        pstmt = con.prepareStatement(sqlQuery);
+        pstmt.setInt(1, klantId); 
+        rs = pstmt.executeQuery();
+        
+        while (rs.next()) {            
+            
+            bestelling.setBestellingId(rs.getInt("bestelling_id"));
+            bestelling.setKlantId(rs.getInt("klant_id"));
+            bestellingLijst.add(bestelling);
+        }   
+        
+        } catch (SQLException ex) {
+            LOGGER.error("", ex);
+        }
+     return bestellingLijst; 
+    }
+    
     
 }
