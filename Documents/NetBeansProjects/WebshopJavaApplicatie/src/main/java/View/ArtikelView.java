@@ -115,11 +115,12 @@ public class ArtikelView {
     
     public void printArtikelenLijst(ArrayList<Artikel> lijst){
         System.out.println();
-        System.out.println("ArtikelId\t\tArtikel naam\t\tArtikel prijs");
-            for (int i = 0; i< lijst.size(); i++){
+        System.out.println("Lijst met artikelen");
+        System.out.printf("%-12s%-25s%-15s%n", "ArtikelId", "Artikel naam", "Artikel prijs");
+        for (int i = 0; i< lijst.size(); i++){
 
-            System.out.println ((lijst.get(i)).getArtikelId() + "\t\t\t" +
-            (lijst.get(i)).getArtikelNaam() + "\t\t" +(lijst.get(i)).getArtikelPrijs());
+            System.out.printf ("%-12s%-25s%-15s%n",(lijst.get(i)).getArtikelId(),
+                    (lijst.get(i)).getArtikelNaam(),(lijst.get(i)).getArtikelPrijs());
         }        
     }
     

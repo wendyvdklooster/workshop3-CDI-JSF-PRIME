@@ -154,8 +154,9 @@ BestellingArtikelDAOInterface bestellingArtikelDAO = DaoFactory.getBestellingArt
         // ook koppelbestellingartikel aanspreken om aantallen bij te kunnen voegen
         
         System.out.println("Aanwezige bestellingen: ");
-        for (Bestelling best: lijst){
-            System.out.println("Bestelling ID: " + best.getBestellingId() + " - Klant ID: " + best.getKlantId());
+        System.out.printf("%-18s%-18s%n", "BestellingId", "KlantId");
+        for (Bestelling best: lijst){            
+            System.out.printf("%-18s%-18s%n", best.getBestellingId(), best.getKlantId());
         }
 
     }

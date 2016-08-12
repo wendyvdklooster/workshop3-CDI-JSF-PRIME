@@ -46,7 +46,7 @@ public class BestellingArtikelDAOFB implements BestellingArtikelDAOInterface {
     public ArrayList<BestellingArtikel> findAll() {
         ArrayList<BestellingArtikel>bestellingArtikellijst = new ArrayList<>();
         
-        String sqlQuery = "select * from koppelbestellingartikel";        
+        String sqlQuery = "select bestelling_id, artikel_id, aantal from koppelbestellingartikel";        
         
         try {
         
