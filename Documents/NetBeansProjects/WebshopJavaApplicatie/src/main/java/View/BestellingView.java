@@ -210,7 +210,7 @@ BestellingArtikelDAOInterface bestellingArtikelDAO = DaoFactory.getBestellingArt
         System.out.println("Hoe wilt u zoeken?");
         System.out.println("1. Zoek met bestelling ID");
         System.out.println("2. Zoek met klant ID");
-        System.out.println("4. Terug naar bestellingmenu");
+        System.out.println("3. Terug naar bestellingmenu");
         System.out.println("Maak een keuze:");
         
         try{
