@@ -138,8 +138,4 @@ public class HoofdMenuController {
        }           
         
     }
-    public void directAfsluiten() {
-        return;
-    }
- 
 }
