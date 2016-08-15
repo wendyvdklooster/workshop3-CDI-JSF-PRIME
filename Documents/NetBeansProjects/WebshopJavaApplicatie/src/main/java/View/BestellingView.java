@@ -189,7 +189,7 @@ BestellingArtikelDAOInterface bestellingArtikelDAO = DaoFactory.getBestellingArt
     
     public int verwijderConfirmatie(){
         int userChoice = 0;
-        boolean checker = true;
+        boolean checker = false;
         
         System.out.println("Weet je zeker dat je alles wilt verwijderen?\n1 ja\n2 nee");
         do{
@@ -197,11 +197,13 @@ BestellingArtikelDAOInterface bestellingArtikelDAO = DaoFactory.getBestellingArt
         
         try{
            userChoice = scanner.nextInt();
-           checker = false;
+           checker = true; 
+           
         } catch (InputMismatchException ex){
            System.out.println("Voer een integer in.");
+           checker = false;
         }
-        } while (checker);
+        } while (checker == false);
         return userChoice;
     }
     

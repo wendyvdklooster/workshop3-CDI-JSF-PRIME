@@ -15,6 +15,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import java.sql.Connection;
 import javax.activation.DataSource;
 import java.sql.SQLException;
+import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,12 +27,12 @@ import org.slf4j.LoggerFactory;
 public class ConnectionFactory {
     
    private static final ch.qos.logback.classic.Logger LOGGER = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger("com.webshop");  
-   private static final ch.qos.logback.classic.Logger errorLogger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger("com.webshop.err");
+   private static final Logger errorLogger = (Logger) LoggerFactory.getLogger("com.webshop.err");
    private static final ch.qos.logback.classic.Logger testLogger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger("com.webshop.test");
+   
    static{
         // Logger.ROOT_LOGGER_NAME == "rootLogger" :Level OFF      
-        LOGGER.setLevel(Level.DEBUG);   
-        errorLogger.setLevel(Level.ERROR);   
+        LOGGER.setLevel(Level.DEBUG);
         // testLogger inherits Level debug
        }   
 
@@ -49,6 +50,8 @@ public class ConnectionFactory {
        return connectionPoolSetting;
       }   
       
+      
+  
             
     public static Connection getConnection() {
        HikariDataSource hikari = null;
