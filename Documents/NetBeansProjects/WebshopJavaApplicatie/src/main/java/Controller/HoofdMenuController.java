@@ -82,11 +82,11 @@ public class HoofdMenuController {
        }
        else if (userInput == 3) {
            daoFactory.setDatabaseSetting("JSON");
-           start();
+           startJsonXML();
        }
        else if (userInput == 4) {
            daoFactory.setDatabaseSetting("XML");
-           start();
+           startJsonXML();
        }
        else
            daoFactory.setDatabaseSetting("MySQL");
@@ -126,6 +126,11 @@ public class HoofdMenuController {
                     break;
             }
         } 
+    
+    public void startJsonXML() {
+        KlantController klantController = new KlantController();
+        klantController.klantMenu();
+    }
     
     public void afsluiten(){
        userInput = hoofdMenuView.bevestigingsVraag();
