@@ -65,7 +65,7 @@ public class HoofdMenuView {
         System.out.println("2. Werken in artikelbestand");
         System.out.println("3. Werken in bestellingbestand");
         System.out.println("4. Werken in adresbestand");
-        System.out.println("5. Wisselen van Database/connectionpool");
+        System.out.println("5. Wisselen van Database");
         System.out.println("6. Programma afsluiten");
         
         try{

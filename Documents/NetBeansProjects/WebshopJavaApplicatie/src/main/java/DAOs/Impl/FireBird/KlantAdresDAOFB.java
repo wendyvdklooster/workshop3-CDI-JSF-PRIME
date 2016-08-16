@@ -70,7 +70,7 @@ public class KlantAdresDAOFB implements KlantAdresDAOInterface{
 
     
     @Override
-    public ArrayList<Klant> findKlantByAdresId(int adresId) {
+    public ArrayList<Klant> findKlantByAdresId(long adresId) {
         
         ArrayList<Klant> klantenlijst = new ArrayList<>();
         KlantDAOInterface klantDao = new KlantDAOFB();
@@ -83,7 +83,7 @@ public class KlantAdresDAOFB implements KlantAdresDAOInterface{
 
             pstmt = con.prepareStatement(sqlQuery);
         
-            pstmt.setInt(1, adresId);      
+            pstmt.setLong(1, adresId);      
             rs = pstmt.executeQuery();          
             
                 while (rs.next()) {  
@@ -104,7 +104,7 @@ public class KlantAdresDAOFB implements KlantAdresDAOInterface{
 
     
     @Override
-    public ArrayList<Adres> findAdresByKlantId(int klantId) {
+    public ArrayList<Adres> findAdresByKlantId(long klantId) {
         ArrayList<Adres> adressenLijst = new ArrayList<>();
         AdresDAOInterface adresDao = new AdresDAOFB();
         
@@ -116,7 +116,7 @@ public class KlantAdresDAOFB implements KlantAdresDAOInterface{
         
             pstmt = con.prepareStatement(sqlQuery);  
         
-            pstmt.setInt(1, klantId);      
+            pstmt.setLong(1, klantId);      
             rs = pstmt.executeQuery();          
             
                 while (rs.next()) {  
@@ -137,7 +137,7 @@ public class KlantAdresDAOFB implements KlantAdresDAOInterface{
 
     
     @Override
-    public boolean insertKlantAdres(int klantId, int adresId) { 
+    public boolean insertKlantAdres(long klantId, long adresId) { 
         
         boolean created = false; 
          
@@ -150,8 +150,8 @@ public class KlantAdresDAOFB implements KlantAdresDAOInterface{
                    
             pstmt = con.prepareStatement(sqlQuery);
            
-            pstmt.setInt(1, klantId);
-            pstmt.setInt(2, adresId);
+            pstmt.setLong(1, klantId);
+            pstmt.setLong(2, adresId);
        
             pstmt.executeUpdate();
         
@@ -193,7 +193,7 @@ public class KlantAdresDAOFB implements KlantAdresDAOInterface{
 
     
     @Override
-    public boolean deleteKlantAdresByAdresId(int adresId) {
+    public boolean deleteKlantAdresByAdresId(long adresId) {
 
     boolean deleted = false; 
     
@@ -206,7 +206,7 @@ public class KlantAdresDAOFB implements KlantAdresDAOInterface{
                  // create the mysql preparedstatement
                  PreparedStatement preparedStmt = con.prepareStatement(sqlQuery);
                     
-                 preparedStmt.setInt(1, adresId);
+                 preparedStmt.setLong(1, adresId);
                  
                  // execute the preparedstatement
                  preparedStmt.executeUpdate();
@@ -223,7 +223,7 @@ public class KlantAdresDAOFB implements KlantAdresDAOInterface{
 
     
     @Override
-    public int deleteKlantAdresByKlantId(int klantId) { int rowsAffected = 0; 
+    public int deleteKlantAdresByKlantId(long klantId) { int rowsAffected = 0; 
     
        try {
         
@@ -234,7 +234,7 @@ public class KlantAdresDAOFB implements KlantAdresDAOInterface{
                  // create the mysql preparedstatement
                  PreparedStatement preparedStmt = con.prepareStatement(sqlQuery);
                     
-                 preparedStmt.setInt(1, klantId);
+                 preparedStmt.setLong(1, klantId);
                  
                  // execute the preparedstatement
                  rowsAffected = preparedStmt.executeUpdate();       

@@ -31,7 +31,7 @@ public class BestellingDAOSQL implements BestellingDAOInterface {
     
     
     @Override
-    public int insertBestelling(int klantId)  {
+    public int insertBestelling(long klantId)  {
         
         java.util.Date datum = new java.util.Date();
         int bestellingId = 0;
@@ -43,7 +43,7 @@ public class BestellingDAOSQL implements BestellingDAOInterface {
         
         Connection con = ConnectionFactory.getConnection();
             pstmt = con.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);
-            pstmt.setInt(1, klantId);
+            pstmt.setLong(1, klantId);
             pstmt.setDate(2, new java.sql.Date(datum.getTime()));
             
             int affectedRows = pstmt.executeUpdate();
@@ -101,7 +101,7 @@ public class BestellingDAOSQL implements BestellingDAOInterface {
     
     
     @Override
-    public Bestelling findById(int bestellingId) {
+    public Bestelling findById(long bestellingId) {
         
         String sqlQuery = "select bestelling_id, klant_id from bestelling where bestelling_id = " + bestellingId;
         Bestelling bestelling = new Bestelling();
@@ -127,7 +127,7 @@ public class BestellingDAOSQL implements BestellingDAOInterface {
   
     
     @Override
-    public boolean deleteBestelling(int bestellingId) {
+    public boolean deleteBestelling(long bestellingId) {
         
         String sqlQuery = "delete * from bestelling where bestelling_id = " + bestellingId;
         boolean isDeleted = false;        
@@ -178,7 +178,7 @@ public class BestellingDAOSQL implements BestellingDAOInterface {
     */
 
     @Override
-    public ArrayList<Bestelling> findByKlantId( int klantId) {
+    public ArrayList<Bestelling> findByKlantId(long klantId) {
         String sqlQuery = "select bestelling_id, klant_id from bestelling where klant_id = ? ";
         Bestelling bestelling = new Bestelling();
         ArrayList<Bestelling> bestellingLijst = new ArrayList();
@@ -188,7 +188,7 @@ public class BestellingDAOSQL implements BestellingDAOInterface {
         Connection con = ConnectionFactory.getConnection();
         
         pstmt = con.prepareStatement(sqlQuery);
-        pstmt.setInt(1, klantId); 
+        pstmt.setLong(1, klantId); 
         rs = pstmt.executeQuery();
         
         while (rs.next()) {            

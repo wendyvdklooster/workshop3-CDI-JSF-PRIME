@@ -16,12 +16,12 @@ import java.util.ArrayList;
 public interface AdresDAOInterface {
     
     public ArrayList <Adres> findAllAdresses();
-    public Adres findByAdresID(int adresId);
+    public Adres findByAdresID(long adresId);
     public ArrayList<Adres> findByStraatNaam(String straatNaam);
     public ArrayList<Adres> findByPostcodeHuisNummer(String postCode, int huisNummer);
     public ArrayList<Adres> findByWoonplaats(String woonPlaats);    
     public Adres insertAdres(Adres adres);
-    public boolean deleteAdres(int adresId);
+    public boolean deleteAdres(long adresId);
     public boolean deleteAll();
     public Adres updateGegevens(Adres adres);
     

@@ -67,7 +67,7 @@ public class AdresDAOSQL implements AdresDAOInterface {
     
 
    @Override //werkt
-    public Adres findByAdresID(int adresId)  {
+    public Adres findByAdresID(long adresId)  {
         adresBuilder = new AdresBuilder();
         Adres adres = new Adres(adresBuilder);
         
@@ -80,7 +80,7 @@ public class AdresDAOSQL implements AdresDAOInterface {
                     
             stmt = con.prepareStatement(sqlQuery);                  
             
-            stmt.setInt(1, adresId);      
+            stmt.setLong(1, adresId);      
             rs = stmt.executeQuery();   
             
             while (rs.next()) {   
@@ -291,7 +291,7 @@ public class AdresDAOSQL implements AdresDAOInterface {
         
     public Adres updateGegevens(Adres adres){
     
-        int adresId = adres.getAdresId();
+        long adresId = adres.getAdresId();
         String straatnaam = adres.getStraatnaam();
 	int huisnummer = adres.getHuisnummer();
 	String toevoeging = adres.getToevoeging();
@@ -312,7 +312,7 @@ public class AdresDAOSQL implements AdresDAOInterface {
                  preparedStmt.setString (3, toevoeging);
                  preparedStmt.setString (4, postcode);
                  preparedStmt.setString (5, woonplaats);
-                 preparedStmt.setInt(6, adresId);
+                 preparedStmt.setLong(6, adresId);
 				 
                  int affectedRows = preparedStmt.executeUpdate();
                  if (affectedRows == 0) {
@@ -324,7 +324,7 @@ public class AdresDAOSQL implements AdresDAOInterface {
                sqlQuery = "SELECT adres_id, straatnaam, huisnummer, toevoeging, postcode, woonplaats FROM adres where adres_id = ? ";
 
                preparedStmt = con.prepareStatement(sqlQuery);
-               preparedStmt.setInt(1, adresId);
+               preparedStmt.setLong(1, adresId);
                rs = preparedStmt.executeQuery();   
 
                while(rs.next()){
@@ -350,7 +350,7 @@ public class AdresDAOSQL implements AdresDAOInterface {
     
 
     @Override // werkt    
-    public boolean deleteAdres(int adresId) {
+    public boolean deleteAdres(long adresId) {
     
     boolean deleted = false; 
         
@@ -362,7 +362,7 @@ public class AdresDAOSQL implements AdresDAOInterface {
 
                 // create the mysql insert preparedstatement
                 PreparedStatement preparedStmt = con.prepareStatement(sqlQuery);
-                          preparedStmt.setInt(1, adresId);                      
+                          preparedStmt.setLong(1, adresId);                      
                 // execute the preparedstatement
                 preparedStmt.executeUpdate();
 

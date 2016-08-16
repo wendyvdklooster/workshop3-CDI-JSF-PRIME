@@ -53,7 +53,7 @@ public class ArtikelDAOSQL implements ArtikelDAOInterface {
     }
 
     @Override
-    public Artikel findByArtikelID(int artikelID) {
+    public Artikel findByArtikelID(long artikelID) {
         Artikel artikel = new Artikel();
         
         try {
@@ -62,7 +62,7 @@ public class ArtikelDAOSQL implements ArtikelDAOInterface {
         
             String sqlQuery = "select * from artikel where artikel_id = ? ";
             pstmt = con.prepareStatement(sqlQuery);
-            pstmt.setInt(1, artikelID);
+            pstmt.setLong(1, artikelID);
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
@@ -183,7 +183,7 @@ public class ArtikelDAOSQL implements ArtikelDAOInterface {
 
     // delete methode
     @Override
-    public boolean deleteArtikel(int artikelId) {
+    public boolean deleteArtikel(long artikelId) {
         
         boolean deleted = false; 
         
@@ -194,7 +194,7 @@ public class ArtikelDAOSQL implements ArtikelDAOInterface {
                  String sqlQuery = "delete from artikel where artikel_id =  ? " ;                 
                  // create the mysql insert preparedstatement
                  PreparedStatement preparedStmt = con.prepareStatement(sqlQuery);                
-                   preparedStmt.setInt(1, artikelId);
+                   preparedStmt.setLong(1, artikelId);
                  // execute the preparedstatement
                  int rowsAffected = preparedStmt.executeUpdate(); 
                  if (rowsAffected != 0)
@@ -236,7 +236,7 @@ public class ArtikelDAOSQL implements ArtikelDAOInterface {
     @Override
     public boolean update(Artikel artikel) {
         
-    int artikelId = artikel.getArtikelId();
+    long artikelId = artikel.getArtikelId();
     String artikelNaam = artikel.getArtikelNaam();
     double artikelPrijs = artikel.getArtikelPrijs();         
         
@@ -250,7 +250,7 @@ public class ArtikelDAOSQL implements ArtikelDAOInterface {
             
             pstmt.setString(1, artikelNaam);
             pstmt.setDouble(2, artikelPrijs);
-            pstmt.setInt(3, artikelId);
+            pstmt.setLong(3, artikelId);
             
             pstmt.executeUpdate();
             gelukt = true;

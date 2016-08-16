@@ -2,20 +2,20 @@ package POJO;
 
 
 public class Artikel {
-    private int artikelId;
+    private long artikelId;
     private String artikelNaam;
     private double artikelPrijs;
     
     public Artikel(){
     }
     
-    public Artikel(int artikelId, String artikelNaam, double artikelPrijs) {
+    public Artikel(long artikelId, String artikelNaam, double artikelPrijs) {
         this.artikelId = artikelId;
         this.artikelNaam = artikelNaam;
         this.artikelPrijs = artikelPrijs;
     }
 
-    public int getArtikelId() {
+    public long getArtikelId() {
         return artikelId;
     }
 
@@ -27,7 +27,7 @@ public class Artikel {
         return artikelPrijs;
     }
 
-    public void setArtikelId(int artikelID) {
+    public void setArtikelId(long artikelID) {
         this.artikelId = artikelID;
     }
 

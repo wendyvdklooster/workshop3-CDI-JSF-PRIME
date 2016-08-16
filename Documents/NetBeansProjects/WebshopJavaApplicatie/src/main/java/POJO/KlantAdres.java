@@ -8,31 +8,31 @@ package POJO;
  */
 public class KlantAdres {
      
-    private int klantId;
-    private int adresId;
+    private long klantId;
+    private long adresId;
     
     public KlantAdres(){
        
     }
     
-    public KlantAdres(int klantId, int adresId) {
+    public KlantAdres(long klantId, long adresId) {
         this.klantId = klantId;
         this.adresId = adresId;        
         }
 
-    public int getKlantId() {
+    public long getKlantId() {
         return klantId;
     }
 
-    public void setKlantId(int klantId) {
+    public void setKlantId(long klantId) {
         this.klantId = klantId;
     }
 
-    public int getAdresId() {
+    public long getAdresId() {
         return adresId;
     }
 
-    public void setAdresId(int adresId) {
+    public void setAdresId(long adresId) {
         this.adresId = adresId;
     }
     

@@ -118,7 +118,7 @@ public class KlantDAOJSON implements KlantDAOInterface {
     }
 
     @Override
-    public Klant findByKlantId(int klantId) {
+    public Klant findByKlantId(long klantId) {
         
    ArrayList<Klant> klantenLijst = new ArrayList<>();
         Object obj = new Object();
@@ -297,7 +297,7 @@ public class KlantDAOJSON implements KlantDAOInterface {
         // eerst alle klanten ophalen in een lijst
         ArrayList<Klant> klantenLijst = new  ArrayList();
         Object obj = new Object();
-        int nieuweKlantId = 0;
+        long nieuweKlantId = 0;
         File file = new File(fileName);
         if (file.exists()) {
         try {    
@@ -343,7 +343,7 @@ public class KlantDAOJSON implements KlantDAOInterface {
         
         // check wat laatste klantId is om volgende te maken
         Klant laatsteKlant = klantenLijst.get(klantenLijst.size()-1);
-        int laatsteKlantId = laatsteKlant.getKlantId();
+        long laatsteKlantId = laatsteKlant.getKlantId();
         nieuweKlantId = ++laatsteKlantId;
         
         }
@@ -399,7 +399,7 @@ public class KlantDAOJSON implements KlantDAOInterface {
     
 
     @Override
-    public boolean deleteByKlantId(int klantId) {
+    public boolean deleteByKlantId(long klantId) {
         
         boolean isDeleted = false;
         ArrayList<Klant> klantenLijst = new ArrayList<>();
@@ -585,7 +585,7 @@ public class KlantDAOJSON implements KlantDAOInterface {
         JSONObject KlantDatabase = (JSONObject)obj;
         
         //get details van update klant
-        int klantId = klant.getKlantId();
+        long klantId = klant.getKlantId();
         String voornaam = klant.getVoornaam();
         String achternaam = klant.getAchternaam();        
         String tussenvoegsel = klant.getTussenvoegsel();

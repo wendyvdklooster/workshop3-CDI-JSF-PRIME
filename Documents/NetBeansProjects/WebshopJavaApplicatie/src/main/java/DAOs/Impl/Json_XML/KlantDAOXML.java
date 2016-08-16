@@ -49,7 +49,7 @@ public class KlantDAOXML implements KlantDAOInterface {
  @Override   
  public Klant insertKlant (Klant klant) {          
     Klant klantMetId = null;
-    int klantId = 0;     
+    long klantId = 0;     
         
     try {
             ArrayList<Klant> alleKlanten = findAllKlanten();  // fout opvangen (in methode zelf) wanneer de lijst nog leeg is: bij de eerste klant
@@ -157,7 +157,7 @@ public class KlantDAOXML implements KlantDAOInterface {
     
 
     @Override
-    public Klant findByKlantId(int klantId) {
+    public Klant findByKlantId(long klantId) {
         
         Klant klant = null;  
         
@@ -197,7 +197,7 @@ public class KlantDAOXML implements KlantDAOInterface {
             for(int i = 0; i < klanten.size(); i++){            
                 if (klanten.get(i).getVoornaam().equals(voorNaam) 
                         || klanten.get(i).getAchternaam().equals(achterNaam) ){
-                    int klantId = klanten.get(i).getKlantId();        
+                    long klantId = klanten.get(i).getKlantId();        
                     String tussenvoegsel = klanten.get(i).getTussenvoegsel();
                     String email = klanten.get(i).getEmail();  
                     klant =  new Klant(klantId, voorNaam, achterNaam, tussenvoegsel, email);
@@ -223,7 +223,7 @@ public class KlantDAOXML implements KlantDAOInterface {
         if (klanten != null){
                 for(int i = 0; i< klanten.size(); i++){            
                 if (klanten.get(i).getEmail().equals(email) ){
-                    int klantId = klanten.get(i).getKlantId();        
+                    long klantId = klanten.get(i).getKlantId();        
                     String tussenvoegsel = klanten.get(i).getTussenvoegsel();
                     String voornaam = klanten.get(i).getVoornaam();
                     String achternaam = klanten.get(i).getAchternaam();     
@@ -240,7 +240,7 @@ public class KlantDAOXML implements KlantDAOInterface {
 
     
     @Override
-    public boolean deleteByKlantId(int klantId) {
+    public boolean deleteByKlantId(long klantId) {
         
         boolean deleted = false; 
         Klant klant = null;
@@ -334,7 +334,7 @@ public class KlantDAOXML implements KlantDAOInterface {
     @Override
     public Klant updateGegevens(Klant klant) {
         
-        int klantId = klant.getKlantId();
+        long klantId = klant.getKlantId();
         String voornaam = klant.getVoornaam();
         String achternaam = klant.getAchternaam();        
         String tussenvoegsel = klant.getTussenvoegsel();

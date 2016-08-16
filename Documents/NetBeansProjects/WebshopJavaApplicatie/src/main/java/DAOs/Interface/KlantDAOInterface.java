@@ -14,11 +14,11 @@ import java.util.ArrayList;
 public interface KlantDAOInterface {
     
     public ArrayList <Klant> findAllKlanten();
-    public Klant findByKlantId(int klantId) ;
+    public Klant findByKlantId(long klantId) ;
     public ArrayList<Klant> findByVoorNaamAchterNaam(String voorNaam, String achterNaam);            
     public ArrayList<Klant> findByEmail(String email);    
     public Klant insertKlant(Klant klant) ;    
-    public boolean deleteByKlantId(int klantId) ;     
+    public boolean deleteByKlantId(long klantId) ;     
     public int deleteAll() ; 
     public Klant updateGegevens(Klant klant);
 
