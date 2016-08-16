@@ -28,7 +28,7 @@ public class KlantDAOJSON implements KlantDAOInterface {
 
     private final static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(KlantDAOJSON.class.getName());
     //String fileName = "C:\\Users\\Anne\\Documents\\test4";
-    String fileName = "C:\\Users\\Wendy\\Documents\\NetBeansProjects\\WebshopJavaApplicatie";
+    String fileName = "C:\\Users\\Anne\\Documents\\test2";
     
     @Override
     public ArrayList<Klant> findAllKlanten() {
@@ -320,6 +320,10 @@ public class KlantDAOJSON implements KlantDAOInterface {
         
         // de gegevens van de klanten ophalen en in jsonArray zetten
         JSONArray klantenIn = (JSONArray)(KlantDatabase.get("klanten"));
+        if (klantenIn.isEmpty()) {
+            nieuweKlantId = 1;
+        }
+        else {
             for (int i = 0; i < klantenIn.size(); i++) {
                 JSONObject klantIn = (JSONObject)(klantenIn.get(i));
                 long klantId = (long)(klantIn.get("klant_id"));
@@ -340,12 +344,12 @@ public class KlantDAOJSON implements KlantDAOInterface {
                 klantInput = klantBuilder.build();
                 klantenLijst.add(klantInput);
             }
-        
+           
         // check wat laatste klantId is om volgende te maken
         Klant laatsteKlant = klantenLijst.get(klantenLijst.size()-1);
         long laatsteKlantId = laatsteKlant.getKlantId();
         nieuweKlantId = ++laatsteKlantId;
-        
+        }
         }
         else {
             System.out.println("Bestand kan niet gevonden worden. Een nieuw bestand wordt aangemaakt.");
@@ -536,19 +540,11 @@ public class KlantDAOJSON implements KlantDAOInterface {
         
         // de gegevens van de klanten ophalen en in jsonArray zetten
         JSONArray klantenIn = (JSONArray)(klantDatabase.get("klanten"));
-            for (int i = 0; i < klantenIn.size(); i++) {
-                JSONObject klantIn = (JSONObject)(klantenIn.get(i));
-                // van alle klanten alles verwijderen
-                    
-                    klantIn.remove("klant_id");
-                    klantIn.remove("voornaam");
-                    klantIn.remove("achternaam");
-                    klantIn.remove("tussenvoegsel");
-                    klantIn.remove("email");
-                    klantenIn.remove(klantIn);
-                    count++;
-                }
-    
+        for (int i = 0; i < klantenIn.size(); i++) {
+            count++;
+        }
+        klantenIn.removeAll(klantenIn);
+              
         klantDatabase.put("klanten", klantenIn);
         // gebruik parser om de nieuwe database naar json bestand te sturen
         File jsonFile = new File(fileName);
