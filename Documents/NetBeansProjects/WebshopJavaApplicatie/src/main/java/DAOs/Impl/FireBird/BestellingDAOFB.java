@@ -71,7 +71,7 @@ public class BestellingDAOFB implements BestellingDAOInterface{
 
     
     @Override
-    public Bestelling findById(int bestelling_id) {
+    public Bestelling findById(long bestelling_id) {
        String sqlQuery = "select bestelling_id, klant_id from bestelling where bestelling_id = ?";
         Bestelling bestelling = new Bestelling();
         
@@ -79,7 +79,7 @@ public class BestellingDAOFB implements BestellingDAOInterface{
         
         Connection con = ConnectionFactory.getConnection();  
             pstmt = con.prepareStatement(sqlQuery);
-            pstmt.setInt(1, bestelling_id);
+            pstmt.setLong(1, bestelling_id);
             rs = pstmt.executeQuery();
         
             while (rs.next()) {            
@@ -96,7 +96,7 @@ public class BestellingDAOFB implements BestellingDAOInterface{
 
     
     @Override
-    public int insertBestelling(int klant_id) {
+    public int insertBestelling(long klant_id) {
         
         java.util.Date datum = new java.util.Date();
         int bestellingId = 0;
@@ -106,7 +106,7 @@ public class BestellingDAOFB implements BestellingDAOInterface{
         
         Connection con = ConnectionFactory.getConnection();  
             pstmt = con.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);
-            pstmt.setInt(1, klant_id);
+            pstmt.setLong(1, klant_id);
             pstmt.setDate(2, new java.sql.Date(datum.getTime()));
             
             int affectedRows = pstmt.executeUpdate();
@@ -130,7 +130,7 @@ public class BestellingDAOFB implements BestellingDAOInterface{
 
     
     @Override
-    public boolean deleteBestelling(int bestelling_id) {
+    public boolean deleteBestelling(long bestelling_id) {
         
     boolean isDeleted = false;
 
@@ -141,7 +141,7 @@ public class BestellingDAOFB implements BestellingDAOInterface{
                 String sqlQuery = "delete from bestelling where bestelling_id =  ? ";
 
                 PreparedStatement preparedStmt = con.prepareStatement(sqlQuery);
-                preparedStmt.setInt(1, bestelling_id);
+                preparedStmt.setLong(1, bestelling_id);
                 // execute the preparedstatement
                 int rowsAffected = preparedStmt.executeUpdate();
                 if (rowsAffected != 0) {
@@ -173,7 +173,7 @@ public class BestellingDAOFB implements BestellingDAOInterface{
     
     
     @Override
-    public ArrayList<Bestelling> findByKlantId(int klantId) {
+    public ArrayList<Bestelling> findByKlantId(long klantId) {
         String sqlQuery = "select bestelling_id, klant_id from bestelling where klant_id = ? ";
         Bestelling bestelling = new Bestelling();
         ArrayList<Bestelling> bestellingLijst = new ArrayList();
@@ -183,7 +183,7 @@ public class BestellingDAOFB implements BestellingDAOInterface{
         Connection con = ConnectionFactory.getConnection();
         
         pstmt = con.prepareStatement(sqlQuery);
-        pstmt.setInt(1, klantId); 
+        pstmt.setLong(1, klantId); 
         rs = pstmt.executeQuery();
         
         while (rs.next()) {            

@@ -73,7 +73,7 @@ public class BestellingArtikelDAOFB implements BestellingArtikelDAOInterface {
     
 
     @Override
-    public ArrayList<Artikel> findByBestellingId(int bestelling_id) {
+    public ArrayList<Artikel> findByBestellingId(long bestelling_id) {
         ArrayList<Artikel>artikelLijst = new ArrayList<>();
         
         String sqlQuery = "select artikel_id from koppelbestellingartikel where bestelling_id = ? ";
@@ -82,7 +82,7 @@ public class BestellingArtikelDAOFB implements BestellingArtikelDAOInterface {
         
         Connection con = ConnectionFactory.getConnection(); 
             pstmt = con.prepareStatement(sqlQuery);
-            pstmt.setInt(1, bestelling_id);
+            pstmt.setLong(1, bestelling_id);
             rs = pstmt.executeQuery();
 
             ArtikelDAOInterface artikelDao = new ArtikelDAOSQL();
@@ -105,7 +105,7 @@ public class BestellingArtikelDAOFB implements BestellingArtikelDAOInterface {
 
     
     @Override
-    public ArrayList<Bestelling> findBestellingByArtikelId(int artikel_id) {
+    public ArrayList<Bestelling> findBestellingByArtikelId(long artikel_id) {
         ArrayList<Bestelling>bestellingLijst = new ArrayList<>();
         
         String sqlQuery = "select bestelling_id from koppelbestellingartikel where artikel_id = ? ";
@@ -114,7 +114,7 @@ public class BestellingArtikelDAOFB implements BestellingArtikelDAOInterface {
         
         Connection con = ConnectionFactory.getConnection(); 
             pstmt = con.prepareStatement(sqlQuery);
-            pstmt.setInt(1,artikel_id);
+            pstmt.setLong(1,artikel_id);
             rs = pstmt.executeQuery();
 
             BestellingDAOInterface bestellingDao = new BestellingDAOSQL();
@@ -138,8 +138,8 @@ public class BestellingArtikelDAOFB implements BestellingArtikelDAOInterface {
     @Override
     public void createBestellingArtikel(BestellingArtikel bestellingArtikel) {
         // haal waardes uit BestellingArtikel object.
-        int bestellingId = bestellingArtikel.getBestellingId();
-        int artikelId = bestellingArtikel.getArtikelId();
+        long bestellingId = bestellingArtikel.getBestellingId();
+        long artikelId = bestellingArtikel.getArtikelId();
         int artikelAantal = bestellingArtikel.getArtikelAantal();
         
         // schrijf ze weg in SQL tabel. 
@@ -150,8 +150,8 @@ public class BestellingArtikelDAOFB implements BestellingArtikelDAOInterface {
         
         Connection con = ConnectionFactory.getConnection(); 
             pstmt = con.prepareStatement(sqlQuery);
-            pstmt.setInt(1, bestellingId);
-            pstmt.setInt(2, artikelId);
+            pstmt.setLong(1, bestellingId);
+            pstmt.setLong(2, artikelId);
             pstmt.setInt(3, artikelAantal);
             pstmt.execute();
         
@@ -163,7 +163,7 @@ public class BestellingArtikelDAOFB implements BestellingArtikelDAOInterface {
 
     
     @Override
-    public void updateBestellingArtikelAantal(int bestelling_id, int artikel_id, int newArtikel_aantal) {
+    public void updateBestellingArtikelAantal(long bestelling_id, long artikel_id, int newArtikel_aantal) {
         String sqlQuery = "update koppelbestellingartikel set aantal = ? where bestelling_id = ? and artikel_id = ?";
 
         try {
@@ -171,8 +171,8 @@ public class BestellingArtikelDAOFB implements BestellingArtikelDAOInterface {
         Connection con = ConnectionFactory.getConnection(); 
             pstmt = con.prepareStatement(sqlQuery);
             pstmt.setInt(1, newArtikel_aantal);
-            pstmt.setInt(2, bestelling_id);
-            pstmt.setInt(3, artikel_id);        
+            pstmt.setLong(2, bestelling_id);
+            pstmt.setLong(3, artikel_id);        
             pstmt.executeUpdate();
         
         } 
@@ -183,7 +183,7 @@ public class BestellingArtikelDAOFB implements BestellingArtikelDAOInterface {
     }
 
     @Override
-    public int findAantalByArtikelID(int bestelling_id, int artikel_id) {
+    public int findAantalByArtikelID(long bestelling_id, long artikel_id) {
         int artikelAantal = 0;
         
         String sqlQuery = "select aantal from koppelbestellingartikel where bestelling_id = ? and artikel_id = ? ";
@@ -193,8 +193,8 @@ public class BestellingArtikelDAOFB implements BestellingArtikelDAOInterface {
         
         Connection con = ConnectionFactory.getConnection(); 
             pstmt = con.prepareStatement(sqlQuery);
-            pstmt.setInt(1, bestelling_id);
-            pstmt.setInt(2, artikel_id);
+            pstmt.setLong(1, bestelling_id);
+            pstmt.setLong(2, artikel_id);
             rs = pstmt.executeQuery();
 
             while (rs.next()){
@@ -224,15 +224,15 @@ public class BestellingArtikelDAOFB implements BestellingArtikelDAOInterface {
     }
 
     @Override
-    public void deleteArtikel(int bestelling_id, int artikel_id) {
+    public void deleteArtikel(long bestelling_id, long artikel_id) {
         String sqlQuery = "delete from koppelbestellingartikel where bestelling_id = ? and artikel_id = ? ";
         
        try {
         
         Connection con = ConnectionFactory.getConnection(); 
         pstmt = con.prepareStatement(sqlQuery);
-        pstmt.setInt(1, bestelling_id);
-        pstmt.setInt(2, artikel_id);
+        pstmt.setLong(1, bestelling_id);
+        pstmt.setLong(2, artikel_id);
         pstmt.executeUpdate();
         
         } 
@@ -243,14 +243,14 @@ public class BestellingArtikelDAOFB implements BestellingArtikelDAOInterface {
 
     
     @Override
-    public void deleteBestellingArtikel(int bestelling_id) {
+    public void deleteBestellingArtikel(long bestelling_id) {
         String sqlQuery = "delete from koppelbestellingartikel where bestelling_id = ?" ;
         
         try {
         
         Connection con = ConnectionFactory.getConnection(); 
             pstmt = con.prepareStatement(sqlQuery);
-            pstmt.setInt(1, bestelling_id);
+            pstmt.setLong(1, bestelling_id);
             pstmt.executeUpdate();
 
         } 

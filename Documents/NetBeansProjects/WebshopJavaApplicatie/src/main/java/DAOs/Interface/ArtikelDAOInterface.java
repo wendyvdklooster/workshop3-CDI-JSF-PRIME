@@ -14,11 +14,11 @@ import java.util.ArrayList;
  */
 public interface ArtikelDAOInterface {
     public ArrayList<Artikel> findAll();
-    public Artikel findByArtikelID(int artikelID);
+    public Artikel findByArtikelID(long artikelID);
     public Artikel findByArtikelNaam(String artikelNaam);
     public Artikel findByArtikelPrijs (double artikelPrijs);
     public Artikel insertArtikel (String artikelNaam, double artikelPrijs);
-    public boolean deleteArtikel(int artikelID);
+    public boolean deleteArtikel(long artikelID);
     public int deleteAll();
     public boolean update(Artikel artikel);
     

@@ -18,13 +18,13 @@ import java.util.ArrayList;
 public interface BestellingArtikelDAOInterface {
     
     public ArrayList<BestellingArtikel> findAll();
-    public ArrayList<Artikel> findByBestellingId(int bestelling_id) ;
-    public ArrayList<Bestelling> findBestellingByArtikelId(int artikel_id);
+    public ArrayList<Artikel> findByBestellingId(long bestelling_id) ;
+    public ArrayList<Bestelling> findBestellingByArtikelId(long artikel_id);
     public void createBestellingArtikel(BestellingArtikel bestellingArtikel) ;
-    public void updateBestellingArtikelAantal(int bestelling_id, int artikel_id, int newArtikel_aantal) ;
-    public int findAantalByArtikelID(int bestelling_id, int artikel_id) ;
+    public void updateBestellingArtikelAantal(long bestelling_id, long artikel_id, int newArtikel_aantal) ;
+    public int findAantalByArtikelID(long bestelling_id, long artikel_id) ;
     public void deleteAll();
-    public void deleteArtikel(int bestelling_id, int artikel_id) ;
-    public void deleteBestellingArtikel(int bestelling_id) ;
+    public void deleteArtikel(long bestelling_id, long artikel_id) ;
+    public void deleteBestellingArtikel(long bestelling_id) ;
     
 }

@@ -8,34 +8,34 @@ import java.util.Date;
  */
 public class Bestelling {
     
-    private int bestellingId;
+    private long bestellingId;
     private int klantId;
-    private Date datum;
+    private Date bestellingDatum;
     
     // Constructor
-    public Bestelling(int bestellingId, int klantId){
+    public Bestelling(long bestellingId, int klantId){
         this.bestellingId = bestellingId;
         this.klantId = klantId;
-        datum = new Date();
-        Date sqlDatum = new java.sql.Date(datum.getTime());
+        bestellingDatum = new Date();
+        Date sqlDatum = new java.sql.Date(bestellingDatum.getTime());
     }
     
     public Bestelling(){
-        datum = new Date();
-        Date sqlDatum = new java.sql.Date(datum.getTime());
+        bestellingDatum = new Date();
+        Date sqlDatum = new java.sql.Date(bestellingDatum.getTime());
     }    
     
     /**
      * @return the bestellingId
      */
-    public int getBestellingId() {
+    public long getBestellingId() {
         return bestellingId;
     }
 
     /**
      * @param bestellingId the bestellingId to set
      */
-    public void setBestellingId(int bestellingId) {
+    public void setBestellingId(long bestellingId) {
         this.bestellingId = bestellingId;
     }
 
@@ -57,14 +57,14 @@ public class Bestelling {
      * @return the datum
      */
     public Date getDatum() {
-        return datum;
+        return bestellingDatum;
     }
 
     /**
      * @param datum the datum to set
      */
     public void setDatum(Date datum) {
-        this.datum = datum;
+        this.bestellingDatum = datum;
     }
     
     

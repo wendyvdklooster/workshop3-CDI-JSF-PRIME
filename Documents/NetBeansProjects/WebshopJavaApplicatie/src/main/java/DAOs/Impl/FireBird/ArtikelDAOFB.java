@@ -68,7 +68,7 @@ public class ArtikelDAOFB implements ArtikelDAOInterface {
 
     
     @Override
-    public Artikel findByArtikelID(int artikelID) {
+    public Artikel findByArtikelID(long artikelID) {
         
         Artikel artikel = new Artikel();
         
@@ -79,7 +79,7 @@ public class ArtikelDAOFB implements ArtikelDAOInterface {
             String sqlQuery = "select * from artikel where artikel_id = ? ";
             
             pstmt = con.prepareStatement(sqlQuery);
-            pstmt.setInt(1, artikelID);
+            pstmt.setLong(1, artikelID);
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
@@ -212,7 +212,7 @@ public class ArtikelDAOFB implements ArtikelDAOInterface {
 
     
     @Override
-    public boolean deleteArtikel(int artikelId) {
+    public boolean deleteArtikel(long artikelId) {
         
         
         boolean deleted = false; 
@@ -225,7 +225,7 @@ public class ArtikelDAOFB implements ArtikelDAOInterface {
                  
                  // create the mysql  preparedstatement
                  PreparedStatement preparedStmt = con.prepareStatement(sqlQuery);                
-                   preparedStmt.setInt(1, artikelId);
+                   preparedStmt.setLong(1, artikelId);
                  // execute the preparedstatement
                  int rowsAffected = preparedStmt.executeUpdate(); 
                  if (rowsAffected != 0)

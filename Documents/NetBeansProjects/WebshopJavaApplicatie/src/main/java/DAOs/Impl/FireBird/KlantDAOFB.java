@@ -67,7 +67,7 @@ public class KlantDAOFB implements KlantDAOInterface {
 
     
     @Override
-    public Klant findByKlantId(int klantId) {
+    public Klant findByKlantId(long klantId) {
 
         Klant klant = new Klant(klantBuilder);
 
@@ -78,7 +78,7 @@ public class KlantDAOFB implements KlantDAOInterface {
             String sqlQuery = "select * from Klant where klant_id = ? ";
             pstmt = con.prepareStatement(sqlQuery);
 
-            pstmt.setInt(1, klantId);
+            pstmt.setLong(1, klantId);
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
@@ -176,7 +176,7 @@ public class KlantDAOFB implements KlantDAOInterface {
 
     
     @Override
-    public boolean deleteByKlantId(int klantId) {
+    public boolean deleteByKlantId(long klantId) {
         boolean deleted = false;
 
        try {
@@ -187,7 +187,7 @@ public class KlantDAOFB implements KlantDAOInterface {
 
                 // create the mysql insert preparedstatement
                 PreparedStatement preparedStmt = con.prepareStatement(sqlQuery);
-                preparedStmt.setInt(1, klantId);
+                preparedStmt.setLong(1, klantId);
                 // execute the preparedstatement
                 int rowsAffected = preparedStmt.executeUpdate();
                 if (rowsAffected != 0) {
@@ -228,7 +228,7 @@ public class KlantDAOFB implements KlantDAOInterface {
     @Override /// nog doen
     public Klant updateGegevens(Klant klant) {
         
-        int klantId = klant.getKlantId();
+        long klantId = klant.getKlantId();
         System.out.println(klantId);
         String voornaam = klant.getVoornaam();
 	String tussenvoegsel = klant.getTussenvoegsel();
@@ -250,7 +250,7 @@ public class KlantDAOFB implements KlantDAOInterface {
                  preparedStmt.setString (2, tussenvoegsel);
                  preparedStmt.setString (3, achternaam);
                  preparedStmt.setString (4, email);
-                 preparedStmt.setInt(5, klantId);
+                 preparedStmt.setLong(5, klantId);
 				 
                  int affectedRows = preparedStmt.executeUpdate();
                  if (affectedRows == 0) {
@@ -262,7 +262,7 @@ public class KlantDAOFB implements KlantDAOInterface {
                sqlQuery = "select * from Adres where klant_id = ?";
                        
                preparedStmt = con.prepareStatement(sqlQuery);
-               preparedStmt.setInt(1, klantId);
+               preparedStmt.setLong(1, klantId);
                rs = preparedStmt.executeQuery();   
 
                while(rs.next()){

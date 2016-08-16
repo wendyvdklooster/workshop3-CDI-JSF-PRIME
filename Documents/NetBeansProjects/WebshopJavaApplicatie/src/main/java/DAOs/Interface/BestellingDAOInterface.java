@@ -18,10 +18,10 @@ import java.util.ArrayList;
 public interface BestellingDAOInterface {
     
     public ArrayList<Bestelling> findAll();
-    public Bestelling findById(int bestelling_id);
-    public int insertBestelling(int klant_id);
-    public boolean deleteBestelling(int bestelling_id);
+    public Bestelling findById(long bestelling_id);
+    public int insertBestelling(long klant_id);
+    public boolean deleteBestelling(long bestelling_id);
     public void deleteAll();  
-    public ArrayList<Bestelling> findByKlantId(int klantId);
+    public ArrayList<Bestelling> findByKlantId(long klantId);
 }
 

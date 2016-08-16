@@ -79,7 +79,7 @@ public class KlantDAOSQL implements KlantDAOInterface {
     }
     
     @Override  // werkt
-    public Klant findByKlantId(int klantId) {
+    public Klant findByKlantId(long klantId) {
        
        Klant klant = new Klant(klantBuilder);
        
@@ -91,7 +91,7 @@ public class KlantDAOSQL implements KlantDAOInterface {
                 + "email from Klant where klant_id = ? ";
         pstmt = con.prepareStatement(sqlQuery);
         
-            pstmt.setInt(1, klantId);      
+            pstmt.setLong(1, klantId);      
             rs = pstmt.executeQuery();          
             
         while (rs.next()) {  
@@ -292,7 +292,7 @@ public class KlantDAOSQL implements KlantDAOInterface {
     @Override
     public Klant updateGegevens(Klant klant){
     
-        int klantId = klant.getKlantId();
+        long klantId = klant.getKlantId();
         String voornaam = klant.getVoornaam();
         String achternaam = klant.getAchternaam();        
         String tussenvoegsel = klant.getTussenvoegsel();
@@ -310,7 +310,7 @@ public class KlantDAOSQL implements KlantDAOInterface {
                     preparedStmt.setString (2, achternaam);
                     preparedStmt.setString (3, tussenvoegsel);
                     preparedStmt.setString (4, email);
-                    preparedStmt.setInt(5, klantId);
+                    preparedStmt.setLong(5, klantId);
 
                     // execute the preparedstatement
                     preparedStmt.executeUpdate();
@@ -320,7 +320,7 @@ public class KlantDAOSQL implements KlantDAOInterface {
                    sqlQuery = "SELECT klant_id, voornaam, tussenvoegsel, achternaam, email FROM klant where klant_id = ? ";
 
                    preparedStmt = con.prepareStatement(sqlQuery);
-                   preparedStmt.setInt(1, klantId);
+                   preparedStmt.setLong(1, klantId);
                    rs = preparedStmt.executeQuery();   
 
                    while(rs.next()){
@@ -344,7 +344,7 @@ public class KlantDAOSQL implements KlantDAOInterface {
 
     
     @Override  //werkt
-    public boolean deleteByKlantId(int klantId) {
+    public boolean deleteByKlantId(long klantId) {
             
         boolean deleted = false; 
         
@@ -356,7 +356,7 @@ public class KlantDAOSQL implements KlantDAOInterface {
                  
                  // create the mysql insert preparedstatement
                  PreparedStatement preparedStmt = con.prepareStatement(sqlQuery);                
-                   preparedStmt.setInt(1, klantId);
+                   preparedStmt.setLong(1, klantId);
                  // execute the preparedstatement
                  int rowsAffected = preparedStmt.executeUpdate(); 
                  if (rowsAffected != 0)

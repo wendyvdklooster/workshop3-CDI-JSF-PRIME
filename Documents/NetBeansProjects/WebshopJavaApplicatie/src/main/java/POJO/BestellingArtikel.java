@@ -10,12 +10,12 @@ package POJO;
  * @author Excen
  */
 public class BestellingArtikel {
-    private int bestellingId;
-    private int artikelId;
+    private long bestellingId;
+    private long artikelId;
     private int artikelAantal;
     
     // Constructor
-    public BestellingArtikel(int bestellingId, int artikelId, int artikelAantal){
+    public BestellingArtikel(long bestellingId, long artikelId, int artikelAantal){
         this.bestellingId = bestellingId;
         this.artikelId = artikelId;
         this.artikelAantal = artikelAantal;
@@ -28,28 +28,28 @@ public class BestellingArtikel {
     /**
      * @return the bestellingId
      */
-    public int getBestellingId() {
+    public long getBestellingId() {
         return bestellingId;
     }
 
     /**
      * @param bestellingId the bestellingId to set
      */
-    public void setBestellingId(int bestellingId) {
+    public void setBestellingId(long bestellingId) {
         this.bestellingId = bestellingId;
     }
 
     /**
      * @return the artikelId
      */
-    public int getArtikelId() {
+    public long getArtikelId() {
         return artikelId;
     }
 
     /**
      * @param artikelId the artikelId to set
      */
-    public void setArtikelId(int artikelId) {
+    public void setArtikelId(long artikelId) {
         this.artikelId = artikelId;
     }
 

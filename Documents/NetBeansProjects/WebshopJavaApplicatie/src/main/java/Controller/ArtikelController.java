@@ -242,7 +242,7 @@ public class ArtikelController {
             artikelPrijs = artikelView.voerAtrikelPrijsIn();
         }
         
-        int artikelId = artikel.getArtikelId();
+        long artikelId = artikel.getArtikelId();
         Artikel artikelNieuw = new Artikel(artikelId, artikelNaam, artikelPrijs);
         
         return artikelNieuw;        

@@ -11,7 +11,7 @@ package POJO;
  * @author Wendy
  */
 public class Klant {
-    private int klantId;
+    private long klantId;
     private String voornaam;
     private String achternaam;
     private String tussenvoegsel;
@@ -29,7 +29,7 @@ public class Klant {
         
     }
 
-    public void setKlantId(int klantId) {
+    public void setKlantId(long klantId) {
         this.klantId = klantId;
     }
 
@@ -49,7 +49,7 @@ public class Klant {
         this.email = email;
     }
     
-    public Klant(int klantId, String voornaam, String achternaam, String tussenvoegsel, String email){   
+    public Klant(long klantId, String voornaam, String achternaam, String tussenvoegsel, String email){   
         this.klantId = klantId;
         this.voornaam = voornaam;
         this.achternaam = achternaam;
@@ -58,7 +58,7 @@ public class Klant {
     }
 
    
-    public int getKlantId() {
+    public long getKlantId() {
         return klantId;
     }
 
@@ -79,7 +79,7 @@ public class Klant {
     }
    
     public static class KlantBuilder {
-        private int klantId;
+        private long klantId;
         private String voornaam;
         private String achternaam;
         private String tussenvoegsel;
@@ -88,7 +88,7 @@ public class Klant {
         public KlantBuilder(){
         }
         
-        public KlantBuilder klantId(int klantId){
+        public KlantBuilder klantId(long klantId){
             this.klantId = klantId;
                 return this;
         }

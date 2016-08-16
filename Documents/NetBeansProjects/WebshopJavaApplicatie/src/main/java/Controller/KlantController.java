@@ -88,7 +88,7 @@ public class KlantController {
     }
     
     
-    public int voegNieuweKlantToe() {
+    public long voegNieuweKlantToe() {
         
         adresController = new AdresController();
         klantDAO = DaoFactory.getKlantDao();
@@ -99,7 +99,7 @@ public class KlantController {
         klant = createKlant();   
         
         klant = klantDAO.insertKlant(klant); //klant inclusief klantId
-        int klantId = klant.getKlantId();   
+        long klantId = klant.getKlantId();   
         
         String databaseSetting = daoFactory.getDatabaseSetting();
         if (databaseSetting.equals("MySQL") || databaseSetting.equals("FireBird")) {
@@ -107,7 +107,7 @@ public class KlantController {
             System.out.println("Voer uw adres in: ");
             adres = adresController.createAdres();
             adres = adresDAO.insertAdres(adres);
-            int adresId = adres.getAdresId(); 
+            long adresId = adres.getAdresId(); 
             boolean toegevoegd = klantAdresDAO.insertKlantAdres(klantId, adresId); 
         
             System.out.println("U heeft de klant- en adresgegevens toegevoegd van klantId: " 
@@ -341,7 +341,7 @@ public class KlantController {
                 if (x == 1){
                     int rowsAffected = klantDAO.deleteAll();
                     klantAdresDAO.deleteAll();
-                    System.out.println(rowsAffected);
+                    System.out.print(rowsAffected);
                     System.out.println(" totaal aantal klanten zijn verwijderd");                    
                     System.out.println("alle koppelingen van klant en adres zijn verwijderd");
                 }

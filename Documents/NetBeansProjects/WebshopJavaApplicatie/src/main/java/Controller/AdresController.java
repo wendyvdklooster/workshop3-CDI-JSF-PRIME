@@ -83,7 +83,7 @@ public class AdresController {
         
     }
     
-    public int voegNieuwAdresToe() {
+    public long voegNieuwAdresToe() {
         
         klantAdresDao = DaoFactory.getKlantAdresDao(); 
         adresDao = DaoFactory.getAdresDao();
@@ -95,7 +95,7 @@ public class AdresController {
         
         //voeg toe in adrestabel
         adres = adresDao.insertAdres(adres);
-        int adresId = adres.getAdresId();
+        long adresId = adres.getAdresId();
         System.out.println(adresId);
         // voeg toe in koppeltabel
         boolean toegevoegd = klantAdresDao.insertKlantAdres(klantId, adresId);
@@ -405,7 +405,7 @@ public class AdresController {
         adresDao = DaoFactory.getAdresDao();
         klantDao = DaoFactory.getKlantDao(); 
         
-        int klantId; 
+        long klantId; 
         userInput = adresView.menuAdresKlantZoeken();
        
         switch(userInput){
@@ -421,7 +421,7 @@ public class AdresController {
                switch(keuze){
                    case 1: // ja
                         for (int i = 0 ; i < klantAdresLijst.size(); i++){
-                            int adresId = klantAdresLijst.get(i).getAdresId();
+                            long adresId = klantAdresLijst.get(i).getAdresId();
                             klantId = klantAdresLijst.get(i).getKlantId();
                             adres = adresDao.findByAdresID(adresId);
                             Klant klant = klantDao.findByKlantId(klantId);

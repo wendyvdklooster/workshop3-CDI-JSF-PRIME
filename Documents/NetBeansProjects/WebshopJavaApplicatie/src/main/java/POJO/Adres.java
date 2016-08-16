@@ -11,7 +11,7 @@ package POJO;
  */
 public class Adres {
     
-    private int adresId;
+    private long adresId;
     private String straatnaam;
     private String postcode;
     private String toevoeging;
@@ -34,7 +34,7 @@ public class Adres {
         return new Adres();
     }*/
     
-    public int getAdresId(){
+    public long getAdresId(){
         return adresId;
     }
     
@@ -60,7 +60,7 @@ public class Adres {
 
     
     public static class AdresBuilder {
-        private int adresId;
+        private long adresId;
         private String straatnaam;
         private String postcode;
         private String toevoeging;
@@ -71,7 +71,7 @@ public class Adres {
             
         }
         
-        public AdresBuilder adresId(int adresId){
+        public AdresBuilder adresId(long adresId){
             this.adresId = adresId;
                 return this;
         }

@@ -77,7 +77,7 @@ public class AdresDAOFB implements AdresDAOInterface {
     }
 
     @Override
-    public Adres findByAdresID(int adresId) {
+    public Adres findByAdresID(long adresId) {
         Adres adres = new Adres(adresBuilder);
         adresBuilder = new AdresBuilder();
        
@@ -87,7 +87,7 @@ public class AdresDAOFB implements AdresDAOInterface {
             
          String sqlQuery = "select * from Adres where adres_id = ?";     
          pstmt = con.prepareStatement(sqlQuery);
-         pstmt.setInt(1, adresId);
+         pstmt.setLong(1, adresId);
          rs = pstmt.executeQuery();
          while (rs.next()) {            
             
@@ -286,7 +286,7 @@ public class AdresDAOFB implements AdresDAOInterface {
     }
     
     @Override
-    public boolean deleteAdres(int adresId) {
+    public boolean deleteAdres(long adresId) {
         boolean deleted = false; 
         
         try {
@@ -297,7 +297,7 @@ public class AdresDAOFB implements AdresDAOInterface {
 
                 // create the mysql insert preparedstatement
                 PreparedStatement preparedStmt = con.prepareStatement(sqlQuery);
-                preparedStmt.setInt(1, adresId);                      
+                preparedStmt.setLong(1, adresId);                      
                 // execute the preparedstatement
                 preparedStmt.executeUpdate();
 
@@ -339,7 +339,7 @@ public class AdresDAOFB implements AdresDAOInterface {
     @Override   // werkt niet
     public Adres updateGegevens(Adres adres) {
         
-        int adresId = adres.getAdresId();
+        long adresId = adres.getAdresId();
         String straatnaam = adres.getStraatnaam();
 	int huisnummer = adres.getHuisnummer();
 	String toevoeging = adres.getToevoeging();
@@ -361,7 +361,7 @@ public class AdresDAOFB implements AdresDAOInterface {
                  preparedStmt.setString (3, toevoeging);
                  preparedStmt.setString (4, postcode);
                  preparedStmt.setString (5, woonplaats);
-                 preparedStmt.setInt(6, adresId);
+                 preparedStmt.setLong(6, adresId);
 				 
                  int affectedRows = preparedStmt.executeUpdate();
                  if (affectedRows == 0) {
@@ -375,7 +375,7 @@ public class AdresDAOFB implements AdresDAOInterface {
                sqlQuery = "select * from Adres where adres_id = ?";
                        
                preparedStmt = con.prepareStatement(sqlQuery);
-               preparedStmt.setInt(1, adresId);
+               preparedStmt.setLong(1, adresId);
                rs = preparedStmt.executeQuery();   
 
                while(rs.next()){
