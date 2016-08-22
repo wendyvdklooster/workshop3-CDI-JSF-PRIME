@@ -1,0 +1,1 @@
+16660 [main] INFO  com.webshop.test - connectionpool is set to C3p0

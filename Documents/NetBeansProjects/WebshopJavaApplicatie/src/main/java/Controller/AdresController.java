@@ -95,7 +95,7 @@ public class AdresController {
         
         //voeg toe in adrestabel
         adres = adresDao.insertAdres(adres);
-        long adresId = adres.getAdresId();
+        long adresId = adres.getId();
         System.out.println(adresId);
         // voeg toe in koppeltabel
         boolean toegevoegd = klantAdresDao.insertKlantAdres(klantId, adresId);
@@ -340,7 +340,7 @@ public class AdresController {
         } 
         
         Adres adres2 = new Adres(adresBuilder);
-        adresBuilder.adresId(adres.getAdresId());
+        adresBuilder.adresId(adres.getId());
         adresBuilder.straatnaam(straatnaam);
         adresBuilder.huisnummer(huisnummer);
         adresBuilder.toevoeging(toevoeging);

@@ -1,0 +1,4 @@
+3365 [main] DEBUG com.webshop.test - Toetreden tot de webshop
+6919 [main] DEBUG com.webshop.test - connectionpool is set to Hikari
+6921 [main] DEBUG com.webshop - connectionpool: Hikari
+8124 [main] DEBUG com.webshop -  databasesetting: MySQL

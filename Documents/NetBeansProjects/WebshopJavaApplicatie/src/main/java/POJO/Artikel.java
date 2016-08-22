@@ -1,10 +1,27 @@
 package POJO;
 
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
-public class Artikel {
+@Entity
+@Table(name = "ARTIKELLEN")
+public class Artikel implements Serializable{
+    
+    @Id 
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private long artikelId;
     private String artikelNaam;
     private double artikelPrijs;
+    
+    @ManyToMany(mappedBy = "artikellen")
+    protected Set<Bestelling> bestellingen = new HashSet<>();
     
     public Artikel(){
     }

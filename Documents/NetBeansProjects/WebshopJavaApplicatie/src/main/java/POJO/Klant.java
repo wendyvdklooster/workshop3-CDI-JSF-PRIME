@@ -1,21 +1,68 @@
 package POJO;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import static javax.persistence.GenerationType.IDENTITY;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 /**
  *
  * @author Wendy
  */
-public class Klant {
+
+
+
+
+@Entity
+@Table(name = "KLANTEN", uniqueConstraints = {
+		@UniqueConstraint(columnNames = "email") })
+public class Klant implements Serializable {
+    
+    @GenericGenerator(name = "klantGenerator",strategy = "foreign",
+        parameters = @Parameter(name = "property", value = "adres"))
+    @Id   
+    @GeneratedValue(generator = "klantGenerator")        
     private long klantId;
     private String voornaam;
     private String achternaam;
     private String tussenvoegsel;
-    private String email;    
+    private String email;      
+   
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "KLANT_ADRES",
+            joinColumns = @JoinColumn (name = "KLANT_ID"),
+            inverseJoinColumns = @JoinColumn (name = "ADRES_ID")
+    )
+    protected Set<Adres> adressen = new HashSet<>();    
+    
+    public Klant(){        
+    }
+    
+     public Klant(long klantId, String voornaam, String achternaam, String tussenvoegsel, String email){   
+        this.klantId = klantId;
+        this.voornaam = voornaam;
+        this.achternaam = achternaam;
+        this.tussenvoegsel = tussenvoegsel;
+        this.email = email;        
+    }
+    
     
     public Klant (KlantBuilder builder){
         this.klantId = builder.klantId;
@@ -25,10 +72,7 @@ public class Klant {
         this.email = builder.email;       
     }
     
-    public Klant(){
-        
-    }
-
+    
     public void setKlantId(long klantId) {
         this.klantId = klantId;
     }
@@ -47,16 +91,7 @@ public class Klant {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-    
-    public Klant(long klantId, String voornaam, String achternaam, String tussenvoegsel, String email){   
-        this.klantId = klantId;
-        this.voornaam = voornaam;
-        this.achternaam = achternaam;
-        this.tussenvoegsel = tussenvoegsel;
-        this.email = email;
-    }
-
+    }    
    
     public long getKlantId() {
         return klantId;
@@ -77,7 +112,7 @@ public class Klant {
     public String getEmail() {
         return email;
     }
-   
+
     public static class KlantBuilder {
         private long klantId;
         private String voornaam;

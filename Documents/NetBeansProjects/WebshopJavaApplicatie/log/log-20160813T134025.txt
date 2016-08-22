@@ -1,0 +1,96 @@
+2925 [main] DEBUG com.webshop.test - Toetreden tot de webshop
+22996 [main] DEBUG com.webshop.test - connectionpool is set to Hikari
+22996 [main] DEBUG com.webshop - connectionpool: Hikari
+28931 [main] DEBUG com.webshop -  databasesetting: MySQL
+49121 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+49282 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+49371 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+49427 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+49501 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+49597 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+71197 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+71259 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+82342 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+82387 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+82394 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+82454 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+82460 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+82516 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+82525 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+82616 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+82623 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+82680 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+82683 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+82737 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+82747 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+82816 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+82821 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+82876 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+82881 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+82928 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+82932 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+83002 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+83011 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+83132 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+83137 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+83233 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+83275 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+83380 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+83386 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+83469 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+83484 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+83640 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+83646 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+83794 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+83853 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+83948 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+83951 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+84002 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+84006 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+84066 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+84073 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+84174 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+84182 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+84305 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+84314 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+84379 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+84395 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+84500 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+84507 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+84585 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+84590 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+84684 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+84689 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+84802 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+84807 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+84878 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+84884 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+84966 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+84984 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+85071 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+85080 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+85161 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+85164 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+85223 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+85227 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+85282 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+85288 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+85395 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+85416 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+85555 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+85560 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+85605 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+85609 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+85670 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+85680 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+85739 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+85743 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+85806 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+85809 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+85869 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+85871 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+85925 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+85928 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+85976 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+85979 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+86025 [main] DEBUG com.webshop - test getconnection- hikari - mysql

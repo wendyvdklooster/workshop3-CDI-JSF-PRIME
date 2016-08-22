@@ -1,0 +1,18 @@
+3317 [main] DEBUG com.webshop.test - Toetreden tot de webshop
+3324 [main] DEBUG com.webshop.dao - U kunt werken in het bestand
+180380 [main] DEBUG com.webshop.test - connectionpool is set to Hikari
+180380 [main] DEBUG com.webshop - connectionpool: Hikari
+186308 [main] DEBUG com.webshop -  databasesetting: FireBird
+191828 [main] DEBUG com.webshop.test - databasesetting in getconnection()FireBird
+192192 [main] DEBUG com.webshop - test getconnection- hikari - fb
+268061 [main] DEBUG com.webshop.test - databasesetting in getconnection()FireBird
+268115 [main] DEBUG com.webshop - test getconnection- hikari - fb
+297459 [main] DEBUG com.webshop.test - databasesetting in getconnection()FireBird
+297531 [main] DEBUG com.webshop - test getconnection- hikari - fb
+297630 [main] DEBUG com.webshop.test - databasesetting in getconnection()FireBird
+297656 [main] DEBUG com.webshop - test getconnection- hikari - fb
+321839 [main] DEBUG com.webshop.test - class Controller.KlantControllerdaofactory.getKlantDAO: DAOs.Impl.FireBird.KlantDAOFB@7ff95560
+321840 [main] DEBUG com.webshop.test - daofactory.getDatabaseSetting: FireBird
+321840 [main] DEBUG com.webshop.test - klantDAO: DAOs.Impl.FireBird.KlantDAOFB@add0edd
+321840 [main] DEBUG com.webshop.test - databasesetting in getconnection()FireBird
+321890 [main] DEBUG com.webshop - test getconnection- hikari - fb

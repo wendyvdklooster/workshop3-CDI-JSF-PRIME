@@ -1,0 +1,4 @@
+3558 [main] DEBUG com.webshop.test - Toetreden tot de webshop
+3567 [main] DEBUG com.webshop - U kunt werken in het bestand
+715836 [main] DEBUG com.webshop.test - connectionpool is set to Hikari
+715836 [main] DEBUG com.webshop - connectionpool: Hikari

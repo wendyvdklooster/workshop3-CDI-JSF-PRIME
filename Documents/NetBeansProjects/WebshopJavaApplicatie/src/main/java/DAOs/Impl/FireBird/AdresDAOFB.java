@@ -339,7 +339,7 @@ public class AdresDAOFB implements AdresDAOInterface {
     @Override   // werkt niet
     public Adres updateGegevens(Adres adres) {
         
-        long adresId = adres.getAdresId();
+        long adresId = adres.getId();
         String straatnaam = adres.getStraatnaam();
 	int huisnummer = adres.getHuisnummer();
 	String toevoeging = adres.getToevoeging();

@@ -1,0 +1,5 @@
+3630 [main] DEBUG com.webshop.test - Toetreden tot de webshop
+3654 [main] DEBUG com.webshop.dao - U kunt werken in het bestand
+12937 [main] DEBUG com.webshop.test - connectionpool is set to Hikari
+12938 [main] DEBUG com.webshop - connectionpool: Hikari
+26779 [main] DEBUG com.webshop -  databasesetting: JSON
