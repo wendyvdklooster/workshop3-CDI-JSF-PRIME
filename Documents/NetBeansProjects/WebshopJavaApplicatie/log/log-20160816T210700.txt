@@ -1,0 +1,11 @@
+7259 [main] DEBUG com.webshop.test - Toetreden tot de webshop
+7192 [main] DEBUG com.webshop.test - Toetreden tot de webshop
+7268 [main] DEBUG com.webshop.dao - U kunt werken in het bestand
+7205 [main] DEBUG com.webshop.dao - U kunt werken in het bestand
+431984 [main] DEBUG com.webshop.test - connectionpool is set to Hikari
+431986 [main] DEBUG com.webshop - connectionpool: Hikari
+433785 [main] DEBUG com.webshop -  databasesetting: FireBird
+442312 [main] DEBUG com.webshop.test - databasesetting in getconnection()FireBird
+442631 [main] DEBUG com.webshop - test getconnection- hikari - fb
+442684 [main] DEBUG com.webshop.test - gebruikt fb
+476158 [main] DEBUG com.webshop -  databasesetting: XML

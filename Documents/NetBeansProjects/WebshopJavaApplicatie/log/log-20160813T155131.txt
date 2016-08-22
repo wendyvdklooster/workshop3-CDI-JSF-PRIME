@@ -1,0 +1,9 @@
+4761 [main] DEBUG com.webshop.test - Toetreden tot de webshop
+4773 [main] DEBUG com.webshop - U kunt werken in het bestand
+7340 [main] DEBUG com.webshop.test - connectionpool is set to C3p0
+7340 [main] DEBUG com.webshop - connectionpool: C3p0
+9351 [main] DEBUG com.webshop -  databasesetting: FireBird
+17087 [main] DEBUG com.webshop.test - databasesetting in getconnection()FireBird
+17152 [main] DEBUG com.webshop.test - C3p0CPF url: jdbc:firebirdsql:localhost/3050:C:\FBDB\fbdb.FDB
+17507 [main] DEBUG com.webshop - test getconnection- C3p0 - fb
+17584 [main] DEBUG com.webshop.test - gebruikt fb

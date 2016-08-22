@@ -1,0 +1,2 @@
+3937 [main] DEBUG com.webshop.test - Toetreden tot de webshop
+3946 [main] DEBUG com.webshop.dao - U kunt werken in het bestand

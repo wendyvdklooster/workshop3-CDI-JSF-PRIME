@@ -117,6 +117,7 @@ public class HoofdMenuController {
                     adresController.adresMenu();                
                     break;
                 case 5: // switch van db/connectionpool
+                    logger.debug("u zit nu in database " + daoFactory.getDatabaseSetting());
                     setDatabase();
                     break;
                 case 6: 

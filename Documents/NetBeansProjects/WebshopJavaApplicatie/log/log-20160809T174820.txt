@@ -1,0 +1,2 @@
+10832 [main] WARN  com.KlantDAOXML - Low fuel level.
+10981 [main] INFO  com.KlantDAOXML.Bar - Located nearest gas station.

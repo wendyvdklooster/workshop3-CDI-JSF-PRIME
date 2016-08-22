@@ -101,7 +101,7 @@ public class AdresView {
     
     public void printAdresOverzicht(Adres adres) {
         System.out.println("Het adres heeft de volgende gegevens:");
-        System.out.println("Adres id: " + adres.getAdresId());
+        System.out.println("Adres id: " + adres.getId());
         System.out.println("Straatnaam: " + adres.getStraatnaam());
         System.out.println("Huisnummer: " + adres.getHuisnummer());
         System.out.println("Toevoeging: " + adres.getToevoeging());
@@ -172,7 +172,7 @@ public class AdresView {
         
         for (int i = 0; i< adressenLijst.size(); i++){
 
-            System.out.printf ("%-10s%-28s%-12s%-12s%-12s%-18s%n",(adressenLijst.get(i)).getAdresId(),
+            System.out.printf ("%-10s%-28s%-12s%-12s%-12s%-18s%n",(adressenLijst.get(i)).getId(),
             (adressenLijst.get(i)).getStraatnaam(),(adressenLijst.get(i)).getHuisnummer(),
             (adressenLijst.get(i)).getToevoeging(),(adressenLijst.get(i)).getPostcode(),
             (adressenLijst.get(i)).getWoonplaats());            

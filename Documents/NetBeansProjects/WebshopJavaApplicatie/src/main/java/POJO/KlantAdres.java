@@ -11,8 +11,7 @@ public class KlantAdres {
     private long klantId;
     private long adresId;
     
-    public KlantAdres(){
-       
+    public KlantAdres(){       
     }
     
     public KlantAdres(long klantId, long adresId) {

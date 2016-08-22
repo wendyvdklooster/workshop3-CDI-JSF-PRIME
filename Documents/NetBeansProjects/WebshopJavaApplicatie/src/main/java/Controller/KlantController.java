@@ -107,7 +107,7 @@ public class KlantController {
             System.out.println("Voer uw adres in: ");
             adres = adresController.createAdres();
             adres = adresDAO.insertAdres(adres);
-            long adresId = adres.getAdresId(); 
+            long adresId = adres.getId(); 
             boolean toegevoegd = klantAdresDAO.insertKlantAdres(klantId, adresId); 
         
             System.out.println("U heeft de klant- en adresgegevens toegevoegd van klantId: " 

@@ -1,0 +1,17 @@
+82678 [main] DEBUG DAOs.Impl.MySQL.InsertReflection - sqlString builded is: INSERT INTO KLANT(voornaam, achternaam, tussenvoegsel, email) values ('koffie', 'melk', 'zonder', 'koofie@zondermelk.nl')
+85013 [main] ERROR DAOs.Impl.MySQL.KlantDAOSQL -  
+java.sql.SQLException: Can not issue data manipulation statements with executeQuery().
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:998) ~[mysql-connector-java-5.1.35.jar:5.1.35]
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:937) ~[mysql-connector-java-5.1.35.jar:5.1.35]
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:926) ~[mysql-connector-java-5.1.35.jar:5.1.35]
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:872) ~[mysql-connector-java-5.1.35.jar:5.1.35]
+	at com.mysql.jdbc.StatementImpl.checkForDml(StatementImpl.java:472) ~[mysql-connector-java-5.1.35.jar:5.1.35]
+	at com.mysql.jdbc.PreparedStatement.executeQuery(PreparedStatement.java:1976) ~[mysql-connector-java-5.1.35.jar:5.1.35]
+	at com.mchange.v2.c3p0.impl.NewProxyPreparedStatement.executeQuery(NewProxyPreparedStatement.java:76) ~[c3p0-0.9.1.2.jar:0.9.1.2]
+	at DAOs.Impl.MySQL.KlantDAOSQL.insertWithReflection(KlantDAOSQL.java:262) ~[classes/:na]
+	at Controller.KlantController.voegNieuweKlantToe(KlantController.java:87) [classes/:na]
+	at Controller.KlantController.klantMenu(KlantController.java:59) [classes/:na]
+	at Controller.HoofdMenuController.start(HoofdMenuController.java:94) [classes/:na]
+	at Controller.HoofdMenuController.setDatabase(HoofdMenuController.java:63) [classes/:na]
+	at Controller.HoofdMenuController.setConnectionPool(HoofdMenuController.java:50) [classes/:na]
+	at MAIN.Main.main(Main.java:35) [classes/:na]

@@ -1,0 +1,5 @@
+4968 [main] DEBUG com.webshop.test - Toetreden tot de webshop
+4976 [main] DEBUG com.webshop.dao - U kunt werken in het bestand
+198271 [main] DEBUG com.webshop.test - connectionpool is set to Hikari
+198271 [main] DEBUG com.webshop - connectionpool: Hikari
+207924 [main] DEBUG com.webshop -  databasesetting: MySQL

@@ -1,0 +1,30 @@
+4808 [main] DEBUG com.webshop.test - Toetreden tot de webshop
+4826 [main] DEBUG com.webshop - U kunt werken in het bestand
+40921 [main] DEBUG com.webshop.test - connectionpool is set to C3p0
+40922 [main] DEBUG com.webshop - connectionpool: C3p0
+43073 [main] DEBUG com.webshop -  databasesetting: FireBird
+47779 [main] DEBUG com.webshop.test - databasesetting in getconnection()FireBird
+47831 [main] DEBUG com.webshop.test - C3p0CPF url: jdbc:firebirdsql:localhost/3050:C:\FBDB\fbdb.FDB
+48316 [main] DEBUG com.webshop - test getconnection- C3p0 - fb
+48373 [main] DEBUG com.webshop.test - gebruikt fb
+103093 [main] DEBUG com.webshop.test - databasesetting in getconnection()FireBird
+103118 [main] DEBUG com.webshop.test - C3p0CPF url: jdbc:firebirdsql:localhost/3050:C:\FBDB\fbdb.FDB
+103176 [main] DEBUG com.webshop - test getconnection- C3p0 - fb
+113783 [main] DEBUG com.webshop.test - databasesetting in getconnection()FireBird
+113801 [main] DEBUG com.webshop.test - C3p0CPF url: jdbc:firebirdsql:localhost/3050:C:\FBDB\fbdb.FDB
+113859 [main] DEBUG com.webshop - test getconnection- C3p0 - fb
+113988 [main] DEBUG com.webshop.test - databasesetting in getconnection()FireBird
+114024 [main] DEBUG com.webshop.test - C3p0CPF url: jdbc:firebirdsql:localhost/3050:C:\FBDB\fbdb.FDB
+114112 [main] DEBUG com.webshop - test getconnection- C3p0 - fb
+114366 [main] DEBUG com.webshop.test - databasesetting in getconnection()FireBird
+114392 [main] DEBUG com.webshop.test - C3p0CPF url: jdbc:firebirdsql:localhost/3050:C:\FBDB\fbdb.FDB
+114555 [main] DEBUG com.webshop - test getconnection- C3p0 - fb
+114743 [main] DEBUG com.webshop.test - databasesetting in getconnection()FireBird
+114770 [main] DEBUG com.webshop.test - C3p0CPF url: jdbc:firebirdsql:localhost/3050:C:\FBDB\fbdb.FDB
+114895 [main] DEBUG com.webshop - test getconnection- C3p0 - fb
+115070 [main] DEBUG com.webshop.test - databasesetting in getconnection()FireBird
+115103 [main] DEBUG com.webshop.test - C3p0CPF url: jdbc:firebirdsql:localhost/3050:C:\FBDB\fbdb.FDB
+115214 [main] DEBUG com.webshop - test getconnection- C3p0 - fb
+115727 [main] DEBUG com.webshop.test - databasesetting in getconnection()FireBird
+115749 [main] DEBUG com.webshop.test - C3p0CPF url: jdbc:firebirdsql:localhost/3050:C:\FBDB\fbdb.FDB
+115907 [main] DEBUG com.webshop - test getconnection- C3p0 - fb

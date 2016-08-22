@@ -1,0 +1,69 @@
+3529 [main] DEBUG com.webshop - U kunt werken in het bestand
+4147 [main] DEBUG com.webshop - U kunt werken in het bestand
+7010 [main] DEBUG com.webshop - connectionpool: C3p0
+10621 [main] DEBUG com.webshop -  databasesetting: FireBird
+19141 [main] DEBUG com.webshop - test getconnection- C3p0 - fb
+40572 [main] DEBUG com.webshop - test getconnection- C3p0 - fb
+3098 [main] DEBUG com.webshop - U kunt werken in het bestand
+30196 [main] DEBUG com.webshop - connectionpool: C3p0
+32601 [main] DEBUG com.webshop -  databasesetting: MySQL
+46075 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+72655 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+72859 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+73135 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+73384 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+73603 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+102352 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+102579 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+2752 [main] DEBUG com.webshop - U kunt werken in het bestand
+6055 [main] DEBUG com.webshop - connectionpool: Hikari
+8269 [main] DEBUG com.webshop -  databasesetting: MySQL
+16240 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+5143 [main] DEBUG com.webshop - U kunt werken in het bestand
+8560 [main] DEBUG com.webshop - connectionpool: C3p0
+12327 [main] DEBUG com.webshop -  databasesetting: FireBird
+20353 [main] DEBUG com.webshop - test getconnection- C3p0 - fb
+5323 [main] DEBUG com.webshop - U kunt werken in het bestand
+7646 [main] DEBUG com.webshop - connectionpool: Hikari
+4773 [main] DEBUG com.webshop - U kunt werken in het bestand
+7340 [main] DEBUG com.webshop - connectionpool: C3p0
+9351 [main] DEBUG com.webshop -  databasesetting: FireBird
+17507 [main] DEBUG com.webshop - test getconnection- C3p0 - fb
+4826 [main] DEBUG com.webshop - U kunt werken in het bestand
+40922 [main] DEBUG com.webshop - connectionpool: C3p0
+43073 [main] DEBUG com.webshop -  databasesetting: FireBird
+48316 [main] DEBUG com.webshop - test getconnection- C3p0 - fb
+103176 [main] DEBUG com.webshop - test getconnection- C3p0 - fb
+113859 [main] DEBUG com.webshop - test getconnection- C3p0 - fb
+114112 [main] DEBUG com.webshop - test getconnection- C3p0 - fb
+114555 [main] DEBUG com.webshop - test getconnection- C3p0 - fb
+114895 [main] DEBUG com.webshop - test getconnection- C3p0 - fb
+115214 [main] DEBUG com.webshop - test getconnection- C3p0 - fb
+115907 [main] DEBUG com.webshop - test getconnection- C3p0 - fb
+5007 [main] DEBUG com.webshop - U kunt werken in het bestand
+7014 [main] DEBUG com.webshop - connectionpool: C3p0
+8346 [main] DEBUG com.webshop -  databasesetting: FireBird
+14330 [main] DEBUG com.webshop - test getconnection- C3p0 - fb
+4087 [main] DEBUG com.webshop - U kunt werken in het bestand
+7056 [main] DEBUG com.webshop - connectionpool: C3p0
+10191 [main] DEBUG com.webshop -  databasesetting: FireBird
+14326 [main] DEBUG com.webshop - test getconnection- C3p0 - fb
+5133 [main] DEBUG com.webshop - U kunt werken in het bestand
+15885 [main] DEBUG com.webshop - connectionpool: C3p0
+20234 [main] DEBUG com.webshop -  databasesetting: FireBird
+25539 [main] DEBUG com.webshop - test getconnection- C3p0 - fb
+2901 [main] DEBUG com.webshop - U kunt werken in het bestand
+22345 [main] DEBUG com.webshop - connectionpool: C3p0
+23950 [main] DEBUG com.webshop -  databasesetting: FireBird
+55274 [main] DEBUG com.webshop - test getconnection- C3p0 - fb
+92823 [main] DEBUG com.webshop - test getconnection- C3p0 - fb
+93071 [main] DEBUG com.webshop - test getconnection- C3p0 - fb
+103508 [main] DEBUG com.webshop - test getconnection- C3p0 - fb
+3316 [main] DEBUG com.webshop - U kunt werken in het bestand
+18125 [main] DEBUG com.webshop - connectionpool: C3p0
+28056 [main] DEBUG com.webshop -  databasesetting: FireBird
+240941 [main] DEBUG com.webshop - test getconnection- C3p0 - fb
+2669 [main] DEBUG com.webshop - U kunt werken in het bestand
+163021 [main] DEBUG com.webshop - connectionpool: C3p0
+164827 [main] DEBUG com.webshop -  databasesetting: FireBird
+181327 [main] DEBUG com.webshop - test getconnection- C3p0 - fb
