@@ -7,6 +7,7 @@ import Helpers.HibernateSessionFactory;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -91,13 +92,29 @@ public abstract class GenericDaoImpl <T, PK extends Serializable> implements Gen
        }
 
     @Override 
-    public List<T> read(T t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<T> read(T t) { // wat moet ik hier ophalen, een lijst van wat? je hebt het object al...
+        log.info(beanType.getSimpleName() + " via Id creeeren in de database");
+        session = getSession();
+        List objects = session.get();
+        
+        closeSession(session);
+        
+    
     }
 
     @Override
-    public List<T> readAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<T> readAll(Class<> klasse) {
+        // drie manieren om lijst op te halen; even kijken wat voor ons werkt.
+        // je moet er een op een
+        log.info(beanType.getSimpleName() + " Lijst met alle objecten ophalen");
+        session = getSession();
+        List<T> objects = null;
+        Query query = session.createSQLQuery("SELECT * FROM " + klasse.getName);
+        // ben ik nog niet uit; iets van; 
+        objects = query.list();
+        objects = query.addEntity(klasse.class).list();
+       
+       return objects;
     }
 
     @Override // .update();
