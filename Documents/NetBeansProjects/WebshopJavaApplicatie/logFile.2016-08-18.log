@@ -1,0 +1,22 @@
+15288 [main] DEBUG com.webshop - connectionpool: Hikari
+19461 [main] DEBUG com.webshop -  databasesetting: JSON
+61298 [main] DEBUG com.webshop -  databasesetting: MySQL
+13380 [main] DEBUG com.webshop - connectionpool: Hikari
+480219 [main] DEBUG com.webshop - connectionpool: Hikari
+24737 [main] DEBUG com.webshop -  databasesetting: MySQL
+495124 [main] DEBUG com.webshop -  databasesetting: MySQL
+198271 [main] DEBUG com.webshop - connectionpool: Hikari
+207924 [main] DEBUG com.webshop -  databasesetting: MySQL
+128151 [main] DEBUG com.webshop - connectionpool: Hikari
+169148 [main] DEBUG com.webshop -  databasesetting: MySQL
+182688 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+199091 [main] DEBUG com.webshop -  databasesetting: FireBird
+90190 [main] DEBUG com.webshop - connectionpool: C3p0
+92388 [main] DEBUG com.webshop -  databasesetting: MySQL
+98824 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+112501 [main] DEBUG com.webshop -  databasesetting: FireBird
+6271 [main] DEBUG com.webshop - connectionpool: Hikari
+8884 [main] DEBUG com.webshop -  databasesetting: FireBird
+18406 [main] DEBUG com.webshop - test getconnection- hikari - fb
+29868 [main] DEBUG com.webshop - u zit nu in database FireBird
+36211 [main] DEBUG com.webshop -  databasesetting: MySQL

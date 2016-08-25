@@ -1,3 +1,0 @@
-48745 [main] DEBUG DAOs.Impl.Json_XML.KlantDAOXML - er zijn al klanten
-48960 [main] DEBUG DAOs.Impl.Json_XML.KlantDAOXML - klanten lijst is niet leeg
-86276 [main] DEBUG DAOs.Impl.Json_XML.KlantDAOXML - er zijn al klanten

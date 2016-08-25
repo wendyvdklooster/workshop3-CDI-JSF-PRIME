@@ -1,1 +1,0 @@
-5569 [main] INFO  com.webshop.test - connectionpool is set to default

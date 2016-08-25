@@ -7,7 +7,7 @@ package DAOs.Impl.Json_XML;
    
 
 import DAOs.Interface.KlantDAOInterface;
-import POJO.KlantenLijst;
+import Helpers.KlantenLijst;
 import POJO.Klant;
 import POJO.Klant.KlantBuilder;
 import ch.qos.logback.classic.Level;

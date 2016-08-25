@@ -1,9 +1,0 @@
-3094 [main] DEBUG com.webshop.test - Toetreden tot de webshop
-3099 [main] DEBUG com.webshop.dao - U kunt werken in het bestand
-6270 [main] DEBUG com.webshop.test - connectionpool is set to Hikari
-6271 [main] DEBUG com.webshop - connectionpool: Hikari
-8884 [main] DEBUG com.webshop -  databasesetting: FireBird
-18006 [main] DEBUG com.webshop.test - databasesetting in getconnection()FireBird
-18406 [main] DEBUG com.webshop - test getconnection- hikari - fb
-29868 [main] DEBUG com.webshop - u zit nu in database FireBird
-36211 [main] DEBUG com.webshop -  databasesetting: MySQL

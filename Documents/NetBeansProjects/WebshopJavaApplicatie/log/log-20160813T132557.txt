@@ -1,3 +1,0 @@
-765  [main] DEBUG com.webshop.test - Toetreden tot de webshop
-5458 [main] DEBUG com.webshop.test - connectionpool is set to Hikari
-5458 [main] DEBUG com.webshop - connectionpool: Hikari

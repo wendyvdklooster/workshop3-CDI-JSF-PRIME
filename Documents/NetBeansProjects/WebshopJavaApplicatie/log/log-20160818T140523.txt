@@ -1,5 +1,0 @@
-7460 [main] DEBUG com.webshop.test - Toetreden tot de webshop
-7504 [main] DEBUG com.webshop.dao - U kunt werken in het bestand
-13379 [main] DEBUG com.webshop.test - connectionpool is set to Hikari
-13380 [main] DEBUG com.webshop - connectionpool: Hikari
-24737 [main] DEBUG com.webshop -  databasesetting: MySQL

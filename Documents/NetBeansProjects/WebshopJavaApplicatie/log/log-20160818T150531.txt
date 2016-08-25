@@ -1,9 +1,0 @@
-2914 [main] DEBUG com.webshop.test - Toetreden tot de webshop
-2919 [main] DEBUG com.webshop.dao - U kunt werken in het bestand
-90189 [main] DEBUG com.webshop.test - connectionpool is set to C3p0
-90190 [main] DEBUG com.webshop - connectionpool: C3p0
-92388 [main] DEBUG com.webshop -  databasesetting: MySQL
-98709 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
-98736 [main] DEBUG com.webshop.test - C3p0CPSQL url: jdbc:mysql://localhost:3306/winkel?autoReconnect=true&useSSL=false
-98824 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
-112501 [main] DEBUG com.webshop -  databasesetting: FireBird
