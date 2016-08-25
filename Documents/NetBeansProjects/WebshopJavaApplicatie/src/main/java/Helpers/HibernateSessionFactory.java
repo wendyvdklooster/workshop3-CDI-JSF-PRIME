@@ -5,7 +5,7 @@
  */
 
 
-package Factory;
+package Helpers;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -13,7 +13,11 @@ import org.hibernate.cfg.Configuration;
 /**
  * @author Wendy
  */
-public class HibernateFactory {
+
+//Hibernate SessionFactory is the factory class through which we get sessions and perform database operations.
+// http://www.journaldev.com/3522/hibernate-sessionfactory
+
+public class HibernateSessionFactory {
     
     private static final SessionFactory sessionFactory = buildSessionFactory();
 
