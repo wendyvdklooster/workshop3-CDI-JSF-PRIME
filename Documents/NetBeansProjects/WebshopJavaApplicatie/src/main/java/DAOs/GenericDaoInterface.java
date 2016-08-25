@@ -19,18 +19,18 @@ import java.util.Set;
 
 // PK primary key
 
-public interface GenericDaoInterface <E, PK extends Serializable>{
+public interface GenericDaoInterface <T, PK extends Serializable>{
    
     // alle dao methoden? 
-    E create(E e);
+    T create(T e);
     
-    E readById(PK id);
-    List<E> read(E e);
-    List<E> readAll();
+    T readById(PK id);
+    List<T> read(T t);
+    List<T> readAll();
     
-    E update(E e);
+    T update(T t);
     
-    void delete(E e);
+    void delete(T t);
     void deleteById(PK id);
     void deleteAll();
     

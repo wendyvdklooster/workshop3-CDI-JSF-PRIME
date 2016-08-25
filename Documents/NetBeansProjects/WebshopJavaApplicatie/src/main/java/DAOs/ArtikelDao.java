@@ -17,6 +17,18 @@ public class ArtikelDao extends GenericDaoImpl <Artikel, Long> {
 
     
 private static final Logger log = LoggerFactory.getLogger(ArtikelDao.class);
+ 
+    //Artikel artikel;
+    
+    public ArtikelDao(){
+        super();
+    }
 
+    public ArtikelDao(Class<Artikel> type) {
+        super(type);
+    }
+
+   
+    
 
 }

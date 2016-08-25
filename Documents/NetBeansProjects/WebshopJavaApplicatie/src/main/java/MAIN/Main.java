@@ -1,11 +1,15 @@
 package MAIN;
 
+import DAOs.ArtikelDao;
+import DAOs.GenericDaoImpl;
+import Helpers.HibernateSessionFactory;
+import POJO.Artikel;
 import TestHibernate.HibernateTest;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.Properties;
 import org.slf4j.LoggerFactory;
-import org.slf4j.Logger; 
+import org.slf4j.Logger;
 
 /**
  *
@@ -21,13 +25,11 @@ public class Main {
     public static void main (String[]args) throws SQLException, ClassNotFoundException, FileNotFoundException {    
          
  
-
-//        LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
-//        lc.setPackagingDataEnabled(false);
-              
-        HibernateTest start = new HibernateTest();
-        System.out.println();
-        start.hibernateSession();
+            Artikel artikel = new Artikel();
+            
+            GenericDaoImpl artikelDao;
+                artikelDao = new ArtikelDao();
+            artikelDao.create(artikel);
       
 //        HoofdMenuController start = new HoofdMenuController();
 //        System.out.println();
