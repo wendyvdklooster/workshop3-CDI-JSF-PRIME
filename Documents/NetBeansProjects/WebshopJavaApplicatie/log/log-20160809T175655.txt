@@ -1,2 +1,0 @@
-36089 [main] WARN  com.KlantDAOXML - Low fuel level.
-36188 [main] INFO  com.KlantDAOXML.Bar - Located nearest gas station.

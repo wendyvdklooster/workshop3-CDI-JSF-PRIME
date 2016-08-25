@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true" packagingData="true">
+<timestamp key="byDay" datePattern="yyyyMMdd'T'HHmmss"/>
+
+<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+        <level>DEBUG</level>
+        <onMatch>ACCEPT</onMatch>
+        <onMismatch>DENY</onMismatch>
+    </filter>
+    <layout class="ch.qos.logback.classic.PatternLayout">
+      <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+    </layout>
+  </appender>
+
+
+  <appender name="FILE2" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>log/logFile.log</file>
+     <append>true</append>
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">    
+        <level>INFO</level>
+        <onMatch>ACCEPT</onMatch>
+        <onMismatch>DENY</onMismatch>
+        <level>DEBUG</level>
+        <onMatch>ACCEPT</onMatch>
+        <onMismatch>DENY</onMismatch>        
+    </filter>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- daily rollover -->
+      <fileNamePattern>logFile.%d{yyyy-MM-dd}.log</fileNamePattern>
+
+      <!-- keep 30 days' worth of history capped at 3GB total size -->
+      <maxHistory>30</maxHistory>
+      <totalSizeCap>3GB</totalSizeCap>
+
+    </rollingPolicy>
+
+    <encoder>
+      <pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+    </encoder>
+  </appender> 
+
+ <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+    <file> log/log-${byDay}.txt </file>
+     <append>true</append>
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">    
+        <level>INFO</level>
+        <onMatch>ACCEPT</onMatch>
+        <onMismatch>DENY</onMismatch>
+        <level>DEBUG</level>
+        <onMatch>ACCEPT</onMatch>
+        <onMismatch>DENY</onMismatch>        
+    </filter>
+       
+    <encoder>      
+      <pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+    </encoder>
+    
+</appender>
+  
+<appender name="DB" class="ch.qos.logback.classic.db.DBAppender">
+     <connectionSource class="ch.qos.logback.core.db.DataSourceConnectionSource">
+      <dataSource class="com.mchange.v2.c3p0.ComboPooledDataSource">
+       <debug>true</debug>
+          <driverClass>com.mysql.jdbc.Driver</driverClass>
+        <jdbcUrl>jdbc:mysql://localhost:3306/logwinkel?zeroDateTimeBehavior=convertToNull</jdbcUrl>
+        <user>Anjewe</user>
+        <password>Koetjes</password>
+      </dataSource>
+    </connectionSource>    
+</appender>
+
+<logger name="com.webshop" level="DEBUG" additivity="false">
+    <appender-ref ref="STDOUT" />
+    <appender-ref ref="FILE" />
+    <appender-ref ref="FILE2"/>
+    <appender-ref ref="DB"/>
+</logger>
+<logger name="com.webshop" level="INFO" additivity="false">
+    <appender-ref ref="STDOUT" />
+    <appender-ref ref="FILE" />
+    <appender-ref ref ="DB"/>
+</logger>
+
+<logger name="com.webshop.dao" level="INFO" additivity="false">
+    <appender-ref ref="STDOUT" />
+</logger>
+
+<logger name="com.webshop.dao" level="DEBUG" additivity="false">
+    <appender-ref ref="FILE" />
+</logger>
+
+<logger name="com.webshop.err"  level="ERROR" additivity="false">
+    <appender-ref ref="STDOUT" />
+    <appender-ref ref="DB" />
+</logger>
+
+<logger name="com.webshop.test" level="DEBUG" additivity="false">
+    <appender-ref ref="STDOUT" />
+    <appender-ref ref="FILE" />
+    
+</logger>
+
+<logger name="com.webshop.connFactory" level="DEBUG" additivity="false">
+    <appender-ref ref="STDOUT" />
+</logger>
+
+<root level="DEBUG">
+    <appender-ref ref="FILE" />
+    <appender-ref ref="DB" />
+</root>
+</configuration>

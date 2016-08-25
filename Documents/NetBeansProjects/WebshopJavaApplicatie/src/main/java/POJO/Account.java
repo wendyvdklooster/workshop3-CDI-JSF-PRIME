@@ -5,65 +5,71 @@
  */
 package POJO;
 
+import java.io.Serializable;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.UniqueConstraint;
 
 /**
  *
  * @author Excen
  */
 @Entity
-public class Account {
+@Table(name = "ACCOUNTS") 
+public class Account implements Serializable {
   
-@Id 
-@GeneratedValue(strategy=GenerationType.IDENTITY)    
-private long accountId;
-private String naam;
-private Klant klant;
-private java.util.Date creatieDatum;
+    @Id 
+    @GeneratedValue(strategy=GenerationType.IDENTITY) 
+    @Column (unique = true, nullable = false, name = "ACCOUNT_ID")
+    private long Id;
+    
+    @Column(unique = true, nullable = false)
+    private String username;
+    
+    @Column(nullable = false)  // hoe werkt het met een paswoord
+    private String password;
+    
+    @ManyToOne (fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name ="KLANT_ID")// hoe zit de relatie met klant?
+    private Klant klant;
+    
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private java.util.Date creatieDatum;
 
     /**
-     * @return the AccountId
+     * @return the Id
      */
-    public long getAccountId() {
-        return accountId;
+    public long getId() {
+        return Id;
+    }
+
+    
+    public void setId(long AccountId) {
+        this.Id = AccountId;
     }
 
     /**
-     * @param AccountId the AccountId to set
-     */
-    public void setAccountId(long AccountId) {
-        this.accountId = AccountId;
-    }
-
-    /**
-     * @return the naam
+     * @return the username
      */
     public String getNaam() {
-        return naam;
+        return username;
     }
 
     /**
-     * @param naam the naam to set
+     * @param naam the username to set
      */
     public void setNaam(String naam) {
-        this.naam = naam;
-    }
-
-    /**
-     * @return the klant
-     */
-    public Klant getKlant() {
-        return klant;
-    }
-
-    /**
-     * @param klant the klant to set
-     */
-    public void setKlant(Klant klant) {
-        this.klant = klant;
+        this.username = naam;
     }
 
     /**
@@ -78,6 +84,20 @@ private java.util.Date creatieDatum;
      */
     public void setCreatieDatum(java.util.Date creatieDatum) {
         this.creatieDatum = creatieDatum;
+    }
+
+    /**
+     * @return the password
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * @param password the password to set
+     */
+    public void setPassword(String password) {
+        this.password = password;
     }
  
 }

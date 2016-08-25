@@ -12,6 +12,7 @@ import POJO.Adres.AdresBuilder;
 import POJO.Artikel;
 import POJO.Bestelling;
 import POJO.Klant;
+import java.util.Set;
 import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.SessionFactory;
@@ -23,33 +24,49 @@ import org.hibernate.SessionFactory;
 public class HibernateTest {
 
     public void hibernateSession() {
-        SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
-//        
-//        Artikel artikel = new Artikel();
-//        artikel.setArtikelNaam("perenboom");
-//        artikel.setArtikelPrijs(75.00);
+//    SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();  
+//    SessionFactory firebirdSF = new Configuration().configure("hibernateFB.cfg.xml").buildSessionFactory();
+    SessionFactory msSF = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
         
-//        Klant klant = new Klant();  
-//        
-//        klant.setVoornaam("Pien");
-//        klant.setAchternaam("winter");
-//        klant.setTussenvoegsel("de");
-//        klant.setEmail("pienneke@vakantie.nl");
-//        
+//        Artikel artikel = new Artikel();
+//        artikel.setArtikelNaam("tuin");
+//        artikel.setArtikelPrijs(60.00);      
+        
 //        Adres adres = new Adres(); 
-//        adres.setStraatnaam("olievatstraat");
-//        adres.setHuisnummer(11);
+//        adres.setStraatnaam("bootlaan");
+//        adres.setHuisnummer(2);
 //        adres.setToevoeging("a");
-//        adres.setPostcode("2908MX");   
-//        adres.setWoonplaats("Oud-Beijerland");
+//        adres.setPostcode("7417PF");   
+//        adres.setWoonplaats("Heel");
+//  
+//        Klant klant = new Klant();          
+//        klant.setVoornaam("Gina");
+//        klant.setAchternaam("La Cruz");
+//        klant.setTussenvoegsel("de");
+//        klant.setEmail("gina@espanje.es");
+//        
+//        
+//        Set<Klant>klanten = adres.getKlanten();
+//        klanten.add(klant);
+//        adres.setKlanten(klanten);
+//        
+//        Set<Adres>adressen = klant.getAdressen();
+//        adressen.add(adres);
+//        klant.setAdressen(adressen);
 //
-//        klant.setAdres(adres);               
-
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();        
-//        session.save(klant);
+//        Session session = msSF.openSession();
+//        session.beginTransaction(); 
+//        //session.save(artikel);
+//        session.save(adres);
+//        session.getTransaction().commit();
+//        session.close(); 
+//            
+        Session session = msSF.openSession();
+        session.beginTransaction(); 
+//        session.save(klant);        
         session.getTransaction().commit();
-        session.close();     
+        session.close(); 
+//          
         
 //        klant = null;
 //        adres = null;

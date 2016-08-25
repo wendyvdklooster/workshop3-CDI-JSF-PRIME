@@ -1,2 +1,0 @@
-17416 [main] INFO  com.webshop.test - connectionpool is set to default
-114618 [main] INFO  com.webshop - U kunt werken in het bestand

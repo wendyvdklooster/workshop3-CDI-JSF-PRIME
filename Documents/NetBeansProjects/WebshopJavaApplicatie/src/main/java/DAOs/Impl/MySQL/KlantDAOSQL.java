@@ -5,7 +5,7 @@
  */
 package DAOs.Impl.MySQL;
 
-import POJO.InsertReflection;
+import Helpers.InsertReflection;
 import DAOs.Interface.KlantDAOInterface;
 import Factory.ConnectionFactory;
 import POJO.Klant;

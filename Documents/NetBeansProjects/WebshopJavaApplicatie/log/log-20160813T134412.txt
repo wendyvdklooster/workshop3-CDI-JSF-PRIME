@@ -1,8 +1,0 @@
-3159 [main] DEBUG com.webshop.test - Toetreden tot de webshop
-87492 [main] DEBUG com.webshop.test - connectionpool is set to Hikari
-87492 [main] DEBUG com.webshop - connectionpool: Hikari
-92405 [main] DEBUG com.webshop -  databasesetting: XML
-101136 [main] DEBUG com.webshop.test - er zijn al klanten
-126157 [main] DEBUG com.webshop.test - er zijn al klanten
-154790 [main] DEBUG com.webshop.test - er zijn al klanten
-154859 [main] DEBUG com.webshop.test - er zijn al klanten

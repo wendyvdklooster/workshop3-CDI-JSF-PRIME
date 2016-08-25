@@ -1,2 +1,0 @@
-3049 [main] DEBUG com.webshop.test - Toetreden tot de webshop
-3061 [main] DEBUG com.webshop - U kunt werken in het bestand

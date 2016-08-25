@@ -5,26 +5,51 @@
  */
 package POJO;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.AUTO;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 /**
  *
  * @author Excen
  */
-public class Factuur {    
-    public long factuurId;
-    public String factuurnummer;
-    public java.util.Date factuurdatum;
-    public Set<Betaling> betalingset;
-    public Bestelling bestelling;
-
+@Entity
+@Table (name = "FACTUREN")
+public class Factuur implements Serializable {   
+    
+    @Id
+    @GeneratedValue(strategy = AUTO)
+    @Column(unique = true, nullable = false, name = "FACTUUR_ID")
+    private long Id;
+    
+    private String factuurnummer;
+    
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private java.util.Date factuurdatum;
+    
+    @OneToMany(mappedBy = "factuur")
+    private Set<Betaling> betalingset;
+    
+    @OneToOne (fetch = FetchType.LAZY, optional = false, cascade = CascadeType.PERSIST)
+    protected Bestelling bestelling;
+    
     public long getID() {
-        return factuurId;
+        return Id;
     }
 
     public void setID(long ID) {
-        this.factuurId = ID;
+        this.Id = ID;
     }
 
     public String getFactuurnummer() {

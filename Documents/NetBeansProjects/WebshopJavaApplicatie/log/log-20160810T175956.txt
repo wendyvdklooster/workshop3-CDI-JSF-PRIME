@@ -1,1 +1,0 @@
-5707 [main] INFO  com.webshop.test - connectionpool is set to Hikari

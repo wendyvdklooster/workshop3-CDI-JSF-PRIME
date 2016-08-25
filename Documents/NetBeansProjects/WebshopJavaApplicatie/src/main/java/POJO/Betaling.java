@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -5,31 +6,56 @@
  */
 package POJO;
 
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.AUTO;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.UniqueConstraint;
+
 /**
  *
  * @author Excen
  */
-public class Betaling {
 
-private long betalingId;
+@Entity
+@Table(name = "BETALINGEN" )
+public class Betaling implements Serializable {
+
+@Id
+@GeneratedValue(strategy = AUTO)
+@Column(unique = true, nullable = false)
+private long Id;
+
+@Temporal(javax.persistence.TemporalType.DATE)
 private java.util.Date betaaldatum;
-// public Betaalwijze betalingswijze;  
+
+public Betaalwijze betalingswijze;  
+
+@ManyToOne
 private Klant klant;
-private Factuur factuur;
+
+    @ManyToOne
+    private Factuur factuur;
+
 private String betalingsGegevens;
 
     /**
      * @return the BetalingId
      */
     public long getBetalingId() {
-        return betalingId;
+        return Id;
     }
 
     /**
      * @param BetalingId the BetalingId to set
      */
     public void setBetalingId(long BetalingId) {
-        this.betalingId = BetalingId;
+        this.Id = BetalingId;
     }
 
     /**
@@ -45,21 +71,6 @@ private String betalingsGegevens;
     public void setBetaaldatum(java.util.Date betaaldatum) {
         this.betaaldatum = betaaldatum;
     }
-
-    /**
-     * @return the klant
-     */
-    public Klant getKlant() {
-        return klant;
-    }
-
-    /**
-     * @param klant the klant to set
-     */
-    public void setKlant(Klant klant) {
-        this.klant = klant;
-    }
-
     /**
      * @return the factuur
      */

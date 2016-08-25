@@ -15,13 +15,16 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import static javax.persistence.GenerationType.AUTO;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -31,37 +34,43 @@ import org.hibernate.annotations.Parameter;
  * @author Excen
  */
 @Entity
-@Table(name = "ADRESSEN")
-//@Embeddable
-public class Adres implements Serializable {   
-    
+@Table(name = "ADRESSEN", uniqueConstraints = {
+		@UniqueConstraint(columnNames = {"huisnummer","toevoeging","postcode"}) })
+public class Adres implements Serializable {       
     
     @Id
-    @GeneratedValue(strategy = IDENTITY)
-    @Column(unique = true, nullable = false)
+    @GeneratedValue(strategy = AUTO)
+    @Column(unique = true, nullable = false, name = "ADRES_ID")
     private Long Id;
         
-//    @Column(nullable = false)
+    @Column(nullable = false)
     private String straatnaam;
-//    @Column(nullable = false, length = 6)
+    @Column(nullable = false, length = 6)
     private String postcode;
     private String toevoeging;
-    private int huisnummer;    
-    private String woonplaats;
+    @Column(nullable = false)
+    private int huisnummer;  
+    @Column(nullable = false)
+    private String woonplaats;  
+    //default? bij niets invullen => bezorg en factuuradres.. 
+    private int adresType; 
     
-    @ManyToMany(mappedBy = "klanten")
+    @ManyToMany(mappedBy = "adressen")
     protected Set<Klant> klanten = new HashSet<>();
     
+    @OneToMany(mappedBy = "adres")
+    protected Set<KlantAdres> klantAdressen = new HashSet<>();
+
     
-    public Adres(AdresBuilder adresBuilder){
-        this.Id = adresBuilder.Id;
-        this.straatnaam = adresBuilder.straatnaam;
-        this.postcode = adresBuilder.postcode;
-        this.toevoeging = adresBuilder.toevoeging;
-        this.huisnummer = adresBuilder.huisnummer;
-        this.woonplaats = adresBuilder.woonplaats;
+    public Set<Klant> getKlanten() {
+        return klanten;
+    }
+
+    public void setKlanten(Set<Klant> klanten) {
+        this.klanten = klanten;
     }
     
+ 
     public Adres(){
     }
     
@@ -73,6 +82,7 @@ public class Adres implements Serializable {
         this.huisnummer = huisnummer;
         this.woonplaats = woonplaats;         
     } 
+   
     
     /*public static Adres getInstance(){
         return new Adres();
@@ -126,6 +136,29 @@ public class Adres implements Serializable {
         this.woonplaats = woonplaats;
     }
    
+       
+    public Adres(AdresBuilder adresBuilder){
+        this.Id = adresBuilder.Id;
+        this.straatnaam = adresBuilder.straatnaam;
+        this.postcode = adresBuilder.postcode;
+        this.toevoeging = adresBuilder.toevoeging;
+        this.huisnummer = adresBuilder.huisnummer;
+        this.woonplaats = adresBuilder.woonplaats;
+    }
+
+    /**
+     * @return the adresType
+     */
+    public int getAdresType() {
+        return adresType;
+    }
+
+    /**
+     * @param adresType the adresType to set
+     */
+    public void setAdresType(int adresType) {
+        this.adresType = adresType;
+    }
     
     public static class AdresBuilder {       
             
