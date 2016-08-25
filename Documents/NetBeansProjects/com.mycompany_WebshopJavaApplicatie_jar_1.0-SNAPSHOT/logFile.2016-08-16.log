@@ -1,0 +1,33 @@
+4732 [main] DEBUG com.webshop - U kunt werken in het bestand
+66087 [main] DEBUG com.webshop - connectionpool: Hikari
+68095 [main] DEBUG com.webshop -  databasesetting: FireBird
+99728 [main] DEBUG com.webshop - test getconnection- hikari - fb
+120610 [main] DEBUG com.webshop - test getconnection- hikari - fb
+122220 [main] DEBUG com.webshop - test getconnection- hikari - fb
+453193 [main] DEBUG com.webshop - test getconnection- hikari - fb
+454769 [main] DEBUG com.webshop - test getconnection- hikari - fb
+469903 [main] DEBUG com.webshop - test getconnection- hikari - fb
+471703 [main] DEBUG com.webshop - test getconnection- hikari - fb
+498127 [main] DEBUG com.webshop - test getconnection- hikari - fb
+508371 [main] DEBUG com.webshop - test getconnection- hikari - fb
+509904 [main] DEBUG com.webshop - test getconnection- hikari - fb
+3661 [main] DEBUG com.webshop - U kunt werken in het bestand
+25122 [main] DEBUG com.webshop - connectionpool: C3p0
+2999 [main] DEBUG com.webshop - U kunt werken in het bestand
+7749 [main] DEBUG com.webshop - connectionpool: C3p0
+20489 [main] DEBUG com.webshop -  databasesetting: FireBird
+28905 [main] DEBUG com.webshop - test getconnection- C3p0 - fb
+755031 [main] DEBUG com.webshop -  databasesetting: XML
+3048 [main] DEBUG com.webshop - U kunt werken in het bestand
+6406 [main] DEBUG com.webshop - connectionpool: C3p0
+13056 [main] DEBUG com.webshop -  databasesetting: MySQL
+35553 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+60330 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+60639 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+241477 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+426278 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+426510 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+501413 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+587600 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+588031 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+3750 [main] DEBUG com.webshop - U kunt werken in het bestand

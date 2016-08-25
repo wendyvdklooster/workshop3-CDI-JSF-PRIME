@@ -1,0 +1,64 @@
+9756 [main] DEBUG com.webshop - U kunt werken in het bestand
+8714 [main] DEBUG com.webshop - U kunt werken in het bestand
+11211 [main] DEBUG com.webshop - connectionpool: C3p0
+13136 [main] DEBUG com.webshop -  databasesetting: FireBird
+21586 [main] DEBUG com.webshop - test getconnection- C3p0 - fb
+527134 [main] DEBUG com.webshop -  databasesetting: MySQL
+3004 [main] DEBUG com.webshop - U kunt werken in het bestand
+14907 [main] DEBUG com.webshop - connectionpool: Hikari
+18434 [main] DEBUG com.webshop -  databasesetting: MySQL
+27423 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+48905 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+66205 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+84451 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+101950 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+116651 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+138539 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+149774 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+3352 [main] DEBUG com.webshop - U kunt werken in het bestand
+6279 [main] DEBUG com.webshop - connectionpool: Hikari
+7786 [main] DEBUG com.webshop -  databasesetting: MySQL
+16712 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+29038 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+49304 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+61095 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+76183 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+90605 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+115907 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+132574 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+2700 [main] DEBUG com.webshop - U kunt werken in het bestand
+5261 [main] DEBUG com.webshop - connectionpool: Hikari
+6262 [main] DEBUG com.webshop -  databasesetting: MySQL
+13763 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+3346 [main] DEBUG com.webshop - U kunt werken in het bestand
+90378 [main] DEBUG com.webshop - connectionpool: Hikari
+91983 [main] DEBUG com.webshop -  databasesetting: MySQL
+121857 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+146193 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+147659 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+173704 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+199138 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+200360 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+234194 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+264695 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+265884 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+296151 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+331251 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+332441 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+364464 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+391920 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+393353 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+2997 [main] DEBUG com.webshop - U kunt werken in het bestand
+5464 [main] DEBUG com.webshop - connectionpool: Hikari
+7268 [main] DEBUG com.webshop -  databasesetting: MySQL
+18518 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+3045 [main] DEBUG com.webshop - U kunt werken in het bestand
+5427 [main] DEBUG com.webshop - connectionpool: Hikari
+7032 [main] DEBUG com.webshop -  databasesetting: MySQL
+3231 [main] DEBUG com.webshop - U kunt werken in het bestand
+15062 [main] DEBUG com.webshop - connectionpool: C3p0
+16764 [main] DEBUG com.webshop -  databasesetting: MySQL
+31774 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+31982 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+46394 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+58176 [main] DEBUG com.webshop - u zit nu in database MySQL
