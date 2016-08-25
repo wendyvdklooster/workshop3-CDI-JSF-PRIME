@@ -25,7 +25,7 @@ public interface GenericDaoInterface <T, PK extends Serializable>{
     T create(T e);
     
     T readById(PK id);
-    List<T> read(T t);
+    List<T> read(PK id, T t);
     List<T> readAll();
     
     T update(T t);
