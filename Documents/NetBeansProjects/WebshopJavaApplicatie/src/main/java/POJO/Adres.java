@@ -34,7 +34,7 @@ import org.hibernate.annotations.Parameter;
  * @author Excen
  */
 @Entity
-@Table(name = "ADRESSEN", uniqueConstraints = {
+@Table(name = "ADRES", uniqueConstraints = {
 		@UniqueConstraint(columnNames = {"huisnummer","toevoeging","postcode"}) })
 public class Adres implements Serializable {       
     

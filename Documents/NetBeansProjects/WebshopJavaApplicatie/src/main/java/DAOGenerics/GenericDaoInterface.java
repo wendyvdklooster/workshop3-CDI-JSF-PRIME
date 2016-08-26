@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package DAOs;
+package DAOGenerics;
 
 
 import java.io.Serializable;
@@ -22,7 +22,7 @@ import java.util.Set;
 public interface GenericDaoInterface <T, PK extends Serializable>{
    
     // alle dao methoden? 
-    T create(T e);
+    T create(T t);
     
     T readById(PK id);
     List<T> read(PK id, T t);

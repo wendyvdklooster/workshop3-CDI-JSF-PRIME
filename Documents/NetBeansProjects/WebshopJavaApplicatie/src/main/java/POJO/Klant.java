@@ -31,7 +31,7 @@ import org.hibernate.annotations.Parameter;
  */
 
 @Entity
-@Table(name = "KLANTEN", uniqueConstraints = {
+@Table(name = "KLANT", uniqueConstraints = {
 		@UniqueConstraint(columnNames = "email"),
                 @UniqueConstraint(columnNames = { "klantnummer", "voornaam", "achternaam", "tussenvoegsel"} )
 })  // nog iets met account > constraint?

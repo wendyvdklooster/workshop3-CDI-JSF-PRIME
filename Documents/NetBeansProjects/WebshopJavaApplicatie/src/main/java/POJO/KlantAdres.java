@@ -26,7 +26,7 @@ import org.hibernate.annotations.Type;
  */
 
 @Entity
-@Table (name ="KLANT_ADRES")
+@Table (name ="KLANTADRES")
 @Immutable
 public class KlantAdres {
      

@@ -12,11 +12,13 @@ import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author Excen
  */
+@Table (name = "BESTELLINGARTIKEL")
 public class BestellingArtikel {
     
     

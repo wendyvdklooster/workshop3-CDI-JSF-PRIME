@@ -2,7 +2,7 @@ package MAIN;
 
 import DAOs.AdresDao;
 import DAOs.ArtikelDao;
-import DAOs.GenericDaoImpl;
+import DAOGenerics.GenericDaoImpl;
 import DAOs.KlantDao;
 import Helpers.HibernateSessionFactory;
 import POJO.Adres;
@@ -11,6 +11,8 @@ import POJO.Klant;
 import TestHibernate.HibernateTest;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -57,27 +59,37 @@ public class Main {
         klantf.setTussenvoegsel("van");
         klantf.setEmail("paul@espanje.es");
 //
+
+            GenericDaoImpl adresDao;
+            adresDao = new AdresDao();
+            adresDao.create(adres);
+            adresDao.create(adresa);
+           //adresDao.readAll();
             
             GenericDaoImpl klantDao;
             klantDao = new KlantDao();
-           klantDao.readAll();
-            GenericDaoImpl adresDao;
-            adresDao = new AdresDao();
-            adresDao.readAll();
-            
-            
-      
-//        HoofdMenuController start = new HoofdMenuController();
-//        System.out.println();
-//        testLogger.debug("Toetreden tot de webshop");
-//        LOGGER.debug("U kunt werken in het bestand");
-//        System.out.println();
-//        editLog();
-//        start.setConnectionPool();
-        
+            klantDao.create(klant);
+            klantDao.create(klantf);
+           List<Klant> klantenlijst = new ArrayList<>();
+           klantenlijst = klantDao.readAll();
+           printKlantenLijst(klantenlijst);
         
        
     } 
+    
+    //static nu hier in de main
+    public static void printKlantenLijst(List<Klant> lijst){
+        System.out.println();
+        System.out.println("Lijst met opgevraagde klanten");
+        System.out.printf("%-10s%-10s%-18s%-15s%-25s%-15s%n","KlantId", "KlantNummer", "Voornaam", "Tussenvoegsel", "Achternaam", "Email");
+        //System.out.println("KlantId\t\tVoornaam\t\tTussenvoegsel\t\tAchternaam\t\tEmail");
+            for (int i = 0; i< lijst.size(); i++){
+                System.out.printf("%-10s%-10s%-18s%-15s%-25s%-15s%n",
+                        (lijst.get(i)).getKlantId(),(lijst.get(i)).getKlantNummer(),(lijst.get(i)).getVoornaam(),
+                        (lijst.get(i)).getTussenvoegsel(),(lijst.get(i)).getAchternaam(),
+                        (lijst.get(i)).getEmail());            
+        }        
+    }
     
 //     public static void editLog(){
 //        Properties p = new Properties(System.getProperties());
