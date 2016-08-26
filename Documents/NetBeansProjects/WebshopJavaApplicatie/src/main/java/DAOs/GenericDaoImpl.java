@@ -72,7 +72,7 @@ public abstract class GenericDaoImpl <T, PK extends Serializable> implements Gen
         Object object = session.save(e); // is dit okay??        
         
         closeSession(session);
-        return e; 
+        return e;   
         
     }
 //
@@ -92,29 +92,46 @@ public abstract class GenericDaoImpl <T, PK extends Serializable> implements Gen
        }
 
     @Override 
-    public List<T> read(T t) { // wat moet ik hier ophalen, een lijst van wat? je hebt het object al...
+    public List<T> read(PK id, T t) { // voeg een beantype in als parameter. en krijg een list terug van een gekoppelde klasse
+        
+        
         log.info(beanType.getSimpleName() + " via Id creeeren in de database");
         session = getSession();
-        List objects = session.get();
         
+        Query query = session.createSQLQuery("select from " + t.getClass().getName() + " where " + beanType + "_"+ id );
+        
+        final List<T> objects = query.list();
         closeSession(session);
         
-    
+        if (objects.size() <= 0 ){
+            return objects;
+        } else {
+            return null;
+        }      
+        
     }
 
+    
+    @SuppressWarnings("unchecked")
     @Override
-    public List<T> readAll(Class<> klasse) {
+    public List<T> readAll() {
         // drie manieren om lijst op te halen; even kijken wat voor ons werkt.
         // je moet er een op een
         log.info(beanType.getSimpleName() + " Lijst met alle objecten ophalen");
         session = getSession();
-        List<T> objects = null;
-        Query query = session.createSQLQuery("SELECT * FROM " + klasse.getName);
-        // ben ik nog niet uit; iets van; 
-        objects = query.list();
-        objects = query.addEntity(klasse.class).list();
+        
+        Query query = session.createSQLQuery("SELECT * FROM " + this.getClass().getName());
+        
+        final List<T> objects = query.list();
+        //final List <T> objects = query.addEntity(class.getName()).list();
+        
+        if (objects.size() <= 0 ){
+            return objects;
+        } else {
+            return null;
+        }      
+              
        
-       return objects;
     }
 
     @Override // .update();

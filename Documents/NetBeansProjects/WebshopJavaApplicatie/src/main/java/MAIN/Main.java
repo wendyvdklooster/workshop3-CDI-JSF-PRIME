@@ -1,9 +1,13 @@
 package MAIN;
 
+import DAOs.AdresDao;
 import DAOs.ArtikelDao;
 import DAOs.GenericDaoImpl;
+import DAOs.KlantDao;
 import Helpers.HibernateSessionFactory;
+import POJO.Adres;
 import POJO.Artikel;
+import POJO.Klant;
 import TestHibernate.HibernateTest;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
@@ -25,11 +29,43 @@ public class Main {
     public static void main (String[]args) throws SQLException, ClassNotFoundException, FileNotFoundException {    
          
  
-            Artikel artikel = new Artikel();
+           Adres adres = new Adres(); 
+        adres.setStraatnaam("bootlaan");
+        adres.setHuisnummer(2);
+        adres.setToevoeging("a");
+        adres.setPostcode("7417PF");   
+        adres.setWoonplaats("Heel");
+  
+          Adres adresa = new Adres(); 
+                    adresa.setStraatnaam("kleiweg");
+        adresa.setHuisnummer(22);
+        adresa.setToevoeging("a");
+        adresa.setPostcode("7417PF");   
+        adresa.setWoonplaats("Yerseke");
+        
+        Klant klant = new Klant(); 
+        klant.setKlantNummer("123654789");
+        klant.setVoornaam("Gina");
+        klant.setAchternaam("La Cruz");
+        klant.setTussenvoegsel("de");
+        klant.setEmail("gina@espanje.es");
+        
+        Klant klantf = new Klant();  
+        klantf.setKlantNummer("987456321");
+        klantf.setVoornaam("Paul");
+        klantf.setAchternaam("vermeer");
+        klantf.setTussenvoegsel("van");
+        klantf.setEmail("paul@espanje.es");
+//
             
-            GenericDaoImpl artikelDao;
-                artikelDao = new ArtikelDao();
-            artikelDao.create(artikel);
+            GenericDaoImpl klantDao;
+            klantDao = new KlantDao();
+           klantDao.readAll();
+            GenericDaoImpl adresDao;
+            adresDao = new AdresDao();
+            adresDao.readAll();
+            
+            
       
 //        HoofdMenuController start = new HoofdMenuController();
 //        System.out.println();
