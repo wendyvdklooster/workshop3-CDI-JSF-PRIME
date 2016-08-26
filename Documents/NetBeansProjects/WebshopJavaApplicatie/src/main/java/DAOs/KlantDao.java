@@ -5,6 +5,7 @@
  */
 package DAOs;
 
+import DAOGenerics.GenericDaoImpl;
 import POJO.Klant;
 
 /**

@@ -25,7 +25,7 @@ import javax.persistence.UniqueConstraint;
  * @author Excen
  */
 @Entity
-@Table(name = "ACCOUNTS") 
+@Table(name = "ACCOUNT") 
 public class Account implements Serializable {
   
     @Id 

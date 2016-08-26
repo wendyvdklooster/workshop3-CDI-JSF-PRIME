@@ -5,6 +5,7 @@
  */
 package DAOs;
 
+import DAOGenerics.GenericDaoImpl;
 import POJO.Adres;
 
 /**
@@ -16,4 +17,6 @@ public class AdresDao extends GenericDaoImpl <Adres, Long> {
     public AdresDao() {
         super();
     }
+    
+    
 }

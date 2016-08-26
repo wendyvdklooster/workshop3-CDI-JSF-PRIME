@@ -3,6 +3,7 @@
 
 package DAOs;
 
+import DAOGenerics.GenericDaoImpl;
 import POJO.Artikel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,11 +25,14 @@ private static final Logger log = LoggerFactory.getLogger(ArtikelDao.class);
         super();
     }
 
-    public ArtikelDao(Class<Artikel> type) {
-        super(type);
-    }
+    
+//    public ArtikelDao(Class<Artikel> type) {
+//        super(type);
+//    }
 
    
+    
+    
     
 
 }

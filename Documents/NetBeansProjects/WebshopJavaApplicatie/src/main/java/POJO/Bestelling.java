@@ -24,7 +24,7 @@ import javax.persistence.Temporal;
  * @author Excen
  */
 @Entity
-@Table(name = "BESTELLINGEN")
+@Table(name = "BESTELLING")
 public class Bestelling implements Serializable {
     
     @Id

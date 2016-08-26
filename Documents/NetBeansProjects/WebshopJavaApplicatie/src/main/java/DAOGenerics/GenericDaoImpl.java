@@ -1,13 +1,14 @@
 
 
 
-package DAOs;
+package DAOGenerics;
 
 import Helpers.HibernateSessionFactory;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -64,15 +65,15 @@ public abstract class GenericDaoImpl <T, PK extends Serializable> implements Gen
     
     @Override // .save();
 
-    public T create(T e) {        
+    public T create(T t) {        
         log.info(beanType.getSimpleName() + " creeeren in de database");
         session = getSession();
         
         // speciefiek deel voor elke crud methode
-        Object object = session.save(e); // is dit okay??        
+        Object object = session.save(t); // is dit okay??        
         
         closeSession(session);
-        return e;   
+        return t;   
         
     }
 //
@@ -115,15 +116,17 @@ public abstract class GenericDaoImpl <T, PK extends Serializable> implements Gen
     @SuppressWarnings("unchecked")
     @Override
     public List<T> readAll() {
-        // drie manieren om lijst op te halen; even kijken wat voor ons werkt.
+         // drie manieren om lijst op te halen; even kijken wat voor ons werkt.
         // je moet er een op een
-        log.info(beanType.getSimpleName() + " Lijst met alle objecten ophalen");
+        
+        String className = beanType.getSimpleName();
+               
+        log.info(className + ": Lijst met alle objecten ophalen");
         session = getSession();
         
-        Query query = session.createSQLQuery("SELECT * FROM " + this.getClass().getName());
-        
-        final List<T> objects = query.list();
-        //final List <T> objects = query.addEntity(class.getName()).list();
+        SQLQuery query = session.createSQLQuery("SELECT * FROM " + className.toUpperCase() );
+        //query.addEntity(className + ".class");
+        final List<T> objects = (List<T>) query.list();
         
         if (objects.size() <= 0 ){
             return objects;
@@ -134,9 +137,16 @@ public abstract class GenericDaoImpl <T, PK extends Serializable> implements Gen
        
     }
 
-    @Override // .update();
+   @Override // .update();
     public T update(T t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        log.info(beanType.getSimpleName() + " Object update.");
+        session = getSession();
+        
+        session.update(t);
+        
+        closeSession(session);
+        
+        return t;
     }
 
     @Override

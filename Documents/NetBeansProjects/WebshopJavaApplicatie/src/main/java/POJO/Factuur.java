@@ -25,7 +25,7 @@ import javax.persistence.Temporal;
  * @author Excen
  */
 @Entity
-@Table (name = "FACTUREN")
+@Table (name = "FACTUUR")
 public class Factuur implements Serializable {   
     
     @Id
