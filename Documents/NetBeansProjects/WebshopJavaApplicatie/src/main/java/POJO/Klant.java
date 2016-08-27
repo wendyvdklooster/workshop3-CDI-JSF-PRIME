@@ -111,8 +111,8 @@ public class Klant implements Serializable {
         this.adressen = adressen;
     }
     
-    public void setKlantId(Long klantId) {
-        this.Id = klantId;
+    public void setId(Long Id) {
+        this.Id = Id;
     }
 
     public void setVoornaam(String voornaam) {
@@ -131,7 +131,7 @@ public class Klant implements Serializable {
         this.email = email;
     }    
    
-    public Long getKlantId() {
+    public Long getId() {
         return Id;
     }
 

@@ -128,14 +128,19 @@ public abstract class GenericDaoImpl <T, PK extends Serializable> implements Gen
         //query.addEntity(className + ".class");
         final List<T> objects = (List<T>) query.list();
         
-        if (objects.size() <= 0 ){
-            return objects;
-        } else {
-            return null;
-        }      
+        if (objects.isEmpty()){
+            System.out.println("leeg");
+        }
+        else {
+            System.out.println("niet leeg");
+        }
+        
+            return (List<T>)objects;
+        } 
+             
               
        
-    }
+    
 
    @Override // .update();
     public T update(T t) {

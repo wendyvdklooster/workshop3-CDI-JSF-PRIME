@@ -8,12 +8,16 @@ import Helpers.HibernateSessionFactory;
 import POJO.Adres;
 import POJO.Artikel;
 import POJO.Klant;
+
 import TestHibernate.HibernateTest;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -70,26 +74,21 @@ public class Main {
             klantDao = new KlantDao();
             klantDao.create(klant);
             klantDao.create(klantf);
-           List<Klant> klantenlijst = new ArrayList<>();
-           klantenlijst = klantDao.readAll();
-           printKlantenLijst(klantenlijst);
+            List<Klant> lijst = new ArrayList<>();
+                    lijst  = (List<Klant>)klantDao.readAll();
+           
+            if (!lijst.isEmpty() ){                     
+                testLogger.debug("Er zitten "+ lijst.size() + " klanten in het bestand");  
+                
+                Helpers.Lijst.print(lijst);
+                testLogger.debug("lijst geprint");                     
+                }
+                else {
+                    testLogger.debug("lege lijst");
+                }
         
        
     } 
-    
-    //static nu hier in de main
-    public static void printKlantenLijst(List<Klant> lijst){
-        System.out.println();
-        System.out.println("Lijst met opgevraagde klanten");
-        System.out.printf("%-10s%-10s%-18s%-15s%-25s%-15s%n","KlantId", "KlantNummer", "Voornaam", "Tussenvoegsel", "Achternaam", "Email");
-        //System.out.println("KlantId\t\tVoornaam\t\tTussenvoegsel\t\tAchternaam\t\tEmail");
-            for (int i = 0; i< lijst.size(); i++){
-                System.out.printf("%-10s%-10s%-18s%-15s%-25s%-15s%n",
-                        (lijst.get(i)).getKlantId(),(lijst.get(i)).getKlantNummer(),(lijst.get(i)).getVoornaam(),
-                        (lijst.get(i)).getTussenvoegsel(),(lijst.get(i)).getAchternaam(),
-                        (lijst.get(i)).getEmail());            
-        }        
-    }
     
 //     public static void editLog(){
 //        Properties p = new Properties(System.getProperties());
@@ -99,4 +98,19 @@ public class Main {
 //        //p.put ("org.firebirdsql.jdbc.FBSQLWarning:")
 //        System.setProperties(p);  
 //    }  
+
+    public void persist(Object object) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_WebshopJavaApplicatie_jar_1.0-SNAPSHOTPU2");
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        try {
+            em.persist(object);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            em.getTransaction().rollback();
+        } finally {
+            em.close();
+        }
+    }
 }
