@@ -118,16 +118,16 @@ public class KlantView {
     }
     
     
-    public void printKlantGegevens(Klant klant){
-        
-        System.out.println("De huidige gegevens van de klant met klantId: " + klant.getKlantId());
-        System.out.println("Naam: " + klant.getVoornaam() + " " + klant.getTussenvoegsel() + " "
-                + klant.getAchternaam());
-        System.out.println("Email: "+ klant.getEmail());
-        System.out.println();
-        
-    }
-    
+//    public void printKlantGegevens(Klant klant){
+//        
+//        System.out.println("De huidige gegevens van de klant met klantId: " + klant.get());
+//        System.out.println("Naam: " + klant.getVoornaam() + " " + klant.getTussenvoegsel() + " "
+//                + klant.getAchternaam());
+//        System.out.println("Email: "+ klant.getEmail());
+//        System.out.println();
+//        
+//    }
+//    
     
     public int hoeWiltUZoeken(){
         
@@ -235,37 +235,37 @@ public class KlantView {
         
     }
     
-    public void printKlantenLijst(ArrayList<Klant> lijst){
-        System.out.println();
-        System.out.println("Lijst met opgevraagde klanten");
-        System.out.printf("%-10s%-18s%-15s%-25s%-15s%n","KlantId", "Voornaam", "Tussenvoegsel", "Achternaam", "Email");
-        //System.out.println("KlantId\t\tVoornaam\t\tTussenvoegsel\t\tAchternaam\t\tEmail");
-            for (int i = 0; i< lijst.size(); i++){
-                System.out.printf("%-10s%-18s%-15s%-25s%-15s%n",
-                        (lijst.get(i)).getKlantId(),(lijst.get(i)).getVoornaam(),
-                        (lijst.get(i)).getTussenvoegsel(),(lijst.get(i)).getAchternaam(),
-                        (lijst.get(i)).getEmail());            
-        }        
-    }
-    
-    public void printDeleteResultaat(boolean deleted, int klantId, int verwijderd, Klant klant) {
-        
-        if (deleted == true){
-            
-            System.out.println("De volgende klant is verwijderd uit het bestand: ");
-            printKlantGegevens(klant);
-            System.out.println(verwijderd + " koppeling(en) van klant met een adres zijn verwijderd"); 
-            System.out.println();
-        }
-    }
-    
-    public void printNotDeleted(Klant klant){    
-        
-            System.out.println("De volgende klant is NIET verwijderd uit het bestand: ");
-            printKlantGegevens(klant);
-            System.out.println();
-          
-    }   
+//    public void printKlantenLijst(ArrayList<Klant> lijst){
+//        System.out.println();
+//        System.out.println("Lijst met opgevraagde klanten");
+//        System.out.printf("%-10s%-18s%-15s%-25s%-15s%n","KlantId", "Voornaam", "Tussenvoegsel", "Achternaam", "Email");
+//        //System.out.println("KlantId\t\tVoornaam\t\tTussenvoegsel\t\tAchternaam\t\tEmail");
+//            for (int i = 0; i< lijst.size(); i++){
+//                System.out.printf("%-10s%-18s%-15s%-25s%-15s%n",
+//                        (lijst.get(i)).getKlantId(),(lijst.get(i)).getVoornaam(),
+//                        (lijst.get(i)).getTussenvoegsel(),(lijst.get(i)).getAchternaam(),
+//                        (lijst.get(i)).getEmail());            
+//        }        
+//    }
+//    
+//    public void printDeleteResultaat(boolean deleted, int klantId, int verwijderd, Klant klant) {
+//        
+//        if (deleted == true){
+//            
+//            System.out.println("De volgende klant is verwijderd uit het bestand: ");
+//            printKlantGegevens(klant);
+//            System.out.println(verwijderd + " koppeling(en) van klant met een adres zijn verwijderd"); 
+//            System.out.println();
+//        }
+//    }
+//    
+//    public void printNotDeleted(Klant klant){    
+//        
+//            System.out.println("De volgende klant is NIET verwijderd uit het bestand: ");
+//            printKlantGegevens(klant);
+//            System.out.println();
+//          
+//    }   
     
     
     public void printGeenKlanten(String string){

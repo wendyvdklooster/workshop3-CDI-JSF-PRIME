@@ -5,7 +5,6 @@
  */
 package View;
 
-import DAOs.Impl.Json_XML.KlantDAOXML;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import org.slf4j.Logger;
