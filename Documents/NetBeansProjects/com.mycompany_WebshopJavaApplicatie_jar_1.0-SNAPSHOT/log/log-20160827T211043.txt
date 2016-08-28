@@ -1,0 +1,5 @@
+2461 [main] DEBUG com.webshop.test - Toetreden tot de webshop
+2468 [main] DEBUG com.webshop - U kunt werken in het bestand
+5824 [main] DEBUG com.webshop.test - connectionpool is set to C3p0
+5825 [main] DEBUG com.webshop - connectionpool: C3p0
+9679 [main] DEBUG com.webshop -  databasesetting: MySQL

@@ -91,15 +91,16 @@ public class BestellingController {
     }
     
     public void plaatsBestelling() {            
+        bestellingDAO = DaoFactory.getBestellingDao();
+        artikelDAO = DaoFactory.getArtikelDao();
+        bestellingArtikelDAO = DaoFactory.getBestellingArtikelDao();
         
-        int klantID = klantView.voerKlantIdIn();
+        int klantID = klantView.voerKlantIdIn();        
         int bestellingID = bestellingDAO.insertBestelling(klantID);
         int anotherOne = 0;
         boolean checker = true;
         
-        bestellingDAO = DaoFactory.getBestellingDao();
-        artikelDAO = DaoFactory.getArtikelDao();
-        bestellingArtikelDAO = DaoFactory.getBestellingArtikelDao();
+        
 
         // voeg artikelen toe aan bestelling
         ArrayList <BestellingArtikel> AL = new ArrayList<>();
@@ -218,8 +219,8 @@ public class BestellingController {
         artikelDAO = DaoFactory.getArtikelDao();
         bestellingArtikelDAO = DaoFactory.getBestellingArtikelDao();
         
-    int bestellingID = bestellingView.zoekBestellingInfo();
-                bestellingDAO.deleteBestelling(bestellingID);
+        int bestellingID = bestellingView.zoekBestellingInfo();
+        bestellingDAO.deleteBestelling(bestellingID);
                 
                 // Als je een bestelling verwijderd zul je die altijd ook willen verwijderen uit de koppeltabel
                 // het zou dus elegant zijn als de hierboven aangeroepen deleteBestelling zelf ook 

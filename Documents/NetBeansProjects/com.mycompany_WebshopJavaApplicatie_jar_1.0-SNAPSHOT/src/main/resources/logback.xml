@@ -67,27 +67,19 @@
         <user>Anjewe</user>
         <password>Koetjes</password>
       </dataSource>
-    </connectionSource>    
+    </connectionSource>  
+      
 </appender>
 
-<logger name="com.webshop" level="DEBUG" additivity="false">
-    <appender-ref ref="STDOUT" />
-    <appender-ref ref="FILE" />
+<logger name="com.webshop" level="DEBUG" additivity="false">    
     <appender-ref ref="FILE2"/>
     <appender-ref ref="DB"/>
 </logger>
+
 <logger name="com.webshop" level="INFO" additivity="false">
     <appender-ref ref="STDOUT" />
-    <appender-ref ref="FILE" />
+    <appender-ref ref="FILE2" />
     <appender-ref ref ="DB"/>
-</logger>
-
-<logger name="com.webshop.dao" level="INFO" additivity="false">
-    <appender-ref ref="STDOUT" />
-</logger>
-
-<logger name="com.webshop.dao" level="DEBUG" additivity="false">
-    <appender-ref ref="FILE" />
 </logger>
 
 <logger name="com.webshop.err"  level="ERROR" additivity="false">
@@ -95,18 +87,14 @@
     <appender-ref ref="DB" />
 </logger>
 
-<logger name="com.webshop.test" level="DEBUG" additivity="false">
-    <appender-ref ref="STDOUT" />
-    <appender-ref ref="FILE" />
+<logger name="com.webshop.test" level="DEBUG" additivity="false">   
+    <appender-ref ref="FILE2" />
     
 </logger>
 
-<logger name="com.webshop.connFactory" level="DEBUG" additivity="false">
-    <appender-ref ref="STDOUT" />
-</logger>
 
-<root level="DEBUG">
-    <appender-ref ref="FILE" />
+<root level="OFF">
+    <appender-ref ref="FILE2" />
     <appender-ref ref="DB" />
 </root>
 </configuration>

@@ -191,18 +191,20 @@ public class AdresController {
         switch (userInput) {
             case 1: 
                 updateOpAdresId();
-                break;
+                break;            
             case 2:
-                updateOpStraatnaam();
+                updateOpKlantId();
                 break;
             case 3:
-                updateOpPostcodeHuisnummer();
+               updateOpStraatnaam();
                 break;
             case 4:
-                updateOpWoonplaats();
+                 updateOpPostcodeHuisnummer();
                 break;
-            case 5:
-                break; // doorsturen einde switch; terug naar adres menu
+            case 5:updateOpWoonplaats();
+                break; 
+            case 6: 
+                break;// doorsturen einde switch; terug naar adres menu
             default:
                 System.out.println("Die optie is niet beschikbaar, je keert terug naar het bestelling menu.");
                 break;
@@ -230,6 +232,25 @@ public class AdresController {
         System.out.println("Nieuwe adresgegevens: ");                  
         adresView.printAdresOverzicht(gewijzigdAdres);
     }
+    
+    public void updateOpKlantId() {
+         
+        klantAdresDao = DaoFactory.getKlantAdresDao(); 
+        adresDao = DaoFactory.getAdresDao();
+        klantDao = DaoFactory.getKlantDao();
+        
+        adres = new Adres();
+        Adres gewijzigdAdres = new Adres();
+        int klantId = klantView.voerKlantIdIn();
+        
+        // int adresId = 
+        
+        adressenLijst = klantAdresDao.findAdresByKlantId(klantId);
+        adresView.printAdressenLijst(adressenLijst);
+       
+        updateOpAdresId();
+    }
+    
     
     public void updateOpStraatnaam() {
         

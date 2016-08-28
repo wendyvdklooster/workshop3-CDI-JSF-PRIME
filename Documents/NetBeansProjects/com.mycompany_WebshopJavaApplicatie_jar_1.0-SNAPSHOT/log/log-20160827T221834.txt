@@ -1,0 +1,30 @@
+2812 [main] DEBUG com.webshop.test - Toetreden tot de webshop
+2817 [main] DEBUG com.webshop - U kunt werken in het bestand
+72413 [main] DEBUG com.webshop.test - connectionpool is set to C3p0
+72413 [main] DEBUG com.webshop - connectionpool: C3p0
+74120 [main] DEBUG com.webshop -  databasesetting: MySQL
+83266 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+83296 [main] DEBUG com.webshop.test - C3p0CPSQL url: jdbc:mysql://localhost:3306/winkel?autoReconnect=true&useSSL=false
+83371 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+83491 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+83521 [main] DEBUG com.webshop.test - C3p0CPSQL url: jdbc:mysql://localhost:3306/winkel?autoReconnect=true&useSSL=false
+83588 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+83647 [main] DEBUG com.webshop.test - gebruikt sql
+89911 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+89928 [main] DEBUG com.webshop.test - C3p0CPSQL url: jdbc:mysql://localhost:3306/winkel?autoReconnect=true&useSSL=false
+89995 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+110983 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+111001 [main] DEBUG com.webshop.test - C3p0CPSQL url: jdbc:mysql://localhost:3306/winkel?autoReconnect=true&useSSL=false
+111068 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+124350 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+124373 [main] DEBUG com.webshop.test - C3p0CPSQL url: jdbc:mysql://localhost:3306/winkel?autoReconnect=true&useSSL=false
+124447 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+126470 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+126501 [main] DEBUG com.webshop.test - C3p0CPSQL url: jdbc:mysql://localhost:3306/winkel?autoReconnect=true&useSSL=false
+126571 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+126657 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+126695 [main] DEBUG com.webshop.test - C3p0CPSQL url: jdbc:mysql://localhost:3306/winkel?autoReconnect=true&useSSL=false
+126758 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+126798 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+126818 [main] DEBUG com.webshop.test - C3p0CPSQL url: jdbc:mysql://localhost:3306/winkel?autoReconnect=true&useSSL=false
+126901 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
