@@ -144,7 +144,7 @@ public abstract class GenericDaoImpl <T, PK extends Serializable> implements Gen
     }
 
     
-    @Override
+    @Override // boolean als returntype?
     public void delete(T t) {
         log.info(beanType.getSimpleName() + " Object delete.");
         session = getSession();         
@@ -152,7 +152,7 @@ public abstract class GenericDaoImpl <T, PK extends Serializable> implements Gen
         closeSession(session);      
     }
 
-    @Override 
+    @Override // boolean als returntype?
     public void deleteById(PK id) {
         
         log.info(beanType.getSimpleName() + " Object delete.");
@@ -161,7 +161,7 @@ public abstract class GenericDaoImpl <T, PK extends Serializable> implements Gen
         closeSession(session);
     }
 
-    @Override
+    @Override // boolean als return type? of hoeveeel entities er zijn verwijderd
     public void deleteAll() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

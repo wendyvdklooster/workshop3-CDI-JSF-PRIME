@@ -29,7 +29,8 @@ import org.hibernate.annotations.Type;
 @Table (name ="KLANTADRES")
 @Immutable
 public class KlantAdres {
-     
+
+   
     @Embeddable
     public static class Id implements Serializable {
        
@@ -46,18 +47,33 @@ public class KlantAdres {
             this.adresId = adresId;
         }
     
+        
         @Override
         public boolean equals (Object o){
             if (o != null && o instanceof Id){
                 Id that = (Id) o;
-                return this.adresId.equals(that.adresId) && 
-                        this.klantId.equals(that.klantId);
+                return this.getAdresId().equals(that.getAdresId()) && 
+                        this.getKlantId().equals(that.getKlantId());
             }
             return false; 
         }
         @Override
         public int hashCode(){
-            return adresId.hashCode() + klantId.hashCode();
+            return getAdresId().hashCode() + getKlantId().hashCode();
+        }
+
+        /**
+         * @return the klantId
+         */
+        public Long getKlantId() {
+            return klantId;
+        }
+
+        /**
+         * @return the adresId
+         */
+        public Long getAdresId() {
+            return adresId;
         }
     }
     
@@ -81,20 +97,21 @@ public class KlantAdres {
     public KlantAdres(Klant klant, Adres adres){       
         this.klant = klant;
         this.adres = adres;
-        datumAangemaakt = new Date();
-//        
-//        this.id.klantId = klant.getKlantId();
-//        this.id.adresId = adres.getId();
-        
+        datumAangemaakt = new Date();        
     }
     
     public KlantAdres(){  
-        datumAangemaakt = new Date();
-//        
-//        this.id.klantId = klant.getKlantId();
-//        this.id.adresId = adres.getId();
-        
+        datumAangemaakt = new Date();        
     }
+    //?? hoe doen met deze id ophalen
+     public Long getAdresId() {
+        return getAdresId();
+     }
+
+    public Long getKlantId() {
+        return getKlantId();
+    }
+     
     
 } 
 //    

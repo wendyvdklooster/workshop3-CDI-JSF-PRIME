@@ -96,7 +96,7 @@ public class KlantController {
         
         Long klantId = (Long)klantDao.create(klant); //klant inclusief klantId
         
-            // later vervangen door: int adresId = adresController.voegNieuwAdresToe();
+            // nog niet direct in koppeltabel> nog niet naar behoren
             System.out.println("Voer uw adres in: ");
             adres = adresController.createAdres();
             Long adresId = (Long)adresDao.create(adres);
