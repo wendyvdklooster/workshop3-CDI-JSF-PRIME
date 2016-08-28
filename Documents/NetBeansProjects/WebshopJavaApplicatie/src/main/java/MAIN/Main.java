@@ -34,53 +34,53 @@ public class Main {
    
     public static void main (String[]args) throws SQLException, ClassNotFoundException, FileNotFoundException {    
          
- 
-           Adres adres = new Adres(); 
-        adres.setStraatnaam("bootlaan");
-        adres.setHuisnummer(2);
-        adres.setToevoeging("a");
-        adres.setPostcode("7417PF");   
-        adres.setWoonplaats("Heel");
-  
-          Adres adresa = new Adres(); 
-                    adresa.setStraatnaam("kleiweg");
-        adresa.setHuisnummer(22);
-        adresa.setToevoeging("a");
-        adresa.setPostcode("7417PF");   
-        adresa.setWoonplaats("Yerseke");
-        
-        Klant klant = new Klant(); 
-        klant.setKlantNummer("123654789");
-        klant.setVoornaam("Gina");
-        klant.setAchternaam("La Cruz");
-        klant.setTussenvoegsel("de");
-        klant.setEmail("gina@espanje.es");
-        
-        Klant klantf = new Klant();  
-        klantf.setKlantNummer("987456321");
-        klantf.setVoornaam("Paul");
-        klantf.setAchternaam("vermeer");
-        klantf.setTussenvoegsel("van");
-        klantf.setEmail("paul@espanje.es");
+// 
+//           Adres adres = new Adres(); 
+//        adres.setStraatnaam("bootlaan");
+//        adres.setHuisnummer(2);
+//        adres.setToevoeging("a");
+//        adres.setPostcode("7417PF");   
+//        adres.setWoonplaats("Heel");
+//  
+//          Adres adresa = new Adres(); 
+//                    adresa.setStraatnaam("kleiweg");
+//        adresa.setHuisnummer(22);
+//        adresa.setToevoeging("a");
+//        adresa.setPostcode("7417PF");   
+//        adresa.setWoonplaats("Yerseke");
+//        
+//        Klant klant = new Klant(); 
+//        klant.setKlantNummer("123654789");
+//        klant.setVoornaam("Gina");
+//        klant.setAchternaam("La Cruz");
+//        klant.setTussenvoegsel("de");
+//        klant.setEmail("gina@espanje.es");
+//        
+//        Klant klantf = new Klant();  
+//        klantf.setKlantNummer("987456321");
+//        klantf.setVoornaam("Paul");
+//        klantf.setAchternaam("vermeer");
+//        klantf.setTussenvoegsel("van");
+//        klantf.setEmail("paul@espanje.es");
+////
 //
-
-            GenericDaoImpl adresDao;
-            adresDao = new AdresDao();
-            adresDao.create(adres);
-            adresDao.create(adresa);
+//            GenericDaoImpl adresDao;
+//            adresDao = new AdresDao();
+//            adresDao.create(adres);
+//            adresDao.create(adresa);
            //adresDao.readAll();
             
             GenericDaoImpl klantDao;
             klantDao = new KlantDao();
-            klantDao.create(klant);
-            klantDao.create(klantf);
+//            klantDao.create(klant);
+//            klantDao.create(klantf);
             List<Klant> lijst = new ArrayList<>();
                     lijst  = (List<Klant>)klantDao.readAll();
            
             if (!lijst.isEmpty() ){                     
                 testLogger.debug("Er zitten "+ lijst.size() + " klanten in het bestand");  
                 
-                Helpers.Lijst.print(lijst);
+                Helpers.Lijst.print((List<Klant>) lijst);
                 testLogger.debug("lijst geprint");                     
                 }
                 else {
