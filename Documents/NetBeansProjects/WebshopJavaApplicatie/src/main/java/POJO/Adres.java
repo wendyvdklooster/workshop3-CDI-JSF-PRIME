@@ -159,6 +159,10 @@ public class Adres implements Serializable {
     public void setAdresType(int adresType) {
         this.adresType = adresType;
     }
+
+    public void setAdresId(long id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     public static class AdresBuilder {       
             

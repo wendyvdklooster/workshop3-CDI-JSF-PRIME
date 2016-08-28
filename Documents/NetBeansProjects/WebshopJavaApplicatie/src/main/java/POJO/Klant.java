@@ -2,6 +2,7 @@ package POJO;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -9,33 +10,18 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.GenerationType.AUTO;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
 
-/**
- *
- * @author Wendy
- */
 
 @Entity
-@Table(name = "KLANT", uniqueConstraints = {
-		@UniqueConstraint(columnNames = "email"),
-                @UniqueConstraint(columnNames = { "klantnummer", "voornaam", "achternaam", "tussenvoegsel"} )
-})  // nog iets met account > constraint?
-public class Klant implements Serializable {
+@Table(name = "KLANT")
+public class Klant implements Serializable, Iterable <Klant>{
     
 
     @Id
@@ -162,13 +148,7 @@ public class Klant implements Serializable {
 
     
     
-     public Klant (KlantBuilder builder){
-        this.Id = builder.klantId;
-        this.voornaam = builder.voornaam;
-        this.achternaam = builder.achternaam; 
-        this.tussenvoegsel = builder.tussenvoegsel;
-        this.email = builder.email;       
-    }
+   
 
     /**
      * @return the klantNummer
@@ -184,8 +164,31 @@ public class Klant implements Serializable {
         this.klantNummer = klantNummer;
     }
 
+    
+
+    @Override
+    public Iterator<Klant> iterator() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void klantIterator(){
+        System.out.println("id : " +  getId());
+    }
+  
    
     
+    
+    
+    
+    
+    
+      public Klant (KlantBuilder builder){
+        this.Id = builder.klantId;
+        this.voornaam = builder.voornaam;
+        this.achternaam = builder.achternaam; 
+        this.tussenvoegsel = builder.tussenvoegsel;
+        this.email = builder.email;       
+    }
     public static class KlantBuilder {
         private long klantId;
         private String voornaam;

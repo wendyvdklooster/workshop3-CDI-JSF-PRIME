@@ -57,15 +57,15 @@ public class AdresView {
         return userInput;
     }
     
-     public int voerKlantIdIn() {
+     public Long voerKlantIdIn() {
         System.out.println("Klant id: ");
-        int klantId = Integer.parseInt(scanner.nextLine());
+        Long klantId = Long.parseLong(scanner.nextLine());
         return klantId;
     }
     
-     public int voerAdresIdIn() {
+     public Long voerAdresIdIn() {
         System.out.println("Adres id: ");
-        int adresId = Integer.parseInt(scanner.nextLine());
+        Long adresId = Long.parseLong(scanner.nextLine());
         return adresId;
     }
     
