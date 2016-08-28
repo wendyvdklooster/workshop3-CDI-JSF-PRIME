@@ -1,1 +1,179 @@
-4239 [main] DEBUG com.webshop - U kunt werken in het bestand
+2777 [main] DEBUG com.webshop - U kunt werken in het bestand
+2678 [main] DEBUG com.webshop - U kunt werken in het bestand
+2468 [main] DEBUG com.webshop - U kunt werken in het bestand
+5825 [main] DEBUG com.webshop - connectionpool: C3p0
+9679 [main] DEBUG com.webshop -  databasesetting: MySQL
+2728 [main] DEBUG com.webshop - U kunt werken in het bestand
+7625 [main] DEBUG com.webshop - connectionpool: C3p0
+10134 [main] DEBUG com.webshop -  databasesetting: MySQL
+16310 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+2759 [main] DEBUG com.webshop - U kunt werken in het bestand
+3328 [main] DEBUG com.webshop - U kunt werken in het bestand
+3737 [main] DEBUG com.webshop - U kunt werken in het bestand
+3129 [main] DEBUG com.webshop - U kunt werken in het bestand
+3129 [main] DEBUG com.webshop - U kunt werken in het bestand
+3105 [main] DEBUG com.webshop - U kunt werken in het bestand
+2906 [main] DEBUG com.webshop - U kunt werken in het bestand
+2684 [main] DEBUG com.webshop - U kunt werken in het bestand
+43973 [main] DEBUG com.webshop - connectionpool: C3p0
+48403 [main] DEBUG com.webshop -  databasesetting: MySQL
+80925 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+2638 [main] DEBUG com.webshop - U kunt werken in het bestand
+21801 [main] DEBUG com.webshop - connectionpool: C3p0
+23813 [main] DEBUG com.webshop -  databasesetting: MySQL
+2735 [main] DEBUG com.webshop - U kunt werken in het bestand
+52947 [main] DEBUG com.webshop - connectionpool: C3p0
+54653 [main] DEBUG com.webshop -  databasesetting: MySQL
+2620 [main] DEBUG com.webshop - U kunt werken in het bestand
+12689 [main] DEBUG com.webshop - connectionpool: C3p0
+14390 [main] DEBUG com.webshop -  databasesetting: MySQL
+2840 [main] DEBUG com.webshop - U kunt werken in het bestand
+28862 [main] DEBUG com.webshop - connectionpool: C3p0
+31471 [main] DEBUG com.webshop -  databasesetting: MySQL
+51857 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+52187 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+137909 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+154379 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+156587 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+157022 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+183303 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+183434 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+183631 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+183875 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+184144 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+184277 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+2817 [main] DEBUG com.webshop - U kunt werken in het bestand
+72413 [main] DEBUG com.webshop - connectionpool: C3p0
+74120 [main] DEBUG com.webshop -  databasesetting: MySQL
+83371 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+83588 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+89995 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+111068 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+124447 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+126571 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+126758 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+126901 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+2500 [main] DEBUG com.webshop.test - Toetreden tot de webshop
+2507 [main] DEBUG com.webshop - U kunt werken in het bestand
+72808 [main] DEBUG com.webshop.test - connectionpool is set to C3p0
+72808 [main] DEBUG com.webshop - connectionpool: C3p0
+74310 [main] DEBUG com.webshop -  databasesetting: MySQL
+91975 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+91998 [main] DEBUG com.webshop.test - C3p0CPSQL url: jdbc:mysql://localhost:3306/winkel?autoReconnect=true&useSSL=false
+92059 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+92168 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+92185 [main] DEBUG com.webshop.test - C3p0CPSQL url: jdbc:mysql://localhost:3306/winkel?autoReconnect=true&useSSL=false
+92248 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+92298 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+92317 [main] DEBUG com.webshop.test - C3p0CPSQL url: jdbc:mysql://localhost:3306/winkel?autoReconnect=true&useSSL=false
+92377 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+92431 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+92448 [main] DEBUG com.webshop.test - C3p0CPSQL url: jdbc:mysql://localhost:3306/winkel?autoReconnect=true&useSSL=false
+92511 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+92554 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+92571 [main] DEBUG com.webshop.test - C3p0CPSQL url: jdbc:mysql://localhost:3306/winkel?autoReconnect=true&useSSL=false
+92642 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+92687 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+92703 [main] DEBUG com.webshop.test - C3p0CPSQL url: jdbc:mysql://localhost:3306/winkel?autoReconnect=true&useSSL=false
+92777 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+2919 [main] DEBUG com.webshop.test - Toetreden tot de webshop
+2925 [main] DEBUG com.webshop - U kunt werken in het bestand
+6861 [main] DEBUG com.webshop.test - connectionpool is set to C3p0
+6862 [main] DEBUG com.webshop - connectionpool: C3p0
+9365 [main] DEBUG com.webshop -  databasesetting: MySQL
+18204 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+18289 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+36579 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+36749 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+36875 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+37095 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+37270 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+37451 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql
+2840 [main] DEBUG com.webshop.test - Toetreden tot de webshop
+48333 [main] DEBUG com.webshop.test - connectionpool is set to C3p0
+61572 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+2518 [main] DEBUG com.webshop.test - Toetreden tot de webshop
+6842 [main] DEBUG com.webshop.test - connectionpool is set to Hikari
+24389 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+24659 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+24714 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+24770 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+24841 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+24908 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+48723 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+48776 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+48822 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+48891 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+48942 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+59575 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+59709 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+538115 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+538257 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+538341 [main] DEBUG com.webshop.test - gebruikt sql
+544771 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+554920 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+563639 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+565843 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+565885 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+565924 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+568357 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+584536 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+584656 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+605694 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+648002 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+648048 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+652811 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+2779 [main] DEBUG com.webshop.test - Toetreden tot de webshop
+18654 [main] DEBUG com.webshop.test - connectionpool is set to Hikari
+32320 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+2771 [main] DEBUG com.webshop.test - Toetreden tot de webshop
+5720 [main] DEBUG com.webshop.test - connectionpool is set to Hikari
+17074 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+17332 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+34096 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+34173 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+41316 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+62482 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+62544 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+67417 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+106103 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+106224 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+106293 [main] DEBUG com.webshop.test - gebruikt sql
+114951 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+116965 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+149981 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+150021 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+150059 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+159314 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+159445 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+283928 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+284083 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+284130 [main] DEBUG com.webshop.test - gebruikt sql
+291269 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+2757 [main] DEBUG com.webshop.test - Toetreden tot de webshop
+5533 [main] DEBUG com.webshop.test - connectionpool is set to Hikari
+13393 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+27049 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+27179 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+30361 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+68275 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+84241 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+90060 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+119621 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+123845 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+2781 [main] DEBUG com.webshop.test - Toetreden tot de webshop
+21457 [main] DEBUG com.webshop.test - connectionpool is set to Hikari
+42440 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+42700 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+46872 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+80232 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+126403 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+126516 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+138226 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+148147 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+148206 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+148260 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+261129 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+261191 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+261265 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+268543 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL

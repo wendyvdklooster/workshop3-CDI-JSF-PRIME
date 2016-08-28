@@ -3,6 +3,7 @@
 
 package DAOGenerics;
 
+import DAOGenerics.GenericDaoInterface;
 import Helpers.HibernateSessionFactory;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
@@ -50,8 +51,7 @@ public abstract class GenericDaoImpl <T, PK extends Serializable> implements Gen
     // code om klasse beanType E te specificeren.
     public GenericDaoImpl(Class<T> type){
            this.beanType = type;
-   }
-    
+    }    
     
     @SuppressWarnings("unchecked")
     public GenericDaoImpl() {
@@ -60,54 +60,48 @@ public abstract class GenericDaoImpl <T, PK extends Serializable> implements Gen
     }
     
     
-    // CRUD methodes // 
+    // CRUD methodes //     
     
-    
-    @Override // .save();
-
-    public T create(T t) {        
-        log.info(beanType.getSimpleName() + " creeeren in de database");
+    @Override 
+    public PK create(T t) {        
+        log.info(beanType.getSimpleName() + " creeeren in de database. Return id");
         session = getSession();
         
-        // speciefiek deel voor elke crud methode
-        Object object = session.save(t); // is dit okay??        
+        PK instantieId = (PK) session.save(t);        
         
         closeSession(session);
-        return t;   
-        
+        return instantieId;           
     }
-//
     
-    @Override// .get();
+    
+    @Override
     public T readById(PK id) {
 
-        log.info(beanType.getSimpleName() + " via Id creeeren in de database");
+        log.info(beanType.getSimpleName() + " via Id lezen uit de database");
         session = getSession();
         
-        // speciefiek deel voor elke crud methode
-        // hoe gaat deze om met Long?
-        Object object = session.get(beanType, id);
+        T instantie = (T)session.get(beanType, id);
         
         closeSession(session);
-        return (T)object; 
-       }
-
+        return (T)instantie; 
+    }
+    
+    
     @Override 
     public List<T> read(PK id, T t) { // voeg een beantype in als parameter. en krijg een list terug van een gekoppelde klasse
         
-        
-        log.info(beanType.getSimpleName() + " via Id creeeren in de database");
+        log.info(beanType.getSimpleName() + " via Id lijst opvragen uit de database");
         session = getSession();
         
         Query query = session.createSQLQuery("select from " + t.getClass().getName() + " where " + beanType + "_"+ id );
         
-        final List<T> objects = query.list();
+        final List<T> lijst = query.list();
         closeSession(session);
         
-        if (objects.size() <= 0 ){
-            return objects;
-        } else {
+        if (lijst.size() < 1 ){
             return null;
+        } else {
+            return lijst;
         }      
         
     }
@@ -128,35 +122,43 @@ public abstract class GenericDaoImpl <T, PK extends Serializable> implements Gen
         //query.addEntity(className + ".class");
         final List<T> objects = (List<T>) query.list();
         
-        if (objects.size() <= 0 ){
-            return objects;
-        } else {
-            return null;
-        }      
-              
-       
-    }
+            if (objects.isEmpty()){
+                System.out.println("leeg");
+            }
+            else {
+                System.out.println("niet leeg");
+            }
+        
+        return (List<T>)objects;
+    } 
+        
+    
 
    @Override // .update();
-    public T update(T t) {
+    public void update(T t) {
+        
         log.info(beanType.getSimpleName() + " Object update.");
-        session = getSession();
-        
-        session.update(t);
-        
-        closeSession(session);
-        
-        return t;
+        session = getSession();        
+        session.update(t);        
+        closeSession(session);       
     }
 
+    
     @Override
     public void delete(T t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        log.info(beanType.getSimpleName() + " Object delete.");
+        session = getSession();         
+        session.delete(t);        
+        closeSession(session);      
     }
 
-    @Override // delete();
+    @Override 
     public void deleteById(PK id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        log.info(beanType.getSimpleName() + " Object delete.");
+        session = getSession();   
+        session.delete(id); // delete van primarykey of gehele entity?
+        closeSession(session);
     }
 
     @Override

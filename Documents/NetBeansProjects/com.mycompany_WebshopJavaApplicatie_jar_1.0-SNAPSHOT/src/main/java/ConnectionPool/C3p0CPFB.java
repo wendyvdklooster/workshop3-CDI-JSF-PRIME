@@ -28,8 +28,9 @@ public class C3p0CPFB {
    private static Logger testLogger = (Logger) LoggerFactory.getLogger("com.webshop.test");
    static{
         // Logger.ROOT_LOGGER_NAME == "rootLogger" :Level OFF      
-        LOGGER.setLevel(Level.DEBUG);   
-        errorLogger.setLevel(Level.ERROR);   
+        LOGGER.setLevel(Level.WARN);   
+        errorLogger.setLevel(Level.ERROR);  
+        testLogger.setLevel(Level.OFF);
         // testLogger inherits Level debug
        }   
     

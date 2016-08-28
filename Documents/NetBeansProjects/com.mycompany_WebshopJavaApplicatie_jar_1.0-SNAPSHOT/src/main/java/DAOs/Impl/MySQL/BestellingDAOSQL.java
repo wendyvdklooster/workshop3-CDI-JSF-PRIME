@@ -129,7 +129,7 @@ public class BestellingDAOSQL implements BestellingDAOInterface {
     @Override
     public boolean deleteBestelling(int bestellingId) {
         
-        String sqlQuery = "delete * from bestelling where bestelling_id = " + bestellingId;
+        String sqlQuery = "delete from bestelling where bestelling_id = " + bestellingId;
         boolean isDeleted = false;        
         
         try {
@@ -137,11 +137,9 @@ public class BestellingDAOSQL implements BestellingDAOInterface {
         Connection con = ConnectionFactory.getConnection();
             pstmt = con.prepareStatement(sqlQuery);
             pstmt.executeUpdate();
-            boolean bestellingFound = rs.next();
-            
-            if (bestellingFound){
-                isDeleted = true;
-            }
+            int rowsAffected = pstmt.executeUpdate(); 
+                 if (rowsAffected != 0)
+                     isDeleted = true;
             
         } catch ( SQLException ex) {
             LOGGER.error(" ", ex);

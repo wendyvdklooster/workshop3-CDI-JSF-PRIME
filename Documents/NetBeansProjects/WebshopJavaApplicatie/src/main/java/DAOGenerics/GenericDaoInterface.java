@@ -22,13 +22,13 @@ import java.util.Set;
 public interface GenericDaoInterface <T, PK extends Serializable>{
    
     // alle dao methoden? 
-    T create(T t);
+    PK create(T t);
     
     T readById(PK id);
     List<T> read(PK id, T t);
     List<T> readAll();
     
-    T update(T t);
+    void update(T t);
     
     void delete(T t);
     void deleteById(PK id);

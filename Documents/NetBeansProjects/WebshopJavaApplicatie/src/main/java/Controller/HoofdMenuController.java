@@ -7,10 +7,9 @@ package Controller;
 
 
 
-import Factory.DaoFactory;
+
 import View.HoofdMenuView;
 import java.util.Scanner;
-import Factory.ConnectionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,64 +33,10 @@ public class HoofdMenuController {
    AdresController adresController;
    
    HoofdMenuView hoofdMenuView = new HoofdMenuView(); 
-   DaoFactory daoFactory = new DaoFactory();
-   ConnectionFactory connectionFactory = new ConnectionFactory();
-    
+      
    Scanner scanner = new Scanner(System.in);
    int userInput;
    
-   
-   public void setConnectionPool() {
-       userInput = hoofdMenuView.connectionPoolKeuze();
-        if (userInput == 1) {
-           connectionFactory.setConnectionPool("Hikari");
-           
-           testLogger.debug("connectionpool is set to Hikari");
-           logger.debug("connectionpool: Hikari");
-           
-           setDatabase();
-        }
-        else if (userInput == 2) {
-           connectionFactory.setConnectionPool("C3p0");
-           
-           testLogger.debug("connectionpool is set to C3p0");
-           logger.debug("connectionpool: C3p0");
-           
-           setDatabase();
-        }
-        else {
-           connectionFactory.setConnectionPool("Hikari");
-           
-           testLogger.info("connectionpool is set to default");
-           logger.debug("connectionpool: default");
-           
-           setDatabase();
-       }
-   }
-   
-   public void setDatabase() {
-       
-       userInput = hoofdMenuView.databaseKeuze();
-       if (userInput == 1) {
-           daoFactory.setDatabaseSetting("MySQL");
-           start();
-       }
-       else if (userInput == 2) {
-           daoFactory.setDatabaseSetting("FireBird");
-           start();
-       }
-       else if (userInput == 3) {
-           daoFactory.setDatabaseSetting("JSON");
-           startJsonXML();
-       }
-       else if (userInput == 4) {
-           daoFactory.setDatabaseSetting("XML");
-           startJsonXML();
-       }
-       else
-           daoFactory.setDatabaseSetting("MySQL");
-           start();
-   }
    
 
     // beginpunt
@@ -117,8 +62,7 @@ public class HoofdMenuController {
                     adresController.adresMenu();                
                     break;
                 case 5: // switch van db/connectionpool
-                    logger.debug("u zit nu in database " + daoFactory.getDatabaseSetting());
-                    setDatabase();
+                    
                     break;
                 case 6: 
                     afsluiten();
@@ -128,10 +72,7 @@ public class HoofdMenuController {
             }
         } 
     
-    public void startJsonXML() {
-        KlantController klantController = new KlantController();
-        klantController.klantMenu();
-    }
+   
     
     public void afsluiten(){
        userInput = hoofdMenuView.bevestigingsVraag();

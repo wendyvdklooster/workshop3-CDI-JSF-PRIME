@@ -1,0 +1,8 @@
+2677 [main] DEBUG com.webshop.test - Toetreden tot de webshop
+2684 [main] DEBUG com.webshop - U kunt werken in het bestand
+43973 [main] DEBUG com.webshop.test - connectionpool is set to C3p0
+43973 [main] DEBUG com.webshop - connectionpool: C3p0
+48403 [main] DEBUG com.webshop -  databasesetting: MySQL
+80824 [main] DEBUG com.webshop.test - databasesetting in getconnection()MySQL
+80854 [main] DEBUG com.webshop.test - C3p0CPSQL url: jdbc:mysql://localhost:3306/winkel?autoReconnect=true&useSSL=false
+80925 [main] DEBUG com.webshop - test getconnection- C3p0 - mysql

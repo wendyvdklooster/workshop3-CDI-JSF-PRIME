@@ -6,6 +6,7 @@
 package ConnectionPool;
 
 
+import ch.qos.logback.classic.Level;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -14,9 +15,16 @@ import org.slf4j.LoggerFactory;
 
 public class C3p0CPSQL {
     
-    private static final Logger LOGGER = (Logger) LoggerFactory.getLogger("com.webshop"); 
-    private static Logger errorLogger = (Logger) LoggerFactory.getLogger("com.webshop.err");
-    private static Logger testLogger = (Logger) LoggerFactory.getLogger("com.webshop.test");
+   private static ch.qos.logback.classic.Logger LOGGER = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger("com.webshop.dao");  
+   private static ch.qos.logback.classic.Logger errorLogger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger("com.webshop.err");
+   private static ch.qos.logback.classic.Logger testLogger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger("com.webshop.test");
+   static{
+        // Logger.ROOT_LOGGER_NAME == "rootLogger" :Level OFF      
+        LOGGER.setLevel(Level.WARN);   
+        errorLogger.setLevel(Level.ERROR);  
+        testLogger.setLevel(Level.OFF);
+        // testLogger inherits Level debug
+       }   
     
     private C3p0CPSQL datasource;
     private static ComboPooledDataSource cpds;

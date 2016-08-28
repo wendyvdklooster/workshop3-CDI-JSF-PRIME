@@ -32,7 +32,7 @@ public class ConnectionFactory {
    
    static{
         // Logger.ROOT_LOGGER_NAME == "rootLogger" :Level OFF      
-        LOGGER.setLevel(Level.DEBUG);
+        LOGGER.setLevel(Level.WARN);
         // testLogger inherits Level debug
        }   
 
