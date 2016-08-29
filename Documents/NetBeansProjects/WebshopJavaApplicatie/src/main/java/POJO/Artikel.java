@@ -23,7 +23,7 @@ public class Artikel implements Serializable{
     @Id 
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(unique = true, nullable = false, name = "ARTIKEL_ID")
-    private long Id; 
+    private Long Id; 
     @Column (name = "ARTIKELNR")
     private String artikelNummmer; 
     @Column (name = "ARTIKELNAAM")

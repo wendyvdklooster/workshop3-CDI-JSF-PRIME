@@ -25,7 +25,7 @@ public class ArtikelController {
    
     ArtikelView artikelView = new ArtikelView();   
     Artikel artikel = new Artikel();    
-    BestellingView bestellingView = new BestellingView();
+    //BestellingView bestellingView = new BestellingView();
     GenericDaoImpl artikelDao;
     
     

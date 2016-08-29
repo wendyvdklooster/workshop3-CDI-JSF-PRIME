@@ -52,14 +52,14 @@ public class KlantAdres {
         public boolean equals (Object o){
             if (o != null && o instanceof Id){
                 Id that = (Id) o;
-                return this.getAdresId().equals(that.getAdresId()) && 
-                        this.getKlantId().equals(that.getKlantId());
+                return this.adresId.equals(that.adresId) && 
+                        this.klantId.equals(that.klantId);
             }
             return false; 
         }
         @Override
         public int hashCode(){
-            return getAdresId().hashCode() + getKlantId().hashCode();
+            return adresId.hashCode() + klantId.hashCode();
         }
 
         /**
@@ -97,21 +97,12 @@ public class KlantAdres {
     public KlantAdres(Klant klant, Adres adres){       
         this.klant = klant;
         this.adres = adres;
-        datumAangemaakt = new Date();        
+        datumAangemaakt = new Date();  
+        
+        this.id.klantId = klant.getId();
+        this.id.adresId = adres.getId();      
     }
     
-    public KlantAdres(){  
-        datumAangemaakt = new Date();        
-    }
-    //?? hoe doen met deze id ophalen
-     public Long getAdresId() {
-        return getAdresId();
-     }
-
-    public Long getKlantId() {
-        return getKlantId();
-    }
-     
     
 } 
 //    

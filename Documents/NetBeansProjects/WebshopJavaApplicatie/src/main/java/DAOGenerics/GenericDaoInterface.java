@@ -22,7 +22,7 @@ import java.util.Set;
 public interface GenericDaoInterface <T, PK extends Serializable>{
    
     // alle dao methoden? 
-    PK create(T t);
+    T create(T t);
     
     T readById(PK id);
     List<T> read(PK id, T t);

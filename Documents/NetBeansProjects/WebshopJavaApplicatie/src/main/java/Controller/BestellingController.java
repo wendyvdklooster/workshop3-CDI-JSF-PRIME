@@ -6,9 +6,7 @@
 package Controller;
 
 
-import DAOs.Interface.ArtikelDAOInterface;
-import DAOs.Interface.BestellingArtikelDAOInterface;
-import DAOs.Interface.BestellingDAOInterface;
+import DAOGenerics.GenericDaoImpl;
 import POJO.Artikel;
 import POJO.Bestelling;
 import POJO.BestellingArtikel;
@@ -17,8 +15,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import Factory.DaoFactory;
+import POJO.Klant;
 import View.KlantView;
+import java.io.Serializable;
 /**
  *
  * @author Excen
@@ -28,10 +27,13 @@ import View.KlantView;
 public class BestellingController {
     
     BestellingView bestellingView = new BestellingView();
-    BestellingDAOInterface bestellingDAO; 
-    BestellingArtikelDAOInterface bestellingArtikelDAO; 
-    ArtikelDAOInterface artikelDAO; 
     KlantView klantView = new KlantView();
+    
+    GenericDaoImpl bestellingDao;
+    GenericDaoImpl bestellingArtikelDao;
+    GenericDaoImpl artikelDao;
+    GenericDaoImpl klantDao; 
+    
     
     Scanner scanner = new Scanner(System.in);
     int userInput;
@@ -92,15 +94,12 @@ public class BestellingController {
     
     public void plaatsBestelling() {            
         
-        int klantID = bestellingView.voerKlantIdIn();
-        int bestellingID = bestellingDAO.insertBestelling(klantID);
+        int klantId = bestellingView.voerKlantIdIn();
+        Klant klant = (Klant) klantDao.readById(klantId);
+        int bestellingID = (int) bestellingDao.create(klant);
         int anotherOne = 0;
         boolean checker = true;
         
-        bestellingDAO = DaoFactory.getBestellingDao();
-        artikelDAO = DaoFactory.getArtikelDao();
-        bestellingArtikelDAO = DaoFactory.getBestellingArtikelDao();
-
         // voeg artikelen toe aan bestelling
         ArrayList <BestellingArtikel> AL = new ArrayList<>();
         BestellingArtikel bestellingArtikel = new BestellingArtikel();
@@ -108,7 +107,7 @@ public class BestellingController {
         // Overzicht beschikbare artikelen
         System.out.println("Beschikbare artikelen: ");
         ArrayList<Artikel>artikelLijst = new ArrayList<>();
-        artikelLijst = artikelDAO.findAll();
+        artikelLijst = (ArrayList<Artikel>) artikelDao.readAll();
 
         for (Artikel ar: artikelLijst){
             System.out.println(ar.getArtikelId() + " " + ar.getArtikelNaam());
@@ -118,7 +117,7 @@ public class BestellingController {
         do {
             bestellingArtikel = createBestellingArtikel();
             bestellingArtikel.setBestellingId(bestellingID);
-            bestellingArtikelDAO.createBestellingArtikel(bestellingArtikel);
+            bestellingArtikelDao.createBestellingArtikel(bestellingArtikel);
             AL.add(bestellingArtikel);
 
             System.out.println("Wil je nog een artikel toevoegen?\n1 ja\n2 nee");
@@ -138,10 +137,10 @@ public class BestellingController {
             }
         } while (checker);
 
-        System.out.println("De artikelen van Klant " + klantID + " zijn toegevoegd aan bestelling ID: " + bestellingID);
+        System.out.println("De artikelen van Klant " + klantId + " zijn toegevoegd aan bestelling ID: " + bestellingID);
             System.out.println("De toegevoegde artikelen zijn: ");
             for (BestellingArtikel bar: AL){
-            System.out.println(artikelDAO.findByArtikelID(bar.getArtikelId()).getArtikelNaam() + " " + bar.getArtikelAantal() + " keer");
+            System.out.println((Artikel)artikelDao.readById((Serializable)bar.getId()).getArtikelNaam() + " " + bar.getArtikelAantal() + " keer");
         }
 
        bestellingMenu();         
@@ -149,31 +148,28 @@ public class BestellingController {
     
     public void haalBestellingInfoOp() {
         
-        bestellingDAO = DaoFactory.getBestellingDao();
-        artikelDAO = DaoFactory.getArtikelDao();
-        bestellingArtikelDAO = DaoFactory.getBestellingArtikelDao();
-        
+             
         userInput = bestellingView.hoeWiltUZoeken();
         
         switch(userInput){
             case 1: // met bestellingID
                 int bestellingID = bestellingView.zoekBestellingInfo();
-                Bestelling bestelling = bestellingDAO.findById(bestellingID);
+                Bestelling bestelling = (Bestelling) bestellingDao.readById(bestellingID);
 
                 bestellingView.printBestellingInfo(bestelling);
 
                 ArrayList<Artikel>artikellijst = new ArrayList<>();
-                artikellijst = bestellingArtikelDAO.findByBestellingId(bestellingID);
+                artikellijst = bestellingArtikelDao.findByBestellingId(bestellingID);
                 System.out.println("Artikellen in bestelling: ");
                     for (Artikel ar: artikellijst){
                         System.out.println(ar.getArtikelNaam() + ": " 
-                                + bestellingArtikelDAO.findAantalByArtikelID(bestellingID, ar.getArtikelId()) 
+                                + bestellingArtikelDao.findAantalByArtikelID(bestellingID, ar.getArtikelId()) 
                                 + " keer");
                     }
                 break;
             case 2: // met klantId
                 int klantId = klantView.voerKlantIdIn();
-                ArrayList<Bestelling> bestellingLijst = bestellingDAO.findByKlantId(klantId);
+                ArrayList<Bestelling> bestellingLijst = bestellingDao.findByKlantId(klantId);
                 bestellingView.printBestellingLijstUitgebreid(bestellingLijst);               
                 
         }
@@ -183,15 +179,12 @@ public class BestellingController {
     
     public void wijzigBestelling() {
         
-        bestellingDAO = DaoFactory.getBestellingDao();
-        artikelDAO = DaoFactory.getArtikelDao();
-        bestellingArtikelDAO = DaoFactory.getBestellingArtikelDao();
         
         // hoe wilt u zoeken?
         ArrayList<Artikel>artikelLijst = new ArrayList<>();        
         int bestellingId = bestellingView.zoekBestellingInfo();
         
-        artikelLijst = bestellingArtikelDAO.findByBestellingId(bestellingId);
+        artikelLijst = bestellingArtikelDao.findByBestellingId(bestellingId);
         
         int welkArtikel = bestellingView.wijzigBestellingInfo(artikelLijst, bestellingId);
         int watTeDoenMetArtikel = bestellingView.wijzigBestellingKeuze();
@@ -199,45 +192,38 @@ public class BestellingController {
         if (watTeDoenMetArtikel == 1){
             // verwijder artikel uit bestellingArtikel. Gebruik dit alleen als er meerdere artikelen
             // in de bestelling staan. Gebruik anders verwijderBestelling.
-            bestellingArtikelDAO.deleteArtikel(bestellingId, welkArtikel);
-            System.out.println("Het artikel: " + artikelDAO.findByArtikelID(welkArtikel) + " is verwijderd uit Bestelling " + bestellingId);
+            bestellingArtikelDao.deleteArtikel(bestellingId, welkArtikel);
+            System.out.println("Het artikel: " + artikelDao.findByArtikelID(welkArtikel) + " is verwijderd uit Bestelling " + bestellingId);
         }
         else if (watTeDoenMetArtikel == 2){
             // pas aantal van artikel aan.
             int nieuwAantal = bestellingView.wijzigAantal();
-            bestellingArtikelDAO.updateBestellingArtikelAantal(bestellingId, welkArtikel, nieuwAantal);
+            bestellingArtikelDao.updateBestellingArtikelAantal(bestellingId, welkArtikel, nieuwAantal);
             System.out.println("Bestelling: " + bestellingId + " heeft een update gehad.");
-            System.out.println("Het artikel " + artikelDAO.findByArtikelID(welkArtikel).getArtikelNaam() + " staat nu " + nieuwAantal + " keer in de bestelling.");
+            System.out.println("Het artikel " + artikelDao.findByArtikelID(welkArtikel).getArtikelNaam() + " staat nu " + nieuwAantal + " keer in de bestelling.");
         }
     bestellingMenu();
     }
     
     public void verwijderBestelling() {
         
-        bestellingDAO = DaoFactory.getBestellingDao();
-        artikelDAO = DaoFactory.getArtikelDao();
-        bestellingArtikelDAO = DaoFactory.getBestellingArtikelDao();
         
     int bestellingID = bestellingView.zoekBestellingInfo();
-                bestellingDAO.deleteBestelling(bestellingID);
+                bestellingDao.deleteBestelling(bestellingID);
                 
                 // Als je een bestelling verwijderd zul je die altijd ook willen verwijderen uit de koppeltabel
                 // het zou dus elegant zijn als de hierboven aangeroepen deleteBestelling zelf ook 
                 // deleteBestellingArtikel zou aanroepen.
                 
-                bestellingArtikelDAO.deleteBestellingArtikel(bestellingID);
+                bestellingArtikelDao.deleteBestellingArtikel(bestellingID);
                 System.out.println(bestellingID + " is verwijderd.");    
         bestellingMenu();        
     }
     
     public void toonAlleBestellingen() {
         
-        bestellingDAO = DaoFactory.getBestellingDao();
-        artikelDAO = DaoFactory.getArtikelDao();
-        bestellingArtikelDAO = DaoFactory.getBestellingArtikelDao();
-        
         //  bestellingen uit bestelling tabel
-        ArrayList<Bestelling>bestellingLijst = bestellingDAO.findAll();
+        ArrayList<Bestelling>bestellingLijst = bestellingDao.findAll();
         bestellingView.printBestellingLijst(bestellingLijst);
         
         
@@ -250,15 +236,11 @@ public class BestellingController {
     
     public void verwijderAlleBestellingen() {
         
-        bestellingDAO = DaoFactory.getBestellingDao();
-        artikelDAO = DaoFactory.getArtikelDao();
-        bestellingArtikelDAO = DaoFactory.getBestellingArtikelDao();
-        
         int verwijderConfirmatie = bestellingView.verwijderConfirmatie();
         
         if (verwijderConfirmatie == 1){
-            bestellingDAO.deleteAll();
-            bestellingArtikelDAO.deleteAll();
+            bestellingDao.deleteAll();
+            bestellingArtikelDao.deleteAll();
             System.out.println("Alles is verwijderd.\n");  
         }
         
