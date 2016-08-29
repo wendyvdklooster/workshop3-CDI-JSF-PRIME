@@ -43,7 +43,7 @@ public class HoofdMenuController {
     public void start()  {  
         klantController = new KlantController();
         adresController = new AdresController();
-        bestellingController = new BestellingController();
+        //bestellingController = new BestellingController();
         artikelController = new ArtikelController();
         
         userInput = hoofdMenuView.hoofdMenu();

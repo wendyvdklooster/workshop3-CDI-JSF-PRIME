@@ -8,7 +8,6 @@ import DAOs.KlantDao;
 import POJO.Adres;
 import POJO.Adres.AdresBuilder;
 import POJO.Klant;
-import POJO.Klant.KlantBuilder;
 import View.AdresView;
 import View.HoofdMenuView;
 import View.KlantView;
@@ -366,6 +365,7 @@ public class KlantController {
                 isAddressValid = validator.isValid(email);
             }                       
         //klantBuilder.klantId(klantId); pas duidelijk na invoer in database
+        klant = new Klant();
         klant.setVoornaam(voornaam);
         klant.setAchternaam(achternaam);
         klant.setEmail(email);

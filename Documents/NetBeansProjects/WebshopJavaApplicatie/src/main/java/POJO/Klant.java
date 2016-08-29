@@ -17,20 +17,20 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 
 @Entity
 @Table(name = "KLANT")
 public class Klant implements Serializable, Iterable <Klant>{
     
-
+    @GenericGenerator(name = "klantGenerator",strategy = "foreign",
+        parameters = @Parameter(name = "property", value = "adres"))
     @Id
-    @GeneratedValue(strategy = AUTO)
-    @Column(unique = true, nullable = false, name = "KLANT_ID")
-    private Long Id;
-    @Column(nullable = false)
-    private String klantNummer; 
-    @Column(nullable = false)
+    @GeneratedValue(generator = "klantGenerator")        
+    private long Id;
+    private String klantNummer;
     private String voornaam;
     @Column(nullable = false)
     private String achternaam;
@@ -59,12 +59,9 @@ public class Klant implements Serializable, Iterable <Klant>{
     )
     protected Set<Adres> adressen = new HashSet<>();    
 
-    
     //protected Map<Adres, AdresType> adresType; 
 //(of andere manieren om de ternaire relatie
 
-    
-    
     //constructors
     public Klant(){        
     }
@@ -145,11 +142,7 @@ public class Klant implements Serializable, Iterable <Klant>{
     public void setBestellingen(Set<Bestelling> bestellingen) {
         this.bestellingen = bestellingen;
     }
-
     
-    
-   
-
     /**
      * @return the klantNummer
      */
@@ -164,70 +157,15 @@ public class Klant implements Serializable, Iterable <Klant>{
         this.klantNummer = klantNummer;
     }
 
-    
 
     @Override
     public Iterator<Klant> iterator() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void klantIterator(){
-        System.out.println("id : " +  getId());
-    }
-  
-   
     
-    
-    
-    
-    
-    
-      public Klant (KlantBuilder builder){
-        this.Id = builder.klantId;
-        this.voornaam = builder.voornaam;
-        this.achternaam = builder.achternaam; 
-        this.tussenvoegsel = builder.tussenvoegsel;
-        this.email = builder.email;       
-    }
-    public static class KlantBuilder {
-        private long klantId;
-        private String voornaam;
-        private String achternaam;
-        private String tussenvoegsel;
-        private String email;       
-    
-        public KlantBuilder(){
-        }
-        
-        public KlantBuilder klantId(long klantId){
-            this.klantId = klantId;
-                return this;
-        }
-    
-        public KlantBuilder voornaam(String voornaam){
-            this.voornaam = voornaam;
-                return this;
-        }
-        
-        public KlantBuilder achternaam(String achternaam){
-            this.achternaam = achternaam;
-                return this;
-        }
-        
-        public KlantBuilder tussenvoegsel(String tussenvoegsel){
-            this.tussenvoegsel = tussenvoegsel;
-                return this;
-        }
-        
-        public KlantBuilder email(String email){
-            this.email = email;
-                return this;
-        }       
-        
-        public Klant build(){
-            return new Klant(this);
-        }
-        
-        
+     
 }
-}
+
+    
+    

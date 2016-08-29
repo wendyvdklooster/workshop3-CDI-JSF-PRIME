@@ -46,31 +46,29 @@ public abstract class GenericDaoImpl <T, PK extends Serializable> implements Gen
             session.getTransaction().commit();
             session.close();
     }
-    
-    
-    // code om klasse beanType E te specificeren.
-    public GenericDaoImpl(Class<T> type){
-           this.beanType = type;
-    }    
+   
     
     @SuppressWarnings("unchecked")
     public GenericDaoImpl() {
         this.beanType = ((Class) ((ParameterizedType) getClass()
         .getGenericSuperclass()).getActualTypeArguments()[0]);
+//        Type t = getClass().getGenericSuperclass();
+//        ParameterizedType pt = (ParameterizedType) t;
+//        beanType = (Class) pt.getActualTypeArguments()[0];
     }
     
     
     // CRUD methodes //     
     
     @Override 
-    public PK create(T t) {        
+    public T create(T t) {        
         log.info(beanType.getSimpleName() + " creeeren in de database. Return id");
         session = getSession();
         
-        PK instantieId = (PK) session.save(t);        
+        T instantie = (T) session.save(t);        
         
         closeSession(session);
-        return instantieId;           
+        return (T) instantie;           
     }
     
     
@@ -165,6 +163,8 @@ public abstract class GenericDaoImpl <T, PK extends Serializable> implements Gen
     public void deleteAll() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    
 
   
 
