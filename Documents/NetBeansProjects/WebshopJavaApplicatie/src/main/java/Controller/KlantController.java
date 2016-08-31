@@ -5,14 +5,18 @@ package Controller;
 import DAOGenerics.GenericDaoImpl;
 import DAOs.AdresDao;
 import DAOs.KlantDao;
+import Helpers.HibernateSessionFactory;
 import POJO.Adres;
-import POJO.Adres.AdresBuilder;
 import POJO.Klant;
+import POJO.KlantAdres;
 import View.AdresView;
 import View.HoofdMenuView;
 import View.KlantView;
 import java.util.ArrayList;
+import java.util.Date;
 import org.apache.commons.validator.routines.EmailValidator;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,8 +33,8 @@ public class KlantController {
     private static final Logger testLogger = (Logger) LoggerFactory.getLogger("com.webshop.test");
    
    
-    GenericDaoImpl klantDao; 
-    GenericDaoImpl adresDao;
+    GenericDaoImpl<Klant, Long> klantDao; 
+    GenericDaoImpl<Adres, Long> adresDao;
             
     KlantView klantView = new KlantView();   
     Klant klant;
@@ -46,6 +50,25 @@ public class KlantController {
     EmailValidator validator = EmailValidator.getInstance(); 
     boolean isAddressValid = false;
     
+    public Session session;
+    // sessionfactory aanroepen via de hibernatesessionfactory
+    SessionFactory sessionFactory = HibernateSessionFactory.getSessionFactory();
+    
+    // session starten
+    public Session getSession(){
+        session = sessionFactory.openSession();
+        session.beginTransaction();
+       return session;
+    }
+    
+    protected void commitSession(Session session){
+        session.getTransaction().commit();
+    }
+	
+    // session afsluiten
+    public void closeSession(Session session){            
+            session.close();
+    }
     
     
     public boolean isAdresGoed(String email) {
@@ -62,20 +85,26 @@ public class KlantController {
         
         switch(keuze){
             case 1: 
-                voegNieuweKlantToe();
+                voegNieuweKlantMetAdresToe();
                 break;
-//            case 2: 
-//                zoekKlantGegevens();
-//                break;
+              case 2:
+                zoekKlantGegevens();
+                break;
 //            case 3: 
 //                wijzigKlantGegevens();
 //                break;
 //            case 4: 
 //                verwijderKlantGegevens();
 //                break;
-//            case 5: 
-//                terugNaarHoofdMenu();
-//                break;
+            case 5: 
+                voegNieuweKlantToe();
+                break;
+            case 7:
+                terugNaarHoofdMenu();
+                break;
+            case 6:
+                voegKlantAanAdresToe();
+                break;
             default: 
                 System.out.println("Deze optie is niet beschikbaar.");
                 break;            
@@ -83,53 +112,152 @@ public class KlantController {
         
     }
     
-    
-    public long voegNieuweKlantToe() {
+    public long voegNieuweKlantToe(){
         
+        session =  getSession();
+        klantDao = new KlantDao(); 
+        
+        System.out.println("U gaat een klant toevoegen. Voer de gegevens in.");
+        klant = createKlant(); 
+        Long klantId = (Long)klantDao.insert(klant, session);
+            
+        session.getTransaction().commit();
+        System.out.println("U heeft de klantgegevens toegevoegd met klantId: " 
+            + klantId); 
+        System.out.println();        
+        
+        klantMenu();
+        
+        return klantId;
+    }
+    
+    public long voegNieuweKlantMetAdresToe() {
+        
+        klantView = new KlantView();
+        session =  getSession();
         klantDao = new KlantDao(); 
         adresDao = new AdresDao();
         adresController = new AdresController();
         
+         // naar andere plek in bestand
+        String medewerker = klantView.voerNaamMwIn();
+        
         System.out.println("U gaat een klant toevoegen. Voer de gegevens in.");
         klant = createKlant();   
         
-        Long klantId = (Long)klantDao.create(klant); //klant inclusief klantId
-        
-            // nog niet direct in koppeltabel> nog niet naar behoren
             System.out.println("Voer uw adres in: ");
             adres = adresController.createAdres();
-            Long adresId = (Long)adresDao.create(adres);
-                 
+            // als adres al bestaat naar gebruik dan adres id en voeg adres toe
+            Long adresId = (Long)adresDao.insert(adres, session);
+            
+            KlantAdres KA = new KlantAdres();
+           
+            KA.setKlant(klant);
+            KA.setAdres(adres);
+            KA.setCreatedDate(new Date());
+            KA.setCreatedBy(medewerker);
+            
+            klant.getKlantAdressen().add(KA);
+            Long klantId = (Long)klantDao.insert(klant, session);
+            
+            session.getTransaction().commit();
             System.out.println("U heeft de klant- en adresgegevens toegevoegd van klantId: " 
                 + klantId + " en adresId " + adresId); 
-            System.out.println();
+            System.out.println();        
         
-        
+        closeSession(session);    
         klantMenu();
         
       return klantId;
-    } // eind methode voegNieuweKlantToe
+    } // eind methode voegNieuweKlantMetAdresToe
+
     
-//    
-//    public void zoekKlantGegevens() {
-//        
-//        int klantId = 0;   
-//        int x = 0;
-//        
-//        int input = klantView.menuKlantZoeken();
-//        switch (input) {
-//            case 1: // één klnat zoeken        
+    // nog niet helemaal logisch
+    public long voegKlantAanAdresToe(){
+        
+        session =  getSession();
+        klantDao = new KlantDao(); 
+        adresDao = new AdresDao();
+        
+        System.out.println("U gaat een klant toevoegen. Voer de gegevens in.");
+        klant = createKlant();  
+        
+        Long adresId = adresView.voerAdresIdIn();        
+        Adres adresBestaand = (Adres) session.get(Adres.class, adresId);
+        
+        // naar andere plek in bestand
+        String medewerker = klantView.voerNaamMwIn();
+        
+        KlantAdres KA = new KlantAdres();
+        KA.setAdres(adresBestaand);
+        KA.setCreatedBy(medewerker); 
+        KA.setCreatedDate(new Date());
+        KA.setKlant(klant);
+        
+        klant.getKlantAdressen().add(KA);
+        Long klantId = (Long)klantDao.insert(klant, session);
+
+        session.getTransaction().commit();
+        System.out.println("U heeft de klantegevens toegevoegd van klantId: " 
+            + klantId + " aan adresId " + adresId); 
+        System.out.println();
+
+        closeSession(session); 
+        klantMenu();
+        
+      return klantId;        
+    }
+    
+    
+    public Klant createKlant(){
+        
+        //int klantId = 0;   
+        String achternaam = klantView.voerAchterNaamIn();
+        String voornaam = klantView.voerVoorNaamIn();
+        String tussenvoegsel = klantView.voerTussenVoegselIn();
+        String email = klantView.voerEmailIn();                             
+        isAddressValid = validator.isValid(email);
+            while (isAddressValid == false) {
+                System.out.println
+                    ("Ongeldig emailadres. Vul opnieuw uw emailadress in (bijv. hallo@hallo.com)");
+                email = klantView.voerEmailIn();
+                validator = EmailValidator.getInstance();
+                isAddressValid = validator.isValid(email);
+            }                       
+        //klantBuilder.klantId(klantId); pas duidelijk na invoer in database
+        klant = new Klant();
+        klant.setVoornaam(voornaam);
+        klant.setAchternaam(achternaam);
+        klant.setEmail(email);
+        klant.setTussenvoegsel(tussenvoegsel);
+        
+
+        return klant;        
+    }    
+    
+    public void zoekKlantGegevens() {
+
+        session =  getSession();
+        klantDao = new KlantDao(); 
+        adresDao = new AdresDao();
+        klant = new Klant();
+        long klantId;   
+        int x = 0;
+        
+        int input = klantView.menuKlantZoeken();
+        switch (input) {
+            case 1: // één klnat zoeken        
 //            x = klantView.isKlantIdBekend();           
 //            // klantId is bekend:
 //            switch (x) {
 //                case 1:
-//                    klantId = klantView.voerKlantIdIn();                    
-//                    testLogger.debug(this.getClass() + "daofactory.getKlantDAO: " + DaoFactory.getKlantDao());                    
-//                    testLogger.debug("daofactory.getDatabaseSetting: " + daoFactory.getDatabaseSetting());
-//                    testLogger.debug("klantDAO: " + klantDAO);
-//                    klant = klantDAO.findByKlantId(klantId);
-//                    klantView.printKlantGegevens(klant);
-//                    break;
+                    klantId = klantView.voerKlantIdIn();             
+                    
+                    klant = (Klant)klantDao.readById(klantId, session);
+                    session.getTransaction().commit();
+                    klantView.printKlantGegevens(klant);
+                    
+                    break;
 //                case 2:
 //                    int keuze = klantView.hoeWiltUZoeken();
 //                    switch (keuze) {
@@ -172,30 +300,35 @@ public class KlantController {
 //                    }   
 //                default:
 //                    break;
-//                    
-//            } // eind zoeken naar 1 klant
+                    
+//            } 
+            // eind zoeken naar 1 klant
 //            break;
-//            case 2: // zoeken naar alle klanten
-//                klantAdresDAO = DaoFactory.getKlantAdresDao();
-//                klantDAO = DaoFactory.getKlantDao();
-//                klantenLijst = klantDAO.findAllKlanten();
-//                if (klantenLijst != null){
-//                    System.out.println("Alle klanten in het bestand");
-//                    klantView.printKlantenLijst(klantenLijst);   
-//                }
-//                else { 
-//                    String naam = "alle klanten";
-//                    klantView.printGeenKlanten(naam);
-//                }  
-//                break; 
-//            case 3: // direct door naar einde switch: methode naar inlogschermklant()
-//                break;
-//            default: 
-//                break; 
-//        } // eind zoeken naar 1 klant of alle klanten
+            case 2: // zoeken naar alle klanten
+                session= getSession();
+                ArrayList <Klant> klantenLijst = (ArrayList<Klant>) klantDao.readAll(Klant.class, session);
+                session.getTransaction().commit();
+                if (klantenLijst != null){
+                    System.out.println("Alle klanten in het bestand");
+                    klantView.printKlantenLijst(klantenLijst);   
+                }
+                else { 
+                    String naam = "alle klanten";
+                    klantView.printGeenKlanten(naam);
+                }  
+                
+                break; 
+            case 3: // direct door naar einde switch: methode naar inlogschermklant()
+                break;
+            default: 
+                break; 
+        }
+        closeSession(session); 
+        klantMenu();
+        } // eind zoeken naar 1 klant of alle klanten
+        
 //        
 //        
-//        klantMenu();
 //    } // eind methode zoekKlantGegevens
 //    
 //    
@@ -341,41 +474,8 @@ public class KlantController {
 //        }
 //        klantMenu();
 //    }// eind methode verwijderKlantGegevens
-//    
-//    
-//    public void terugNaarHoofdMenu() {
-//        hoofdMenuController = new HoofdMenuController();
-//        hoofdMenuController.start();
-//    }    
-//    
-//    //----------------- waar moeten onderstaande methoden komen?
-    public Klant createKlant(){
-        
-        //int klantId = 0;   
-        String achternaam = klantView.voerAchterNaamIn();
-        String voornaam = klantView.voerVoorNaamIn();
-        String tussenvoegsel = klantView.voerTussenVoegselIn();
-        String email = klantView.voerEmailIn();                             
-        isAddressValid = validator.isValid(email);
-            while (isAddressValid == false) {
-                System.out.println
-                    ("Ongeldig emailadres. Vul opnieuw uw emailadress in (bijv. hallo@hallo.com)");
-                email = klantView.voerEmailIn();
-                validator = EmailValidator.getInstance();
-                isAddressValid = validator.isValid(email);
-            }                       
-        //klantBuilder.klantId(klantId); pas duidelijk na invoer in database
-        klant = new Klant();
-        klant.setVoornaam(voornaam);
-        klant.setAchternaam(achternaam);
-        klant.setEmail(email);
-        klant.setTussenvoegsel(tussenvoegsel);
-        
 
-        return klant;        
-    } // eind methode createKlant
- 
-//
+
 //    public Klant voerWijzigingenKlantIn(Klant klant){
 //        int juist = 0 ;
 //        
@@ -428,4 +528,9 @@ public class KlantController {
 //    } // eind methode voerWijzigingenKlantIn
 //
 //   
+     public void terugNaarHoofdMenu() {
+        hoofdMenuController = new HoofdMenuController();
+        hoofdMenuController.start();
+    }  
+    
 }  // end class KlantController

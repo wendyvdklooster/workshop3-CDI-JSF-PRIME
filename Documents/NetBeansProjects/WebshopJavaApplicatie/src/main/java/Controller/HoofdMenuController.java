@@ -8,8 +8,10 @@ package Controller;
 
 
 
+import Helpers.HibernateSessionFactory;
 import View.HoofdMenuView;
 import java.util.Scanner;
+import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -78,11 +80,14 @@ public class HoofdMenuController {
        userInput = hoofdMenuView.bevestigingsVraag();
        
        if (userInput == 1){ // wel afsluiten
+           HibernateSessionFactory.shutdown();
            System.exit(0);    
        }
        else if (userInput == 2){ // niet afsluiten
            userInput = hoofdMenuView.hoofdMenu();
-       }           
+       }    
+
+       
         
     }
 }

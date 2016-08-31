@@ -9,15 +9,17 @@ package Controller;
 import DAOGenerics.GenericDaoImpl;
 import DAOs.AdresDao;
 import DAOs.KlantDao;
+import Helpers.HibernateSessionFactory;
 import POJO.Adres;
 import View.AdresView;
 import View.HoofdMenuView;
 import java.util.ArrayList;
-import POJO.Adres.AdresBuilder;
 import POJO.Klant;
 import POJO.KlantAdres;
 import View.KlantView;
 import java.util.List;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +33,27 @@ public class AdresController {
     private static final Logger errorLogger = (Logger) LoggerFactory.getLogger("com.webshop.err");
     private static final Logger testLogger = (Logger) LoggerFactory.getLogger("com.webshop.test");
    
-          
+   public Session session;
+    // sessionfactory aanroepen via de hibernatesessionfactory
+    SessionFactory sessionFactory = HibernateSessionFactory.getSessionFactory();
+    
+    // session starten
+    public Session getSession(){
+        session = sessionFactory.openSession();
+        session.beginTransaction();
+       return session;
+    }
+    
+    protected void commitSession(Session session){
+        session.getTransaction().commit();
+    }
+	
+    // session afsluiten
+    public void closeSession(Session session){            
+            session.close();
+    } 
+    
+    
    HoofdMenuView hoofdMenuView = new HoofdMenuView(); 
    
    AdresView adresView = new AdresView();
@@ -57,7 +79,7 @@ public class AdresController {
                 if (userInput == 1) {
                     System.out.println("Vul eerst de klantgegevens in.");
                     System.out.println();
-                    klantController.voegNieuweKlantToe();
+                    klantController.voegNieuweKlantMetAdresToe();
                 }
                 else if (userInput == 2) {
                     voegNieuwAdresToe();
@@ -93,7 +115,7 @@ public class AdresController {
         adres = createAdres();
         
         //voeg toe in adrestabel
-        Long adresId = (Long)adresDao.create(adres);
+        Long adresId = (Long)adresDao.insert(adres, session);
         
         System.out.println(adresId);
         // voeg toe in koppel - koppelen  aan klant, nieuw of bestaand
@@ -113,6 +135,8 @@ public class AdresController {
         String toevoeging = adresView.voerToevoegingIn();
         String postcode = adresView.voerPostcodeIn();
         String woonplaats = adresView.voerWoonplaatsIn();
+        
+        Adres adres = new Adres();
         
         adres.setStraatnaam(straatnaam);
         adres.setHuisnummer(huisnummer);
@@ -136,7 +160,7 @@ public class AdresController {
                 switch (userInput) {
                     case 1: // zoek op adresId
                         Long adresId = adresView.voerAdresIdIn();
-                        adres = (Adres)adresDao.readById(adresId);
+                        adres = (Adres)adresDao.readById(adresId, session);
                         adresView.printAdresOverzicht(adres);
                         break;
 //                    case 2: // zoek adressen op klantId
@@ -169,7 +193,7 @@ public class AdresController {
             case 2:
                 // alle adressen zoeken
                 List<Adres> adressenLijst = new ArrayList<>();
-                        adressenLijst = (List<Adres>)adresDao.readAll();
+                        adressenLijst = (List<Adres>)adresDao.readAll(Adres.class, session);
                 System.out.println("Alle adressen in het adressenbestand");
                 adresView.printAdressenLijst((ArrayList<Adres>) adressenLijst);  
                 break; 
@@ -214,9 +238,9 @@ public class AdresController {
         Adres gewijzigdAdres = new Adres();
         Long adresId = adresView.voerAdresIdIn();
         
-        adres = (Adres) adresDao.readById(adresId);
+        adres = (Adres) adresDao.readById(adresId, session);
         gewijzigdAdres = invoerNieuweAdresGegevens(adres);
-        adresDao.update(gewijzigdAdres);
+        adresDao.update(gewijzigdAdres, session);
         
         System.out.println("Oude adresgegevens: ");
         adresView.printAdresOverzicht(adres);
@@ -346,8 +370,8 @@ public class AdresController {
             case 1:
                 System.out.println("Voer het bestelling id in: ");
                 Long adresId = adresView.voerAdresIdIn();
-                adres = (Adres) adresDao.readById(adresId);
-                adresDao.deleteById(adresId);
+                adres = (Adres) adresDao.readById(adresId, session);
+                adresDao.deleteById(adresId, session);
 //                isDeletedInKlantAdres = klantAdresDao.deleteKlantAdresByAdresId(adresId);
 //                if (isDeletedInAdres == true && isDeletedInKlantAdres == true) {
 //                    System.out.println("Het volgende adres is verwijderd uit het bestand: ");
@@ -364,7 +388,7 @@ public class AdresController {
             case 2:
                 userInput = adresView.bevestigingsVraag();
                 if (userInput == 1) {
-                    adresDao.deleteAll();
+                    adresDao.deleteAll(session);
 //                    isDeletedInKlantAdres = klantAdresDao.deleteAll();
 //                    System.out.println("Alle adressen zijn verwijderd.");                    
 //                    System.out.println("alle koppelingen van klant en adres zijn verwijderd");

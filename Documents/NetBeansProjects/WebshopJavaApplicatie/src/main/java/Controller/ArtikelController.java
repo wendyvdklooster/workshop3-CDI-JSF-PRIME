@@ -5,28 +5,48 @@ package Controller;
 
 import DAOGenerics.GenericDaoImpl;
 import DAOs.ArtikelDao;
+import Helpers.HibernateSessionFactory;
 import View.ArtikelView;
-
 import POJO.Artikel;
 import POJO.Bestelling;
 import View.BestellingView;
 import java.util.ArrayList;
-
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class ArtikelController {
-  
+public class ArtikelController {  
     
     private static final Logger logger = (Logger) LoggerFactory.getLogger("com.webshop");
     private static final Logger errorLogger = (Logger) LoggerFactory.getLogger("com.webshop.err");
     private static final Logger testLogger = (Logger) LoggerFactory.getLogger("com.webshop.test");
    
+    
+    public Session session;   
+    SessionFactory sessionFactory = HibernateSessionFactory.getSessionFactory();
+    
+    // session starten
+    public Session getSession(){
+        session = sessionFactory.openSession();
+        session.beginTransaction();
+       return session;
+    }
+    
+    protected void commitSession(Session session){
+        session.getTransaction().commit();
+    }
+	
+    // session afsluiten
+    public void closeSession(Session session){            
+            session.close();
+    }
+    
     ArtikelView artikelView = new ArtikelView();   
     Artikel artikel = new Artikel();    
     //BestellingView bestellingView = new BestellingView();
-    GenericDaoImpl artikelDao;
+    GenericDaoImpl<Artikel, Long> artikelDao;
     
     
     public void artikelMenu()  {
@@ -73,12 +93,18 @@ public class ArtikelController {
     
     public void voegNieuwArtikelToe(Artikel artikel) {     
          
+        session = getSession();
         artikelDao = new ArtikelDao();        
-        artikel = (Artikel) artikelDao.create(artikel);
-        
-        System.out.println("U heeft de volgende gegevens ingevoerd:");
+        long id = artikelDao.insert(artikel, session);
+        session.getTransaction().commit();
+        closeSession(session);
+        session = getSession();
+        artikel = (Artikel) artikelDao.readById(id, session);
+        session.getTransaction().commit();
+        System.out.println("U heeft de volgende gegevens ingevoerd: " );
         artikelView.printArtikelOverzicht(artikel); 
         
+        closeSession(session);
         artikelMenu();
     }
          
@@ -94,8 +120,10 @@ public class ArtikelController {
                         int userInput = artikelView.hoeWiltUZoeken();				
                         switch (userInput) {
                                 case 1: 
-                                    int artikelId = artikelView.voerArtikelIdIn();
-                                    artikel = (Artikel) artikelDao.readById(artikelId);
+                                    long artikelId = artikelView.voerArtikelIdIn();
+                                    session = getSession();
+                                    artikel = (Artikel) artikelDao.readById(artikelId, session);
+                                    session.getTransaction().commit();
                                     artikelView.printArtikelOverzicht(artikel);
                                     break;
 //                                case 2:
@@ -115,8 +143,10 @@ public class ArtikelController {
                         }
                         break; // einde naar 1 artikel zoeken
                 case 2: // alle artikelen zoeken
+                    session = getSession();
                     ArrayList <Artikel> artikelenLijst = 
-                            (ArrayList <Artikel>) artikelDao.readAll();
+                            (ArrayList <Artikel>) artikelDao.readAll(Artikel.class, session);
+                    session.getTransaction().commit();
                     System.out.println("Alle artikelen in het bestand");
                     artikelView.printArtikelenLijst(artikelenLijst); 
                         break; 
@@ -124,7 +154,8 @@ public class ArtikelController {
                         break; 
                 default: // automatisch naar artikelmenu	
                         break; 
-        }		
+        }	
+        closeSession(session);
      artikelMenu();
     }
     
@@ -137,12 +168,12 @@ public class ArtikelController {
             case 1: 
                 updateOpArtikelId();
                 break;
-            case 2:
-                updateOpArtikelNaam(); 
-                break;
-            case 3: 
-                updateOpArtikelPrijs();
-                break;
+//            case 2:
+//                updateOpArtikelNaam(); 
+//                break;
+//            case 3: 
+//                updateOpArtikelPrijs();
+//                break;
             case 4:
                 artikelMenu();
                 break;
@@ -152,16 +183,22 @@ public class ArtikelController {
     
     public void updateOpArtikelId() {
         
+        session = getSession();
         artikelDao = new ArtikelDao();
         
         Artikel gewijzigdArtikel = new Artikel();
         boolean gewijzigd;
         
-        int artikelId = artikelView.voerArtikelIdIn();
-        artikel = (Artikel) artikelDao.readById(artikelId);
+        long artikelId = artikelView.voerArtikelIdIn();
+        artikel = (Artikel) artikelDao.readById(artikelId, session);
+        session.getTransaction().commit();
+        closeSession(session);
         gewijzigdArtikel = invoerNieuweArtikelGegevens(artikel);
         
-        artikelDao.update(gewijzigdArtikel); // geeft geen boolean terug
+        session = getSession();
+        session.getTransaction().commit();
+        closeSession(session);
+        artikelDao.update(gewijzigdArtikel, session); // geeft geen boolean terug
 //        if (gewijzigd == true) {
 //            System.out.println("De oude gegevens: ");
 //            artikelView.printArtikelOverzicht(artikel);
@@ -169,20 +206,20 @@ public class ArtikelController {
 //            gewijzigdArtikel = artikelDAO.findByArtikelID(artikelId);
 //            artikelView.printArtikelOverzicht(gewijzigdArtikel);
 //        }
-    }
+//    }
     
     
-    public void updateOpArtikelNaam() {
-        artikelDao = new ArtikelDao();
-               
-        Artikel gewijzigdArtikel = new Artikel();
-        boolean gewijzigd;
-    
-        String artikelNaam = artikelView.voerArtikelNaamIn();
-        artikel = (Artikel) artikelDao.readById(artikelNaam);
-        gewijzigdArtikel = invoerNieuweArtikelGegevens(artikel);
-        artikelDao.update(gewijzigdArtikel); // geeft nu geen boolean terug
-//        if (gewijzigd == true) {
+//    public void updateOpArtikelNaam() {
+//        artikelDao = new ArtikelDao();
+//               
+//        Artikel gewijzigdArtikel = new Artikel();
+//        boolean gewijzigd;
+//    
+//        String artikelNaam = artikelView.voerArtikelNaamIn();
+//        artikel = (Artikel) artikelDao.readById(artikelNaam);
+//        gewijzigdArtikel = invoerNieuweArtikelGegevens(artikel);
+//        artikelDao.update(gewijzigdArtikel); // geeft nu geen boolean terug
+////        if (gewijzigd == true) {
 //            System.out.println("De oude gegevens: ");
 //            artikelView.printArtikelOverzicht(artikel);
 //            System.out.println("De nieuwe gegevens: ");
@@ -192,25 +229,25 @@ public class ArtikelController {
         // else opvangen als niet gelukt is                     
     }
     
-    public void updateOpArtikelPrijs() {
-        artikelDao = new ArtikelDao();
-        
-        Artikel gewijzigdArtikel = new Artikel();
-        boolean gewijzigd;
-        
-        double artikelPrijs = artikelView.voerAtrikelPrijsIn();
-        artikel = (Artikel) artikelDao.readById(artikelPrijs);
-        gewijzigdArtikel = invoerNieuweArtikelGegevens(artikel);
-        artikelDao.update(gewijzigdArtikel); // geen boolean returntype
-//        if (gewijzigd == true) {
-//            System.out.println("De oude gegevens: ");
-//            artikelView.printArtikelOverzicht(artikel);
-//            System.out.println("De nieuwe gegevens: ");
-//            artikelView.printArtikelOverzicht(gewijzigdArtikel);
-//        }
-//                    // else opvangen als niet gelukt                       
-            
-    }
+//    public void updateOpArtikelPrijs() {
+//        artikelDao = new ArtikelDao();
+//        
+//        Artikel gewijzigdArtikel = new Artikel();
+//        boolean gewijzigd;
+//        
+//        double artikelPrijs = artikelView.voerAtrikelPrijsIn();
+//        artikel = (Artikel) artikelDao.readById(artikelPrijs);
+//        gewijzigdArtikel = invoerNieuweArtikelGegevens(artikel);
+//        artikelDao.update(gewijzigdArtikel); // geen boolean returntype
+////        if (gewijzigd == true) {
+////            System.out.println("De oude gegevens: ");
+////            artikelView.printArtikelOverzicht(artikel);
+////            System.out.println("De nieuwe gegevens: ");
+////            artikelView.printArtikelOverzicht(gewijzigdArtikel);
+////        }
+////                    // else opvangen als niet gelukt                       
+//            
+//    }
         
     public Artikel invoerNieuweArtikelGegevens(Artikel artikel) {
                 
@@ -228,7 +265,7 @@ public class ArtikelController {
             artikelPrijs = artikelView.voerAtrikelPrijsIn();
         }
         
-        long artikelId = artikel.getArtikelId();
+        long artikelId = artikel.getId();
         Artikel artikelNieuw = new Artikel(artikelId, artikelNaam, artikelPrijs);
         
         return artikelNieuw;        
@@ -241,9 +278,9 @@ public class ArtikelController {
         int userInput = artikelView.printVerwijderMenu();
         switch (userInput) {
             case 1:// 1 artikel verwijderen  
-                artikelView.printArtikelenLijst((ArrayList<Artikel>) artikelDao.readAll());
-                int artikelId = artikelView.printDeleteArtikelView();
-                artikelDao.deleteById(artikelId);
+                artikelView.printArtikelenLijst((ArrayList<Artikel>) artikelDao.readAll(Artikel.class, session));
+                long artikelId = artikelView.printDeleteArtikelById();
+                artikelDao.deleteById(artikelId, session);
 //                artikelView.printDeleteResultaat(deleted, artikelId);
 //                ArrayList <Bestelling> lijst = bestellingArtikelDAO.findBestellingByArtikelId(artikelId);
 //                System.out.println("In de volgende bestelling(en) is het verwijderde artikel aanwezig");
@@ -252,7 +289,7 @@ public class ArtikelController {
             case 2:// alle artikelen verwijderen                
                 int x = artikelView.bevestigingsVraag();                
                 if (x == 1){ // bevestiging is ja
-                    artikelDao.deleteAll();                    
+                    artikelDao.deleteAll(session);                    
                     //System.out.println(rowsAffected + " totaal aantal artikelen zijn verwijderd");                       
                 }                
                 else { // bevestiging = nee

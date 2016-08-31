@@ -26,9 +26,7 @@ private static final Logger log = LoggerFactory.getLogger(ArtikelDao.class);
     }
 
     
-//    public ArtikelDao(Class<Artikel> type) {
-//        super(type);
-//    }
+
 
    
     

@@ -9,11 +9,12 @@ package DAOGenerics;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
+import org.hibernate.Session;
 
 /**
  *
  * @author Wendy
- * @param <E>
+ * @param <T>
  * @param <PK>
  */
 
@@ -22,17 +23,17 @@ import java.util.Set;
 public interface GenericDaoInterface <T, PK extends Serializable>{
    
     // alle dao methoden? 
-    T create(T t);
+    long insert(T t, Session session);
     
-    T readById(PK id);
-    List<T> read(PK id, T t);
-    List<T> readAll();
+    T readById(PK id, Session session);
+    <T>List<T> read(PK id, T t, Session session);
+    <T>List<T> readAll(Class<T> type, Session session);
     
-    void update(T t);
+    void update(T t, Session session);
     
-    void delete(T t);
-    void deleteById(PK id);
-    void deleteAll();
+    void delete(T t, Session session);
+    void deleteById(PK id, Session session);
+    void deleteAll(Session session);
     
     
 }

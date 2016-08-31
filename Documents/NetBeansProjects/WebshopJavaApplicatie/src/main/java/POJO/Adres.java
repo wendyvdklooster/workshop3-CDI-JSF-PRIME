@@ -8,25 +8,16 @@ package POJO;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import static javax.persistence.GenerationType.AUTO;
-import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
+
 
 
 /**
@@ -38,8 +29,13 @@ import org.hibernate.annotations.Parameter;
 		@UniqueConstraint(columnNames = {"huisnummer","toevoeging","postcode"}) })
 public class Adres implements Serializable {       
     
+    
+//    @GenericGenerator(name = "adresGenerator",strategy = "foreign",
+//        parameters = @Parameter(name = "property", value = "klant"))
+//    @Id
+//    @GeneratedValue(generator = "adresGenerator")  
     @Id
-    @GeneratedValue(strategy = AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(unique = true, nullable = false, name = "ADRES_ID")
     private Long Id;
         
@@ -55,20 +51,12 @@ public class Adres implements Serializable {
     //default? bij niets invullen => bezorg en factuuradres.. 
     private int adresType; 
     
-    @ManyToMany(mappedBy = "adressen")
-    protected Set<Klant> klanten = new HashSet<>();
+//    @ManyToMany(mappedBy = "adressen")
+//    protected Set<Klant> klanten = new HashSet<>();
     
-    @OneToMany(mappedBy = "adres")
-    protected Set<KlantAdres> klantAdressen = new HashSet<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.adres")
+    private Set<KlantAdres> klantAdressen = new HashSet<>(0);
 
-    
-    public Set<Klant> getKlanten() {
-        return klanten;
-    }
-
-    public void setKlanten(Set<Klant> klanten) {
-        this.klanten = klanten;
-    }
     
  
     public Adres(){
@@ -83,36 +71,51 @@ public class Adres implements Serializable {
         this.woonplaats = woonplaats;         
     } 
    
-    
-    /*public static Adres getInstance(){
-        return new Adres();
-    }*/
-    
-    public long getId(){
-        return Id;
+       
+    public Long getId(){
+        return this.Id;
     }
     
     public String getStraatnaam() {
-        return straatnaam;
+        return this.straatnaam;
     }
 
     public String getPostcode() {
-        return postcode;
+        return this.postcode;
     }
 
     public String getToevoeging() {
-        return toevoeging;
+        return this.toevoeging;
     }
 
     public int getHuisnummer() {
-        return huisnummer;
+        return this.huisnummer;
     }
     
     public String getWoonplaats() {
-        return woonplaats;
+        return this.woonplaats;
     }
     
-    public void setId(long Id) {
+      /**
+     * @return the adresType
+     */
+    public int getAdresType() {
+        return this.adresType;
+    }
+
+//     public Set<Klant> getKlanten() {
+//        return klanten;
+//    }
+    
+    /**
+     * @return the klantAdressen
+     */
+    public Set<KlantAdres> getKlantAdressen() {
+        return this.klantAdressen;
+    }
+     
+    
+    public void setId(Long Id) {
         this.Id = Id;
     }
 
@@ -135,24 +138,8 @@ public class Adres implements Serializable {
     public void setWoonplaats(String woonplaats) {
         this.woonplaats = woonplaats;
     }
-   
-       
-    public Adres(AdresBuilder adresBuilder){
-        this.Id = adresBuilder.Id;
-        this.straatnaam = adresBuilder.straatnaam;
-        this.postcode = adresBuilder.postcode;
-        this.toevoeging = adresBuilder.toevoeging;
-        this.huisnummer = adresBuilder.huisnummer;
-        this.woonplaats = adresBuilder.woonplaats;
-    }
-
-    /**
-     * @return the adresType
-     */
-    public int getAdresType() {
-        return adresType;
-    }
-
+      
+  
     /**
      * @param adresType the adresType to set
      */
@@ -160,67 +147,18 @@ public class Adres implements Serializable {
         this.adresType = adresType;
     }
 
-    public void setAdresId(long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    public static class AdresBuilder {       
-            
-        private long Id;
-        private String straatnaam;
-        private String postcode;
-        private String toevoeging;
-        private int huisnummer;
-        private String woonplaats;       
-    
-        public AdresBuilder(){
-            
-        }
+//    public void setKlanten(Set<Klant> klanten) {
+//        this.klanten = klanten;
+//    }    
 
-        public void setId(long Id) {
-            this.Id = Id;
-        }
-        
-        public AdresBuilder(long Id){
-            this.Id = Id;
-        }
-        
-        public AdresBuilder adresId(long adresId){
-            this.Id = adresId;
-                return this;
-        }
-        
-        public AdresBuilder straatnaam(String straatnaam){
-           this.straatnaam = straatnaam;
-                return this; 
-        }
-        
-        public AdresBuilder postcode (String postcode){
-            this.postcode = postcode;
-                return this;        
-        }
-        
-        public AdresBuilder toevoeging (String toevoeging){
-            this.toevoeging = toevoeging; 
-                return this; 
-        }
-        
-        public AdresBuilder huisnummer (int huisnummer){
-            this.huisnummer = huisnummer;
-                return this;
-        }
-        
-        public AdresBuilder woonplaats (String woonplaats){
-            this.woonplaats = woonplaats;
-                return this;
-        }
-        
-        public Adres build (){
-            return new Adres (this);
-        }       
-        
-        
-    }  
-  
+    /**
+     * @param klantAdressen the klantAdressen to set
+     */
+    public void setKlantAdressen(Set<KlantAdres> klantAdressen) {
+        this.klantAdressen = klantAdressen;
+    }
+
     
+
+       
 }

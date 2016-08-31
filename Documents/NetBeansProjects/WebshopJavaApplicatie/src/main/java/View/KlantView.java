@@ -22,11 +22,14 @@ public class KlantView {
     public int startMenuKlant(){
         System.out.println();        
         System.out.println("Maak uw keuze:");
-        System.out.println("1. Nieuwe klant toevoegen.");
+        System.out.println("1. Nieuwe klant met adres toevoegen.");
+        
         System.out.println("2. Klantgegevens opzoeken.");
-        System.out.println("3. Klantgegevens wijzigen.");
-        System.out.println("4. Klantgegevens verwijderen.");
-        System.out.println("5. Terug naar het hoofdmenu.");
+//        System.out.println("3. Klantgegevens wijzigen.");
+//        System.out.println("4. Klantgegevens verwijderen.");
+        System.out.println("5. Klant toevoegen.");
+        System.out.println("6. voeg klant aan adres toe");
+        System.out.println("7. Terug naar hoofdmenu");
         
         try{
             userInput = Integer.parseInt(scanner.nextLine());            
@@ -37,6 +40,14 @@ public class KlantView {
         }
         
         return userInput;        
+    }
+    
+    public String voerNaamMwIn(){
+        
+        System.out.println("Naam medewerker: ");
+        String naam = scanner.nextLine();
+        
+        return naam; 
     }
     
     public String voerAchterNaamIn(){
@@ -76,12 +87,12 @@ public class KlantView {
         return email.trim();
     }
     
-    public int voerKlantIdIn(){
+    public long voerKlantIdIn(){
         
         System.out.println("Voer klantId in: ");
-        int klantId = Integer.parseInt(scanner.nextLine()); 
-        
-        return klantId;
+        Long userInput = scanner.nextLong();
+        scanner.nextLine();
+        return userInput;
     }
 
     
@@ -118,16 +129,16 @@ public class KlantView {
     }
     
     
-//    public void printKlantGegevens(Klant klant){
-//        
-//        System.out.println("De huidige gegevens van de klant met klantId: " + klant.get());
-//        System.out.println("Naam: " + klant.getVoornaam() + " " + klant.getTussenvoegsel() + " "
-//                + klant.getAchternaam());
-//        System.out.println("Email: "+ klant.getEmail());
-//        System.out.println();
-//        
-//    }
-//    
+    public void printKlantGegevens(Klant klant){
+        
+        System.out.println("De huidige gegevens van de klant met klantId: " + klant.getId());
+        System.out.println("Naam: " + klant.getVoornaam() + " " + klant.getTussenvoegsel() + " "
+                + klant.getAchternaam());
+        System.out.println("Email: "+ klant.getEmail());
+        System.out.println();
+        
+    }
+    
     
     public int hoeWiltUZoeken(){
         
@@ -235,19 +246,16 @@ public class KlantView {
         
     }
     
-//    public void printKlantenLijst(ArrayList<Klant> lijst){
-//        System.out.println();
-//        System.out.println("Lijst met opgevraagde klanten");
-//        System.out.printf("%-10s%-18s%-15s%-25s%-15s%n","KlantId", "Voornaam", "Tussenvoegsel", "Achternaam", "Email");
-//        //System.out.println("KlantId\t\tVoornaam\t\tTussenvoegsel\t\tAchternaam\t\tEmail");
-//            for (int i = 0; i< lijst.size(); i++){
-//                System.out.printf("%-10s%-18s%-15s%-25s%-15s%n",
-//                        (lijst.get(i)).getKlantId(),(lijst.get(i)).getVoornaam(),
-//                        (lijst.get(i)).getTussenvoegsel(),(lijst.get(i)).getAchternaam(),
-//                        (lijst.get(i)).getEmail());            
-//        }        
-//    }
-//    
+    public void printKlantenLijst(ArrayList<Klant> lijst){
+        System.out.println();
+        System.out.println("Lijst met opgevraagde klanten");
+       
+        for(Klant klant: lijst){
+            System.out.println("*" + klant.toString());
+        }
+    }
+    
+    
 //    public void printDeleteResultaat(boolean deleted, int klantId, int verwijderd, Klant klant) {
 //        
 //        if (deleted == true){

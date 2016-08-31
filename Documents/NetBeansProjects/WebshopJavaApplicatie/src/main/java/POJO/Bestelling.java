@@ -69,14 +69,14 @@ public class Bestelling implements Serializable {
     /**
      * @return the Id
      */
-    public long getBestellingId() {
+    public long getId() {
         return Id;
     }
 
     /**
      * @param bestellingId the Id to set
      */
-    public void setBestellingId(long bestellingId) {
+    public void setId(long bestellingId) {
         this.Id = bestellingId;
     }
 
