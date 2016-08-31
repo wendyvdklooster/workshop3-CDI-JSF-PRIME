@@ -90,12 +90,12 @@ public class KlantController {
               case 2:
                 zoekKlantGegevens();
                 break;
-//            case 3: 
-//                wijzigKlantGegevens();
-//                break;
-//            case 4: 
-//                verwijderKlantGegevens();
-//                break;
+            case 3: 
+                wijzigKlantGegevens();
+                break;
+            case 4: 
+                verwijderKlantGegevens();
+                break;
             case 5: 
                 voegNieuweKlantToe();
                 break;
@@ -224,13 +224,12 @@ public class KlantController {
                 validator = EmailValidator.getInstance();
                 isAddressValid = validator.isValid(email);
             }                       
-        //klantBuilder.klantId(klantId); pas duidelijk na invoer in database
+        
         klant = new Klant();
         klant.setVoornaam(voornaam);
         klant.setAchternaam(achternaam);
         klant.setEmail(email);
-        klant.setTussenvoegsel(tussenvoegsel);
-        
+        klant.setTussenvoegsel(tussenvoegsel);        
 
         return klant;        
     }    
@@ -261,17 +260,7 @@ public class KlantController {
 //                case 2:
 //                    int keuze = klantView.hoeWiltUZoeken();
 //                    switch (keuze) {
-//                        case 1: // zoeken op voor-/achternaam                            
-//                            String voorNaam = klantView.voerVoorNaamIn();
-//                            String achterNaam = klantView.voerAchterNaamIn();
-//                            klantenLijst = klantDAO.findByVoorNaamAchterNaam(voorNaam, achterNaam);
-//                            if (klantenLijst != null)
-//                                klantView.printKlantenLijst(klantenLijst);   
-//                            else { 
-//                                String naam = voorNaam + " " + achterNaam;
-//                                klantView.printGeenKlanten(naam);
-//                            }                            
-//                            break;
+//                        case 1: verwijderd - zoeken op voor en achternaam
 //                        case 2: //zoeken op email
 //                            String email = klantView.voerEmailIn();                             
 //                            isAddressValid = validator.isValid(email);
@@ -299,8 +288,7 @@ public class KlantController {
 //                            break;
 //                    }   
 //                default:
-//                    break;
-                    
+//                    break;                    
 //            } 
             // eind zoeken naar 1 klant
 //            break;
@@ -315,8 +303,7 @@ public class KlantController {
                 else { 
                     String naam = "alle klanten";
                     klantView.printGeenKlanten(naam);
-                }  
-                
+                }                  
                 break; 
             case 3: // direct door naar einde switch: methode naar inlogschermklant()
                 break;
@@ -326,207 +313,176 @@ public class KlantController {
         closeSession(session); 
         klantMenu();
         } // eind zoeken naar 1 klant of alle klanten
+ 
+   
+    public void wijzigKlantGegevens(){
         
-//        
-//        
-//    } // eind methode zoekKlantGegevens
-//    
-//    
-//    // bij adres: zijn submethoden gedefinieerd die meerdere malen geimplementeerd kunnen worden. 
-//    // zou hier ook kunnen. zie oa wijzig adres gegevens. 
-//    
-//    public void wijzigKlantGegevens(){
-//       
-//       klantDAO = DaoFactory.getKlantDao();
-//       klantAdresDAO = DaoFactory.getKlantAdresDao();
-//       adresDAO = DaoFactory.getAdresDao(); 
-//        
-//       Klant gewijzigdeKlant = new Klant();
-//       int klantId = 0;
-//        
-//       int input = klantView.isKlantIdBekend();
-//        // klantid is bekend:
-//        switch (input) {
-//            case 1:
-//                klantId = klantView.voerKlantIdIn();
-//                klant = klantDAO.findByKlantId(klantId);
-//                gewijzigdeKlant = voerWijzigingenKlantIn(klant);
-//                gewijzigdeKlant = klantDAO.updateGegevens(gewijzigdeKlant);                                               
-//                System.out.println("Oude klantgegevens:");
-//                klantView.printKlantGegevens(klant);
-//                System.out.println("Nieuwe klantgegevens:");                
-//                klantView.printKlantGegevens(gewijzigdeKlant);
-//                break;
-//            case 2:
-//                int keuze = klantView.hoeWiltUZoeken();
-//                switch (keuze) {
-//                    case 1: // wijzigen op basis voor- en achternaam                        
-//                        String achterNaam = klantView.voerAchterNaamIn();
-//                        String voorNaam = klantView.voerVoorNaamIn();
-//                        klantenLijst = klantDAO.findByVoorNaamAchterNaam(achterNaam, voorNaam);
-//                        klantView.printKlantenLijst(klantenLijst); 
-//                        klantId = klantView.voerKlantIdIn();
-//                        klant = klantDAO.findByKlantId(klantId);
-//                        
-//                        gewijzigdeKlant = voerWijzigingenKlantIn(klant);                         
-//                        gewijzigdeKlant = klantDAO.updateGegevens(gewijzigdeKlant);                                               
-//                        System.out.println("Oude klantgegevens:");
-//                        klantView.printKlantGegevens(klant);
-//                        System.out.println("Nieuwe klantgegevens:");                        
-//                        klantView.printKlantGegevens(gewijzigdeKlant); 
-//                        break;
-//                    case 2: // wijzigen op basis van email                        
-//                        String email = klantView.voerEmailIn();                             
-//                        isAddressValid = validator.isValid(email);
-//                            while (isAddressValid == false) {
-//                                System.out.println
-//                                    ("Ongeldig emailadres. Vul opnieuw uw emailadress in (bijv. hallo@hallo.com)");
-//                                email = klantView.voerEmailIn();
-//                                validator = EmailValidator.getInstance();
-//                                isAddressValid = validator.isValid(email);
-//                            }
-//                        klantenLijst = klantDAO.findByEmail(email);
-//                        klantView.printKlantenLijst(klantenLijst); 
-//                        klantId = klantView.voerKlantIdIn();
-//                        klant = klantDAO.findByKlantId(klantId);
-//                        
-//                        gewijzigdeKlant = voerWijzigingenKlantIn(klant);                         
-//                        klantDAO.updateGegevens(gewijzigdeKlant);                       
-//                        System.out.println("Oude klantgegevens:");
-//                        klantView.printKlantGegevens(klant);
-//                        System.out.println("Nieuwe klantgegevens:");                        
-//                        klantView.printKlantGegevens(gewijzigdeKlant);          
-//                        break;
-//                    case 3: // direct door naar einde switch: methode naar inlogschermklant()
-//                        break;
-//                    default:
-//                        break;
-//                }
-//            default:
-//                break;    
-//        }
-//       
-//        klantMenu();
-//                          
-//    } // einde methode wijzigKlantGegevens
-//   
-//    
-//    public void verwijderKlantGegevens() {
-//       
-//        klantDAO = DaoFactory.getKlantDao();
-//        klantAdresDAO = DaoFactory.getKlantAdresDao();
-//        adresDAO = DaoFactory.getAdresDao();
-//        
-//        boolean deleted = false;
-//        int klantId = 0;
-//        int x = 0;
-//        
-//        int userInput = klantView.menuKlantVerwijderen();
-//        
-//        switch (userInput) {
-//            case 1: // één klnat verwijderen
-//                x = klantView.isKlantIdBekend();
-//                    // klantId bekend
-//                    if (x == 1){
-//                        klantId = klantView.voerKlantIdIn();
-//                        klant = klantDAO.findByKlantId(klantId);                    
-//                    }
-//                    // klantId niet bekend
-//                    else {
-//                        String achterNaam = klantView.voerAchterNaamIn();
-//                        String voorNaam = klantView.voerVoorNaamIn();
-//                        klantenLijst = klantDAO.findByVoorNaamAchterNaam(achterNaam, voorNaam);
-//                        klantView.printKlantenLijst(klantenLijst); 
-//                        klantId = klantView.voerKlantIdIn();                    
-//                    }
-//                    
-//                deleted = klantDAO.deleteByKlantId(klantId);  
-//                int verwijderd = klantAdresDAO.deleteKlantAdresByKlantId(klantId);
-//                if (deleted){
-//                    klantView.printDeleteResultaat(deleted, klantId, verwijderd, klant);
-//                }
-//                else {
-//                    klant = klantDAO.findByKlantId(klantId);
-//                    klantView.printNotDeleted(klant);
-//                        }
-//                break;                    
-//                                    
-//            case 2: // alle klanten verwijderen
-//                x = klantView.bevestigingsVraag();
-//                // bevestiging is ja
-//                if (x == 1){
-//                    int rowsAffected = klantDAO.deleteAll();
-//                    klantAdresDAO.deleteAll();
-//                    System.out.print(rowsAffected);
-//                    System.out.println(" totaal aantal klanten zijn verwijderd");                    
-//                    System.out.println("alle koppelingen van klant en adres zijn verwijderd");
-//                }
-//                // bevestiging = nee
-//                else {
-//                    System.out.println("De klantgegevens worden niet verwijderd.");
-//                }
-//                break;                
-//            
-//            case 3: // terug naar klantenmenu - dmv break direct naar inlogschermklant()
-//                break;
-//            default:
-//                break;
-//        }
-//        klantMenu();
-//    }// eind methode verwijderKlantGegevens
+        session =  getSession();
+        klantDao = new KlantDao(); 
+        adresDao = new AdresDao();
+        klant = new Klant();
+        Klant gewijzigdeKlant = new Klant();
+        long klantId = 0;
+        
+       int input = klantView.isKlantIdBekend();
+        // klantid is bekend:
+        switch (input) {
+            case 1:
+                klantId = klantView.voerKlantIdIn();
+                klant = (Klant)klantDao.readById(klantId, session);
+                gewijzigdeKlant = voerWijzigingenKlantIn(klant);
+                klantDao.update(gewijzigdeKlant, session);  
+                session.getTransaction().commit();
+                gewijzigdeKlant= (Klant)klantDao.readById(klantId, session);
+                
+                System.out.println("Oude klantgegevens:");
+                klantView.printKlantGegevens(klant);
+                System.out.println("Nieuwe klantgegevens:");                
+                klantView.printKlantGegevens(gewijzigdeKlant);
+                break;
+            case 2:
+                int keuze = klantView.hoeWiltUZoeken();
+                switch (keuze) {
+                    case 1: // wijzigen op basis van voor en achternaam is verwijderd
+                        break;                        
+                    case 2: // wijzigen op basis van email                        
+                        String email = klantView.voerEmailIn();                             
+                        isAddressValid = validator.isValid(email);
+                            while (isAddressValid == false) {
+                                System.out.println
+                                    ("Ongeldig emailadres. Vul opnieuw uw emailadress in (bijv. hallo@hallo.com)");
+                                email = klantView.voerEmailIn();
+                                validator = EmailValidator.getInstance();
+                                isAddressValid = validator.isValid(email);
+                            }
+                        // deze methode bestaat nog niet findByemail();
+                        //klantenLijst = klantDao.findByEmail(email);
+                        klantView.printKlantenLijst(klantenLijst); 
+                        klantId = klantView.voerKlantIdIn();
+                        klant = (Klant)klantDao.readById(klantId, session);
+                        
+                        gewijzigdeKlant = voerWijzigingenKlantIn(klant);                         
+                        klantDao.update(gewijzigdeKlant, session);                       
+                        System.out.println("Oude klantgegevens:");
+                        klantView.printKlantGegevens(klant);
+                        System.out.println("Nieuwe klantgegevens:");                        
+                        klantView.printKlantGegevens(gewijzigdeKlant);          
+                        break;
+                    case 3: // direct door naar einde switch: methode naar inlogschermklant()
+                        break;
+                    default:
+                        break;
+                }
+            default:
+                break;    
+        }//       
+        klantMenu();//                          
+    } // einde methode wijzigKlantGegevens
+    
+       
+    public void verwijderKlantGegevens() {
+       
+        session =  getSession();
+        klantDao = new KlantDao();
+        adresDao = new AdresDao();
+        
+        boolean deleted = false;
+        Long klantId;
+        int x = 0;
+        
+        int userInput = klantView.menuKlantVerwijderen();
+        
+        switch (userInput) {
+            case 1: // één klnat verwijderen                
+                                       
+                        ArrayList <Klant> klantenLijst = (ArrayList<Klant>) klantDao.readAll(Klant.class, session);
+                        //session.getTransaction().commit();
+                        klantView.printKlantenLijst(klantenLijst); 
+                        System.out.println("Welke klant wilt u verwijderen?");                        
+                        klantId = klantView.voerKlantIdIn();                          
+                        //session = getSession();
+                        deleted = klantDao.deleteById(klantId, session);  
+                        session.getTransaction().commit(); 
+                        // welke acties volgen na het verwijderen van een klant
+                        // - koppeling met adres> als dit enige koppeling met adres is adres wel of niet laten bestaan?
+                        // wat te doen met factuur, account
+                        System.out.println("verwijderen van klant: " + deleted);
+                         break;           
+            case 2: // alle klanten verwijderen
+                x = klantView.bevestigingsVraag();
+                // bevestiging is ja
+                if (x == 1){
+                    
+                    int rowsAffected = klantDao.deleteAll(Klant.class, session);
+                    session.getTransaction().commit();
+                    //klantAdresDao.deleteAll();
+                    System.out.print(rowsAffected);
+                    System.out.println(" totaal aantal klanten zijn verwijderd");                    
+                    System.out.println("alle koppelingen van klant en adres zijn verwijderd");
+                }
+                // bevestiging = nee
+                else {
+                    System.out.println("De klantgegevens worden niet verwijderd.");
+                }
+                break;                
+            
+            case 3: // terug naar klantenmenu - dmv break direct naar inlogschermklant()
+                break;
+            default:
+                break;
+        }
+        klantMenu();
+    }// eind methode verwijderKlantGegevens
 
 
-//    public Klant voerWijzigingenKlantIn(Klant klant){
-//        int juist = 0 ;
-//        
-//	String voornaam = klant.getVoornaam();
-//        System.out.println("Uw voornaam: ");
-//	juist = klantView.checkInputString(voornaam); // iets dergelijks als "is dit juist?: "+ voormaam 1/true 2/false
-//            if (juist == 2) { 
-//                voornaam = klantView.voerVoorNaamIn();
-//            }
-//                
-//	String achternaam = klant.getAchternaam();
-//        System.out.println("Achternaam: ");
-//	juist = klantView.checkInputString(achternaam);  // code schrijven voor methode iets als hierboven
-//            if (juist == 2) {
-//                achternaam = klantView.voerAchterNaamIn();
-//            }
-//                
-//	String tussenvoegsel = klant.getTussenvoegsel();
-//        System.out.println("Tussenvoegsel(s):");
-//	juist = klantView.checkInputString(tussenvoegsel); // zie hierboven
-//            if(juist == 2) {
-//                tussenvoegsel = klantView.voerTussenVoegselIn(); 
-//            }
-//                
-//	String email = klant.getEmail();
-//        System.out.println("emailadres:");
-//	juist = klantView.checkInputString(email);
-//            if (juist == 2){ 
-//                email = klantView.voerEmailIn();                             
-//                isAddressValid = validator.isValid(email);
-//                    while (isAddressValid == false) {
-//                        System.out.println
-//                            ("Ongeldig emailadres. Vul opnieuw uw emailadress in (bijv. hallo@hallo.com)");
-//                        email = klantView.voerEmailIn();
-//                        validator = EmailValidator.getInstance();
-//                        isAddressValid = validator.isValid(email);
-//                    }
-//            }  
-//        Klant klant2 = new Klant(klantBuilder);
-//	klantBuilder.klantId(klant.getKlantId());
-//        klantBuilder.voornaam(voornaam);
-//        klantBuilder.achternaam(achternaam);
-//        klantBuilder.tussenvoegsel(tussenvoegsel);
-//        klantBuilder.email(email);
-//
-//        // build Klant
-//        
-//        klant2 = klantBuilder.build();  
-//	return klant2;  
-//    } // eind methode voerWijzigingenKlantIn
-//
+    public Klant voerWijzigingenKlantIn(Klant klant){
+        int juist = 0 ;
+        
+	String voornaam = klant.getVoornaam();
+        System.out.println("Uw voornaam: ");
+	juist = klantView.checkInputString(voornaam); // iets dergelijks als "is dit juist?: "+ voormaam 1/true 2/false
+            if (juist == 2) { 
+                voornaam = klantView.voerVoorNaamIn();
+            }
+                
+	String achternaam = klant.getAchternaam();
+        System.out.println("Achternaam: ");
+	juist = klantView.checkInputString(achternaam);  // code schrijven voor methode iets als hierboven
+            if (juist == 2) {
+                achternaam = klantView.voerAchterNaamIn();
+            }
+                
+	String tussenvoegsel = klant.getTussenvoegsel();
+        System.out.println("Tussenvoegsel(s):");
+	juist = klantView.checkInputString(tussenvoegsel); // zie hierboven
+            if(juist == 2) {
+                tussenvoegsel = klantView.voerTussenVoegselIn(); 
+            }
+                
+	String email = klant.getEmail();
+        System.out.println("emailadres:");
+	juist = klantView.checkInputString(email);
+            if (juist == 2){ 
+                email = klantView.voerEmailIn();                             
+                isAddressValid = validator.isValid(email);
+                    while (isAddressValid == false) {
+                        System.out.println
+                            ("Ongeldig emailadres. Vul opnieuw uw emailadress in (bijv. hallo@hallo.com)");
+                        email = klantView.voerEmailIn();
+                        validator = EmailValidator.getInstance();
+                        isAddressValid = validator.isValid(email);
+                    }
+            }  
+        Klant klant2 = new Klant();
+	
+        klant2.setVoornaam(voornaam);
+        klant2.setAchternaam(achternaam);
+        klant2.setTussenvoegsel(tussenvoegsel);
+        klant2.setEmail(email);
+        // iets doen met de gegevens die niet veranderen
+	return klant2;  
+    } // eind methode voerWijzigingenKlantIn
+
 //   
      public void terugNaarHoofdMenu() {
         hoofdMenuController = new HoofdMenuController();
