@@ -46,7 +46,7 @@ public class Artikel implements Serializable{
         this.artikelPrijs = artikelPrijs;
     }
 
-    public Long getArtikelId() {
+    public Long getId() {
         return Id;
     }
 
@@ -58,8 +58,8 @@ public class Artikel implements Serializable{
         return artikelPrijs;
     }
 
-    public void setArtikelId(Long artikelID) {
-        this.Id = artikelID;
+    public void setId(Long artikelId) {
+        this.Id = artikelId;
     }
 
     public void setArtikelNaam(String artikelNaam) {
@@ -112,4 +112,10 @@ public class Artikel implements Serializable{
         this.bestellingen = bestellingen;
     }
     
+    
+    @Override
+    public String toString(){
+         String output = "Artikelnaam: " + this.getArtikelNaam() +" en id: " +  this.getId();
+         return output;
+    }
 }

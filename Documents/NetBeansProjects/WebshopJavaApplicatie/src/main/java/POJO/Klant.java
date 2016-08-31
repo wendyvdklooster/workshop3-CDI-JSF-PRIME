@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import static javax.persistence.GenerationType.AUTO;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -23,13 +24,16 @@ import org.hibernate.annotations.Parameter;
 
 @Entity
 @Table(name = "KLANT")
-public class Klant implements Serializable, Iterable <Klant>{
+public class Klant implements Serializable {
     
-    @GenericGenerator(name = "klantGenerator",strategy = "foreign",
-        parameters = @Parameter(name = "property", value = "adres"))
+//    @GenericGenerator(name = "klantGenerator",strategy = "foreign",
+//        parameters = @Parameter(name = "property", value = "adres"))
+//    @Id
+//    @GeneratedValue(generator = "klantGenerator") 
     @Id
-    @GeneratedValue(generator = "klantGenerator")        
-    private long Id;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column (unique = true, nullable = false, name = "KLANT_ID")
+    private Long Id;
     private String klantNummer;
     private String voornaam;
     @Column(nullable = false)
@@ -44,55 +48,45 @@ public class Klant implements Serializable, Iterable <Klant>{
     @OneToMany (fetch = FetchType.LAZY)
     protected Set<Betaling> betalingen = new HashSet<>();     
     
-    @OneToMany (mappedBy = "klant")
-    protected Set<KlantAdres> klantAdressen = new HashSet<>();    
+    @OneToMany (fetch = FetchType.LAZY, mappedBy = "pk.klant", cascade = CascadeType.ALL)
+    private Set<KlantAdres> klantAdressen = new HashSet<>(0);    
     
     @OneToMany (mappedBy = "klant", fetch = FetchType.LAZY)
     protected Set <Bestelling> bestellingen = new HashSet<>();
 
     
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinTable(
-            name = "KLANT_ADRES",
-            joinColumns = @JoinColumn (name = "KLANT_ID"),
-            inverseJoinColumns = @JoinColumn (name = "ADRES_ID")
-    )
-    protected Set<Adres> adressen = new HashSet<>();    
-
     //protected Map<Adres, AdresType> adresType; 
 //(of andere manieren om de ternaire relatie
 
-    //constructors
+    
+    // -- constructors --
     public Klant(){        
     }
     
-    public Klant(long klantId, String voornaam, String achternaam, 
-             String tussenvoegsel, String email){   
-        this.Id = klantId;
+    public Klant(String voornaam, String achternaam, 
+             String tussenvoegsel, String email){ 
+        
         this.voornaam = voornaam;
         this.achternaam = achternaam;
         this.tussenvoegsel = tussenvoegsel;
         this.email = email;        
     }
         
-     public Klant(long klantId, String voornaam, String achternaam, 
-             String tussenvoegsel, String email, Set<Bestelling> bestellingen, Set<Adres> adressen){   
-        this.Id = klantId;
+     public Klant(String voornaam, String achternaam, 
+             String tussenvoegsel, String email, Set<Bestelling> bestellingen, Set<Adres> adressen, Set<KlantAdres> klantAdressen){   
+        
         this.voornaam = voornaam;
         this.achternaam = achternaam;
         this.tussenvoegsel = tussenvoegsel;
         this.email = email;   
         this.bestellingen = bestellingen; 
-        this.adressen = adressen;
+        this.klantAdressen = klantAdressen;
     }
     
-    public Set<Adres> getAdressen() {
-        return adressen;
-    }
-
-    public void setAdressen(Set<Adres> adressen) {
-        this.adressen = adressen;
-    }
+   
+//    public void setAdressen(Set<Adres> adressen) {
+//        this.adressen = adressen;
+//    }
     
     public void setId(Long Id) {
         this.Id = Id;
@@ -113,56 +107,78 @@ public class Klant implements Serializable, Iterable <Klant>{
     public void setEmail(String email) {
         this.email = email;
     }    
-   
-    public Long getId() {
-        return Id;
-    }
-
-    public String getVoornaam() {
-        return voornaam;
-    }
-
-    public String getAchternaam() {
-        return achternaam;
-    }
-
-    public String getTussenvoegsel() {
-        return tussenvoegsel;
-    }
-
-    public String getEmail() {
-        return email;
-    }    
-  
-
-    public Set<Bestelling> getBestellingen() {
-        return bestellingen;
-    }
-
+    
     public void setBestellingen(Set<Bestelling> bestellingen) {
         this.bestellingen = bestellingen;
-    }
-    
-    /**
-     * @return the klantNummer
-     */
-    public String getKlantNummer() {
-        return klantNummer;
-    }
+    }   
 
     /**
      * @param klantNummer the klantNummer to set
      */
     public void setKlantNummer(String klantNummer) {
         this.klantNummer = klantNummer;
+    }   
+
+    /**
+     * @param klantAdressen the klantAdressen to set
+     */
+    public void setKlantAdressen(Set<KlantAdres> klantAdressen) {
+        this.klantAdressen = klantAdressen;
+    }
+   
+    
+    public Long getId() {
+        return this.Id;
     }
 
+    public String getVoornaam() {
+        return this.voornaam;
+    }
 
+    public String getAchternaam() {
+        return this.achternaam;
+    }
+
+    public String getTussenvoegsel() {
+        return this.tussenvoegsel;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }    
+  
+//    public Set<Adres> getAdressen() {
+//           return adressen;
+//       }
+
+    public Set<Bestelling> getBestellingen() {
+        return this.bestellingen;
+    }
+
+     /**
+     * @return the klantAdressen
+     */
+    public Set<KlantAdres> getKlantAdressen() {
+        return this.klantAdressen;
+    }
+    
+    /**
+     * @return the klantNummer
+     */
+    public String getKlantNummer() {
+        return this.klantNummer;
+    }
+    
+      
     @Override
-    public Iterator<Klant> iterator() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String toString(){
+         String output = "Naam: " + this.getVoornaam() + " " + this.getAchternaam() +
+                 " en id: " +  this.getId();
+         return output;
     }
 
+
+   
     
      
 }

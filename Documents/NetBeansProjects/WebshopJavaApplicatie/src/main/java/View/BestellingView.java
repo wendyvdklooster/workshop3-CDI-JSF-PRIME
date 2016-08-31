@@ -5,13 +5,9 @@
  */
 package View;
 
-import DAOs.Impl.MySQL.BestellingArtikelDAOSQL;
-import DAOs.Interface.BestellingArtikelDAOInterface;
-import Factory.DaoFactory;
 import POJO.Artikel;
 import POJO.Bestelling;
 import POJO.BestellingArtikel;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -24,13 +20,13 @@ import org.slf4j.LoggerFactory;
  */
 public class BestellingView {
     
-BestellingArtikelDAOInterface bestellingArtikelDAO = DaoFactory.getBestellingArtikelDao();    
     
     private final static Logger LOGGER = LoggerFactory.getLogger(KlantView.class.getName());
     // data fields
     Scanner scanner = new Scanner(System.in);
     int userInput;
-    int artikelId;
+    long artikelId;
+    long bestellingId;
     int artikelAantal;
     
     
@@ -56,34 +52,33 @@ BestellingArtikelDAOInterface bestellingArtikelDAO = DaoFactory.getBestellingArt
     }
     
     
-    public int voerKlantIdIn (){
+    public long voerKlantIdIn (){
         
         System.out.println("U wilt een nieuwe bestelling aanmaken.");
         System.out.println("Wat is uw klant ID?");
-        int klantID = Integer.parseInt(scanner.nextLine());
-        return klantID;
+        long klantId = Long.parseLong(scanner.nextLine());
+        return klantId;
     }
 
     
-    public int zoekBestellingInfo(){
+    public long zoekBestellingInfo(){
         
-        System.out.println("Wat is het bestelling ID?");
-        userInput = 0;
+        System.out.println("Wat is het bestelling ID?");        
         
         try{
-            userInput = Integer.parseInt(scanner.nextLine());         
+            bestellingId = Long.parseLong(scanner.nextLine());         
         } catch (InputMismatchException ex){
             System.out.println("Vul een getal in.");
         }
         
-        return userInput;
+        return bestellingId;
     }
     
     
-    public int voerArtikelIdIn(){
+    public long voerArtikelIdIn(){
         
         System.out.println("Voer een artikel ID in:");
-        artikelId = Integer.parseInt(scanner.nextLine());
+        artikelId = Long.parseLong(scanner.nextLine());
         
         return artikelId;
     }
@@ -98,19 +93,19 @@ BestellingArtikelDAOInterface bestellingArtikelDAO = DaoFactory.getBestellingArt
     }
     
     
-    public int wijzigBestellingInfo(ArrayList<Artikel>artikelLijst, int bestellingId){
+    public long wijzigBestellingInfo(ArrayList<Artikel>artikelLijst, int bestellingId){
         
         artikelId = 0;        
         
         System.out.println("Artikellen aanwezig in bestelling " + bestellingId);
         
         for (Artikel ar: artikelLijst){
-            System.out.println(ar.getArtikelId() + " " + ar.getArtikelNaam() + ": " + bestellingArtikelDAO.findAantalByArtikelID(bestellingId, ar.getArtikelId()) + " keer");
+            System.out.println(ar.toString());
         } 
         
         System.out.println("Welk artikel ID wil je wijzigen?");
         try{
-            artikelId = Integer.parseInt(scanner.nextLine());  
+            artikelId = Long.parseLong(scanner.nextLine());  
         } catch (InputMismatchException ex){
             System.out.println("Voer een getal in.");
         }
@@ -149,40 +144,38 @@ BestellingArtikelDAOInterface bestellingArtikelDAO = DaoFactory.getBestellingArt
         
     }
     
-    public void printBestellingLijst(ArrayList<Bestelling>lijst){       
-        // TODO
-        // ook koppelbestellingartikel aanspreken om aantallen bij te kunnen voegen
+    public void printBestellingLijst(ArrayList<Bestelling>lijst){      
+       
         
         System.out.println("Aanwezige bestellingen: ");
-        System.out.printf("%-18s%-18s%n", "BestellingId", "KlantId");
         for (Bestelling best: lijst){            
-            System.out.printf("%-18s%-18s%n", best.getBestellingId(), best.getKlantId());
+            System.out.println(best.toString());
         }
 
     }
     
-    public void printBestellingLijstUitgebreid(ArrayList<Bestelling>lijst){
-        ArrayList<Artikel>artikellijst = new ArrayList<>();
-        for (Bestelling best: lijst){
-            System.out.println("Aanwezige bestelling voor klant ID: " + best.getKlantId() 
-                    + " met bestelling ID: " + best.getBestellingId());         
-        
-                artikellijst = bestellingArtikelDAO.findByBestellingId(best.getBestellingId());
-                System.out.println("Artikellen in bestelling: ");
-                    for (Artikel artikel: artikellijst){
-                        System.out.println(artikel.getArtikelNaam() + ": " 
-                                + bestellingArtikelDAO.findAantalByArtikelID(best.getBestellingId(),
-                                        artikel.getArtikelId()) + " keer");
-                        System.out.println();
-                    }
-        }
-        
-    }
-    
+//    public void printBestellingLijstUitgebreid(ArrayList<Bestelling>lijst){
+//        ArrayList<Artikel>artikellijst = new ArrayList<>();
+//        for (Bestelling best: lijst){
+//            System.out.println("Aanwezige bestelling voor klant ID: " + best.getKlant().getId()) 
+//                    + " met bestelling ID: " + best.getId());         
+//        
+//                artikellijst = bestellingArtikelDAO.findByBestellingId(best.getId());
+//                System.out.println("Artikellen in bestelling: ");
+//                    for (Artikel artikel: artikellijst){
+//                        System.out.println(artikel.getArtikelNaam() + ": " 
+//                                + bestellingArtikelDAO.findAantalByArtikelID(best.getId(),
+//                                        artikel.getArtikelId()) + " keer");
+//                        System.out.println();
+//                    }
+//        }
+//        
+//    }
+//    
     public void printBestellingInfo(Bestelling bestelling){
             
-            System.out.println("Bestelling ID: " + bestelling.getBestellingId());
-            System.out.println("Klant ID: " + bestelling.getKlantId());
+            System.out.println("Bestelling ID: " + bestelling.getId());
+            System.out.println("Klant ID: " + (bestelling.getKlant()).getId());
             System.out.println("Bestelling Datum: " + bestelling.getDatum());
             
         }

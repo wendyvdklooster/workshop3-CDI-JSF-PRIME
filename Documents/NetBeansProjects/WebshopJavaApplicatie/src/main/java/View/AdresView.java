@@ -186,8 +186,7 @@ public class AdresView {
         System.out.println("AdresId\t\tKlantId");
         for (int i = 0; i < klantAdresLijst.size(); i++){
             
-            System.out.println(klantAdresLijst.get(i).getAdresId() + "\t\t" + 
-                    klantAdresLijst.get(i).getKlantId());
+            System.out.println(klantAdresLijst.toString());
         }
         
     }

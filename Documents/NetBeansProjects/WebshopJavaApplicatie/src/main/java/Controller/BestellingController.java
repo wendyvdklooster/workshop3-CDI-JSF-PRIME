@@ -7,17 +7,19 @@ package Controller;
 
 
 import DAOGenerics.GenericDaoImpl;
+import Helpers.HibernateSessionFactory;
 import POJO.Artikel;
 import POJO.Bestelling;
 import POJO.BestellingArtikel;
 import View.BestellingView;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import POJO.Klant;
 import View.KlantView;
 import java.io.Serializable;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 /**
  *
  * @author Excen
@@ -25,6 +27,26 @@ import java.io.Serializable;
 
 
 public class BestellingController {
+    
+    public Session session;
+    // sessionfactory aanroepen via de hibernatesessionfactory
+    SessionFactory sessionFactory = HibernateSessionFactory.getSessionFactory();
+    
+    // session starten
+    public Session getSession(){
+        session = sessionFactory.openSession();
+        session.beginTransaction();
+       return session;
+    }
+    
+    protected void commitSession(Session session){
+        session.getTransaction().commit();
+    }
+	
+    // session afsluiten
+    public void closeSession(Session session){            
+            session.close();
+    }
     
     BestellingView bestellingView = new BestellingView();
     KlantView klantView = new KlantView();
@@ -94,9 +116,9 @@ public class BestellingController {
     
     public void plaatsBestelling() {            
         
-        int klantId = bestellingView.voerKlantIdIn();
-        Klant klant = (Klant) klantDao.readById(klantId);
-        int bestellingID = (int) bestellingDao.create(klant);
+        long klantId = bestellingView.voerKlantIdIn();
+        Klant klant = (Klant) klantDao.readById(klantId, session);
+        long bestellingID = bestellingDao.insert(klant, session);
         int anotherOne = 0;
         boolean checker = true;
         
@@ -107,16 +129,16 @@ public class BestellingController {
         // Overzicht beschikbare artikelen
         System.out.println("Beschikbare artikelen: ");
         ArrayList<Artikel>artikelLijst = new ArrayList<>();
-        artikelLijst = (ArrayList<Artikel>) artikelDao.readAll();
+        artikelLijst = (ArrayList<Artikel>) artikelDao.readAll(Bestelling.class, session);
 
         for (Artikel ar: artikelLijst){
-            System.out.println(ar.getArtikelId() + " " + ar.getArtikelNaam());
+            System.out.println(ar.getId() + " " + ar.getArtikelNaam());
         }
 
         // begin artikel toevoeg loop
         do {
             bestellingArtikel = createBestellingArtikel();
-            bestellingArtikel.setBestellingId(bestellingID);
+            bestellingArtikel.setId((bestellingID);
             bestellingArtikelDao.createBestellingArtikel(bestellingArtikel);
             AL.add(bestellingArtikel);
 
@@ -209,7 +231,7 @@ public class BestellingController {
         
         
     int bestellingID = bestellingView.zoekBestellingInfo();
-                bestellingDao.deleteBestelling(bestellingID);
+                bestellingDao.deleteById(bestellingID, session);
                 
                 // Als je een bestelling verwijderd zul je die altijd ook willen verwijderen uit de koppeltabel
                 // het zou dus elegant zijn als de hierboven aangeroepen deleteBestelling zelf ook 
@@ -223,7 +245,7 @@ public class BestellingController {
     public void toonAlleBestellingen() {
         
         //  bestellingen uit bestelling tabel
-        ArrayList<Bestelling>bestellingLijst = bestellingDao.findAll();
+        ArrayList<Bestelling>bestellingLijst = bestellingDao.findAll(session);
         bestellingView.printBestellingLijst(bestellingLijst);
         
         
