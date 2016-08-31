@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import POJO.Klant;
 import POJO.KlantAdres;
 import View.KlantView;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -110,20 +111,35 @@ public class AdresController {
         klantDao = new KlantDao(); 
         adresDao = new AdresDao();
         
+        session = getSession();
         System.out.println("U wilt een nieuw adres toevoegen. Voer hieronder de gegevens in.");
         Long klantId = adresView.voerKlantIdIn();
+        klant = (Klant)(session.get(Klant.class, klantId));
         adres = createAdres();
         
         //voeg toe in adrestabel
         Long adresId = (Long)adresDao.insert(adres, session);
         
         System.out.println(adresId);
-        // voeg toe in koppel - koppelen  aan klant, nieuw of bestaand
         
+        // voeg toe in koppel - 
+        // vraag daarvoor klant op en naam medewerker
+         KlantAdres KA = new KlantAdres();
+         klant = (Klant)(session.get(Klant.class, klantId));
+         String medewerker = klantView.voerNaamMwIn();
+            KA.setKlant(klant);
+            KA.setAdres(adres);
+            KA.setCreatedDate(new Date());
+            KA.setCreatedBy(medewerker);
         
+            klant.getKlantAdressen().add(KA);
+        
+        session.getTransaction().commit();    
         System.out.println("U heeft het volgende adres toegevoegd.");
         adresView.printAdresOverzicht(adres);
+        closeSession(session); 
         
+        adresMenu();
         return adresId;            
     }
     
@@ -159,9 +175,12 @@ public class AdresController {
                 userInput = adresView.hoeWiltUZoeken();
                 switch (userInput) {
                     case 1: // zoek op adresId
+                        session = getSession();
                         Long adresId = adresView.voerAdresIdIn();
                         adres = (Adres)adresDao.readById(adresId, session);
+                        session.getTransaction().commit();
                         adresView.printAdresOverzicht(adres);
+                        session.close();
                         break;
 //                    case 2: // zoek adressen op klantId
 //                        int klantId = klantView.voerKlantIdIn();
@@ -192,10 +211,14 @@ public class AdresController {
             break;
             case 2:
                 // alle adressen zoeken
-                List<Adres> adressenLijst = new ArrayList<>();
-                        adressenLijst = (List<Adres>)adresDao.readAll(Adres.class, session);
-                System.out.println("Alle adressen in het adressenbestand");
-                adresView.printAdressenLijst((ArrayList<Adres>) adressenLijst);  
+                session= getSession();
+                ArrayList<Adres> adressenLijst = new ArrayList<>();
+                    adressenLijst = (ArrayList<Adres>)adresDao.readAll(Adres.class, session);
+                session.getTransaction().commit();
+                if (adressenLijst != null) {
+                    System.out.println("Alle adressen in het adressenbestand");
+                    adresView.printAdressenLijst(adressenLijst);
+                }
                 break; 
             case 3:
                 break;
@@ -233,7 +256,7 @@ public class AdresController {
     
     public void updateOpAdresId() {
         
-        
+        session = getSession();
         adres = new Adres();
         Adres gewijzigdAdres = new Adres();
         Long adresId = adresView.voerAdresIdIn();
@@ -241,11 +264,14 @@ public class AdresController {
         adres = (Adres) adresDao.readById(adresId, session);
         gewijzigdAdres = invoerNieuweAdresGegevens(adres);
         adresDao.update(gewijzigdAdres, session);
+        session.getTransaction().commit();
         
         System.out.println("Oude adresgegevens: ");
         adresView.printAdresOverzicht(adres);
         System.out.println("Nieuwe adresgegevens: ");                  
         adresView.printAdresOverzicht(gewijzigdAdres);
+        
+        session.close();
     }
 //    
 //    public void updateOpStraatnaam() {
