@@ -31,9 +31,9 @@ public interface GenericDaoInterface <T, PK extends Serializable>{
     
     void update(T t, Session session);
     
-    void delete(T t, Session session);
-    void deleteById(PK id, Session session);
-    void deleteAll(Session session);
+    boolean delete(T t, Session session);
+    boolean deleteById(PK id, Session session);
+    int deleteAll(Class<T> type, Session session);
     
     
 }
