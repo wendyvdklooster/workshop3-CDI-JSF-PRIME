@@ -3,15 +3,14 @@
 
 package DAOGenerics;
 
-import DAOGenerics.GenericDaoInterface;
-import Helpers.HibernateSessionFactory;
+
+
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger; 
 
@@ -59,10 +58,10 @@ public abstract class GenericDaoImpl <T, PK extends Serializable> implements Gen
     
     
     @Override // -- nog niet getest  >> bv adressen behorende bij klant ophalen
-    public <T> List<T> read(PK id, T t, Session session) {         
+    public <T> List<T> read(PK id, Class<T> type, Session session) {         
         log.info(beanType.getSimpleName() + " via Id lijst opvragen uit de database");
         
-        Query query = session.createSQLQuery("select from " + t.getClass().getName() + " where " + beanType + "_"+ id );
+        Query query = session.createSQLQuery("select from " + type + " where " + beanType + "_ID" + id );
         
         final List<T> lijst = (List<T>)query.list();
         

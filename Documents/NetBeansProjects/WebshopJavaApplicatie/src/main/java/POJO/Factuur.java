@@ -13,12 +13,16 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import static javax.persistence.GenerationType.AUTO;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -29,14 +33,19 @@ import javax.persistence.Temporal;
 public class Factuur implements Serializable {   
     
     @Id
-    @GeneratedValue(strategy = AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(unique = true, nullable = false, name = "FACTUUR_ID")
     private long Id;
     
     private String factuurnummer;
     
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(TemporalType.DATE)
     private java.util.Date factuurdatum;
+    
+    @ManyToOne (fetch = FetchType.LAZY)
+    @JoinColumn (name = "KLANT_ID")
+    private Klant klant; 
+    
     
     @OneToMany(mappedBy = "factuur")
     private Set<Betaling> betalingset;
@@ -44,16 +53,26 @@ public class Factuur implements Serializable {
     @OneToOne (fetch = FetchType.LAZY, optional = false, cascade = CascadeType.PERSIST)
     protected Bestelling bestelling;
     
-    public long getID() {
-        return Id;
+    
+    
+    public long getId() {
+        return this.Id;
     }
 
-    public void setID(long ID) {
-        this.Id = ID;
+    public void setId(long Id) {
+        this.Id = Id;
     }
 
+    public Klant getKlant() {
+        return this.klant;
+    }
+
+    public void setKlant(Klant klant) {
+        this.klant = klant;
+    }
+    
     public String getFactuurnummer() {
-        return factuurnummer;
+        return this.factuurnummer;
     }
 
     public void setFactuurnummer(String factuurnummer) {
@@ -61,7 +80,7 @@ public class Factuur implements Serializable {
     }
 
     public Date getFactuurdatum() {
-        return factuurdatum;
+        return this.factuurdatum;
     }
 
     public void setFactuurdatum(Date factuurdatum) {
@@ -69,7 +88,7 @@ public class Factuur implements Serializable {
     }
 
     public Set<Betaling> getBetalingset() {
-        return betalingset;
+        return this.betalingset;
     }
 
     public void setBetalingset(Set<Betaling> betalingset) {
@@ -77,7 +96,7 @@ public class Factuur implements Serializable {
     }
 
     public Bestelling getBestelling() {
-        return bestelling;
+        return this.bestelling;
     }
 
     public void setBestelling(Bestelling bestelling) {

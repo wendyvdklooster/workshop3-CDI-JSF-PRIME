@@ -3,10 +3,16 @@ package Controller;
 
 
 import DAOGenerics.GenericDaoImpl;
+import DAOs.AccountDao;
 import DAOs.AdresDao;
+import DAOs.BestellingDao;
+import DAOs.FactuurDao;
 import DAOs.KlantDao;
 import Helpers.HibernateSessionFactory;
+import POJO.Account;
 import POJO.Adres;
+import POJO.Bestelling;
+import POJO.Factuur;
 import POJO.Klant;
 import POJO.KlantAdres;
 import View.AdresView;
@@ -14,6 +20,8 @@ import View.HoofdMenuView;
 import View.KlantView;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -35,6 +43,11 @@ public class KlantController {
    
     GenericDaoImpl<Klant, Long> klantDao; 
     GenericDaoImpl<Adres, Long> adresDao;
+    GenericDaoImpl<Factuur, Long> factuurDao;
+    GenericDaoImpl<Account, Long> accountDao; 
+    GenericDaoImpl <Bestelling, Long> bestellingDao; 
+    
+    
             
     KlantView klantView = new KlantView();   
     Klant klant;
@@ -46,6 +59,9 @@ public class KlantController {
            
     HoofdMenuController hoofdMenuController;
     HoofdMenuView hoofdMenuView;
+    
+    FactuurController factuurController;
+    
     
     EmailValidator validator = EmailValidator.getInstance(); 
     boolean isAddressValid = false;
@@ -71,14 +87,10 @@ public class KlantController {
     }
     
     
-    public boolean isAdresGoed(String email) {
+    
+    
         
-        EmailValidator validator = EmailValidator.getInstance(); 
-        validator = EmailValidator.getInstance();
-        boolean isAddressValid = validator.isValid(email);
-        return isAddressValid;
-    }
-        
+    
     public void klantMenu() {
         
         int keuze = klantView.startMenuKlant();
@@ -99,18 +111,141 @@ public class KlantController {
             case 5: 
                 voegNieuweKlantToe();
                 break;
-            case 7:
-                terugNaarHoofdMenu();
-                break;
             case 6:
                 voegKlantAanAdresToe();
                 break;
+            
+            case 7: 
+                zoekAdresMetKlantId();
+                break;
+            case 8: 
+                voegFactuurAanKlantToe();
+                break;
+            case 9:
+                terugNaarHoofdMenu();
+                break;
             default: 
                 System.out.println("Deze optie is niet beschikbaar.");
-                break;            
-        }        
-        
+                break;  
+        }                
     }
+    
+    // public <T> List<T> read(PK id, T t, Session session)
+    public void zoekAdresMetKlantId(){
+        session = getSession();
+        klantDao = new KlantDao();
+        adresDao = new AdresDao();
+        
+        System.out.println("U gaat adressen van een klant opzoeken. Voor klantId in: ");
+        long klantId = klantView.voerKlantIdIn();
+        klant = (Klant) session.get(Klant.class, klantId);
+        Set <KlantAdres> klantadressen = klant.getKlantAdressen();
+        session.getTransaction().commit();
+            if (klantadressen != null){
+                System.out.println("Alle klant-adres koppelingen in het bestand van klantid: " + klantId);
+                klantView.printKlantAdresLijst(klantadressen);   
+            }
+    }
+    
+    public void zoekFacturenBijKlant(){
+        session = getSession();
+        klantDao = new KlantDao();
+        factuurDao = new FactuurDao();
+        
+        System.out.println("U gaat facturen van een klant opzoeken. Voor klantId in: ");
+        long klantId = klantView.voerKlantIdIn();
+        
+        klant = (Klant) session.get(Klant.class, klantId);
+        Set <Factuur> facturen = klant.getFacturen();
+        session.getTransaction().commit();
+        
+        // uit printen van lijst facturen
+    }
+          
+    public void zoekBestellingenBijKlant(){
+        session = getSession();
+        klantDao = new KlantDao();
+        bestellingDao = new BestellingDao();        
+        
+        System.out.println("U gaat bestellingen van een klant opzoeken. Voor klantId in: ");
+        long klantId = klantView.voerKlantIdIn();
+        
+        klant = (Klant) session.get(Klant.class, klantId);
+        Set <Bestelling> facturen = klant.getBestellingen();
+        session.getTransaction().commit();
+        
+        // uit printen van lijst bestellingen
+    }
+    
+    public void zoekAccountsBijKlant(){
+        session = getSession();
+        klantDao = new KlantDao();
+        accountDao = new AccountDao();        
+        
+        System.out.println("U gaat accounts van een klant opzoeken. Voor klantId in: ");
+        long klantId = klantView.voerKlantIdIn();
+        
+        klant = (Klant) session.get(Klant.class, klantId);
+        Set <Account> facturen = klant.getAccounts();
+        session.getTransaction().commit();
+        
+        // uit printen van lijst accounts
+    }
+    
+    public void voegFactuurAanKlantToe(){
+        session = getSession();
+        klantDao = new KlantDao();
+        factuurDao = new FactuurDao();
+        factuurController = new FactuurController();
+        
+        System.out.println("U gaat een factuur toevoegen voor een klant. Voer het klantId in: ");
+        long klantId = klantView.voerKlantIdIn();
+        klant = (Klant) session.get(Klant.class, klantId);
+        session.getTransaction().commit();
+        
+        long factuurId = factuurController.voegNieuweFactuurToe();
+        
+        session = getSession();
+        Factuur factuur = (Factuur) session.get(Factuur.class, factuurId);
+        
+        // update de gegevens van klant
+        Set <Factuur> facturen = klant.getFacturen();
+        facturen.add(factuur);
+        klant.setFacturen(facturen);
+        klantDao.update(klant, session);
+        session.getTransaction().commit();
+        
+        // uitprinten van de set accounts
+    }
+    
+    public void voegAccountAanKlantToe(){
+        session = getSession();
+        klantDao = new KlantDao();
+        accountDao = new AccountDao();
+        
+        System.out.println("U gaat een account toevoegen. Voer uw klantId in: ");
+        long klantId = klantView.voerKlantIdIn();
+        
+        klant = (Klant) session.get(Klant.class, klantId);
+        Account account = new Account();
+        // nieuwe account aanmaken.
+        // account toevoegen in database
+        klant.getAccounts().add(account);
+        //update gevevens van klant
+        session.getTransaction().commit();
+        session = getSession();
+        Set <Account> accounts = klant.getAccounts();
+        
+        // uitprinten van de set account  
+    }    
+    
+    // of loopt deze via bestelling?
+    public void voegBestellingAanKlantToe(){
+        session = getSession();
+        klantDao = new KlantDao();
+        bestellingDao = new BestellingDao();
+    }
+    
     
     public long voegNieuweKlantToe(){
         
@@ -130,6 +265,7 @@ public class KlantController {
         
         return klantId;
     }
+    
     
     public long voegNieuweKlantMetAdresToe() {
         
@@ -245,17 +381,13 @@ public class KlantController {
         
         int input = klantView.menuKlantZoeken();
         switch (input) {
-            case 1: // één klnat zoeken        
-//            x = klantView.isKlantIdBekend();           
-//            // klantId is bekend:
-//            switch (x) {
-//                case 1:
-                    klantId = klantView.voerKlantIdIn();             
-                    
-                    klant = (Klant)klantDao.readById(klantId, session);
-                    session.getTransaction().commit();
-                    klantView.printKlantGegevens(klant);
-                    
+            case 1: 
+                klantId = klantView.voerKlantIdIn();             
+
+                klant = (Klant)klantDao.readById(klantId, session);
+                session.getTransaction().commit();
+                klantView.printKlantGegevens(klant);
+                    // ook de adressen uitdraaien?
                     break;
 //                case 2:
 //                    int keuze = klantView.hoeWiltUZoeken();
@@ -335,8 +467,6 @@ public class KlantController {
                 session.getTransaction().commit();
                 gewijzigdeKlant= (Klant)klantDao.readById(klantId, session);
                 
-                System.out.println("Oude klantgegevens:");
-                klantView.printKlantGegevens(klant);
                 System.out.println("Nieuwe klantgegevens:");                
                 klantView.printKlantGegevens(gewijzigdeKlant);
                 break;
@@ -362,9 +492,7 @@ public class KlantController {
                         klant = (Klant)klantDao.readById(klantId, session);
                         
                         gewijzigdeKlant = voerWijzigingenKlantIn(klant);                         
-                        klantDao.update(gewijzigdeKlant, session);                       
-                        System.out.println("Oude klantgegevens:");
-                        klantView.printKlantGegevens(klant);
+                        klantDao.update(gewijzigdeKlant, session);  
                         System.out.println("Nieuwe klantgegevens:");                        
                         klantView.printKlantGegevens(gewijzigdeKlant);          
                         break;
@@ -393,26 +521,22 @@ public class KlantController {
         int userInput = klantView.menuKlantVerwijderen();
         
         switch (userInput) {
-            case 1: // één klnat verwijderen                
-                                       
-                        ArrayList <Klant> klantenLijst = (ArrayList<Klant>) klantDao.readAll(Klant.class, session);
-                        //session.getTransaction().commit();
-                        klantView.printKlantenLijst(klantenLijst); 
-                        System.out.println("Welke klant wilt u verwijderen?");                        
-                        klantId = klantView.voerKlantIdIn();                          
-                        //session = getSession();
-                        deleted = klantDao.deleteById(klantId, session);  
-                        session.getTransaction().commit(); 
-                        // welke acties volgen na het verwijderen van een klant
-                        // - koppeling met adres> als dit enige koppeling met adres is adres wel of niet laten bestaan?
-                        // wat te doen met factuur, account
-                        System.out.println("verwijderen van klant: " + deleted);
-                         break;           
+            case 1:     
+                ArrayList <Klant> klantenLijst = (ArrayList<Klant>) klantDao.readAll(Klant.class, session);
+                    //session.getTransaction().commit();
+                    klantView.printKlantenLijst(klantenLijst); 
+                    System.out.println("Welke klant wilt u verwijderen?");                        
+                    klantId = klantView.voerKlantIdIn();                          
+                    //session = getSession();
+                    deleted = klantDao.deleteById(klantId, session);  
+                    session.getTransaction().commit(); 
+
+                    System.out.println("verwijderen van klant: " + deleted);
+                     break;           
             case 2: // alle klanten verwijderen
                 x = klantView.bevestigingsVraag();
                 // bevestiging is ja
-                if (x == 1){
-                    
+                if (x == 1){                    
                     int rowsAffected = klantDao.deleteAll(Klant.class, session);
                     session.getTransaction().commit();
                     //klantAdresDao.deleteAll();
@@ -424,8 +548,7 @@ public class KlantController {
                 else {
                     System.out.println("De klantgegevens worden niet verwijderd.");
                 }
-                break;                
-            
+                break;
             case 3: // terug naar klantenmenu - dmv break direct naar inlogschermklant()
                 break;
             default:
@@ -473,20 +596,30 @@ public class KlantController {
                         isAddressValid = validator.isValid(email);
                     }
             }  
-        Klant klant2 = new Klant();
+        
 	
-        klant2.setVoornaam(voornaam);
-        klant2.setAchternaam(achternaam);
-        klant2.setTussenvoegsel(tussenvoegsel);
-        klant2.setEmail(email);
+        klant.setVoornaam(voornaam);
+        klant.setAchternaam(achternaam);
+        klant.setTussenvoegsel(tussenvoegsel);
+        klant.setEmail(email);
         // iets doen met de gegevens die niet veranderen
-	return klant2;  
+	return klant;  
     } // eind methode voerWijzigingenKlantIn
 
-//   
-     public void terugNaarHoofdMenu() {
+    
+    public boolean isAdresGoed(String email) {
+        
+        EmailValidator validator = EmailValidator.getInstance(); 
+        validator = EmailValidator.getInstance();
+        boolean isAddressValid = validator.isValid(email);
+        return isAddressValid;
+    } 
+     
+    public void terugNaarHoofdMenu() {
         hoofdMenuController = new HoofdMenuController();
         hoofdMenuController.start();
     }  
+     
+     
     
 }  // end class KlantController

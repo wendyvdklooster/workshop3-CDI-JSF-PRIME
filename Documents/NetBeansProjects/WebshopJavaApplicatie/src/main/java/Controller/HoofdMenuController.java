@@ -11,18 +11,15 @@ package Controller;
 import Helpers.HibernateSessionFactory;
 import View.HoofdMenuView;
 import java.util.Scanner;
-import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-
-
 
 
 /**
  *
  * @author Excen
  */
+
 public class HoofdMenuController {
    // data fields 
     private static final Logger logger = (Logger) LoggerFactory.getLogger("com.webshop");
@@ -31,7 +28,7 @@ public class HoofdMenuController {
    
    KlantController klantController; 
    ArtikelController artikelController;
-   BestellingController bestellingController;
+   //BestellingController bestellingController;
    AdresController adresController;
    
    HoofdMenuView hoofdMenuView = new HoofdMenuView(); 
@@ -57,9 +54,9 @@ public class HoofdMenuController {
                 case 2: // ga naar artikelMenu
                     artikelController.artikelMenu();                    
                     break;
-                case 3: // ga naar bestellingmenu
-                    bestellingController.bestellingMenu();                                 
-                    break;
+//                case 3: // ga naar bestellingmenu
+//                    bestellingController.bestellingMenu();                                 
+//                    break;
                 case 4:// ga naar adresmenu
                     adresController.adresMenu();                
                     break;

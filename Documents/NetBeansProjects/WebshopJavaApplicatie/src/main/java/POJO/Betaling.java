@@ -34,28 +34,35 @@ private long Id;
 @Temporal(javax.persistence.TemporalType.DATE)
 private java.util.Date betaaldatum;
 
-public Betaalwijze betalingswijze;  
+public Betaalwijze betaalwijze;    
 
 @ManyToOne
-private Klant klant;
+private Klant klant;   
 
-    @ManyToOne
-    private Factuur factuur;
+    
+
+@ManyToOne
+private Factuur factuur;
 
 private String betalingsGegevens;
 
-    /**
-     * @return the BetalingId
-     */
-    public long getBetalingId() {
+
+
+    public long getId() {
         return Id;
     }
 
-    /**
-     * @param BetalingId the BetalingId to set
-     */
-    public void setBetalingId(long BetalingId) {
-        this.Id = BetalingId;
+    public void setId(long Id) {
+        this.Id = Id;
+    }
+
+ 
+    public Klant getKlant() {
+        return klant;
+    }
+
+    public void setKlant(Klant klant) {
+        this.klant = klant;
     }
 
     /**
@@ -85,21 +92,21 @@ private String betalingsGegevens;
         this.factuur = factuur;
     }
 
-    /**
-     * @return the betalingsGegevens
-     */
+      public Betaalwijze getBetaalwijze() {
+        return betaalwijze;
+    }
+
+    public void setBetaalwijze(Betaalwijze betaalwijze) {
+        this.betaalwijze = betaalwijze;
+    }
+    
     public String getBetalingsGegevens() {
         return betalingsGegevens;
     }
 
-    /**
-     * @param betalingsGegevens the betalingsGegevens to set
-     */
     public void setBetalingsGegevens(String betalingsGegevens) {
         this.betalingsGegevens = betalingsGegevens;
     }
-    
-    
 }
 
 
