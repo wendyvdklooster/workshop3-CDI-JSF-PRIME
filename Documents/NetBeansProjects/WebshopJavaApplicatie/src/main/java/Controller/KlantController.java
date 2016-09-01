@@ -20,7 +20,6 @@ import View.HoofdMenuView;
 import View.KlantView;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.hibernate.Session;
@@ -85,8 +84,6 @@ public class KlantController {
     public void closeSession(Session session){            
             session.close();
     }
-    
-    
     
     
         

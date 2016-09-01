@@ -19,43 +19,7 @@ public class HoofdMenuView {
     Scanner scanner = new Scanner(System.in);
     boolean checker;
     
-    
-      public int connectionPoolKeuze() {
-       System.out.println("Met welke connection pool wilt u werken?");
-       System.out.println("1. Hikari.");
-       System.out.println("2. C3p0.");
-       
-       try{
-            userInput = Integer.parseInt(scanner.nextLine()); 
             
-        }catch(InputMismatchException ex){
-            LOGGER.warn("Foute input, kies van de opties hierboven.");
-        }
-        
-        return userInput;
-    }  
-     
-    
-    public int databaseKeuze() {
-        System.out.println("In welke database wilt u werken?");
-        System.out.println("1. MySQL.");
-        System.out.println("2. FireBird");
-        System.out.println("3. JSON (alleen voor het klant bestand).");
-        System.out.println("4. XML (alleen voor het klant bestand).");
-        
-        try{
-            userInput = Integer.parseInt(scanner.nextLine()); 
-            
-        }catch(InputMismatchException ex){
-            LOGGER.warn("Foute input, kies van de opties hierboven.");
-        }
-        
-        return userInput;
-    }
-    
-    // Eerste instantie van wat de console te zien krijgt. Keuzes in dit menu bepalen welke andere controllers
-    // (en dus views) aangesproken gaan worden.
-        
             
     public int hoofdMenu(){
         
@@ -64,7 +28,9 @@ public class HoofdMenuView {
         System.out.println("2. Werken in artikelbestand");
         System.out.println("3. Werken in bestellingbestand");
         System.out.println("4. Werken in adresbestand");
-        System.out.println("5. Wisselen van Database");
+        System.out.println("5. Werken in factuurbestand");
+        System.out.println("6. Werken in betalingbestand");
+        System.out.println("7. Werken in accountbestand");
         System.out.println("6. Programma afsluiten");
         
         try{

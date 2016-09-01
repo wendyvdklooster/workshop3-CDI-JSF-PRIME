@@ -44,8 +44,7 @@ public class Factuur implements Serializable {
     
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn (name = "KLANT_ID")
-    private Klant klant; 
-    
+    private Klant klant;     
     
     @OneToMany(mappedBy = "factuur")
     private Set<Betaling> betalingset;
@@ -103,6 +102,17 @@ public class Factuur implements Serializable {
         this.bestelling = bestelling;
     }
     
+    
+    public String toString(){
+        
+        String output = "factuurgegevens Id: " + getId() + " aanmaakdatum : " +
+                getFactuurdatum() + " behorende bij klant met klantnummer " + getKlant().getKlantNummer() +
+                " en klantId " + getKlant().getId();
+        
+        return output; 
+        
+    }
+
     
     
     
