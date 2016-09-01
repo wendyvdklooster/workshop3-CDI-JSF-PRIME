@@ -15,10 +15,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-import javax.persistence.UniqueConstraint;
 
 /**
  *
@@ -35,6 +33,7 @@ public class Account implements Serializable {
     
     @Column(unique = true, nullable = false)
     private String username;
+    
     
     @Column(nullable = false)  // hoe werkt het met een paswoord
     private String password;
@@ -58,20 +57,22 @@ public class Account implements Serializable {
         this.Id = AccountId;
     }
 
-    /**
-     * @return the username
-     */
-    public String getNaam() {
+   public String getUsername() {
         return username;
     }
 
-    /**
-     * @param naam the username to set
-     */
-    public void setNaam(String naam) {
-        this.username = naam;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
+    public Klant getKlant() {
+        return klant;
+    }
+
+    public void setKlant(Klant klant) {
+        this.klant = klant;
+    }
+    
     /**
      * @return the creatieDatum
      */

@@ -26,7 +26,7 @@ public interface GenericDaoInterface <T, PK extends Serializable>{
     long insert(T t, Session session);
     
     T readById(PK id, Session session);
-    <T>List<T> read(PK id, T t, Session session);
+    <T>List<T> read(PK id, Class<T> type, Session session);
     <T>List<T> readAll(Class<T> type, Session session);
     
     void update(T t, Session session);

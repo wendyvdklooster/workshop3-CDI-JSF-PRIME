@@ -3,9 +3,11 @@ package View;
 
 
 import POJO.Klant;
+import POJO.KlantAdres;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,11 +27,13 @@ public class KlantView {
         System.out.println("1. Nieuwe klant met adres toevoegen.");
         
         System.out.println("2. Klantgegevens opzoeken.");
-//        System.out.println("3. Klantgegevens wijzigen.");
-//        System.out.println("4. Klantgegevens verwijderen.");
+        System.out.println("3. Klantgegevens wijzigen.");
+        System.out.println("4. Klantgegevens verwijderen.");
         System.out.println("5. Klant toevoegen.");
         System.out.println("6. voeg klant aan adres toe");
-        System.out.println("7. Terug naar hoofdmenu");
+        System.out.println("7. zoek adres met klant id");
+        System.out.println("8. voeg factuur aan klant toe");
+        System.out.println("9. Terug naar hoofdmenu");
         
         try{
             userInput = Integer.parseInt(scanner.nextLine());            
@@ -255,6 +259,13 @@ public class KlantView {
         }
     }
     
+    public void printKlantAdresLijst(Set<KlantAdres> klantadressen) {
+        System.out.println();
+        System.out.println("Lijst met opgevraagde koppelingen");
+       
+        for(KlantAdres klantAdres: klantadressen){
+            System.out.println("*" + klantAdres.toString());
+        } }
     
 //    public void printDeleteResultaat(boolean deleted, int klantId, int verwijderd, Klant klant) {
 //        
@@ -280,5 +291,7 @@ public class KlantView {
         
         System.out.println("Het klantenbestand bevat niet de gezochte gegevens: " + string);
     }
+
+    
         
 }

@@ -107,5 +107,10 @@ public class KlantAdres implements Serializable {
 		return (getPk() != null ? getPk().hashCode() : 0);
 	}
         
-        
+        @Override
+        public String toString(){
+            String output = "klant: " + this.getKlant() + "\nadres: " + 
+                    this.getAdres();
+            return output; 
+        }
 }  

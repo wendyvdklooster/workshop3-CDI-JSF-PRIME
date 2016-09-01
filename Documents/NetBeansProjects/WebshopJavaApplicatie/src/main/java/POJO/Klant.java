@@ -2,8 +2,6 @@ package POJO;
 
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,15 +9,10 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import static javax.persistence.GenerationType.AUTO;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
+
 
 
 @Entity
@@ -45,6 +38,7 @@ public class Klant implements Serializable {
     @OneToMany 
     protected Set<Account> accounts = new HashSet<>();    
     
+    // deze is niet of wel nodig?
     @OneToMany (fetch = FetchType.LAZY)
     protected Set<Betaling> betalingen = new HashSet<>();     
     
@@ -54,9 +48,13 @@ public class Klant implements Serializable {
     @OneToMany (mappedBy = "klant", fetch = FetchType.LAZY)
     protected Set <Bestelling> bestellingen = new HashSet<>();
 
+    @OneToMany (mappedBy = "klant", fetch = FetchType.LAZY)
+    protected Set <Factuur> facturen = new HashSet<>();
     
     //protected Map<Adres, AdresType> adresType; 
 //(of andere manieren om de ternaire relatie
+
+    
 
     
     // -- constructors --
@@ -125,7 +123,22 @@ public class Klant implements Serializable {
     public void setKlantAdressen(Set<KlantAdres> klantAdressen) {
         this.klantAdressen = klantAdressen;
     }
+    
+    public void setFacturen(Set<Factuur> facturen) {
+        this.facturen = facturen;
+    }
    
+     public void setBetalingen(Set<Betaling> betalingen) {
+        this.betalingen = betalingen;
+    }
+    
+   
+
+    public void setAccounts(Set<Account> accounts) {
+        this.accounts = accounts;
+    }
+
+    
     
     public Long getId() {
         return this.Id;
@@ -147,10 +160,19 @@ public class Klant implements Serializable {
         return this.email;
     }    
   
-//    public Set<Adres> getAdressen() {
-//           return adressen;
-//       }
+    
+      public Set<Betaling> getBetalingen() {
+        return betalingen;
+    }
 
+    public Set<Account> getAccounts() {
+        return accounts;
+    }
+
+    public Set<Factuur> getFacturen() {
+        return facturen;
+    }
+    
     public Set<Bestelling> getBestellingen() {
         return this.bestellingen;
     }
