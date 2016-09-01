@@ -3,8 +3,10 @@ package POJO;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,10 +33,8 @@ public class Artikel implements Serializable{
     private String omschrijving; 
     private double artikelPrijs;
     
-    @ManyToMany(mappedBy = "artikellen")
-    private Set<Bestelling> bestellingen = new HashSet<>();
-    
-    
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "pk.artikel", cascade = CascadeType.ALL)
+    private Set<BestellingArtikel> bestellingArtikellen = new HashSet<>();
     
     // constructors
     public Artikel(){
@@ -101,15 +101,15 @@ public class Artikel implements Serializable{
     /**
      * @return the bestellingen
      */
-    public Set<Bestelling> getBestellingen() {
-        return bestellingen;
+    public Set<BestellingArtikel> getBestellingen() {
+        return bestellingArtikellen;
     }
 
     /**
      * @param bestellingen the bestellingen to set
      */
-    public void setBestellingen(Set<Bestelling> bestellingen) {
-        this.bestellingen = bestellingen;
+    public void setBestellingen(Set<BestellingArtikel> bestellingen) {
+        this.bestellingArtikellen = bestellingen;
     }
     
     
