@@ -1,21 +1,9 @@
 package MAIN;
 
 import Controller.HoofdMenuController;
-import DAOs.AdresDao;
-import DAOs.ArtikelDao;
-import DAOGenerics.GenericDaoImpl;
-import DAOs.KlantDao;
-import Helpers.HibernateSessionFactory;
-import POJO.Adres;
-import POJO.Artikel;
-import POJO.Klant;
 
-import TestHibernate.HibernateTest;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;

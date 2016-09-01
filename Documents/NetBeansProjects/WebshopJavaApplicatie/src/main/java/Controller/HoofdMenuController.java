@@ -28,8 +28,11 @@ public class HoofdMenuController {
    
    KlantController klantController; 
    ArtikelController artikelController;
-   //BestellingController bestellingController;
+   BestellingController bestellingController;
    AdresController adresController;
+   AccountController accountController; 
+   BetalingController betalingController; 
+   FactuurController factuurController; 
    
    HoofdMenuView hoofdMenuView = new HoofdMenuView(); 
       
@@ -42,8 +45,11 @@ public class HoofdMenuController {
     public void start()  {  
         klantController = new KlantController();
         adresController = new AdresController();
-        //bestellingController = new BestellingController();
+        bestellingController = new BestellingController();
         artikelController = new ArtikelController();
+        accountController = new AccountController();
+        betalingController = new BetalingController();
+        factuurController = new FactuurController();
         
         userInput = hoofdMenuView.hoofdMenu();
         
@@ -54,16 +60,22 @@ public class HoofdMenuController {
                 case 2: // ga naar artikelMenu
                     artikelController.artikelMenu();                    
                     break;
-//                case 3: // ga naar bestellingmenu
-//                    bestellingController.bestellingMenu();                                 
-//                    break;
+                case 3: // ga naar bestellingmenu
+                    bestellingController.bestellingMenu();                                 
+                    break;
                 case 4:// ga naar adresmenu
                     adresController.adresMenu();                
                     break;
-                case 5: // switch van db/connectionpool
-                    
+                case 5: // ga naar factuurmenu
+                    factuurController.factuurMenu();                    
                     break;
                 case 6: 
+                    betalingController.betalingMenu();
+                    break;
+                case 7:
+                    accountController.accountMenu();
+                    break; 
+                case 8:    
                     afsluiten();
                     break;
                 default:

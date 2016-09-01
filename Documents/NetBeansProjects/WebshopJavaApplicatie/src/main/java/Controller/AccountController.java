@@ -3,20 +3,14 @@
 
 package Controller;
 
+
 import DAOGenerics.GenericDaoImpl;
 import DAOs.AccountDao;
-import DAOs.FactuurDao;
 import Helpers.HibernateSessionFactory;
 import POJO.Account;
-import POJO.Bestelling;
-import POJO.Betaling;
-import POJO.Factuur;
 import POJO.Klant;
 import View.AccountView;
-import View.FactuurView;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
@@ -58,7 +52,6 @@ private static final Logger log = LoggerFactory.getLogger(AccountController.clas
     }
     
     
-    
     public void accountMenu() {
         
         int keuze = accountView.startMenuAccount();
@@ -82,13 +75,13 @@ private static final Logger log = LoggerFactory.getLogger(AccountController.clas
             
             default: 
                 System.out.println("Deze optie is niet beschikbaar.");
-                break;            
-            
+                break; 
         }                
     }
     
     
-    
+    // hier nieuwe klant met account. 
+    // kan ook nieuw account maken voor een bestaande klant
     public Account createAccount(){
         
         Account account = new Account();        
@@ -96,7 +89,9 @@ private static final Logger log = LoggerFactory.getLogger(AccountController.clas
         
         String gebruikersnaam = accountView.voerGebruikersnaamIn();
         String password = accountView.voerPasswordIn();
-                
+        
+
+        // nieuwe klant tegelijkertijd met nieuw account        
         long klantId = klantController.voegNieuweKlantToe();
         session = getSession(); 
         Klant klant = (Klant) session.get(Klant.class, klantId);                                       
@@ -107,9 +102,9 @@ private static final Logger log = LoggerFactory.getLogger(AccountController.clas
         account.setKlant(klant);
 //        factuur.setBestelling(bestelling);        
 
-        return account;  
-        
+        return account;          
     }
+    
     
     public long voegNieuwAccountToe(){
           

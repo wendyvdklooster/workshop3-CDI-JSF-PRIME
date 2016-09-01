@@ -11,6 +11,7 @@ import POJO.Betaling;
 import POJO.Factuur;
 import POJO.Klant;
 import View.FactuurView;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,9 +28,16 @@ public class FactuurController {
 
 private static final Logger log = LoggerFactory.getLogger(FactuurController.class);
 
+    Factuur factuur; 
     FactuurView factuurView = new FactuurView();
-    GenericDaoImpl <Factuur, Long> factuurDao = new FactuurDao();  
-    HoofdMenuController hoofdMenuController = new HoofdMenuController();
+    
+    GenericDaoImpl <Factuur, Long> factuurDao; 
+    GenericDaoImpl <Klant, Long> klantDao; 
+    GenericDaoImpl <Bestelling, Long> bestellingDao;
+    
+    BestellingController bestellingController;
+    KlantController klantController;
+    HoofdMenuController hoofdMenuController; 
     
     
     public Session session;
@@ -77,16 +85,14 @@ private static final Logger log = LoggerFactory.getLogger(FactuurController.clas
             
             default: 
                 System.out.println("Deze optie is niet beschikbaar.");
-                break;            
-            
+                break;  
         }                
     }
-    
-    
+       
     
     public Factuur createFactuur(){
         
-        Factuur factuur = new Factuur();        
+        factuur = new Factuur();        
         
         String factuurnummer = factuurView.voerFactuurNummerIn();
         Klant klant = new Klant();
@@ -100,16 +106,16 @@ private static final Logger log = LoggerFactory.getLogger(FactuurController.clas
         factuur.setBetalingset(betalingset);
         factuur.setBestelling(bestelling);        
 
-        return factuur;  
-        
+        return factuur;
     }
+    
     
     public long voegNieuweFactuurToe(){
           
         session =  getSession();
         factuurDao = new FactuurDao(); 
         
-        System.out.println("U gaat een klant toevoegen. Voer de gegevens in.");
+        System.out.println("U gaat een factuur toevoegen. Voer de gegevens in.");
         Factuur factuur = createFactuur(); 
         Long factuurId = (Long)factuurDao.insert(factuur, session);            
         session.getTransaction().commit();
@@ -125,7 +131,147 @@ private static final Logger log = LoggerFactory.getLogger(FactuurController.clas
     
     
     private void zoekFactuurGegevens() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        factuurDao = new FactuurDao();
+        factuur = new Factuur();
+        
+        int input = factuurView.menuFactuurZoeken();
+        switch (input){
+                case 1:  
+                    Long factuurId = factuurView.voerFactuurIdIn();
+                    session = getSession();
+                    factuur = (Factuur) factuurDao.readById(factuurId, session);
+                    session.getTransaction().commit();
+                    // op deze plek totaalbedrag berekenen
+                    double totaalBedrag = berekenTotaalBedrag(factuur);
+                    factuurView.printFactuurOverzicht(factuur, totaalBedrag);                     
+                    break; // einde naar 1 factuur zoeken
+                case 2: // alle facturen zoeken
+                    session = getSession();
+                    ArrayList <Factuur> facturenLijst = 
+                            (ArrayList <Factuur>) factuurDao.readAll(Factuur.class, session);
+                    session.getTransaction().commit();
+                    System.out.println("Alle artikelen in het bestand");
+                    factuurView.printFacturenLijst(facturenLijst); 
+                        break; 
+                case 3: // naar artikelmenu
+                        break; 
+                default: // automatisch naar artikelmenu	
+                        break; 
+        }	
+        closeSession(session);
+     factuurMenu();
+        
+    }   
+
+    private void wijzigFactuurGegevens() {
+        
+        session = getSession();
+        factuurDao = new FactuurDao();
+        
+        Factuur gewijzigdeFactuur = new Factuur();
+        boolean gewijzigd;
+        
+        long factuurId = factuurView.voerFactuurIdIn();
+        factuur = (Factuur) factuurDao.readById(factuurId, session);
+        session.getTransaction().commit();
+        closeSession(session);
+        gewijzigdeFactuur = invoerNieuweFactuurGegevens(factuur);
+        
+        session = getSession();       
+        factuurDao.update(gewijzigdeFactuur, session); 
+        session.getTransaction().commit();
+    
+    }
+    
+    public Factuur invoerNieuweFactuurGegevens(Factuur factuur) {
+                
+        int juist = 0;
+        
+        String factuurNummer = "factuurnummer "+ factuur.getFactuurnummer();
+        juist = factuurView.checkInputString(factuurNummer);
+            if (juist == 2) {
+                factuurNummer = factuurView.voerFactuurNummerIn();
+            }
+        // factuurdatum niet aanpassen
+        Klant klant = factuur.getKlant();   
+        juist = factuurView.checkInputString(klant.toString());
+            if (juist == 2) {
+                long klantId = factuurView.voerKlantIdIn();
+               // hier nu de klantgegevens aanpassen, niet een andere klant toevoegen. wisselen
+//                klantController.wijzigKlantGegevens();
+//                session = getSession();
+//                klant = (Klant) klantDao.readById(klantId, session);
+//                session.getTransaction().commit();
+            }
+        
+        Bestelling bestelling = factuur.getBestelling();
+        juist = factuurView.checkInputString(bestelling.toString());
+            if (juist == 2) {
+                long bestellingId = factuurView.voerBestellingIdIn();
+                //bestellingController.wijzigBestellingGegevens();
+//                session = getSession();
+//                bestelling = (Bestelling) bestellingDao.readById(bestellingId, session);
+//                session.getTransaction().commit();
+            }
+        
+        Set<Betaling> betalingen = factuur.getBetalingset();
+            juist = factuurView.checkInputString(betalingen.toString());
+            if (juist == 2) {
+            // wat willen we hier graag updaten? 
+            }
+        
+        
+        //long factuurId = factuur.getId();        
+        factuur.setFactuurnummer(factuurNummer);
+        factuur.setKlant(klant);
+        factuur.setBestelling(bestelling);
+        factuur.setBetalingset(betalingen);
+        
+        
+        return factuur;        
+    }
+    
+
+    private void verwijderFactuurGegevens() {
+        
+        factuurDao = new FactuurDao();
+                
+        int userInput = factuurView.printVerwijderMenu();
+        switch (userInput) {
+            case 1:// 1 factuur verwijderen  
+                factuurView.printFacturenLijst((ArrayList<Factuur>) factuurDao.readAll(Factuur.class, session));
+                long factuurId = factuurView.printDeleteFactuurById();
+                factuurDao.deleteById(factuurId, session);//             
+            case 2:// alle facturen verwijderen                
+                int x = factuurView.bevestigingsVraag();                
+                    if (x == 1){ // bevestiging is ja
+                        int verwijderd = factuurDao.deleteAll(Factuur.class, session);                    
+                        System.out.println(verwijderd + " totaal aantal facturen zijn verwijderd");                       
+                    }                
+                    else { // bevestiging = nee
+                        System.out.println("De facturen gegevens worden NIET verwijderd.");
+                    }
+                break;                
+            case 3:;
+                break;
+            default:
+                break;
+        }
+        factuurMenu(); 
+    }
+ 
+    
+    public double berekenTotaalBedrag(Factuur factuur){
+         double totaalBedrag = 0.0;
+         // haal uit factuur bestellingId
+         // factuur.getBestelling().getId();
+         // via bestelling naar bestellingartikel: 
+         // het artikelId ophalen en de aantallen / de artikelid's + aantallen
+         // met artikelid de artikelprijs ophalen
+         // artikelid.aantal * artikelid.prijs > prijs
+         // totaalbedrag: alle subprijzen bij elkaar  
+         
+         return totaalBedrag;
     }
     
     
@@ -134,14 +280,7 @@ private static final Logger log = LoggerFactory.getLogger(FactuurController.clas
         hoofdMenuController.start();
     }  
 
-    private void wijzigFactuurGegevens() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private void verwijderFactuurGegevens() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    
     
 
 }
