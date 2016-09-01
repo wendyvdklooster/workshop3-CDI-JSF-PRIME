@@ -258,13 +258,17 @@ public class AdresController {
         
         session = getSession();
         adres = new Adres();
+        adresDao = new AdresDao();
         Adres gewijzigdAdres = new Adres();
-        Long adresId = adresView.voerAdresIdIn();
+        long adresId = adresView.voerAdresIdIn();
         
-        adres = (Adres) adresDao.readById(adresId, session);
+        
+        adres = (Adres)(session.get(Adres.class, adresId));
         gewijzigdAdres = invoerNieuweAdresGegevens(adres);
-        adresDao.update(gewijzigdAdres, session);
+        
+        adresDao.update(adres, session);
         session.getTransaction().commit();
+        gewijzigdAdres = (Adres)adresDao.readById(adresId, session);
         
         System.out.println("Oude adresgegevens: ");
         adresView.printAdresOverzicht(adres);
@@ -373,20 +377,19 @@ public class AdresController {
             woonplaats = adresView.voerWoonplaatsIn();
         } 
         
-        Adres adres2 = new Adres();
-        adres2.setId(adres.getId());
-        adres2.setStraatnaam(straatnaam);
-        adres2.setHuisnummer(huisnummer);
-        adres2.setToevoeging(toevoeging);
-        adres2.setPostcode(postcode);
-        adres2.setWoonplaats(woonplaats);    
+        adres.setStraatnaam(straatnaam);
+        adres.setHuisnummer(huisnummer);
+        adres.setToevoeging(toevoeging);
+        adres.setPostcode(postcode);
+        adres.setWoonplaats(woonplaats);    
         
-        return adres2;
+        return adres;
     }
     
     
     public void verwijderAdresGegevens() {
         
+        adresDao = new AdresDao();
               
         boolean isDeletedInAdres = false;
         boolean isDeletedInKlantAdres = false;
@@ -394,10 +397,15 @@ public class AdresController {
         userInput = adresView.printVerwijderAdresMenu();
         switch (userInput) {
             case 1:
-                System.out.println("Voer het bestelling id in: ");
+                session = getSession();
+                System.out.println("Voer het adres id in: ");
                 Long adresId = adresView.voerAdresIdIn();
-                adres = (Adres) adresDao.readById(adresId, session);
-                adresDao.deleteById(adresId, session);
+                
+                isDeletedInAdres = adresDao.deleteById(adresId, session);
+                session.getTransaction().commit();
+                System.out.println("verwijderen van adres: " + isDeletedInAdres);
+                session.close();
+                    break;           
 //                isDeletedInKlantAdres = klantAdresDao.deleteKlantAdresByAdresId(adresId);
 //                if (isDeletedInAdres == true && isDeletedInKlantAdres == true) {
 //                    System.out.println("Het volgende adres is verwijderd uit het bestand: ");
@@ -410,15 +418,28 @@ public class AdresController {
 //                    System.out.println();
 //                    adresView.printAdresOverzicht(adres);
 //                }   
-                break;
+                
             case 2:
                 userInput = adresView.bevestigingsVraag();
                 if (userInput == 1) {
-                    adresDao.deleteAll(session);
+                    session = getSession();
+                    int rowsAffected = adresDao.deleteAll(Adres.class, session);
+                    session.getTransaction().commit();
+                    
+                    //klantAdresDao.deleteAll();
+                    System.out.print(rowsAffected);
+                    System.out.println(" totaal aantal adressen zijn verwijderd"); 
+                    session.close();
+                   // adresDao.deleteAll(session);
 //                    isDeletedInKlantAdres = klantAdresDao.deleteAll();
 //                    System.out.println("Alle adressen zijn verwijderd.");                    
 //                    System.out.println("alle koppelingen van klant en adres zijn verwijderd");
                 }
+                if (userInput ==2) {
+                    System.out.println("De adresgegevens zijn niet verwijderd.");
+                    break;
+                }
+                
             case 3:
                 break;
             default:
