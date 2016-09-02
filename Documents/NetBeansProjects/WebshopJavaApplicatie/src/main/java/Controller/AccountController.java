@@ -3,14 +3,23 @@
 
 package Controller;
 
-
 import DAOGenerics.GenericDaoImpl;
 import DAOs.AccountDao;
+import DAOs.FactuurDao;
+import DAOs.KlantDao;
 import Helpers.HibernateSessionFactory;
 import POJO.Account;
+import POJO.Bestelling;
+import POJO.Betaling;
+import POJO.Factuur;
 import POJO.Klant;
 import View.AccountView;
+import View.FactuurView;
+import View.KlantView;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
@@ -52,6 +61,7 @@ private static final Logger log = LoggerFactory.getLogger(AccountController.clas
     }
     
     
+    
     public void accountMenu() {
         
         int keuze = accountView.startMenuAccount();
@@ -75,13 +85,13 @@ private static final Logger log = LoggerFactory.getLogger(AccountController.clas
             
             default: 
                 System.out.println("Deze optie is niet beschikbaar.");
-                break; 
+                break;            
+            
         }                
     }
     
     
-    // hier nieuwe klant met account. 
-    // kan ook nieuw account maken voor een bestaande klant
+    
     public Account createAccount(){
         
         Account account = new Account();        
@@ -89,9 +99,7 @@ private static final Logger log = LoggerFactory.getLogger(AccountController.clas
         
         String gebruikersnaam = accountView.voerGebruikersnaamIn();
         String password = accountView.voerPasswordIn();
-        
-
-        // nieuwe klant tegelijkertijd met nieuw account        
+                
         long klantId = klantController.voegNieuweKlantToe();
         session = getSession(); 
         Klant klant = (Klant) session.get(Klant.class, klantId);                                       
@@ -102,9 +110,9 @@ private static final Logger log = LoggerFactory.getLogger(AccountController.clas
         account.setKlant(klant);
 //        factuur.setBestelling(bestelling);        
 
-        return account;          
+        return account;  
+        
     }
-    
     
     public long voegNieuwAccountToe(){
           
@@ -127,15 +135,81 @@ private static final Logger log = LoggerFactory.getLogger(AccountController.clas
     
     
     private void zoekAccountGegevens() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        accountDao = new AccountDao();
+        Account account = new Account();
+        
+        int userInput = accountView.menuAccountZoeken();
+        switch(userInput) {
+            case 1: 
+                // zoeken naar een account
+                 session = getSession();
+                 long accountId = accountView.voerAccountIdIn();
+                 account = (Account)accountDao.readById(accountId, session);
+                 session.getTransaction().commit();
+                 
+                 accountView.printAccountGegevens(account);
+                 session.close();
+                 break;
+            case 2:
+                // zoeken naar alle gegevens
+                session= getSession();
+                ArrayList <Account> accountenLijst = (ArrayList<Account>) accountDao.readAll(Account.class, session);
+                session.getTransaction().commit();
+                if (accountenLijst != null){
+                    System.out.println("Alle klanten in het bestand");
+                    accountView.printAccountenLijst(accountenLijst);   
+                }
+                break;
+        }
     }       
 
     private void wijzigAccountGegevens() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        accountDao = new AccountDao();
+        Account account = new Account();
+        session = getSession();
+        
+        long accountId = accountView.voerAccountIdIn();
+        account = (Account)accountDao.readById(accountId, session);
+        Account gewijzigdAccount = voerNieuweAccountGegevensIn(account);
+        accountDao.update(gewijzigdAccount, session);
+        session.getTransaction().commit();
+        
+        gewijzigdAccount = (Account)accountDao.readById(accountId, session);
+        System.out.println("Nieuwe accountgegevens");
+        accountView.printAccountGegevens(gewijzigdAccount);
+        session.close();
     }
 
     private void verwijderAccountGegevens() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        session = getSession();
+        AccountDao accountDao = new AccountDao();
+        boolean deleted = false;
+        
+        int userInput = accountView.menuAccountVerwijderen();
+        switch (userInput) {
+            case 1: 
+                // een account verwijderen
+                long accountId = accountView.voerAccountIdIn();
+                deleted = accountDao.deleteById(accountId, session);
+                session.getTransaction().commit(); 
+                System.out.println("Verwijderen van account: " + deleted);
+                break;
+            case 2:
+                // verwijderen alle klanten
+                int keuze = accountView.bevestigingsVraag(); 
+                if (keuze == 1) {
+                    
+                    int rowsAffected = accountDao.deleteAll(Account.class, session);
+                    session.getTransaction().commit();
+                    System.out.print(rowsAffected);
+                    System.out.println(" totaal aantal accounts zijn verwijderd");                    
+                    System.out.println("alle koppelingen van klant en account zijn verwijderd");
+                }
+                else if (keuze == 2) {
+                    System.out.println("De accountgegevens worden niet verwijderd.");
+                }
+                break;
+        }
     }
 
     
@@ -144,5 +218,27 @@ private static final Logger log = LoggerFactory.getLogger(AccountController.clas
         hoofdMenuController.start();
     } 
 
-
+    public Account voerNieuweAccountGegevensIn(Account account) {
+    int juist = 0;
+        
+        String username = account.getUsername();
+        juist = accountView.checkInputString(username);
+        if (juist == 2) {
+            username = accountView.voerGebruikersnaamIn();
+        } 
+        
+        KlantView klantView = new KlantView();
+        KlantController klantController = new KlantController();
+        KlantDao klantDao = new KlantDao();
+        
+        // later splitsen in klant controller, midner duplicate code
+        Klant klant = account.getKlant();
+        Klant gewijzigdeKlant = klantController.voerWijzigingenKlantIn(klant);
+        klantDao.update(gewijzigdeKlant, session);  
+        
+        account.setKlant(klant);
+        account.setUsername(username);
+        
+        return account;
+        } 
 }
