@@ -7,15 +7,18 @@
 package POJO;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.AUTO;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-import javax.persistence.UniqueConstraint;
 
 /**
  *
@@ -34,14 +37,15 @@ private long Id;
 @Temporal(javax.persistence.TemporalType.DATE)
 private java.util.Date betaaldatum;
 
+//??
 public Betaalwijze betaalwijze;    
 
-@ManyToOne
-private Klant klant;   
+@ManyToOne (fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+@JoinColumn (name = "KLANT_ID")
+private Klant klant;       
 
-    
-
-@ManyToOne
+@ManyToOne (fetch = FetchType.LAZY, optional = false, cascade = CascadeType.PERSIST)
+@JoinColumn (name = "FACTUUR_ID")
 private Factuur factuur;
 
 private String betalingsGegevens;

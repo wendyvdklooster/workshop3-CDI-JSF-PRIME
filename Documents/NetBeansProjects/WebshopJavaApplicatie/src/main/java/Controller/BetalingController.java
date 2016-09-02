@@ -41,6 +41,8 @@ private static final Logger log = LoggerFactory.getLogger(BetalingController.cla
     Betaling betaling; 
     Klant klant; 
     Factuur factuur; 
+    Betaalwijze betaalwijze; 
+    // int Id - String betaalwijze - String[] betaalWijzes = {"GoogleWallet","iDeal","Creditcard","PayPal","MoneyBookers","Natura"};
     
     
     public Session session;
@@ -96,11 +98,14 @@ private static final Logger log = LoggerFactory.getLogger(BetalingController.cla
         Betaling betaling = new Betaling();  
        
         long betalingId;
-        Klant klant = new Klant();
+        klant = new Klant();
         Date betaaldatum; 
-        Betaalwijze betaalwijze = new Betaalwijze(); 
+        betaalwijze = new Betaalwijze(); 
         String betalingsGegevens = null; 
-        Factuur factuur = new Factuur();                       
+        factuur = new Factuur();                       
+        
+        
+        
         
         betaling.setBetaalwijze(betaalwijze);
         betaling.setBetaaldatum(new Date());

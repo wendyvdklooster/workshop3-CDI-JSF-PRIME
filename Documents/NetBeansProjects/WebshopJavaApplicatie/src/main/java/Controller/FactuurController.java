@@ -28,14 +28,18 @@ public class FactuurController {
 
 private static final Logger log = LoggerFactory.getLogger(FactuurController.class);
 
+    Betaling betaling; 
+    Klant klant; 
     Factuur factuur; 
     FactuurView factuurView = new FactuurView();
     
     GenericDaoImpl <Factuur, Long> factuurDao; 
     GenericDaoImpl <Klant, Long> klantDao; 
     GenericDaoImpl <Bestelling, Long> bestellingDao;
+    GenericDaoImpl <Betaling, Long> betalingDao;
     
     BestellingController bestellingController;
+    BetalingController betalingController; 
     KlantController klantController;
     HoofdMenuController hoofdMenuController; 
     
@@ -93,11 +97,23 @@ private static final Logger log = LoggerFactory.getLogger(FactuurController.clas
     public Factuur createFactuur(){
         
         factuur = new Factuur();        
+        betaling = new Betaling();
         
         String factuurnummer = factuurView.voerFactuurNummerIn();
-        Klant klant = new Klant();
-        long klantId;
-        Set<Betaling> betalingset = new HashSet<Betaling>(); 
+        
+        // Klant: @mto = fetchtype.lazy
+        // long klantId; > klant vanuit klant automatisch gekoppeld?
+        
+        //betaling: @otm: mapped bij factuur
+        long betalingId = betalingController.voegNieuweBetalingToe();
+        betaling = (Betaling) betalingDao.readById(betalingId, session);
+        
+        Set<Betaling> betalingset = new HashSet<>(); 
+        factuur.getBetalingset().add(betaling);
+        factuur.getBetalingset();
+        
+        //@oto  > fetchtype.lazy, optional false, cascade.persist
+        // deze vanuit bestelling automatisch gekoppeld?
         Bestelling bestelling = new Bestelling();                          
         
         factuur.setFactuurnummer(factuurnummer);       
@@ -116,7 +132,7 @@ private static final Logger log = LoggerFactory.getLogger(FactuurController.clas
         factuurDao = new FactuurDao(); 
         
         System.out.println("U gaat een factuur toevoegen. Voer de gegevens in.");
-        Factuur factuur = createFactuur(); 
+        factuur = createFactuur(); 
         Long factuurId = (Long)factuurDao.insert(factuur, session);            
         session.getTransaction().commit();
         
@@ -153,9 +169,9 @@ private static final Logger log = LoggerFactory.getLogger(FactuurController.clas
                     System.out.println("Alle artikelen in het bestand");
                     factuurView.printFacturenLijst(facturenLijst); 
                         break; 
-                case 3: // naar artikelmenu
+                case 3: // naar factuurmenu
                         break; 
-                default: // automatisch naar artikelmenu	
+                default: // automatisch naar factuurmenu	
                         break; 
         }	
         closeSession(session);

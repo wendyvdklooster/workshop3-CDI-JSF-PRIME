@@ -39,7 +39,7 @@ public class Klant implements Serializable {
     protected Set<Account> accounts = new HashSet<>();    
     
     // deze is niet of wel nodig?
-    @OneToMany (fetch = FetchType.LAZY)
+    @OneToMany (mappedBy = "klant", fetch = FetchType.LAZY)
     protected Set<Betaling> betalingen = new HashSet<>();     
     
     @OneToMany (fetch = FetchType.LAZY, mappedBy = "pk.klant", cascade = CascadeType.ALL)
