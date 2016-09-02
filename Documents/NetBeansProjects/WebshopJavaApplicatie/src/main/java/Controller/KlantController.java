@@ -555,6 +555,7 @@ public class KlantController {
     }// eind methode verwijderKlantGegevens
 
 
+    // andere wijzigingen toevoegen
     public Klant voerWijzigingenKlantIn(Klant klant){
         int juist = 0 ;
         

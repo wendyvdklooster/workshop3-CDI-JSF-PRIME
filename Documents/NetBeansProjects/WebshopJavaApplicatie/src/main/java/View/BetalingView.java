@@ -3,6 +3,9 @@
 
 package View;
 
+import POJO.Betaalwijze;
+import POJO.Betaling;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import org.slf4j.Logger;
@@ -17,6 +20,8 @@ public class BetalingView {
 private static final Logger log = LoggerFactory.getLogger(BetalingView.class);
 Scanner scanner = new Scanner (System.in);
 
+int userInput; 
+long betalingId; 
 
     public int startMenuBetaling() {
           int userInput = 0; 
@@ -39,5 +44,165 @@ Scanner scanner = new Scanner (System.in);
         
         return userInput;      }
 
+     public Long voerBetalingIdIn() {
+        System.out.println("Betaling id: ");
+        Long betalingId = Long.parseLong(scanner.nextLine());
+        return betalingId;
+    }
+    
+    public int menuBetalingZoeken(){
+        
+        System.out.println("Wat wilt u zoeken in het betalingenbestand?");
+        System.out.println("1. Één betaling opzoeken.");
+        System.out.println("2. Alle betalingen opzoeken.");
+        System.out.println("3. Terug naar betaling menu.");
+        
+        try{
+            userInput = Integer.parseInt(scanner.nextLine());            
 
+        }
+        catch(InputMismatchException ex){
+            log.warn("Foute input, kies van de opties hierboven.");
+        }
+        
+        return userInput;
+    }
+
+    
+
+     public void printBetalingOverzicht(Betaling betaling) {
+        System.out.println("De betaling heeft de volgende gegevens:");
+        System.out.println("Betaling id: " + betaling.getId());
+        System.out.println("Betaaldatum: " + betaling.getBetaaldatum());
+        System.out.println("Betaalwijze: " + betaling.getBetaalwijze());
+        System.out.println("Aanvullende betaalgegevens: " + betaling.getBetalingsGegevens());
+        System.out.println("Gekoppeld factuurId: " + betaling.getFactuur().getId());
+        System.out.println("Gekoppeld klantId: " + betaling.getKlant().getId());
+        System.out.println();
+    }
+
+      public void printBetalingLijst(ArrayList<Betaling> betalingenLijst) {
+        System.out.println();
+        System.out.println("Lijst met betaling");
+        System.out.printf("%-10s%-28s%-12s%-12s%-12s%-18s%n","BetalingId",
+                "Betaalwijze", "Betaaldatum", "FactuurId", "KlantId", "Betaalgegevens");
+        
+        for (int i = 0; i< betalingenLijst.size(); i++){
+
+            System.out.printf ("%-10d%-28s%-12s%-12d%-12d%-18s%n",
+                (betalingenLijst.get(i)).getId(),
+                (betalingenLijst.get(i)).getBetaalwijze(),
+                (betalingenLijst.get(i)).getBetaaldatum(),
+                ((betalingenLijst.get(i)).getFactuur()).getId(),
+                ((betalingenLijst.get(i)).getKlant()).getId(),
+                (betalingenLijst.get(i)).getBetalingsGegevens()
+            );            
+           
+        }
+    }
+   
+       public int checkInputString(String input) {
+        System.out.println("Is het volgende gegeven juist: " + input + " ?");
+        System.out.println("1. Ja.");
+        System.out.println("2. Nee.");
+        
+        try {
+            userInput = Integer.parseInt(scanner.nextLine());
+        }
+        catch(InputMismatchException ex){
+            log.warn("Foute input, kies van de opties hierboven.");
+        }
+        return userInput;
+    }
+       
+         
+    public long voerKlantIdIn() {
+        
+        Long klantId; 
+        System.out.println("Wat is het klantId: ");
+        klantId = Long.parseLong(scanner.nextLine());
+        return klantId;
+    }
+    
+    public String voerBetaalwijzeIn() {
+        
+        Betaalwijze betaalwijze; 
+        String bw = null; 
+        System.out.println("Wat is de betaalwijze");
+        
+        return bw; 
+    
+    }
+    
+      public Long voerFactuurIdIn() {
+        
+        Long factuurId; 
+        System.out.println("Wat is het factuurId: ");
+        factuurId = Long.parseLong(scanner.nextLine());
+        return factuurId;
+    }  
+    
+    
+    public int printVerwijderMenu() {
+        
+        System.out.println("Wat wilt u verwijderen uit het betalingbestand?");
+        System.out.println("1. één betaling.");
+        System.out.println("2. alle betalingen.");
+        System.out.println("3. terug naar het betaling menu.");
+        
+        try{
+            userInput = scanner.nextInt();  
+            scanner.nextLine();
+        }
+        catch(InputMismatchException ex){
+            log.warn("Foute input, kies van de opties hierboven.");
+        }
+        
+        return userInput;
+    }
+    
+    
+   public Long printDeleteBetalingById() {
+       
+        System.out.println("Voer het betaling id in van het artikel dat u wilt verwijderen.");
+        
+        try{
+            betalingId = scanner.nextLong();  
+            scanner.nextLine();
+        }
+        catch(InputMismatchException ex){
+            log.warn("Foute input, voer het artikel id in.");
+        }
+        
+        return betalingId;
+    }
+    
+      
+    
+       public int bevestigingsVraag(){
+        
+        System.out.println("Wilt u alle betalingen definitief verwijderen?");
+        System.out.println("1. ja");
+        System.out.println("2. nee");
+        
+        try{
+            userInput = Integer.parseInt(scanner.nextLine());        
+        }
+        catch(InputMismatchException ex){
+            log.warn("Foute input, kies van de opties hierboven.");
+        }
+        
+        return userInput;
+        
+    }
+
+    public String voegBetalingsGevensToe(String betalingsGegevens) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public String verwijderBetalingsGegevens(String betalingsGegevens) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
 }
