@@ -38,6 +38,7 @@ public class BestellingArtikelId implements Serializable {
             this.artikel = artikel;
         }
        
+        @Override
         public boolean equals(Object o) {
             
         if (this == o) return true;
@@ -52,6 +53,7 @@ public class BestellingArtikelId implements Serializable {
         return true;
     }
 
+        @Override
     public int hashCode() {
         int result;
         result = (bestelling != null ? bestelling.hashCode() : 0);

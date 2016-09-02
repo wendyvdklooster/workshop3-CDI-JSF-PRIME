@@ -36,6 +36,9 @@ public class BestellingArtikel implements Serializable {
     @EmbeddedId
     private BestellingArtikelId pk = new BestellingArtikelId();
     
+    @Column (nullable = false) 
+    private int artikelAantal;
+    
     @ManyToOne
     @JoinColumn (name = "ARTIKEL_ID", insertable = false, updatable = false)
     private Artikel artikel;
@@ -43,8 +46,8 @@ public class BestellingArtikel implements Serializable {
     @ManyToOne
     protected Bestelling bestelling;
     
-    @Column (nullable = false) 
-    private int artikelAantal;
+   
+    
     
     // Constructor
     public BestellingArtikel(Artikel artikel, Bestelling bestelling, int artikelAantal){        
@@ -52,6 +55,8 @@ public class BestellingArtikel implements Serializable {
         this.bestelling = bestelling;
         this.artikelAantal = artikelAantal;
     }
+    
+    
     
     public BestellingArtikel(){
         

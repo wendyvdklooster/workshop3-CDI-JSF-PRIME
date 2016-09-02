@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -33,7 +34,7 @@ public class Artikel implements Serializable{
     private String omschrijving; 
     private double artikelPrijs;
     
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "pk.artikel", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.artikel", cascade = CascadeType.ALL)
     private Set<BestellingArtikel> bestellingArtikellen = new HashSet<>();
     
     // constructors
