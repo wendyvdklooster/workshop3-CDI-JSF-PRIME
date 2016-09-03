@@ -47,6 +47,8 @@ public class BestellingController {
     
     Scanner scanner = new Scanner(System.in);
     int userInput;
+    Long artikelKeuze;
+    int artikelAantal;
     
     // Session preparation
     public Session session;
@@ -124,15 +126,10 @@ public class BestellingController {
     }
     
     public void plaatsBestelling() {            
-        
-        
-        
-        
-        
+
         session = getSession();
         bestellingDao = new BestellingDao();
         artikelDao = new ArtikelDao();
-        
         
         // Bestaande klant opzoeken en toevoegen aan bestelling
         long klantId = bestellingView.voerKlantIdIn();
@@ -152,9 +149,7 @@ public class BestellingController {
         }
         
         // BestellingArtikel toevoeg loop
-        
-        
-        
+
         int anotherOne = 0;
         boolean checker = true;
         
@@ -162,19 +157,30 @@ public class BestellingController {
             try{
                 
             System.out.println("Welk artikel wilt u aan de bestelling toevoegen?");
-            userInput = scanner.nextInt();
-                       
+            artikelKeuze = scanner.nextLong();
+            System.out.println("Hoe vaak wilt u dit artikel bestellen?");
+            artikelAantal = scanner.nextInt();
+            
             }catch (InputMismatchException ex){
                 System.out.println("Voer een integer in.");
             }
             
-            BestellingArtikel bestellingArtikel = new BestellingArtikel();
+            Artikel artikel = (Artikel) session.get(Artikel.class, artikelKeuze);
             
+            BestellingArtikel bestellingArtikel = new BestellingArtikel();
+            bestellingArtikel.setArtikelAantal(artikelAantal);
+            bestellingArtikel.setArtikel(artikel);
+            
+            BestellingArtikelId bestellingArtikelId = new BestellingArtikelId();
+            bestellingArtikelId.setArtikel(artikel);
+            bestellingArtikelId.setBestelling(bestelling);
+            bestellingArtikel.setPk(bestellingArtikelId);
             
             bestelling.getBestellingArtikellen().add(bestellingArtikel);
             
-            System.out.println("Wilt u nog een artikel aan de bestelling toevoegen?");
+            System.out.println("Wilt u nog een artikel aan de bestelling toevoegen?\n1 - Ja\n2 - Nee");
             anotherOne = scanner.nextInt();
+            
             if (anotherOne == 1){
                 checker = true;
             }
@@ -183,14 +189,11 @@ public class BestellingController {
             }
  
         }while(checker);
-        
-        
-        
-        
+
         // DB insert
         
         Long bestellingId = (Long)bestellingDao.insert(bestelling, session);
-        System.out.println("uw bestellingId: " + bestellingId);
+        System.out.println("Uw bestelling is toegevoegd en met bestellingId: " + bestellingId);
         session.getTransaction().commit();
         session.close();
         
