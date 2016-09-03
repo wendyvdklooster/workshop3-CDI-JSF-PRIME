@@ -44,7 +44,7 @@ public class BestellingArtikel implements Serializable {
     private Artikel artikel;
     
     @ManyToOne
-    protected Bestelling bestelling;
+    private Bestelling bestelling;
     
    
     
@@ -75,6 +75,48 @@ public class BestellingArtikel implements Serializable {
      */
     public void setArtikelAantal(int artikelAantal) {
         this.artikelAantal = artikelAantal;
+    }
+
+    /**
+     * @return the pk
+     */
+    public BestellingArtikelId getPk() {
+        return pk;
+    }
+
+    /**
+     * @param pk the pk to set
+     */
+    public void setPk(BestellingArtikelId pk) {
+        this.pk = pk;
+    }
+
+    /**
+     * @return the artikel
+     */
+    public Artikel getArtikel() {
+        return artikel;
+    }
+
+    /**
+     * @param artikel the artikel to set
+     */
+    public void setArtikel(Artikel artikel) {
+        this.artikel = artikel;
+    }
+
+    /**
+     * @return the bestelling
+     */
+    public Bestelling getBestelling() {
+        return bestelling;
+    }
+
+    /**
+     * @param bestelling the bestelling to set
+     */
+    public void setBestelling(Bestelling bestelling) {
+        this.bestelling = bestelling;
     }
     
     
