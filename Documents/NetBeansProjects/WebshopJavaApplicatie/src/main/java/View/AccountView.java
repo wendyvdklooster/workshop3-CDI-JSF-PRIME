@@ -97,7 +97,9 @@ int userInput;
         System.out.println("Lijst met opgevraagde accounts");
        
         for(Account account: lijst){
-            System.out.println("*" + account.toString());
+            System.out.println("Username: " + account.getUsername());
+            System.out.println("Naam: " + account.getKlant().getVoornaam() + " " + 
+                account.getKlant().getTussenvoegsel() + " " + account.getKlant().getAchternaam());
         }
     }
     
