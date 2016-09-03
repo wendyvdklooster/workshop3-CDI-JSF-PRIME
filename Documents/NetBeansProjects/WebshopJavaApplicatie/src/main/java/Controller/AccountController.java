@@ -93,22 +93,26 @@ private static final Logger log = LoggerFactory.getLogger(AccountController.clas
     
     
     public Account createAccount(){
-        
+        KlantView klantView = new KlantView();
         Account account = new Account();        
         Date creatieDatum; 
-        
+        KlantDao klantDao = new KlantDao();
+        session = getSession();
         String gebruikersnaam = accountView.voerGebruikersnaamIn();
         String password = accountView.voerPasswordIn();
-                
-        long klantId = klantController.voegNieuweKlantToe();
-        session = getSession(); 
-        Klant klant = (Klant) session.get(Klant.class, klantId);                                       
+        
+        //long klantId = klantView.voerKlantIdIn();
+        //long klantId = klantController.voegNieuweKlantToe();
+        // Klant klant = (Klant) session.get(Klant.class, klantId);      
+        Klant klant = klantController.createKlant();
+        long klantId = (Long)klantDao.insert(klant, session);
         
         account.setUsername(gebruikersnaam);
         account.setPassword(password);
         account.setCreatieDatum(new Date());
         account.setKlant(klant);
 //        factuur.setBestelling(bestelling);        
+        
 
         return account;  
         
@@ -161,6 +165,7 @@ private static final Logger log = LoggerFactory.getLogger(AccountController.clas
                 }
                 break;
         }
+        accountMenu();
     }       
 
     private void wijzigAccountGegevens() {
@@ -178,6 +183,8 @@ private static final Logger log = LoggerFactory.getLogger(AccountController.clas
         System.out.println("Nieuwe accountgegevens");
         accountView.printAccountGegevens(gewijzigdAccount);
         session.close();
+        
+        accountMenu();
     }
 
     private void verwijderAccountGegevens() {
@@ -210,6 +217,7 @@ private static final Logger log = LoggerFactory.getLogger(AccountController.clas
                 }
                 break;
         }
+        accountMenu();
     }
 
     
