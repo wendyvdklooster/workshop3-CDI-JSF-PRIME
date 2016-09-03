@@ -4,6 +4,7 @@
 package Controller;
 
 import DAOGenerics.GenericDaoImpl;
+import DAOs.BetalingDao;
 import DAOs.FactuurDao;
 import Helpers.HibernateSessionFactory;
 import POJO.Bestelling;
@@ -28,6 +29,7 @@ public class FactuurController {
 
 private static final Logger log = LoggerFactory.getLogger(FactuurController.class);
 
+    Bestelling bestelling;
     Betaling betaling; 
     Klant klant; 
     Factuur factuur; 
@@ -84,57 +86,87 @@ private static final Logger log = LoggerFactory.getLogger(FactuurController.clas
                 verwijderFactuurGegevens();
                 break;
             case 5:
+                voegBetalingToe();
+                break;
+            case 6: 
                 terugNaarHoofdMenu();
                 break;
-            
             default: 
                 System.out.println("Deze optie is niet beschikbaar.");
                 break;  
-        }                
+        }  
+        
     }
        
     
     public Factuur createFactuur(){
         
-        factuur = new Factuur();        
-        betaling = new Betaling();
+        factuur = new Factuur();   
+        bestelling = new Bestelling();
         
         String factuurnummer = factuurView.voerFactuurNummerIn();
         
         // Klant: @mto = fetchtype.lazy
         // long klantId; > klant vanuit klant automatisch gekoppeld?
         
-        //betaling: @otm: mapped bij factuur
-        long betalingId = betalingController.voegNieuweBetalingToe();
-        betaling = (Betaling) betalingDao.readById(betalingId, session);
-        
-        Set<Betaling> betalingset = new HashSet<>(); 
-        factuur.getBetalingset().add(betaling);
-        factuur.getBetalingset();
+//      
         
         //@oto  > fetchtype.lazy, optional false, cascade.persist
         // deze vanuit bestelling automatisch gekoppeld?
-        Bestelling bestelling = new Bestelling();                          
+           
+        long bestellingId = factuurView.voerBestellingIdIn(); 
+        session = getSession();
+        bestelling = (Bestelling) session.get(Bestelling.class, bestellingId);
+        session.getTransaction().commit();
+        session.close();
+        klant = bestelling.getKlant();
+        
+        
         
         factuur.setFactuurnummer(factuurnummer);       
         factuur.setFactuurdatum(new Date());
         factuur.setKlant(klant);
-        factuur.setBetalingset(betalingset);
+        //factuur.setBetalingset(betalingset);
         factuur.setBestelling(bestelling);        
 
+        
+        
+//          betaling: @otm: mapped bij factuur  > eerst factuur hebben waaraan betaling kan worden toegevoegd
+        
         return factuur;
     }
     
     
     public long voegNieuweFactuurToe(){
           
-        session =  getSession();
+        factuur = new Factuur();             
+        betaling = new Betaling();
         factuurDao = new FactuurDao(); 
+        betalingDao = new BetalingDao();
+        betalingController = new BetalingController();
+        
         
         System.out.println("U gaat een factuur toevoegen. Voer de gegevens in.");
         factuur = createFactuur(); 
+        session =  getSession();
         Long factuurId = (Long)factuurDao.insert(factuur, session);            
-        session.getTransaction().commit();
+         session.getTransaction().commit();
+        
+        
+        
+        factuur = (Factuur) factuurDao.readById(factuurId, session);
+        
+        double totaalBedrag = berekenTotaalBedrag(factuur);
+        factuurView.printFactuurOverzicht(factuur, totaalBedrag);
+        
+        
+        //betaling = betalingController.createBetaling(factuurId);
+        //betaling = (Betaling) betalingDao.readById(betalingId, session);
+        
+//        Set<Betaling> betalingset = new HashSet<>(); 
+//        factuur.getBetalingset().add(betaling);
+//        factuur.getBetalingset();
+        
         
         System.out.println("U heeft de factuurgegevens toegevoegd met factuurId: " 
             + factuurId); 
@@ -196,6 +228,8 @@ private static final Logger log = LoggerFactory.getLogger(FactuurController.clas
         session = getSession();       
         factuurDao.update(gewijzigdeFactuur, session); 
         session.getTransaction().commit();
+        
+        factuurMenu();
     
     }
     
@@ -208,40 +242,28 @@ private static final Logger log = LoggerFactory.getLogger(FactuurController.clas
             if (juist == 2) {
                 factuurNummer = factuurView.voerFactuurNummerIn();
             }
-        // factuurdatum niet aanpassen
-        Klant klant = factuur.getKlant();   
-        juist = factuurView.checkInputString(klant.toString());
-            if (juist == 2) {
-                long klantId = factuurView.voerKlantIdIn();
-               // hier nu de klantgegevens aanpassen, niet een andere klant toevoegen. wisselen
-//                klantController.wijzigKlantGegevens();
-//                session = getSession();
-//                klant = (Klant) klantDao.readById(klantId, session);
-//                session.getTransaction().commit();
-            }
-        
-        Bestelling bestelling = factuur.getBestelling();
+        long bestellingId =  factuur.getBestelling().getId();
+        //Bestelling bestelling = factuur.getBestelling();
+        session = getSession();
+        bestelling = (Bestelling) session.get(Bestelling.class, bestellingId );
+        session.getTransaction().commit();
         juist = factuurView.checkInputString(bestelling.toString());
             if (juist == 2) {
-                long bestellingId = factuurView.voerBestellingIdIn();
-                //bestellingController.wijzigBestellingGegevens();
-//                session = getSession();
-//                bestelling = (Bestelling) bestellingDao.readById(bestellingId, session);
-//                session.getTransaction().commit();
+                bestellingId = factuurView.voerBestellingIdIn();
+                session = getSession();
+                bestelling = (Bestelling) session.get(Bestelling.class, bestellingId );
+                session.getTransaction().commit();
             }
-        
-        Set<Betaling> betalingen = factuur.getBetalingset();
-            juist = factuurView.checkInputString(betalingen.toString());
-            if (juist == 2) {
-            // wat willen we hier graag updaten? 
-            }
-        
-        
-        //long factuurId = factuur.getId();        
+        // wat willen we hier graag updaten? 
+//        Set<Betaling> betalingen = factuur.getBetalingset();
+//            juist = factuurView.checkInputString(betalingen.toString());
+//            if (juist == 2) {
+//            
+//            }
+               
         factuur.setFactuurnummer(factuurNummer);
-        factuur.setKlant(klant);
         factuur.setBestelling(bestelling);
-        factuur.setBetalingset(betalingen);
+//        factuur.setBetalingset(betalingen);
         
         
         return factuur;        
@@ -250,18 +272,40 @@ private static final Logger log = LoggerFactory.getLogger(FactuurController.clas
 
     private void verwijderFactuurGegevens() {
         
+        int x; 
         factuurDao = new FactuurDao();
                 
         int userInput = factuurView.printVerwijderMenu();
         switch (userInput) {
             case 1:// 1 factuur verwijderen  
-                factuurView.printFacturenLijst((ArrayList<Factuur>) factuurDao.readAll(Factuur.class, session));
+                session = getSession();
+                ArrayList<Factuur> factuurlijst = (ArrayList<Factuur>) factuurDao.readAll(Factuur.class, session);
+                session.getTransaction().commit();
+                factuurView.printFacturenLijst(factuurlijst);
                 long factuurId = factuurView.printDeleteFactuurById();
-                factuurDao.deleteById(factuurId, session);//             
-            case 2:// alle facturen verwijderen                
-                int x = factuurView.bevestigingsVraag();                
+                // bevestiging vragen  
+                 x = factuurView.bevestigingsVraag();                
                     if (x == 1){ // bevestiging is ja
-                        int verwijderd = factuurDao.deleteAll(Factuur.class, session);                    
+                         session = getSession();
+                        boolean verwijderd = factuurDao.deleteById(factuurId, session);
+                        session.getTransaction().commit();                   
+                        System.out.println(": factuur met id " + factuurId + " is verwijderd: " +  verwijderd);                       
+                    }                
+                    else { // bevestiging = nee
+                        System.out.println( "De factuurgegevens worden NIET verwijderd.");
+                    }
+                
+                
+               
+                 
+                
+                break;
+            case 2:// alle facturen verwijderen                
+                x = factuurView.bevestigingsVraag();                
+                    if (x == 1){ // bevestiging is ja
+                        session = getSession();
+                        int verwijderd = factuurDao.deleteAll(Factuur.class, session);    
+                         session.getTransaction().commit(); 
                         System.out.println(verwijderd + " totaal aantal facturen zijn verwijderd");                       
                     }                
                     else { // bevestiging = nee
@@ -297,6 +341,31 @@ private static final Logger log = LoggerFactory.getLogger(FactuurController.clas
     }  
 
     
-    
+    public void voegBetalingToe(){
+        
+        session = getSession();
+        factuurDao = new FactuurDao();
+        betalingDao = new BetalingDao();
+        betalingController = new BetalingController();
+        
+        
+        
+        System.out.println("U gaat een betaalwijze toevoegen");
+        long factuurId = factuurView.voerFactuurIdIn();
+        
+        long betalingId = betalingController.voegNieuweBetalingToe(factuurId);
+        betaling = new Betaling();
+        betaling = (Betaling) betalingDao.readById(betalingId, session);
+        
+        factuur = new Factuur();
+        factuur = (Factuur) factuurDao.readById(factuurId, session);
+        factuur.getBetalingset().add(betaling);
+        
+        factuurDao.update(factuur, session);
+        session.getTransaction().commit();
+        
+        
+        
+    }
 
 }

@@ -33,8 +33,9 @@ Long factuurId;
         System.out.println("1. Nieuwe factuur toevoegen.");        
         System.out.println("2. Factuurgegevens opzoeken.");
         System.out.println("3. Factuurgegevens wijzigen.");
-        System.out.println("4. Factuurgegevens verwijderen.");        
-        System.out.println("5. Terug naar hoofdmenu");
+        System.out.println("4. Factuurgegevens verwijderen.");  
+        System.out.println("5. Voeg betaling toe aan factuur");
+        System.out.println("6. Terug naar hoofdmenu");
         
         try{
             userInput = Integer.parseInt(scanner.nextLine());            
@@ -91,9 +92,9 @@ Long factuurId;
     public void printFacturenLijst(ArrayList<Factuur> facturenLijst) {
         
         for(Factuur factuur : facturenLijst){
-            factuur.toString();
+            System.out.println(factuur.toString());
             System.out.println("totaal bedrag van de factuur  is €");
-            System.out.println(factuurController.berekenTotaalBedrag(factuur)); 
+            //System.out.println(factuurController.berekenTotaalBedrag(factuur)); 
                     }
     
     }

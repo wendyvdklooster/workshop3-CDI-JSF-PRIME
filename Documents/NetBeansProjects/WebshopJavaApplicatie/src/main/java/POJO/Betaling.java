@@ -37,14 +37,14 @@ private long Id;
 @Temporal(javax.persistence.TemporalType.DATE)
 private java.util.Date betaaldatum;
 
-//??
+@ManyToOne 
 public Betaalwijze betaalwijze;    
 
-@ManyToOne (fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+@ManyToOne (fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 @JoinColumn (name = "KLANT_ID")
 private Klant klant;       
 
-@ManyToOne (fetch = FetchType.LAZY, optional = false, cascade = CascadeType.PERSIST)
+@ManyToOne (fetch = FetchType.EAGER, optional = false)
 @JoinColumn (name = "FACTUUR_ID")
 private Factuur factuur;
 
