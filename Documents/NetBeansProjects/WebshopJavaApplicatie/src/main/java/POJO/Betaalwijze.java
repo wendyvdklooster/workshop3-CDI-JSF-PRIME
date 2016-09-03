@@ -25,7 +25,7 @@ public class Betaalwijze implements Serializable {
     
     
     public int getId(){
-        return this.Id;
+        return Id;
     }
     
     public void setId(int id){
@@ -33,7 +33,7 @@ public class Betaalwijze implements Serializable {
     }
     
     public String getBetaalwijze(){
-        return this.betaalwijze;
+        return betaalwijze;
     }
     
     protected void setBetaalwijze(String betaalwijze){

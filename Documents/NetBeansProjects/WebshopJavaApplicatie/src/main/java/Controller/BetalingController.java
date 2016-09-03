@@ -37,6 +37,7 @@ private static final Logger log = LoggerFactory.getLogger(BetalingController.cla
     HoofdMenuController hoofdMenuController = new HoofdMenuController();
      
     GenericDaoImpl <Betaling, Long> betalingDao = new BetalingDao(); 
+    GenericDaoImpl <Factuur, Long> factuurDao = new FactuurDao();
     
     Betaling betaling; 
     Klant klant; 
@@ -81,6 +82,8 @@ private static final Logger log = LoggerFactory.getLogger(BetalingController.cla
             case 4: 
                 verwijderenVanBetaling();
                 break; 
+            //case 5:
+                // 
             case 5:
                 terugNaarHoofdMenu();
                 break;            
@@ -93,37 +96,48 @@ private static final Logger log = LoggerFactory.getLogger(BetalingController.cla
         
     
         
-    public Betaling createBetaling(){
+    public Betaling createBetaling(Long factuurId){
         
-        Betaling betaling = new Betaling();  
-       
-        long betalingId;
+        betaling = new Betaling();  
+        factuur = new Factuur();
+        factuurDao = new FactuurDao();
+        
+        // klantId komt bij factuur vandaan
         klant = new Klant();
         Date betaaldatum; 
-        betaalwijze = new Betaalwijze(); 
-        String betalingsGegevens = null; 
-        factuur = new Factuur();                       
+        //betaalwijze = new Betaalwijze(); 
+        String betalingsGegevens = betalingView.voegBetalingsGevensToe(); 
+        // factuur en betaling gekoppeld, begint bij factuur
+        
+        factuur = (Factuur) session.get(Factuur.class, factuurId);
+        
+        klant = factuur.getKlant();
+        long klantId = klant.getId();
+        
+        klant = (Klant) session.get(Klant.class, klantId);
         
         
-        
-        
-        betaling.setBetaalwijze(betaalwijze);
-        betaling.setBetaaldatum(new Date());
+        //betaling.setBetaalwijze(betaalwijze);
+        betaling.setBetaaldatum(new Date());        
+        betaling.setFactuur(factuur);        
+        betaling.setBetalingsGegevens(betalingsGegevens);  
         betaling.setKlant(klant);
-        betaling.setFactuur(factuur);
-        betaling.setBetalingsGegevens(betalingsGegevens);      
 
         return betaling;          
     }
     
+    public void voegNieuweBetalingToe(){
+        
+    }
     
-    public long voegNieuweBetalingToe(){
+    public long voegNieuweBetalingToe(Long factuurId){
           
-        session =  getSession();
+        session = getSession();
         betalingDao = new BetalingDao(); 
         
         System.out.println("U gaat een betaling toevoegen. Voer de gegevens in.");
-        Betaling betaling = createBetaling(); 
+        betaling = createBetaling(factuurId); 
+        
         Long betalingId = (Long)betalingDao.insert(betaling, session);            
         session.getTransaction().commit();
         
@@ -141,18 +155,19 @@ private static final Logger log = LoggerFactory.getLogger(BetalingController.cla
      
         betalingDao = new BetalingDao();
         betaling = new Betaling();         
-		
+	session = getSession();
+        
         int input = betalingView.menuBetalingZoeken();
         switch (input){
                 case 1:  // naar 1 betaling zoeken
                      long betalingId = betalingView.voerBetalingIdIn();
-                        session = getSession();
+                        
                         betaling = (Betaling) betalingDao.readById(betalingId, session);
                         session.getTransaction().commit();
                         betalingView.printBetalingOverzicht(betaling);                     
                     break; // einde naar 1 betaling zoeken
                 case 2: // alle betalingen zoeken
-                    session = getSession();
+                    
                     ArrayList <Betaling> betalingenLijst = 
                             (ArrayList <Betaling>) betalingDao.readAll(Betaling.class, session);
                     session.getTransaction().commit();
@@ -184,70 +199,43 @@ private static final Logger log = LoggerFactory.getLogger(BetalingController.cla
         betaling = (Betaling) betalingDao.readById(betalingId, session);
         session.getTransaction().commit();
         closeSession(session);
+        session = getSession();
         gewijzigdeBetaling = invoerNieuweBetalingGegevens(betaling);
         
-        session = getSession();
+        betalingDao.update(betaling, session);
         session.getTransaction().commit();
-        closeSession(session); }
+        betaling = betalingDao.readById(betalingId, session);
+        betalingView.printBetalingOverzicht(betaling);
+        closeSession(session); 
+    
+        betalingMenu();
+    }
 
     
     
      public Betaling invoerNieuweBetalingGegevens(Betaling betaling) {
-                
+                // niet wijzigen: id, datum, klant, factuur
         int juist = 0;
-        // niet wijzigen: id, datum
-        // get BetaalWijze betaalwijze, daar de String betaalwijze
-        Betaalwijze bw = betaling.getBetaalwijze();
-        String betaalwijze = bw.getBetaalwijze();        
-        juist = betalingView.checkInputString(betaalwijze);
-        if (juist == 2) {
-            betaalwijze = betalingView.voerBetaalwijzeIn(); // deze methode in view werkt nog niet 
-            // convert to bean betaalwijze
-        }
+        
+//         get BetaalWijze betaalwijze, daar de String betaalwijze
+//        Betaalwijze bw = betaling.getBetaalwijze();
+//        String betaalwijze = bw.getBetaalwijze();        
+//        juist = betalingView.checkInputString(betaalwijze);
+//        if (juist == 2) {
+//            betaalwijze = betalingView.voerBetaalwijzeIn(); // deze methode in view werkt nog niet 
+//            // convert to bean betaalwijze
+//        }
         
         String betalingsGegevens = betaling.getBetalingsGegevens();        
         juist = betalingView.checkInputString(betalingsGegevens);
         if (juist == 2) {
-            //toevoegen
-            betalingsGegevens = betalingView.voegBetalingsGevensToe(betalingsGegevens);
-            // verwijderen
-            betalingsGegevens = betalingView.verwijderBetalingsGegevens(betalingsGegevens);
+            // aanpassen
+            betalingsGegevens = betalingView.aanpassenBetalingsGegevens(betalingsGegevens);
         }
-        
-        // willen we klant en factuur eventueel kunnen wijzigen?
-        Klant klant = betaling.getKlant(); 
-        String klantToString = klant.toString();
-     
-        juist = betalingView.checkInputString(klantToString);
-         if (juist == 2) {
-            long klantId = betalingView.voerKlantIdIn();
-               // hier nu de klantgegevens aanpassen, niet een andere klant toevoegen. wisselen
-//                klantController.wijzigKlantGegevens();
-//                session = getSession();
-//                klant = (Klant) klantDao.readById(klantId, session);
-//                session.getTransaction().commit();
-         }
-         
-         // willen we klant en factuur eventueel kunnen wijzigen?
-        Factuur factuur = betaling.getFactuur(); 
-        String factuurToString = factuur.toString();
-     
-        juist = betalingView.checkInputString(factuurToString);
-         if (juist == 2) {
-            long factuurId = betalingView.voerFactuurIdIn();
-               // hier nu de fatuurgegevens aanpassen, niet een andere facuur toevoegen. /wisselen van
-//               factuurController.wijzigFactuurGegevens();
-//                session = getSession();
-//                factuur = (Factuur) factuurDao.readById(factuurId, session);
-//                session.getTransaction().commit();
-         }        
-         
         // setters betaalwijze, betalingsGegevens
-        betaling.setBetaalwijze(bw);
+//        betaling.setBetaalwijze(bw);
         betaling.setBetalingsGegevens(betalingsGegevens);          
-        betaling.setKlant(klant);
-        betaling.setFactuur(factuur);
-        
+               
         return betaling;        
     }
      
@@ -255,17 +243,21 @@ private static final Logger log = LoggerFactory.getLogger(BetalingController.cla
     private void verwijderenVanBetaling() {
         
         betalingDao = new BetalingDao();
+        session = getSession();
                 
         int userInput = betalingView.printVerwijderMenu();
         switch (userInput) {
             case 1:// 1 betaling verwijderen  
                 betalingView.printBetalingLijst((ArrayList<Betaling>) betalingDao.readAll(Betaling.class, session));
                 long betalingId = betalingView.printDeleteBetalingById();
-                betalingDao.deleteById(betalingId, session);//             
+                betalingDao.deleteById(betalingId, session);
+                session.getTransaction().commit();   
+                break;
             case 2:// alle betalingen verwijderen                
                 int x = betalingView.bevestigingsVraag();                
                     if (x == 1){ // bevestiging is ja
-                        int verwijderd = betalingDao.deleteAll(Betaling.class, session);                    
+                        int verwijderd = betalingDao.deleteAll(Betaling.class, session);  
+                        session.getTransaction().commit();
                         System.out.println(verwijderd + " totaal aantal artikelen zijn verwijderd");                       
                     }                
                     else { // bevestiging = nee

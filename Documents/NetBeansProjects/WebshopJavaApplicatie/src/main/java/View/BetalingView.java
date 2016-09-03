@@ -20,6 +20,7 @@ public class BetalingView {
 private static final Logger log = LoggerFactory.getLogger(BetalingView.class);
 Scanner scanner = new Scanner (System.in);
 
+String gegevens; 
 int userInput; 
 long betalingId; 
 
@@ -196,13 +197,22 @@ long betalingId;
         
     }
 
-    public String voegBetalingsGevensToe(String betalingsGegevens) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String voegBetalingsGevensToe() {
+        System.out.println("u kunt hier betaalgegevens toevoegen: ");
+        gegevens = scanner.nextLine();        
+                
+            return gegevens; 
     }
 
-    public String verwijderBetalingsGegevens(String betalingsGegevens) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public String aanpassenBetalingsGegevens(String betalingsGegevens) {
+        System.out.println("u kunt hier betaalgegevens aanpassen: ");
+        System.out.println("huidige gegevens zijn: " + betalingsGegevens);
+        System.out.println("nieuwe betaalgegevens invoeren: ");
+        gegevens = scanner.nextLine();
+        
+                
+                return gegevens; 
+                
 
-    
+    }
 }

@@ -42,14 +42,15 @@ public class Factuur implements Serializable {
     @Temporal(TemporalType.DATE)
     private java.util.Date factuurdatum;
     
-    @ManyToOne (fetch = FetchType.LAZY)
+    @ManyToOne (fetch = FetchType.EAGER)
     @JoinColumn (name = "KLANT_ID")
     private Klant klant;     
     
-    @OneToMany(mappedBy = "factuur")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "factuur")
     private Set<Betaling> betalingset;
     
-    @OneToOne (fetch = FetchType.LAZY, optional = false, cascade = CascadeType.PERSIST)
+    @OneToOne (fetch = FetchType.EAGER, optional = false, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "BESTELLING_ID")
     protected Bestelling bestelling;
     
     
@@ -106,8 +107,8 @@ public class Factuur implements Serializable {
     public String toString(){
         
         String output = "factuurgegevens Id: " + getId() + " aanmaakdatum : " +
-                getFactuurdatum() + " behorende bij klant met klantnummer " + getKlant().getKlantNummer() +
-                " en klantId " + getKlant().getId();
+                getFactuurdatum() + " behorende bij klant met klantnummer " /*+ getKlant().getKlantNummer() +
+                " en klantId " + getKlant().getId()*/;
         
         return output; 
         
