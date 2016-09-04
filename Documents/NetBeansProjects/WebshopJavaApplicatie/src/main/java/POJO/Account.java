@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -38,7 +39,7 @@ public class Account implements Serializable {
     @Column(nullable = false)  // hoe werkt het met een paswoord
     private String password;
     
-    @ManyToOne (fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToOne (fetch = FetchType.LAZY, optional = false, cascade = CascadeType.PERSIST)
     @JoinColumn(name ="KLANT_ID")// hoe zit de relatie met klant?
     private Klant klant;
     

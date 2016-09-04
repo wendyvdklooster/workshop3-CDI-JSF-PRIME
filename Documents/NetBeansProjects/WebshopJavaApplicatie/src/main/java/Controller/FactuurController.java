@@ -7,14 +7,15 @@ import DAOGenerics.GenericDaoImpl;
 import DAOs.BetalingDao;
 import DAOs.FactuurDao;
 import Helpers.HibernateSessionFactory;
+import POJO.Artikel;
 import POJO.Bestelling;
+import POJO.BestellingArtikel;
 import POJO.Betaling;
 import POJO.Factuur;
 import POJO.Klant;
 import View.FactuurView;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -149,20 +150,10 @@ private static final Logger log = LoggerFactory.getLogger(FactuurController.clas
         Long factuurId = (Long)factuurDao.insert(factuur, session);            
          session.getTransaction().commit();
         
-        
-        
         factuur = (Factuur) factuurDao.readById(factuurId, session);
         
         double totaalBedrag = berekenTotaalBedrag(factuur);
-        factuurView.printFactuurOverzicht(factuur, totaalBedrag);
-        
-        
-        //betaling = betalingController.createBetaling(factuurId);
-        //betaling = (Betaling) betalingDao.readById(betalingId, session);
-        
-//        Set<Betaling> betalingset = new HashSet<>(); 
-//        factuur.getBetalingset().add(betaling);
-//        factuur.getBetalingset();
+        factuurView.printFactuurOverzicht(factuur, totaalBedrag);   
         
         
         System.out.println("U heeft de factuurgegevens toegevoegd met factuurId: " 
@@ -292,10 +283,6 @@ private static final Logger log = LoggerFactory.getLogger(FactuurController.clas
                         System.out.println( "De factuurgegevens worden NIET verwijderd.");
                     }
                 
-                
-               
-                 
-                
                 break;
             case 2:// alle facturen verwijderen                
                 x = factuurView.bevestigingsVraag();                
@@ -320,13 +307,23 @@ private static final Logger log = LoggerFactory.getLogger(FactuurController.clas
     
     public double berekenTotaalBedrag(Factuur factuur){
          double totaalBedrag = 0.0;
-         // haal uit factuur bestellingId
-         // factuur.getBestelling().getId();
-         // via bestelling naar bestellingartikel: 
-         // het artikelId ophalen en de aantallen / de artikelid's + aantallen
-         // met artikelid de artikelprijs ophalen
-         // artikelid.aantal * artikelid.prijs > prijs
-         // totaalbedrag: alle subprijzen bij elkaar  
+         long bestellingId = factuur.getBestelling().getId();
+         System.out.println("bestellingid: " + bestellingId);
+         session = getSession();
+         bestelling = (Bestelling) bestellingDao.readById(bestellingId, session);
+         Set<BestellingArtikel> ba = bestelling.getBestellingArtikellen();
+         for(BestellingArtikel bestelArtikel: ba){
+             int aantal  = bestelArtikel.getArtikelAantal();
+             //moet artikel uit db gehaal worden? of fetchtype.eager?
+             double artPrijs = bestelArtikel.getArtikel().getArtikelPrijs();
+             double bedrag = aantal * artPrijs; 
+       
+         totaalBedrag += bedrag; 
+         
+         }
+         
+         
+          
          
          return totaalBedrag;
     }

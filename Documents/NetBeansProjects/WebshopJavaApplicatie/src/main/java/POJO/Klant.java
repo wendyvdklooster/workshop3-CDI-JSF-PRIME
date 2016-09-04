@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
@@ -35,8 +36,8 @@ public class Klant implements Serializable {
     @Column(nullable = false)
     private String email;     
      
-    @OneToMany 
-    protected Set<Account> accounts = new HashSet<>();    
+    @OneToOne  (mappedBy = "klant")
+    protected Account account;    
     
     // deze is niet of wel nodig?
     @OneToMany (mappedBy = "klant", fetch = FetchType.LAZY)
@@ -131,14 +132,14 @@ public class Klant implements Serializable {
      public void setBetalingen(Set<Betaling> betalingen) {
         this.betalingen = betalingen;
     }
-    
-   
 
-    public void setAccounts(Set<Account> accounts) {
-        this.accounts = accounts;
+    public Account getAccount() {
+        return account;
     }
 
-    
+    public void setAccount(Account account) {
+        this.account = account;
+    }
     
     public Long getId() {
         return this.Id;
@@ -165,9 +166,7 @@ public class Klant implements Serializable {
         return betalingen;
     }
 
-    public Set<Account> getAccounts() {
-        return accounts;
-    }
+   
 
     public Set<Factuur> getFacturen() {
         return facturen;
