@@ -2,8 +2,10 @@
 package POJO;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -13,42 +15,61 @@ import javax.persistence.Table;
  */
 
 
-@Entity
-@Table(name="BETAALWIJZE")
-public class Betaalwijze implements Serializable {
+
     
-    @Id
-    @GeneratedValue (strategy = IDENTITY)
-    private int Id;
-    private String betaalwijze;
-    private static String[] betaalWijzes = {"GoogleWallet","iDeal","Creditcard","PayPal","MoneyBookers","Natura"};
+    public enum Betaalwijze {
+    
+    GOOGLEWALLET{
+        @Override
+        public String getBetaalwijze() {
+            return "googlewallet"; 
+        }
+    }, 
+    
+    IDEAL{
+        @Override
+        public String getBetaalwijze() {
+            return "Ideal"; 
+        }
+    }, 
+    
+    PAYPAL{
+        @Override
+        public String getBetaalwijze() {
+            return "Paypal"; 
+        }
+    }, 
+    
+    CREDITCARD{
+        @Override
+        public String getBetaalwijze() {
+           return "creditcard"; 
+        }
+    }, 
+    
+    MONEYBOOKERS{
+        @Override
+        public String getBetaalwijze() {
+           return "moneybookers";
+        }
+    } ; 
+ 
     
     
-    public int getId(){
-        return Id;
+    private long betaalwijzeId; 
+
+    public long getBetaalwijzeId() {
+        return betaalwijzeId;
+    }
+
+    public void setBetaalwijzeId(long betaalwijzeId) {
+        this.betaalwijzeId = betaalwijzeId;
     }
     
-    public void setId(int id){
-        this.Id = id;
-    }
-    
-    public String getBetaalwijze(){
-        return betaalwijze;
-    }
-    
-    protected void setBetaalwijze(String betaalwijze){
-        this.betaalwijze = betaalwijze;
-    }
-    
-    public void setBetaalwijze(int betaalwijze){
-        this.betaalwijze = betaalWijzes[betaalwijze];
-    }
    
-    public String[] getAllBetaalWijzes(){
-        return betaalWijzes;
-    }
+    public abstract String getBetaalwijze();
     
-    private void setAllBetaalWijzes(String[] betaalWijzen){
-        betaalWijzes = betaalWijzen;
-    }
+    
+   
+   
 }

@@ -125,14 +125,15 @@ long betalingId;
         return klantId;
     }
     
-    public String voerBetaalwijzeIn() {
+    public int voerBetaalwijzeIn() {
         
         Betaalwijze betaalwijze; 
-        String bw = null; 
-        System.out.println("Wat is de betaalwijze");
+        int bw; 
+        System.out.println("Wat is de nieuwe betaalwijze?");
         
-        return bw; 
-    
+        bw = kiesBetaalWijze();         
+        
+        return bw;     
     }
     
       public Long voerFactuurIdIn() {
@@ -214,5 +215,31 @@ long betalingId;
                 return gegevens; 
                 
 
+    }
+
+    public int kiesBetaalWijze() {
+        System.out.println("u gaat een betaalwijze kiezen: ");    
+        
+        System.out.println();        
+        System.out.println("Maak uw keuze:");
+        System.out.println("1. GoogleWallet");        
+        System.out.println("2. Ideal");
+        System.out.println("3. Paypal");
+        System.out.println("4. Moneybookers.");        
+        System.out.println("5. Creditcard");
+        
+        try{
+            userInput = Integer.parseInt(scanner.nextLine());            
+            
+        }
+        catch(InputMismatchException ex){
+            log.warn("Foute input, kies van de opties hierboven.");
+        }
+        
+        return userInput;
+        
+        
+        
+        
     }
 }

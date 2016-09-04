@@ -107,9 +107,7 @@ private static final Logger log = LoggerFactory.getLogger(FactuurController.clas
         String factuurnummer = factuurView.voerFactuurNummerIn();
         
         // Klant: @mto = fetchtype.lazy
-        // long klantId; > klant vanuit klant automatisch gekoppeld?
-        
-//      
+        // long klantId; > klant vanuit klant automatisch gekoppeld?        
         
         //@oto  > fetchtype.lazy, optional false, cascade.persist
         // deze vanuit bestelling automatisch gekoppeld?
@@ -120,7 +118,6 @@ private static final Logger log = LoggerFactory.getLogger(FactuurController.clas
         session.getTransaction().commit();
         session.close();
         klant = bestelling.getKlant();
-        
         
         
         factuur.setFactuurnummer(factuurnummer);       

@@ -10,6 +10,8 @@ import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.AUTO;
@@ -37,7 +39,8 @@ private long Id;
 @Temporal(javax.persistence.TemporalType.DATE)
 private java.util.Date betaaldatum;
 
-@ManyToOne 
+
+@Enumerated(EnumType.STRING)
 public Betaalwijze betaalwijze;    
 
 @ManyToOne (fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
@@ -96,13 +99,15 @@ private String betalingsGegevens;
         this.factuur = factuur;
     }
 
-      public Betaalwijze getBetaalwijze() {
+    public Betaalwijze getBetaalwijze() {
         return betaalwijze;
     }
 
     public void setBetaalwijze(Betaalwijze betaalwijze) {
         this.betaalwijze = betaalwijze;
     }
+
+      
     
     public String getBetalingsGegevens() {
         return betalingsGegevens;
