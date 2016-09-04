@@ -46,7 +46,7 @@ public class KlantController {
     GenericDaoImpl<Account, Long> accountDao; 
     GenericDaoImpl <Bestelling, Long> bestellingDao; 
     
-    
+    Account account;
             
     KlantView klantView = new KlantView();   
     Klant klant;
@@ -183,7 +183,7 @@ public class KlantController {
         long klantId = klantView.voerKlantIdIn();
         
         klant = (Klant) session.get(Klant.class, klantId);
-        Set <Account> facturen = klant.getAccounts();
+        account = klant.getAccount();
         session.getTransaction().commit();
         
         // uit printen van lijst accounts
@@ -215,26 +215,26 @@ public class KlantController {
         // uitprinten van de set accounts
     }
     
-    public void voegAccountAanKlantToe(){
-        session = getSession();
-        klantDao = new KlantDao();
-        accountDao = new AccountDao();
-        
-        System.out.println("U gaat een account toevoegen. Voer uw klantId in: ");
-        long klantId = klantView.voerKlantIdIn();
-        
-        klant = (Klant) session.get(Klant.class, klantId);
-        Account account = new Account();
-        // nieuwe account aanmaken.
-        // account toevoegen in database
-        klant.getAccounts().add(account);
-        //update gevevens van klant
-        session.getTransaction().commit();
-        session = getSession();
-        Set <Account> accounts = klant.getAccounts();
-        
-        // uitprinten van de set account  
-    }    
+//    public void voegAccountAanKlantToe(){
+//        session = getSession();
+//        klantDao = new KlantDao();
+//        accountDao = new AccountDao();
+//        
+//        System.out.println("U gaat een account toevoegen. Voer uw klantId in: ");
+//        long klantId = klantView.voerKlantIdIn();
+//        
+//        klant = (Klant) session.get(Klant.class, klantId);
+//        Account account = new Account();
+//        // nieuwe account aanmaken.
+//        // account toevoegen in database
+//        klant.getAccounts().add(account);
+//        //update gevevens van klant
+//        session.getTransaction().commit();
+//        session = getSession();
+//        Set <Account> accounts = klant.getAccounts();
+//        
+//        // uitprinten van de set account  
+//    }    
     
     // of loopt deze via bestelling?
     public void voegBestellingAanKlantToe(){
