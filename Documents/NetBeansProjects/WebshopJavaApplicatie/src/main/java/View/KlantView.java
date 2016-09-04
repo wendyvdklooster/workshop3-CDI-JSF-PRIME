@@ -24,16 +24,17 @@ public class KlantView {
     public int startMenuKlant(){
         System.out.println();        
         System.out.println("Maak uw keuze:");
-        System.out.println("1. Nieuwe klant met adres toevoegen.");
-        
+        System.out.println("1. Nieuwe klant met adres toevoegen.");        
         System.out.println("2. Klantgegevens opzoeken.");
         System.out.println("3. Klantgegevens wijzigen.");
         System.out.println("4. Klantgegevens verwijderen.");
         System.out.println("5. Klant toevoegen.");
         System.out.println("6. voeg klant aan adres toe");
         System.out.println("7. zoek adres met klant id");
-        System.out.println("8. voeg factuur aan klant toe");
-        System.out.println("9. Terug naar hoofdmenu");
+        System.out.println("8. toon facturen van klant");
+        System.out.println("9. toon bestellingen van klant");
+        System.out.println("10. zoek account bij klant");
+        System.out.println("11. Terug naar hoofdmenu");
         
         try{
             userInput = Integer.parseInt(scanner.nextLine());            
