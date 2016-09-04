@@ -31,7 +31,7 @@ public class HoofdMenuView {
         System.out.println("5. Werken in factuurbestand");
         System.out.println("6. Werken in betalingbestand");
         System.out.println("7. Werken in accountbestand");
-        System.out.println("6. Programma afsluiten");
+        System.out.println("8. Programma afsluiten");
         
         try{
             userInput = Integer.parseInt(scanner.nextLine()); 

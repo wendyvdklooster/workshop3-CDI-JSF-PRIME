@@ -4,6 +4,7 @@
 package Controller;
 
 import DAOGenerics.GenericDaoImpl;
+import DAOs.BetaalwijzeDao;
 import DAOs.BetalingDao;
 import DAOs.FactuurDao;
 import Helpers.HibernateSessionFactory;
@@ -16,6 +17,7 @@ import View.BetalingView;
 import View.FactuurView;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.Set;
 import org.hibernate.Session;
@@ -38,6 +40,7 @@ private static final Logger log = LoggerFactory.getLogger(BetalingController.cla
      
     GenericDaoImpl <Betaling, Long> betalingDao = new BetalingDao(); 
     GenericDaoImpl <Factuur, Long> factuurDao = new FactuurDao();
+    GenericDaoImpl <Betaalwijze, Long> betaalwijzeDao = new BetaalwijzeDao();
     
     Betaling betaling; 
     Klant klant; 
@@ -101,23 +104,47 @@ private static final Logger log = LoggerFactory.getLogger(BetalingController.cla
         betaling = new Betaling();  
         factuur = new Factuur();
         factuurDao = new FactuurDao();
+         betaalwijzeDao = new BetaalwijzeDao();
         
         // klantId komt bij factuur vandaan
         klant = new Klant();
         Date betaaldatum; 
-        //betaalwijze = new Betaalwijze(); 
+        int betaalw = betalingView.kiesBetaalWijze();
+        //EnumMap bw = new EnumMap(Betaalwijze.class);
+        
+        switch (betaalw){
+            case 1:
+                betaalwijze = Betaalwijze.GOOGLEWALLET;
+                break;
+            case 2:
+                 betaalwijze = Betaalwijze.IDEAL;
+                break;
+            case 3:
+                 betaalwijze = Betaalwijze.PAYPAL;
+                break;
+            case 4:
+                 betaalwijze = Betaalwijze.MONEYBOOKERS;
+                break;
+            case 5:
+                 betaalwijze = Betaalwijze.CREDITCARD;
+                break;   
+            default:
+                return null;         
+                
+        }
+        
+        
         String betalingsGegevens = betalingView.voegBetalingsGevensToe(); 
         // factuur en betaling gekoppeld, begint bij factuur
         
         factuur = (Factuur) session.get(Factuur.class, factuurId);
-        
+        session.getTransaction().commit();
         klant = factuur.getKlant();
         long klantId = klant.getId();
         
-        klant = (Klant) session.get(Klant.class, klantId);
+        klant = (Klant) session.get(Klant.class, klantId);        
         
-        
-        //betaling.setBetaalwijze(betaalwijze);
+        betaling.setBetaalwijze(betaalwijze);
         betaling.setBetaaldatum(new Date());        
         betaling.setFactuur(factuur);        
         betaling.setBetalingsGegevens(betalingsGegevens);  
@@ -127,7 +154,12 @@ private static final Logger log = LoggerFactory.getLogger(BetalingController.cla
     }
     
     public void voegNieuweBetalingToe(){
+         
         
+        System.out.println("U gaat een betaling toevoegen, behorende bij welk factuurId?");
+        long factuurId = factuurView.voerFactuurIdIn();
+        
+        voegNieuweBetalingToe(factuurId);
     }
     
     public long voegNieuweBetalingToe(Long factuurId){
@@ -138,6 +170,7 @@ private static final Logger log = LoggerFactory.getLogger(BetalingController.cla
         System.out.println("U gaat een betaling toevoegen. Voer de gegevens in.");
         betaling = createBetaling(factuurId); 
         
+        session = getSession();
         Long betalingId = (Long)betalingDao.insert(betaling, session);            
         session.getTransaction().commit();
         
@@ -218,13 +251,35 @@ private static final Logger log = LoggerFactory.getLogger(BetalingController.cla
         int juist = 0;
         
 //         get BetaalWijze betaalwijze, daar de String betaalwijze
-//        Betaalwijze bw = betaling.getBetaalwijze();
-//        String betaalwijze = bw.getBetaalwijze();        
-//        juist = betalingView.checkInputString(betaalwijze);
-//        if (juist == 2) {
-//            betaalwijze = betalingView.voerBetaalwijzeIn(); // deze methode in view werkt nog niet 
-//            // convert to bean betaalwijze
-//        }
+        Betaalwijze bw = betaling.getBetaalwijze();
+        String betaalwijze = bw.getBetaalwijze();        
+        juist = betalingView.checkInputString(betaalwijze);
+        if (juist == 2) {
+            int betaalw = betalingView.voerBetaalwijzeIn(); 
+            
+            switch (betaalw){
+            case 1:
+                bw = Betaalwijze.GOOGLEWALLET;
+                break;
+            case 2:
+                 bw = Betaalwijze.IDEAL;
+                break;
+            case 3:
+                 bw = Betaalwijze.PAYPAL;
+                break;
+            case 4:
+                 bw = Betaalwijze.MONEYBOOKERS;
+                break;
+            case 5:
+                 bw = Betaalwijze.CREDITCARD;
+                break;   
+            default:
+                return null;    
+        }
+            
+            
+            
+        }
         
         String betalingsGegevens = betaling.getBetalingsGegevens();        
         juist = betalingView.checkInputString(betalingsGegevens);
@@ -233,7 +288,7 @@ private static final Logger log = LoggerFactory.getLogger(BetalingController.cla
             betalingsGegevens = betalingView.aanpassenBetalingsGegevens(betalingsGegevens);
         }
         // setters betaalwijze, betalingsGegevens
-//        betaling.setBetaalwijze(bw);
+        betaling.setBetaalwijze(bw);
         betaling.setBetalingsGegevens(betalingsGegevens);          
                
         return betaling;        
