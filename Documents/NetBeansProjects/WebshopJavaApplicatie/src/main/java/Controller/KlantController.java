@@ -3,19 +3,13 @@ package Controller;
 
 
 import DAOGenerics.GenericDaoImpl;
-import DAOs.AccountDao;
-import DAOs.AdresDao;
-import DAOs.BestellingDao;
-import DAOs.FactuurDao;
-import DAOs.KlantDao;
+import DAOs.*;
 import Helpers.HibernateSessionFactory;
-import POJO.Account;
-import POJO.Adres;
-import POJO.Bestelling;
-import POJO.Factuur;
-import POJO.Klant;
-import POJO.KlantAdres;
+import POJO.*;
+import View.AccountView;
 import View.AdresView;
+import View.BestellingView;
+import View.FactuurView;
 import View.HoofdMenuView;
 import View.KlantView;
 import java.util.ArrayList;
@@ -47,6 +41,7 @@ public class KlantController {
     GenericDaoImpl <Bestelling, Long> bestellingDao; 
     
     Account account;
+    AccountView accountView = new AccountView();
             
     KlantView klantView = new KlantView();   
     Klant klant;
@@ -60,7 +55,9 @@ public class KlantController {
     HoofdMenuView hoofdMenuView;
     
     FactuurController factuurController;
+    FactuurView factuurView = new FactuurView();
     
+    BestellingView bestellingView = new BestellingView();
     
     EmailValidator validator = EmailValidator.getInstance(); 
     boolean isAddressValid = false;
@@ -83,10 +80,7 @@ public class KlantController {
     // session afsluiten
     public void closeSession(Session session){            
             session.close();
-    }
-    
-    
-        
+    }    
     
     public void klantMenu() {
         
@@ -110,15 +104,20 @@ public class KlantController {
                 break;
             case 6:
                 voegKlantAanAdresToe();
-                break;
-            
+                break;            
             case 7: 
                 zoekAdresMetKlantId();
                 break;
-            case 8: 
-                voegFactuurAanKlantToe();
+            case 8:
+                zoekFacturenBijKlant();
                 break;
             case 9:
+                zoekBestellingenBijKlant();
+                break; 
+            case 10:
+                zoekAccountBijKlant();
+                break; 
+            case 11:
                 terugNaarHoofdMenu();
                 break;
             default: 
@@ -142,39 +141,57 @@ public class KlantController {
                 System.out.println("Alle klant-adres koppelingen in het bestand van klantid: " + klantId);
                 klantView.printKlantAdresLijst(klantadressen);   
             }
+            
+        klantMenu();
     }
     
+    // werkt
     public void zoekFacturenBijKlant(){
         session = getSession();
         klantDao = new KlantDao();
         factuurDao = new FactuurDao();
+        factuurController = new FactuurController();
         
         System.out.println("U gaat facturen van een klant opzoeken. Voor klantId in: ");
         long klantId = klantView.voerKlantIdIn();
         
         klant = (Klant) session.get(Klant.class, klantId);
-        Set <Factuur> facturen = klant.getFacturen();
         session.getTransaction().commit();
+        Set <Factuur> facturen = klant.getFacturen();
+        for(Factuur factuur: facturen){
+            long factuurId = factuur.getId();
+            
+            factuur = (Factuur) session.get(Factuur.class, factuurId);
+            double totaalBedrag = factuurController.berekenTotaalBedrag(factuur);
+            factuurView.printFactuurOverzicht(factuur, totaalBedrag);
+        }
         
-        // uit printen van lijst facturen
+        klantMenu();
     }
           
     public void zoekBestellingenBijKlant(){
         session = getSession();
         klantDao = new KlantDao();
-        bestellingDao = new BestellingDao();        
+        bestellingDao = new BestellingDao();    
+        bestellingView = new BestellingView();
         
         System.out.println("U gaat bestellingen van een klant opzoeken. Voor klantId in: ");
         long klantId = klantView.voerKlantIdIn();
         
         klant = (Klant) session.get(Klant.class, klantId);
-        Set <Bestelling> facturen = klant.getBestellingen();
         session.getTransaction().commit();
+        Set <Bestelling> bestellingen = klant.getBestellingen();
+        for(Bestelling bestelling: bestellingen){
+            long bestellingId = bestelling.getId();
+            bestelling = (Bestelling) session.get(Bestelling.class, bestellingId);
+            bestellingView.printBestellingInfo(bestelling);
+        }
         
-        // uit printen van lijst bestellingen
+       klantMenu(); 
+       
     }
     
-    public void zoekAccountsBijKlant(){
+    public void zoekAccountBijKlant(){
         session = getSession();
         klantDao = new KlantDao();
         accountDao = new AccountDao();        
@@ -183,37 +200,13 @@ public class KlantController {
         long klantId = klantView.voerKlantIdIn();
         
         klant = (Klant) session.get(Klant.class, klantId);
-        account = klant.getAccount();
         session.getTransaction().commit();
+        account = klant.getAccount();
+        accountView.printAccountGegevens(account);        
         
-        // uit printen van lijst accounts
+        klantMenu();
     }
     
-    public void voegFactuurAanKlantToe(){
-        session = getSession();
-        klantDao = new KlantDao();
-        factuurDao = new FactuurDao();
-        factuurController = new FactuurController();
-        
-        System.out.println("U gaat een factuur toevoegen voor een klant. Voer het klantId in: ");
-        long klantId = klantView.voerKlantIdIn();
-        klant = (Klant) session.get(Klant.class, klantId);
-        session.getTransaction().commit();
-        
-        long factuurId = factuurController.voegNieuweFactuurToe();
-        
-        session = getSession();
-        Factuur factuur = (Factuur) session.get(Factuur.class, factuurId);
-        
-        // update de gegevens van klant
-        Set <Factuur> facturen = klant.getFacturen();
-        facturen.add(factuur);
-        klant.setFacturen(facturen);
-        klantDao.update(klant, session);
-        session.getTransaction().commit();
-        
-        // uitprinten van de set accounts
-    }
     
 //    public void voegAccountAanKlantToe(){
 //        session = getSession();
@@ -235,14 +228,7 @@ public class KlantController {
 //        
 //        // uitprinten van de set account  
 //    }    
-    
-    // of loopt deze via bestelling?
-    public void voegBestellingAanKlantToe(){
-        session = getSession();
-        klantDao = new KlantDao();
-        bestellingDao = new BestellingDao();
-    }
-    
+     
     
     public long voegNieuweKlantToe(){
         
@@ -594,7 +580,6 @@ public class KlantController {
                         isAddressValid = validator.isValid(email);
                     }
             }  
-        
 	
         klant.setVoornaam(voornaam);
         klant.setAchternaam(achternaam);
