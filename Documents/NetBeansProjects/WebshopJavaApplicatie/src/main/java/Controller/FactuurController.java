@@ -4,6 +4,7 @@
 package Controller;
 
 import DAOGenerics.GenericDaoImpl;
+import DAOs.BestellingDao;
 import DAOs.BetalingDao;
 import DAOs.FactuurDao;
 import Helpers.HibernateSessionFactory;
@@ -306,6 +307,8 @@ private static final Logger log = LoggerFactory.getLogger(FactuurController.clas
  
     
     public double berekenTotaalBedrag(Factuur factuur){
+        bestellingDao = new BestellingDao();
+        
          double totaalBedrag = 0.0;
          long bestellingId = factuur.getBestelling().getId();
          System.out.println("bestellingid: " + bestellingId);
