@@ -43,7 +43,7 @@ public class Bestelling implements Serializable {
     @OneToMany (fetch = FetchType.LAZY, mappedBy = "pk.bestelling", cascade = CascadeType.ALL)
     private Set<BestellingArtikel> bestellingArtikellen = new HashSet<>();
     
-    @OneToOne (mappedBy = "bestelling")
+    @OneToOne (fetch = FetchType.LAZY, mappedBy = "bestelling")
     private Factuur factuur; 
 
     /*
@@ -198,7 +198,7 @@ public class Bestelling implements Serializable {
     
     @Override
     public String toString(){
-         String output = "Bestelling ID: " + this.getId() + "\n Klant ID: " + this.getKlant().getKlantNummer();
+         String output = "Bestelling ID: " + this.getId() + "\n Klant ID: " + this.getKlant().getId();
          return output;
     }
     

@@ -18,6 +18,8 @@ import java.util.Scanner;
 import View.ArtikelView;
 import View.KlantView;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
@@ -144,10 +146,9 @@ public class BestellingController {
         System.out.println("Beschikbare artikellen:");
         
         ArrayList<Artikel> artikelLijst = (ArrayList<Artikel>)artikelDao.readAll(Artikel.class, session);
-        for (Artikel ar: artikelLijst){
-            System.out.println(ar.getId() + " - " + ar.getArtikelNaam() + ": €" + ar.getArtikelPrijs());
-        }
         
+        bestellingView.printArtikelLijst(artikelLijst);
+
         // BestellingArtikel toevoeg loop
 
         int anotherOne = 0;
@@ -156,10 +157,11 @@ public class BestellingController {
         do{
             try{
                 
-            System.out.println("Welk artikel wilt u aan de bestelling toevoegen?");
-            artikelKeuze = scanner.nextLong();
-            System.out.println("Hoe vaak wilt u dit artikel bestellen?");
-            artikelAantal = scanner.nextInt();
+            // welk artikel
+            artikelKeuze = bestellingView.voerArtikelIdIn();
+            
+            // hoe vaak
+            artikelAantal = bestellingView.voerAantalIn();
             
             }catch (InputMismatchException ex){
                 System.out.println("Voer een integer in.");
@@ -196,45 +198,181 @@ public class BestellingController {
         System.out.println("Uw bestelling is toegevoegd en met bestellingId: " + bestellingId);
         session.getTransaction().commit();
         session.close();
-        
-                
+               
     }
     
-    /*
-    session = getSession();
-        klantDao = new KlantDao();
-        accountDao = new AccountDao();
-        
-        System.out.println("U gaat een account toevoegen. Voer uw klantId in: ");
-        long klantId = klantView.voerKlantIdIn();
-        
-        klant = (Klant) session.get(Klant.class, klantId);
-        Account account = new Account();
-        // nieuwe account aanmaken.
-        // account toevoegen in database
-        klant.getAccounts().add(account);
-        //update gevevens van klant
-        session.getTransaction().commit();
-        session = getSession();
-        Set <Account> accounts = klant.getAccounts();
-        
-        // uitprinten van de set account 
-    
-    */
-    
     public void haalBestellingInfoOp() {
-           
+        
+        bestellingDao = new BestellingDao();
+        int zoekKeuze;
+        
+        zoekKeuze = bestellingView.hoeWiltUZoeken();
+        
+        if (zoekKeuze == 1){
+        
+        session = getSession();    
+        Long bestellingId;
+        bestellingId = bestellingView.voerBestellingIdIn();
+        
+        Bestelling bestelling = (Bestelling) session.get(Bestelling.class, bestellingId);
+        bestellingView.printBestellingInfo(bestelling);
+        System.out.println("---");
+        Set <BestellingArtikel> artikelLijst = bestelling.getBestellingArtikellen();
+            System.out.println("Artikellen in Bestelling " + bestellingId + ":");
+        for (BestellingArtikel BS: artikelLijst){
+            System.out.println(BS.getArtikel().getId() + " - " + BS.getArtikel().getArtikelNaam() + ": " + BS.getArtikelAantal() + " keer");
+        }
+        session.close();
+        
+        }
+        else if (zoekKeuze == 2){
+        
+        session = getSession();    
+        Long klantId;
+        klantId = bestellingView.voerKlantIdIn();
+        
+        System.out.println("De bestellingen van Klant ID: " + klantId + " zijn:");
+        Klant klant = (Klant) session.get(Klant.class, klantId);
+        Set <Bestelling> bestellingen = klant.getBestellingen();
+        for (Bestelling best: bestellingen){
+            System.out.println("Bestelling ID: " + best.getId());
+        }
+        
+        
+        session.close();
+            
+        }
+        else{
+        
+            System.out.println("U gaat terug naar BestellingMenu");    
+            
+        }
+ 
     }
     
     public void wijzigBestelling() {
+        
+        Bestelling bestelling;
+        boolean checker = false;
+        Long bestellingId;
+        session = getSession();
+        
+        // Bestelling ophalen
+        
+        bestellingId = bestellingView.voerBestellingIdIn();
+        
+        bestelling = (Bestelling)session.get(Bestelling.class, bestellingId);
+        bestellingView.printBestellingInfo(bestelling);
+        
+        // Artikellen in bestelling tonen
+        Set <BestellingArtikel> artikelLijst = bestelling.getBestellingArtikellen();
+            System.out.println("Artikellen in Bestelling " + bestellingId + ":");
+        for (BestellingArtikel BS: artikelLijst){
+            System.out.println(BS.getArtikel().getId() + " - " + BS.getArtikel().getArtikelNaam() + ": " + BS.getArtikelAantal() + " keer");
+        }
+        
+        session.close();
+        
+        // keuze geven welk artikel aangepast moeten worden
+        
+        do {
+        
+        int artikelKeus;
+        int verwijderWijzig;
+            
+        artikelKeus = bestellingView.voerArtikelId();
+        verwijderWijzig = bestellingView.wijzigBestellingKeuze();
+        
+        if (verwijderWijzig == 1){
+            // artikel uit bestelling verwijderen
+            
+            session = getSession();
+            
+            Bestelling wijzigBestelling;
+            wijzigBestelling = (Bestelling) session.get(Bestelling.class, bestellingId);
+            Set<BestellingArtikel>bestellingArtikellen;
+            Set<BestellingArtikel>bestellingArtikellenClone = new HashSet<>();
+            bestellingArtikellen = (Set<BestellingArtikel>) wijzigBestelling.getBestellingArtikellen();
+            
+            // 2 verschillende sets, 1 (bestellingArtikellen) om de te verwijderen bestellingartikellen 
+            // toe te voegen aan de ander (bestellingArtikellenClone) en vervolgens ook uit de orignele set zelf
+            for (BestellingArtikel BS: bestellingArtikellen){
+                if(BS.getArtikel().getId() == artikelKeus){
+                    bestellingArtikellenClone.add(BS);
+                }
+            }
+            
+            for (BestellingArtikel BSC: bestellingArtikellenClone){
+                session.delete(BSC);
+                bestellingArtikellen.remove(BSC);
+            }
+
+            session.getTransaction().commit();
+            session.close();   
+            
+            // Extra check om te kijken of de bestelling leeg is, zoja word ie verwijderd
+            if (bestellingArtikellen.isEmpty()){
+                session = getSession();
+                System.out.println("Bestelleng ID: " + bestellingId + " heeft geen artikellen meer, bestelling word verwijderd");
+                session.delete(bestelling);
+                session.getTransaction().commit();
+                session.close();     
+            }
+                   
+        }
+        
+        else if (verwijderWijzig == 2){
+            // artikel aantal wijzigen
+            
+            int nieuwAantal;
+            session = getSession();
+            
+            Bestelling wijzigBestelling;
+            wijzigBestelling = (Bestelling) session.get(Bestelling.class, bestellingId);
+            Set<BestellingArtikel>bestellingArtikellen;
+            bestellingArtikellen = (Set<BestellingArtikel>) wijzigBestelling.getBestellingArtikellen();
+            
+            
+            nieuwAantal = bestellingView.wijzigAantal();
+            
+            for (BestellingArtikel BS: bestellingArtikellen){
+                if (BS.getArtikel().getId() == artikelKeus){
+                    
+                    BS.setArtikelAantal(nieuwAantal);
+                    session.update(BS);
+                    session.getTransaction().commit();
+                    session.close();
+                    
+                    // nog een sout met nieuwe artikel info
+                }
+            }
+            
+        }
+        
+        checker = bestellingView.nogEenArtikelWijzigen();
+        
+        }while(checker);
+        
+        
+        // Aantal wijzigen of verwijderen?
+        
+        // Optioneel: nog een artikel
+        
+        // Done
+        
+        
+        
+        
+        
+        
         
     }
     
     public void verwijderBestelling() {
         
         session = getSession();
+        bestellingDao = new BestellingDao();
         boolean deleted = false;
- 
         Long bestellingId;
         
         ArrayList<Bestelling> bestellingLijst = (ArrayList<Bestelling>) bestellingDao.readAll(Bestelling.class, session);
@@ -242,6 +380,7 @@ public class BestellingController {
         System.out.println("Welke bestelling wilt u verwijderen?");
         bestellingId = bestellingView.voerBestellingIdIn();
         deleted = bestellingDao.deleteById(bestellingId, session);
+        System.out.println("Verwijderprocess succes:" + deleted);
         session.getTransaction().commit(); 
         System.out.println(bestellingId + " is verwijderd."); 
         session.close();
@@ -251,13 +390,18 @@ public class BestellingController {
 
     public void toonAlleBestellingen() {
         
-        ArrayList<Bestelling>bestellingLijst = (ArrayList<Bestelling>)bestellingDao.readAll(Bestelling.class, session);
+        session = getSession();
+        bestellingDao = new BestellingDao();
+        
+        ArrayList<Bestelling> bestellingLijst = (ArrayList<Bestelling>) bestellingDao.readAll(Bestelling.class, session);
         bestellingView.printBestellingLijst(bestellingLijst);
+        session.close();
         
     }
     
     public void verwijderAlleBestellingen() {
-
+        
+        bestellingDao = new BestellingDao();
         int verwijderConfirmatie = bestellingView.verwijderConfirmatie();
         
         if (verwijderConfirmatie == 1){
@@ -265,7 +409,7 @@ public class BestellingController {
             bestellingDao.deleteAll(Bestelling.class, session);
             session.getTransaction().commit();
             session.close();
-            System.out.println("Alles is verwijderd.\n");  
+            System.out.println("Alle bestellingen zijn verwijderd.\n");  
         }
         
         else {

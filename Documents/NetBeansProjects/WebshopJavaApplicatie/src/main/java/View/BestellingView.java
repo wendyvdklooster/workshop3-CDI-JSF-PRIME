@@ -61,7 +61,7 @@ public class BestellingView {
     }
 
     
-    public long zoekBestellingInfo(){
+    public long voerBestellingIdIn(){
         
         System.out.println("Wat is het bestelling ID?");        
         
@@ -77,12 +77,27 @@ public class BestellingView {
     
     public long voerArtikelIdIn(){
         
-        System.out.println("Voer een artikel ID in:");
+        System.out.println("Welk artikel wilt u toevoegen aan uw bestelling?");
         artikelId = Long.parseLong(scanner.nextLine());
         
         return artikelId;
     }
     
+    public int voerArtikelId(){
+        
+        int artikelId = 1;
+        
+        System.out.println("Welk artikel wilt u wijzigen?");
+        try{
+            artikelId = scanner.nextInt();
+        }catch(InputMismatchException ex){
+            System.out.println("Voer een integer in.");
+        }
+        
+        
+        return artikelId;
+        
+    }
     
     public int voerAantalIn(){
         
@@ -120,7 +135,7 @@ public class BestellingView {
         userInput = 0;
         
         try{
-            userInput = Integer.parseInt(scanner.nextLine()); 
+            userInput = scanner.nextInt();
         } catch (InputMismatchException ex){
             System.out.println("Vul een getal in.");
         }
@@ -135,7 +150,7 @@ public class BestellingView {
         artikelAantal = 0;
         
         try{
-        artikelAantal = Integer.parseInt(scanner.nextLine());
+        artikelAantal = scanner.nextInt();
         } catch (InputMismatchException ex){
             System.out.println("Vul een getal in.");
         }
@@ -146,7 +161,6 @@ public class BestellingView {
     
     public void printBestellingLijst(ArrayList<Bestelling>lijst){      
        
-        
         System.out.println("Aanwezige bestellingen: ");
         for (Bestelling best: lijst){            
             System.out.println(best.toString());
@@ -224,4 +238,34 @@ public class BestellingView {
         return userInput;
         
     }
+     
+    public void printArtikelLijst(ArrayList<Artikel>artikelLijst){
+        for (Artikel ar: artikelLijst){
+            System.out.println(ar.getId() + " - " + ar.getArtikelNaam() + ": €" + ar.getArtikelPrijs());
+        }
+    } 
+    
+    public boolean nogEenArtikelWijzigen(){
+        boolean checker = false;
+        int userInput = 1;
+        
+        
+        System.out.println("Wil je nog een artikel wijzigen?\n1 - Ja\n2 - Nee");
+        try{
+            userInput = scanner.nextInt();
+        }catch(InputMismatchException ex){
+            System.out.println("Voer een integer in");
+        }
+        
+        if (userInput == 1){
+            checker = true;
+        }
+        else if (userInput != 1){
+            checker = false;
+        }
+        
+        return checker;
+    }
+    
+    
 }
