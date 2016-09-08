@@ -1,0 +1,5 @@
+12938 [main] DEBUG com.webshop - connectionpool: Hikari
+26779 [main] DEBUG com.webshop -  databasesetting: JSON
+78797 [main] DEBUG com.webshop - connectionpool: C3p0
+81002 [main] DEBUG com.webshop -  databasesetting: FireBird
+91319 [main] DEBUG com.webshop - test getconnection- C3p0 - fb
