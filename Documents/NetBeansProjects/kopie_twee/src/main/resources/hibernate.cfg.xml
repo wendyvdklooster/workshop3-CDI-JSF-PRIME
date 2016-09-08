@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="connection.url"> jdbc:mysql://localhost:3306/winkelversie2?zeroDateTimeBehavior=convertToNull </property>
+    <property name="connection.username">Anjewe</property>
+    <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="connection.password"> Koetjes</property>
+    <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+    <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+    <property name="show_sql">true</property>
+    <property name="hibernate.hbm2ddl.auto">create</property>
+    <mapping class="POJO.Bestelling"/>
+    <mapping class="POJO.Adres"/>
+    <mapping class="POJO.Artikel"/>
+    <mapping class="POJO.Klant"/>
+    <mapping class="POJO.KlantAdres"/>
+    <mapping class="POJO.BestellingArtikel"/>
+    <mapping class="POJO.Betaling"/>
+    <mapping class="POJO.AdresType"/>
+    <mapping class="POJO.Factuur"/>
+    <mapping class="POJO.Betaalwijze"/>
+    <mapping class="POJO.AdresType"/>
+    <mapping class="POJO.Account"/>
+  </session-factory>
+</hibernate-configuration>

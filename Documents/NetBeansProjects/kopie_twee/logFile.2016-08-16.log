@@ -1,0 +1,53 @@
+3589 [main] DEBUG com.webshop - U kunt werken in het bestand
+6856 [main] DEBUG com.webshop - connectionpool: Hikari
+11276 [main] DEBUG com.webshop -  databasesetting: MySQL
+24927 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+34433 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+172913 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+174204 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+3769 [main] DEBUG com.webshop - U kunt werken in het bestand
+20111 [main] DEBUG com.webshop - connectionpool: Hikari
+22013 [main] DEBUG com.webshop -  databasesetting: MySQL
+32937 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+34479 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+58131 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+191749 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+194761 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+209251 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+211467 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+403629 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+405570 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+3631 [main] DEBUG com.webshop - U kunt werken in het bestand
+8113 [main] DEBUG com.webshop - connectionpool: Hikari
+16152 [main] DEBUG com.webshop -  databasesetting: MySQL
+26573 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+28176 [main] DEBUG com.webshop - test getconnection- hikari - mysql
+278684 [main] DEBUG com.webshop -  databasesetting: FireBird
+288995 [main] DEBUG com.webshop - test getconnection- hikari - fb
+291394 [main] DEBUG com.webshop - test getconnection- hikari - fb
+648023 [main] DEBUG com.webshop - test getconnection- hikari - fb
+662934 [main] DEBUG com.webshop - test getconnection- hikari - fb
+664592 [main] DEBUG com.webshop - test getconnection- hikari - fb
+679836 [main] DEBUG com.webshop - test getconnection- hikari - fb
+681588 [main] DEBUG com.webshop - test getconnection- hikari - fb
+689046 [main] DEBUG com.webshop -  databasesetting: JSON
+4260 [main] DEBUG com.webshop - U kunt werken in het bestand
+36018 [main] DEBUG com.webshop - connectionpool: Hikari
+37762 [main] DEBUG com.webshop -  databasesetting: XML
+102406 [main] DEBUG com.webshop -  databasesetting: JSON
+3548 [main] DEBUG com.webshop - U kunt werken in het bestand
+3061 [main] DEBUG com.webshop - U kunt werken in het bestand
+3349 [main] DEBUG com.webshop - U kunt werken in het bestand
+3177 [main] DEBUG com.webshop - U kunt werken in het bestand
+3015 [main] DEBUG com.webshop - U kunt werken in het bestand
+180380 [main] DEBUG com.webshop - connectionpool: Hikari
+186308 [main] DEBUG com.webshop -  databasesetting: FireBird
+192192 [main] DEBUG com.webshop - test getconnection- hikari - fb
+268115 [main] DEBUG com.webshop - test getconnection- hikari - fb
+297531 [main] DEBUG com.webshop - test getconnection- hikari - fb
+297656 [main] DEBUG com.webshop - test getconnection- hikari - fb
+321890 [main] DEBUG com.webshop - test getconnection- hikari - fb
+431986 [main] DEBUG com.webshop - connectionpool: Hikari
+433785 [main] DEBUG com.webshop -  databasesetting: FireBird
+442631 [main] DEBUG com.webshop - test getconnection- hikari - fb
+476158 [main] DEBUG com.webshop -  databasesetting: XML
