@@ -1,0 +1,71 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core"
+    template="../../templates/masterTemplate.xhtml">
+    
+    <ui:define name="metadata">
+    </ui:define>
+    <ui:define name="content">Adressen bij JAZZ
+                    
+                    
+                            <p:dataTable value="#{adresFacade.adressen}" var="item">
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="AdresId"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.adresId}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Straatnaam"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.straatnaam}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="huisnummer"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.huisnummer}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="toevoeging"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.toevoeging}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="postcode"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.postcode}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="wonplaats"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.woonplaats}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="AdresType"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.adresType}"/>
+                                </p:column>
+                            </p:dataTable>
+        
+  <h:form id="popupAdres">     
+      
+    <p:growl id="messages" showDetail="true"/>
+ 
+    <p:contextMenu>
+        <p:menuitem value="Nieuw adres" url="/crud/adres/Create.xhtml" update="messages" icon="ui-icon-disk"/>       
+        <p:menuitem value="Wijzig" actionListener="#{adresController.edit}" update="messages" icon="ui-icon-arrowrefresh-1-w"/>
+        <p:menuitem value="Verwijder" actionListener="#{adresController.remove}" ajax="false" icon="ui-icon-close"/>
+        <p:menuitem value="Homepage" url="" icon="ui-icon-extlink"/>
+    </p:contextMenu>
+</h:form>
+        
+    </ui:define>
+</ui:composition>

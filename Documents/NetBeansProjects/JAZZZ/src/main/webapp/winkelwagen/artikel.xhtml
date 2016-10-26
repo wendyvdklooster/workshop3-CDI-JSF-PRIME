@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="../templates/masterTemplate.xhtml">
+
+    <ui:define name="metadata">WEBWINKEL
+    </ui:define>
+    <ui:define name="content">WEBWINKEL
+
+
+        <p:dataTable value="#{artikelFacade.producten}" var="item">
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="ArtikelId"/>
+                </f:facet>
+                <h:outputText value="#{item.artikelId}/#{item.artikelnr}"/>
+            </p:column>
+                                              <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Artikelnummer"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.artikelnr}"/>
+                                            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="Artikelnaam"/>
+                </f:facet>
+                <h:outputText value="#{item.artikelnaam}"/>
+            </p:column> 
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="Omschrijving"/>
+                </f:facet>
+                <h:outputText value="#{item.omschrijving}"/>
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="Prijs"/>
+                </f:facet>
+                <h:outputText value="#{item.artikelPrijs}">
+                <f:convertNumber currencySymbol="€" type="currency" />
+                </h:outputText>
+            </p:column>  
+            <p:column>
+                  <f:facet name="header">
+                    <h:outputText value="Aantal"/>
+                </f:facet>
+                 <p:inputNumber id="artikelAantal" value="1" decimalPlaces="0">  
+                    <p:ajax update="#{bestellingartikel.aantal}" />  
+                </p:inputNumber>  
+<!--              
+                <p:cellEditor>
+                    <f:facet name="output"><h:outputText value="#{bestellingartikel.aantal}" /></f:facet>
+                    <f:facet name="input"><p:inputText id="aantalInput" value="#{bestellingartikel.aantal}" style="width:100%"/></f:facet>
+                </p:cellEditor>-->
+                        </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="In winkelmandje"/>
+                </f:facet>
+               
+                <h:commandLink action="#{winkelwagen.voegArtikelToe(artikelId, artikelAantal)}" value="+ #{item.artikelnaam}" />
+            </p:column>
+
+        </p:dataTable>
+
+
+
+
+    </ui:define>
+</ui:composition>

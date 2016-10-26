@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"    
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <body>
+        <ui:composition> 
+            <h:form id="headerForm">  
+                <p:growl id="messages" />
+                <!--<p:menubar style = "background-image: url('../images/header.jpg')"  >-->
+                <p:menubar >  
+                  
+
+                    <f:facet name="options">
+
+                        <c:choose>
+                            <c:when test="#{gelukt}">
+                                <p:commandButton value="Welkom, #{login.username}" action="#{klantController.toonKlant}"/> 
+                                <p:commandButton value="hier komt winkelmandje" action="#{winkelwagen.toonInhoud}" icon="ui-icon-cart"/>
+                                <p:commandButton value="Uitloggen" action="#{login.logout}" icon="ui-icon-extlink" />
+                                <p:inputText style="margin-right:10px" placeholder="Search"/>
+                            </c:when>
+                            <c:otherwise>
+                                <p:inputText style="margin-right:10px" placeholder="Search"/>
+                                <!--                        <h:link value="link" outcome="pages/login" />
+                                                        <h:link value="link" outcome="pages/admin" />-->
+                                <p:commandButton value="Inloggen klant"  action="#{login.login}" />
+                                <p:commandButton value="Uitloggen" action="#{login.logout}" icon="ui-icon-extlink" />
+                            </c:otherwise>
+                        </c:choose>
+
+                    </f:facet>
+                </p:menubar>      
+            </h:form>
+
+        </ui:composition>
+    </body>
+</html>

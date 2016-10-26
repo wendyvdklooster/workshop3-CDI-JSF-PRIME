@@ -1,0 +1,60 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core"
+    template="../../templates/masterTemplate.xhtml">
+    
+    <ui:define name="metadata">Artikelen
+    </ui:define>
+    <ui:define name="content">Bestellingen bij JAZZ
+                    
+                    
+                            <p:dataTable value="#{bestellingFacade.bestelling}" var="item">
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="bestellingId"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.bestellingId}"/>
+                                </p:column>
+                                  <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="bestelartikel"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.bestellingartikelCollection}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Artikelnaam"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.bestellingartikelCollection.artikel.artikelNaam}"/>
+                                </p:column> 
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Datum"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.bestellingDatum}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Klant"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.klantId}"/>
+                                </p:column>
+                                
+                            </p:dataTable>
+                    
+                        
+  <h:form>              
+    <p:growl id="messages" showDetail="true"/>
+ 
+    <p:contextMenu>
+        <p:menuitem value="Nieuwe bestelling" url="/crud/bestelling/Create.xhtml" update="messages" icon="ui-icon-disk"/>
+        <p:menuitem value="Wijzig" actionListener="#{bestellingFacade.edit}" update="messages" icon="ui-icon-arrowrefresh-1-w"/>
+        <p:menuitem value="Verwijder" actionListener="#{bestellingFacade.remove}" ajax="false" icon="ui-icon-close"/>
+        <p:menuitem value="Homepage" url="" icon="ui-icon-extlink"/>
+    </p:contextMenu>
+</h:form>
+
+    </ui:define>
+</ui:composition>

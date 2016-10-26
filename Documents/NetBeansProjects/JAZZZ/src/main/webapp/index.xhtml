@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="templates/masterTemplate.xhtml">
+
+
+    <ui:define name="metadata">HOME
+    </ui:define>
+    <ui:define name="content"> 
+        <div align="right">
+        <h2>WELKOM BIJ JAZZ, JE WERELD KLEURT ER RIJKELIJK VAN </h2>
+        </div>
+
+        <div align="right">
+        <br/><br/>
+        <p:commandButton action="/crud/artikel/Create.xhtml" value="Artikel aanmaken" /><br/>
+        <p:commandButton action="/crud/klant/klanten.xhtml" value="Klanten" /><br/>
+        <p:commandButton action="/crud/adres/adres.xhtml" value="Adressen"/><br/>
+        <p:commandButton id="registreer" action="registreer" value="Registreer" /> 
+        </div>
+    </ui:define>
+</ui:composition>

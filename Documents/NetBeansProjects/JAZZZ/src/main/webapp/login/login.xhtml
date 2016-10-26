@@ -1,0 +1,78 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="../templates/masterTemplate.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="metadata">login
+    </ui:define>
+    <ui:define name="content">
+
+
+        <h:form id="loginForm">
+            <h2>Inloggen</h2>
+            <!--            <h:outputText value="Gebruikersnaam" />
+                        <h:inputText id="Gebruikersnaam" value="#{login.username}"></h:inputText>
+                        <h:message for="Gebruikersnaam"></h:message>
+                        <br></br><br></br>
+            
+                        <h:outputText value="Wachtwoord" />
+                        <h:inputSecret id="Wachtwoord" value="#{login.password}"></h:inputSecret>
+                        <h:message for="Wachtwoord"></h:message>
+                        <br></br><br></br>
+            
+            -->
+            <p>Wees welkom, log in en voel u thuis.</p> 
+
+
+            <h:outputLabel for="username" value="Gebruikersnaam " />
+            <h:inputText id="username" value="#{login.username}" required="true"
+                         requiredMessage="Verplicht veld" />
+            <h:message for="username" style="color: red;" />
+            <br/>
+            <h:outputLabel for="password" value="Wachtwoord " />
+            <h:inputSecret id="password" value="#{login.password}" required="true"
+                           requiredMessage="Verplicht veld">
+                <f:validator validatorId="passwordValidator" />
+                <f:attribute name="passwordCheck" value="#{passwordCheck}" />
+            </h:inputSecret>
+            <h:message for="password" style="color: red;" />
+            <br/>
+            <h:outputLabel for="passwordCheck" value="Herhaal wachtwoord " />
+            <h:inputSecret id="passwordCheck" required="true"
+                           binding="#{passwordCheck}"
+                           requiredMessage="Verplicht veld" />
+            <h:message for="passwordCheck" style="color: red;" />
+            <br/><br/>
+
+            <h:commandButton action="#{login.validateUsernamePassword}" type="submit"  
+                             value="Inloggen"></h:commandButton>
+            <h:commandButton type="reset" value="Reset"></h:commandButton>
+        </h:form>
+        <h:form>
+
+            <br/><br/>
+            <h:commandButton value="Wachtwoord vergeten?" action="#{login.wachtwoordVergeten}"/>
+            <br/>
+            <h:commandButton value="Nog geen account? Meld je gratis aan" action="#{registreer.registreer}"/> 
+
+
+
+
+
+
+            <c:choose>
+                <c:when test="#{gelukt}">
+                    <p>Hello #{account.username}</p>
+                    <p>U bent reeds ingelogd</p>
+                    <h:commandLink action="/winkelwagen/artikel.xhtml" value="Winkelen"/>
+                    <p>Van gedachten veranderd? Om uit te loggen, klik onderstaande link.</p>
+                    <h:commandLink action="#{login.logout}" value="Logout"/>                
+                </c:when>
+            </c:choose>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="../../templates/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditArtikelTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditArtikelLabel_artikelId}" for="artikelId" />
+                    <h:inputText id="artikelId" value="#{artikelController.selected.artikelId}" title="#{bundle.EditArtikelTitle_artikelId}" required="true" requiredMessage="#{bundle.EditArtikelRequiredMessage_artikelId}"/>
+                    <h:outputLabel value="#{bundle.EditArtikelLabel_artikelnaam}" for="artikelnaam" />
+                    <h:inputText id="artikelnaam" value="#{artikelController.selected.artikelnaam}" title="#{bundle.EditArtikelTitle_artikelnaam}" />
+                    <h:outputLabel value="#{bundle.EditArtikelLabel_artikelnr}" for="artikelnr" />
+                    <h:inputText id="artikelnr" value="#{artikelController.selected.artikelnr}" title="#{bundle.EditArtikelTitle_artikelnr}" />
+                    <h:outputLabel value="#{bundle.EditArtikelLabel_artikelPrijs}" for="artikelPrijs" />
+                    <h:inputText id="artikelPrijs" value="#{artikelController.selected.artikelPrijs}" title="#{bundle.EditArtikelTitle_artikelPrijs}" required="true" requiredMessage="#{bundle.EditArtikelRequiredMessage_artikelPrijs}"/>
+                    <h:outputLabel value="#{bundle.EditArtikelLabel_omschrijving}" for="omschrijving" />
+                    <h:inputText id="omschrijving" value="#{artikelController.selected.omschrijving}" title="#{bundle.EditArtikelTitle_omschrijving}" />
+                    <a href="../../../java/com/wendy/bean/Winkelwagen.java"></a>
+                </h:panelGrid>
+                <h:commandLink action="#{artikelController.update}" value="#{bundle.EditArtikelSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditArtikelViewLink}"/>
+                <br />
+                <h:commandLink action="#{artikelController.prepareList}" value="#{bundle.EditArtikelShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditArtikelIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

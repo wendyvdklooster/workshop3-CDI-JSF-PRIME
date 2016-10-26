@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <body>
+        <ui:composition>
+            <h:form id="header2Form">  
+                <p:growl id="messages" autoUpdate="true" showDetail="true" />
+
+                <p:menubar>
+                    <p:submenu label="Klant" icon="ui-icon-document" >
+                        <p:submenu label="Winkelmand" icon="ui-icon-contact">
+                            <p:menuitem value="Inzien" url="#" />
+                            <p:menuitem value="Afrekenen" url="#" />
+                        </p:submenu>
+                        <p:separator />
+                        <p:menuitem id="registreer" action="registeer" value="Registreer"  />                    
+                        <p:menuitem value="Account gegevens" action="#{klantController.toonKlant}" />
+                    </p:submenu>
+
+                    <p:submenu label="Contact" icon="ui-icon-contact">
+                        <p:menuitem value="Mail" url="#" icon="ui-icon-arrowreturnthick-1-w" />                       
+                        <p:menuitem value="Bel" url="#" icon="ui-icon-arrowreturnthick-1-e" />
+                        <p:menuitem value="FAQ" url="#"/>
+                        <p:menuitem value="Over ons" url="#" />
+                    </p:submenu>
+
+                    <p:submenu label="Info" icon="ui-icon-help">
+                        <p:menuitem value="Links" url="#" />
+                        <p:submenu label="Websites" icon="ui-icon-search">
+                            <p:submenu label="Text">
+                                <p:menuitem value="Emotiewinkel" url="#" />
+                            </p:submenu>
+                            <p:submenu label="Text">
+                                <p:menuitem value="Het Juiste Been" url="#" />
+                            </p:submenu>
+                            <p:menuitem value="Home" url="" icon="ui-icon-home" />
+                        </p:submenu>
+                    </p:submenu>
+
+                    <p:submenu label="Actions" icon="ui-icon-gear">
+                        <p:submenu label="Ajax" icon="ui-icon-refresh">
+                            <p:menuitem value="Opslaan" actionListener="#{menuView.save}" icon="ui-icon-disk" update="messages"/>
+                            <p:menuitem value="Wijzig" actionListener="#{menuView.update}" icon="ui-icon-arrowrefresh-1-w" update="messages"/>
+                        </p:submenu>
+                        <p:submenu label="Non-Ajax" icon="ui-icon-newwin">
+                            <p:menuitem value="Verwijder" actionListener="#{menuView.delete}" icon="ui-icon-close" update="messages" ajax="false"/>
+                        </p:submenu>
+                    </p:submenu>
+                    <p:submenu label="Navigatie">
+
+                        <p:menuitem value="Artikelen" url="/crud/artikel/artikel.xhtml" icon="ui-icon-home"/>
+                        <p:menuitem value="Klanten" url="/crud/klant/klanten.xhtml"  icon="ui-icon-home"/>
+                        <p:menuitem value="Adressen" url="/crud/adres/adres.xhtml"  icon="ui-icon-home"/>
+                        <p:menuitem value="Accounts" url="/crud/account/account.xhtml" icon="ui-icon-home"/>
+                        <p:menuitem value="Facturen" url="/crud/factuur/factuur.xhtml" icon="ui-icon-home"/>
+                        <p:menuitem value="Betalingen" url="/crud/betaling/betaling.xhtml" icon="ui-icon-home"/>
+                        <p:menuitem value="Bestellingen" url="/crud/bestelling/bestelling.xhtml" icon="ui-icon-home"/>
+                        <p:menuitem value="Home" url="/index.xhtml" icon="ui-icon-home"/>
+                       
+                    </p:submenu>
+                    
+                </p:menubar>
+            </h:form>
+
+        </ui:composition>
+    </body>
+</html>

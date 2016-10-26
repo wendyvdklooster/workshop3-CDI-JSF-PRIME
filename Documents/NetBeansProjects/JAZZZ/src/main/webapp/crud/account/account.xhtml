@@ -1,0 +1,49 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core"
+    template="../../templates/masterTemplate.xhtml">
+    
+    <ui:define name="metadata">Accounts
+    </ui:define>
+    <ui:define name="content">Accounts bij JAZZ                    
+                    
+                            <p:dataTable value="#{accountFacade.producten}" var="item">
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Username"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.username}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Datum"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.creatieDatum}">
+                                        <f:convertDateTime pattern="dd-mm-yyyy"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="KlantId"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.klantId}"/>
+                                </p:column>
+                                   
+                            </p:dataTable>
+        
+  <h:form id="popupAdres">     
+      
+    <p:growl id="messages" showDetail="true"/>
+ 
+    <p:contextMenu>
+        <p:menuitem value="Nieuw account" url="/crud/account/Create.xhtml" update="messages" icon="ui-icon-disk"/>       
+        <p:menuitem value="Wijzig" url="crud/account/Edit.xhtml" update="messages" icon="ui-icon-arrowrefresh-1-w"/>
+        <p:menuitem value="Verwijder" actionListener="#{adresFacade.remove}" ajax="false" icon="ui-icon-close"/>
+        <p:menuitem value="Homepage" url="/index.xhtml" icon="ui-icon-extlink"/>
+    </p:contextMenu>
+</h:form>
+        
+    </ui:define>
+</ui:composition>

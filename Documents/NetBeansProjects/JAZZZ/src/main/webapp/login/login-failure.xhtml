@@ -1,0 +1,20 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="../templates/masterTemplate.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="metadata">Inloggen mislukt
+    </ui:define>
+    <ui:define name="content">
+        
+       <div><p>Sorry, gebruikersnaam of wachtwoord is niet correct. 
+               Probeert u het opnieuw</p>
+   <p:commandButton value="Inloggen klant"  action="#{login.login}" />
+   
+   </div>
+    </ui:define>
+</ui:composition>

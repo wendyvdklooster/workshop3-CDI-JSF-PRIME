@@ -1,0 +1,23 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="../templates/masterTemplate.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="metadata">Login success </ui:define>
+    <ui:define name="content">
+        
+        <h2>Inloggen gelukt</h2>
+            <c:choose>
+                <c:when test="#{gelukt}">
+                <p>Welkom #{account.username}, je bent ingelogd</p>
+                <h:commandLink action="/winkelwagen/artikel.xhtml" value="Winkelen"/>
+                <br/><br/>                
+                <h:commandLink action="#{login.logout}" value="Van gedachten veranderd? klik om uit te loggen" />                
+                </c:when>
+            </c:choose>
+
+    </ui:define>
+</ui:composition>

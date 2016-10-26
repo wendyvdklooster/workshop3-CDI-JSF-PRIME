@@ -1,0 +1,98 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core"
+    template="../templates/masterTemplate.xhtml"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    
+    <ui:define name="metadata">
+    </ui:define>
+    <ui:define name="content">
+        <h2>Account gegevens</h2>
+        <h:form>
+
+            <h1>Welkom #{account.username}</h1>
+            <h2>Bekijk hier onder uw gegevens.</h2>
+            <br/>
+           
+                    
+            <h:outputText value="Inloggegevens" />
+            <br/><br/>
+            <h:outputLabel value="Username:  " for="username"/><h:inputText id="username" value="#{klant.account.username}" required="true" requiredMessage="verplicht veld"/>
+                        <br/>
+            <h:outputText value="AccountId  " />#{account.accountId} 
+            <br/><br/>
+            <h:outputText value="Persoonsgegevens"/>
+            <br/>
+            <h:outputLabel value="Voornaam  " for="voornaam"/><h:inputText id="voornaam" value="#{klant.voornaam}" required="true" requiredMessage="verplicht veld"/>
+            <br/>            
+            <h:outputLabel value="Tussenvoegsel  " for="tussenvoegsel"/><h:inputText id="tussenvoegsel" value="#{klant.tussenvoegsel}"/>
+                        <br/>
+           <h:outputLabel value="Achternaam  " for="achternaam"/><h:inputText id="achternaam" value="#{klant.achternaam}" required="true" requiredMessage="verplicht veld"/>
+                        <br/>
+            <h:outputLabel value="Email  " for="email"/><h:inputText id="email" value="#{klant.email}" required="true" requiredMessage="verplicht veld"/>
+                        <br/>
+            <h:outputText value="KlantId  " />#{klant.klantId} 
+            
+            <br/><br/>
+           
+            <h:outputText value="Adres gegevens"/><br/>
+            <h:outputText value="Adressen:   "/>#{klant.klantadresCollection}
+            <br/>
+            <h:outputText value="Straatnaam:  "/>
+            <br/>
+            <h:outputText value="Huisnummer:   "/>
+            <br/>
+            <h:outputText value="Toevoeging:    "/>
+            <br/>
+            <h:outputText value="Postcode:   "/>
+            <br/>
+            <h:outputText value="Woonplaats:   "/>
+            <br/>
+            <h:outputText value="AdresType:   "/>#{adresFacade.convertAdresType(adres.adresType)}
+            <br/>
+            <h:commandButton value="Gegevens aanpassen" action="#{klantController.watWijzigen}"></h:commandButton>
+            <h:commandButton value="Naar webwinkel" action="/winkelwagen/artikel.xhtml"></h:commandButton>
+           
+            </h:form>
+        
+             <c:choose>
+                <c:when test="#{wijzigen}">
+                <p>Welke gegevens zou u willen wijzigen?</p>
+                 <h:commandLink action="#{login.wijzigInloggegevens}" value="Inloggegevens"/>
+                <br/>
+                <h:commandLink action="#{klantController.wijzigKlant}" value="Persoonsgegevens"/>
+                <br/>
+                <h:commandLink action="#{adresController.wijzigAdres}" value="Adresgegevens"/>                
+                </c:when>
+            </c:choose>
+            
+            <c:choose>
+                <c:when test="#{adresWijzigen}">
+                <p>Hieronder kunt u uw adresgegevens wijzigen</p>
+                <br/>
+                <h:outputText value="AdresId  " />#{adres.adresId}" 
+                <br/>
+                  <h:outputLabel value="Straatnaam  " for="straatnaam"/><h:inputText id="straatnaam" value="#{adres.straatnaam}" required="true" requiredMessage="verplicht veld"/>
+            <br/>            
+            <h:outputLabel value="Huisnummer  " for="huisnummer"/><h:inputText id="huisnummer" value="#{adres.huisnummer}" required="true" requiredMessage="verplicht veld"/>
+                        <br/>
+           <h:outputLabel value="Toevoeging  " for="toevoeging"/><h:inputText id="toevoeging" value="#{adres.toevoeging}" />
+                        <br/>
+            <h:outputLabel value="Postcode  " for="postcode"/><h:inputText id="postcode" value="#{adres.postcode}" required="true" requiredMessage="verplicht veld"/>
+              <br/>
+            <h:outputLabel value="Woonplaats  " for="woonplaats"/><h:inputText id="woonplaats" value="#{adres.woonplaats}" required="true" requiredMessage="verplicht veld"/>
+                  <br/>
+            <h:outputLabel value="Adrestype  " for="adresType"/><h:inputText id="adresType" value="#{adres.adresType}" required="true" requiredMessage="verplicht veld"/>
+                                        
+            
+                        
+                </c:when>
+            </c:choose>
+
+        
+        
+
+    </ui:define>
+</ui:composition>

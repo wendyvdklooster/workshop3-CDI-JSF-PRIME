@@ -1,0 +1,56 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="../templates/masterTemplate.xhtml">
+
+    <ui:define name="metadata">Registratie
+    </ui:define>
+    <ui:define name="content">
+        <div  align="center">
+            <h1>Registratie formulier</h1>
+            <h:form>
+
+
+                <h2>Vul hier uw account gegevens in</h2>
+                <br/>
+
+                <!--            <br/><br/>
+                            <h:outputText value="Gebruikersnaam"/>#{' '}<h:inputText value="#{registreer.username}" required="true" requiredMessage="verplicht veld"></h:inputText  >
+                            <br/>
+                            <h:outputText value="Wachtwoord"/>#{' '}<h:inputSecret value="#{registreer.password}" required="true" requiredMessage="verplicht veld"></h:inputSecret>
+                            
+                -->
+
+
+                <h:outputLabel for="username" value="Gebruikersnaam  " />
+                <h:inputText id="username" value="#{registreer.username}" required="true"
+                             requiredMessage="Please enter username" />
+                <h:message for="username" style="color: red;" />
+<br/>
+                <h:outputLabel for="password" value="Wachtwoord  " />
+                <h:inputSecret id="password" value="#{registreer.password}" required="true"
+                               requiredMessage="Verplicht veld">
+                    <f:validator validatorId="passwordValidator" />
+                    <f:attribute name="passwordCheck" value="#{passwordCheck}" />
+                </h:inputSecret>
+                <h:message for="password" style="color: red;" />
+<br/>
+                <h:outputLabel for="passwordCheck" value="Bevestig wachtwoord  " />
+                <h:inputSecret id="passwordCheck" required="true"
+                               binding="#{passwordCheck}"
+                               requiredMessage="Verplicht veld" />
+                <h:message for="passwordCheck" style="color: red;" />
+
+
+
+                <br/>
+                <h:commandButton value="Naar persoonsgegevens" action="/registreer/registreer-Klant"></h:commandButton>
+
+
+            </h:form>
+        </div>
+
+    </ui:define>
+</ui:composition>

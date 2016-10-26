@@ -1,0 +1,60 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core"
+    template="../templates/masterTemplate.xhtml">
+    
+    <ui:define name="metadata">
+    </ui:define>
+    <ui:define name="content">
+        <h2>Account gegevens</h2>
+        <h:form>
+
+            <h1>Welkom "#{account.username}"</h1>
+            <h2>U bent succesvol geregistreerd.</h2>
+            <br/>
+
+            <h:outputText value="Inloggegevens"/>
+            <br/><br/>
+            <h:outputText value="Username:  "/>#{account.username}         
+            <br/>
+            <h:outputText value="Password  "/>#{account.password}         
+            <br/><br/>
+            <h:outputText value="Persoonsgegevens"/>
+            <br/>
+            <h:outputText value="Voornaam:  "/>#{klant.voornaam}
+            <br/>            
+            <h:outputText value="Tussenvoegsel:  "/>#{klant.tussenvoegsel}
+            <br/>
+            <h:outputText value="Achternaam:  "/>#{klant.achternaam}
+            <br/>
+            <h:outputText value="Email  "/>#{klant.email}
+            <br/>
+            <h:outputText value="KlantId: "/>#{klant.klantId}
+            <br/><br/>
+           
+            <h:outputText value="Adres gegevens"/><br/>
+            <h:outputText value="Adressen:   "/>#{klant.klantadresCollection}
+            <br/>
+            <h:outputText value="Straatnaam:  "/>
+            <br/>
+            <h:outputText value="Huisnummer:   "/>
+            <br/>
+            <h:outputText value="Toevoeging:    "/>
+            <br/>
+            <h:outputText value="Postcode:   "/>
+            <br/>
+            <h:outputText value="Woonplaats:   "/>
+            <br/>
+            <h:outputText value="AdresType:   "/>#{adresFacade.convertAdresType(adres.adresType)}
+            <br/>
+            <h:commandButton value="Gegevens aanpassen(volgt)" action="/index.xhtml"></h:commandButton>
+              <h:commandButton value="Naar inloggen" action="/login/login.xhtml"></h:commandButton>
+           
+            
+        </h:form>
+
+
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,71 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core"
+    template="../../templates/masterTemplate.xhtml">
+    
+    <ui:define name="metadata">Klant
+    </ui:define>
+      
+    <ui:define name="content">Klanten bij JAZZ
+                  
+                    
+                            <p:dataTable value="#{klantFacade.klanten}" var="item">
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="KlantId"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.klantId}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Achternaam"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.achternaam}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Email"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.email}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="KlantNummer"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.klantNummer}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Tussenvoegsel"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.tussenvoegsel}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Voornaam"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.voornaam}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Account"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.account.accountId}"/>
+                                </p:column>
+                            </p:dataTable>
+        
+  <h:form>              
+    <p:growl id="messages" showDetail="true"/>
+ 
+    <p:contextMenu>
+        <p:menuitem value="Nieuwe klant" url="crud/klant/Create.xhtml" update="messages" icon="ui-icon-disk"/>
+        <p:menuitem value="Wijzig" actionListener="#{klantFacade.edit}" update="messages" icon="ui-icon-arrowrefresh-1-w"/>
+        <p:menuitem value="Verwijder" actionListener="#{klantFacade.remove}" ajax="false" icon="ui-icon-close"/>
+        <p:menuitem value="Homepage" url="" icon="ui-icon-extlink"/>
+    </p:contextMenu>
+</h:form>
+        
+    </ui:define>
+</ui:composition>

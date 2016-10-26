@@ -1,0 +1,58 @@
+
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core"
+    template="../templates/masterTemplate.xhtml">
+    
+    <ui:define name="metadata">
+    </ui:define>
+    <ui:define name="content">
+        <h3>Inhoud winkelwagen</h3>
+        <h:form>
+
+            <h1>Welkom #{account.username}</h1>
+            <h2>Bekijk hier de artikelen in uw winkelwagen.</h2>
+            <br/>
+
+            <h:outputText value="Winkelwagen gegevenss"/>
+            <br/>
+            <h:outputText value="Username:  "/>#{account.username}           
+            <br/>
+            <h:outputText value="Voornaam:  "/>#{klant.voornaam}
+            <br/>
+            <h:outputText value="Tussenvoegsel:  "/>#{klant.tussenvoegsel}
+            <br/>
+            <h:outputText value="Achternaam:  "/>#{klant.achternaam}
+            <br/>
+            <h:outputText value="Email  "/>#{klant.email}
+            <br/>
+            <h:outputText value="KlantId: "/>#{klant.klantId}
+            <br/>
+           
+            <h:outputText value="Bestelling gegevens"/>
+            <h:outputText value="Bestelling Id   "/>#{bestelling.bestellingId}
+            <br/>
+            <h:outputText value="Bestelling datum  "/>#{bestelling.bestellingdatum}
+            <br/>
+            <h:outputText value="Artikel   "/>#{artikel.artikelnaam}
+            <br/>
+            <h:outputText value="artikel aantal   "/>#{artikel.artikelaantal}
+            <br/>
+            <h:outputText value="Prijs artikel   "/>#{artikel.artikelprijs}  
+            <br/>
+            <h:outputText value="Totaal bedrag   "/>#{winkelwagen.totaalbedrag}
+            <br/>
+           
+            <h:commandButton value="Cancel" action="/winkelwagen/artikel.xhtml" ></h:commandButton>
+            <br/>
+            <h:commandButton value="Bestelling afronden" action="#{winkelwagen.plaatsBestelling}"></h:commandButton>
+             
+            
+        </h:form>
+
+
+    </ui:define>
+</ui:composition>

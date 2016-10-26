@@ -1,0 +1,57 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="../templates/masterTemplate.xhtml">
+
+    <ui:define name="metadata">registreer
+    </ui:define>
+    <ui:define name="content">
+        <div  align="center">
+        <h1>Registratie formulier</h1>
+       
+<h:form>
+
+	            <h2>Adresgegevens</h2>
+	           
+                    
+	            <br/>
+	            <h:outputText value="Straatnaam"/>#{' '}<h:inputText value="#{registreer.straatnaam}"></h:inputText>
+	            <br/>
+	            <h:outputText value="Huisnummer"/>#{' '}<h:inputText value="#{registreer.huisnummer}"></h:inputText>
+	            <br/>
+                    <h:outputText value="Toevoeging"/>#{' '}<h:inputText value="#{registreer.toevoeging}"></h:inputText>
+	            <br/>
+	            <h:outputText value="Postcode"/>#{' '}<h:inputText value="#{registreer.postcode}"></h:inputText>
+	            <br/>
+                    <h:outputText value="Woonplaats"/>#{' '}<h:inputText value="#{registreer.woonplaats}"></h:inputText>
+	            <br/>
+	           
+                    	
+			<p:panelGrid columns="2">
+				<p:outputLabel value="Kies een adrestype" />
+				<p:selectOneMenu id="adrestype" value="#{registreer.adresTypeString}" style="width:125px">
+					<f:selectItem itemLabel="Hoofdadres" itemValue="Hoofdadres" />
+					<f:selectItem itemLabel="Factuuradres" itemValue="Factuuradres" />
+					<f:selectItem itemLabel="Postadres" itemValue="Postadres" />
+					<f:selectItem itemLabel="Kadoadres" itemValue="Kadoadres" />
+				</p:selectOneMenu>
+<!--				<p:commandButton value="Bevestigen" action="#{registreer.adresTypeString}"/>-->
+			</p:panelGrid>
+		
+                    <br/><br/>
+                    
+                     <h:commandButton action="registeer/registreer-Klant?faces-redirect=true" value="Terug" />
+	            <!--<h:commandButton value="Terug" action="/registreer/registeer"></h:commandButton>-->
+	            <h:commandButton value="Opslaan" action="#{registreer.save}"></h:commandButton>
+	            <h:commandButton value="Opnieuw" action="/registreer/registreer"></h:commandButton>
+                    <h:commandButton value="Overzicht(end flow)" action="#{registreer.returnValue}" id="overzicht"></h:commandButton>
+	            <br/>
+	           
+                    
+	        </h:form>
+</div>
+    </ui:define>
+</ui:composition>
+

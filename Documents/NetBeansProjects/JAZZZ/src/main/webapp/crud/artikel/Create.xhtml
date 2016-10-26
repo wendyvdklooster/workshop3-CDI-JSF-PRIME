@@ -1,0 +1,32 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core"
+    template="../../templates/masterTemplate.xhtml">
+    
+    <ui:define name="metadata">
+    </ui:define>
+    <ui:define name="content" >
+        <div  align="center">
+        <h2>Artikel toevoegen</h2>
+        <h:form>
+
+              
+            <h:outputText value="Artikel gegevens"/>
+            <br/>
+            <h:outputLabel value="Artikelnaam" for="artikelnaam"/>#{' '}<h:inputText id="artikelnaam" value="#{artikelcontroller.artikelnaam}" required="true" requiredMessage="invoer veld verplicht"></h:inputText>
+            <br/>
+            <h:outputLabel value="Artikelnummer" for="artikelnummer"/>#{' '}<h:inputText id="artikelnummer" value="#{artikelcontroller.artikelnr}" ></h:inputText>
+            <br/>
+            <h:outputLabel value="Omschrijving" for ="omschrijving"/>#{' '}<h:inputText id="omschrijving" value="#{artikelcontroller.omschrijving}" required ="true" requiredMessage="invoer veld verplcht"></h:inputText>
+            <br/>
+            <h:outputLabel value="Prijs" for ="artikelprijs"/>#{' '}<h:inputText id="artikelprijs" value="#{artikelcontroller.artikelPrijs}"></h:inputText>
+            <br/>
+            <h:commandButton value="Artikel gegevens opslaan" action="#{artikelcontroller.artikelOpslaan}"></h:commandButton>
+
+        </h:form>
+</div>
+
+    </ui:define>
+</ui:composition>
