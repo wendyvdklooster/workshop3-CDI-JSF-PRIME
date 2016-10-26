@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <link rel="stylesheet" href="../css/basic.css" type="text/css"/>
+
+
+        <title>Voorstellingen beheer</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    </head>
+    <body>
+
+        <div class="header">
+            <input type="text" id="searchKey"/>
+            <button id="btnSearch">Zoeken</button>
+            <button id="btnAdd">Nieuwe voorstelling</button>
+        </div>
+
+
+        <div class="leftArea">
+            <ul id="voorstellingList"></ul>
+        
+        </div>
+
+        <form id="voorstellingForm">
+
+            <div class="mainArea">
+
+                <label>Id:</label>
+                <input id="artikelId" name="id" type="text" disabled />
+
+                <label>Voorstelling:</label>
+                <input type="text" id="artikelnaam" name="artikelnaam" required>
+
+                <label>Prijs:</label>
+                <input type="text" id="artikelPrijs" name="artikelPrijs" required/>
+
+                <label>Toegevoegd door:</label>
+                <input type="text" id="toegevoegdDoor" name="toegevoegdDoor"/>
+
+
+                <button id="btnSave">Opslaan</button>
+                <button id="btnDelete">Verwijder</button>
+            </div>
+
+            <div class="rightArea">
+
+
+                <label>Omschrijving</label>
+                <textarea id="omschrijving" name="omschrijving"></textarea>
+            </div>
+
+        </form>
+            
+        <script src="../javascript/jquery-3.1.1.js" ></script>
+        <script src="../javascript/artikelbeheer.js" type="text/javascript"></script>   
+    </body>
+</html>

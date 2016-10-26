@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <link rel="stylesheet" href="../css/basic.css" type="text/css"/>
+
+        <title>Registratie</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    
+   
+    <body>
+
+        <div id="registratieformulier">
+            <form action="registratieKlant" method="POST" >
+                <div class="gegevens">
+                    <h3>Accountgegevens</h3>
+                    <label for="username">Gebruikersnaam</label>
+                    <div>
+                        <input type="text" id="username" name="username" required /><br/>
+                    </div>
+
+                    <label for="email">Email </label>
+                    <div>
+                        <input type="email" id="email" name="email" required /><br/>
+                    </div>
+
+                    <label for="password">Wachtwoord </label>
+                    <div>
+                        <input type="password" id="password" name="password" /><br/>
+                    </div>
+                </div>
+
+                <div class="gegevens">
+                    <h3>Naam</h3>
+
+                    <label for="voornaam">Voornaam: </label>
+                    <div>
+                        <input type="text" id="voornaam" name="voornaam" required/><br/>
+                    </div>
+
+                    <label for="tussenvoegsel">Tussenvoegsel: </label>
+                    <div>
+                        <input type="text" id="tussenvoegsel" name="tussenvoegsel"/><br/>
+                    </div>
+
+                    <label for="achternaam">Achternaam: </label>
+                    <div>
+                        <input type="text" id="achternaam" name="achternaam" required/><br/>
+                    </div>
+                </div>
+
+                <div class="gegevens">
+                    <h3>Adres</h3>
+
+                    <label for="straatnaam">Straatnaam: </label>
+                    <div>
+                        <input type="text" id="straatnaam" name="straatnaam" required/><br/>
+                    </div>
+
+                    <label for="huisnummer">Huisnummer: </label>
+                    <div>
+                        <input type="text" id="huisnummer" name="huisnummer" required/><br/>
+                    </div>
+
+                    <label for="toevoeging">Toevoeging: </label>
+                    <div>
+                        <input type="text" id="toevoeging" name="toevoeging"/><br/>
+                    </div>
+
+                    <label for="postcode">Postcode: </label>
+                    <div>
+                        <input type="text" id="postcode" name="postcode" required/><br/>
+                    </div>
+                    <label for="woonplaats">Woonplaats: </label>
+                    <div>
+                        <input type="text" id="woonplaats" name="woonplaats" required/><br/>
+                    </div>
+                    <!--                <label for="adresType">AdresType: </label>
+                                    <div>
+                                        <input type="text" id="adresType" name="adresType"/><br/>
+                                    </div>-->
+                </div>
+
+                <div class="rightArea">
+                    <button type="submit" id="btnSave">Registreer</button>
+                    <button type="reset" id="btnDelete">Reset</button>
+                  
+                </div >
+            </form>
+        </div>  
+
+
+    </body>  
+</html>
