@@ -1,0 +1,146 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 24-okt-2016, 10:55:46
+    Author     : Wendy
+*/
+
+@CHARSET "UTF-8";
+
+
+* {
+  font-family: "Georgia", times, serif;
+  font-size: 16px;
+}
+
+
+header, section, nav, footer, aside, hgroup {
+    display: block;
+}
+
+body{
+    margin: 0px auto; 
+    background-color: #EEEEFF;
+    
+}
+
+
+header {
+    height:190px;
+    padding-top: 5px;
+    background-color: #4B0A1E;
+}
+
+#title {
+    font-size: 50px;
+}
+
+footer{
+    font-size: 75%;
+    padding: 7px 0px 0px 20px;      
+}
+
+
+nav, footer{
+    clear: both;
+    color:#ffffff;
+    background-color:#BA8A92;
+    height: 40px;
+}
+
+nav li{
+    display: inline; 
+    margin-right: 40px;
+}
+
+section{
+    float: left;
+    width: 659px;
+    border-right: 1px solid #EEEEEE;
+}
+
+aside{
+    width: 230px;
+    float: left; 
+    padding: 0px 0px 0px 20px;
+}
+
+.leftArea {
+	left: 10px;
+	border:solid 1px #CCCCCC;	
+}
+
+.mainArea {}
+
+.rightArea {}
+
+
+ul {
+	list-style-type: none;
+	padding-left: 0px;
+	margin-top: 0px;
+}
+
+li a { 
+	text-decoration:none;
+	display: block;
+	color: #000000;
+	border-bottom:solid 1px #CCCCCC;
+	padding: 8px;
+}
+
+li a:hover, nav li a.current {
+	background-color: #4B0A1E;
+	color: #BA8A92;
+}
+
+input, textarea {
+  border:1px solid #ccc;
+  min-height:30px;
+  outline: none;
+}
+
+.mainArea input {
+  margin-bottom:15px;
+  margin-top:5px;
+  width:280px;
+}
+
+textarea {
+	margin-bottom:15px;
+  	margin-top:5px;
+	height: 200px;
+  	width:250px;
+}
+
+label {
+	display:block;
+}
+
+button {
+	padding:3px;
+        font-size: 85%;
+        
+}
+button:hover{
+    background-color: #4B0A1E;
+	color: #BA8A92;
+}
+
+
+#searchKey {
+	width:140px;
+}
+
+/*<!--registratie-->*/
+.gegevens {
+
+}
+
+#registratieformulier{
+    top:70px;
+    width:280px; 
+}
